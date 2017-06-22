@@ -1,25 +1,28 @@
 <!-- Menu Toggle Button -->
 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
-	class="fa fa-flag-o"></i> <span class="label label-danger">9</span>
+	class="fa fa-flag-o"></i> <span class="label label-danger">{{expiredInvoices.length}}</span>
 </a>
+
 <ul class="dropdown-menu">
-	<li class="header">{{ 'TASKBOX.COUNT' | translate:tasksLength }}</li>
+	<!--<li class="header">{{ 'TASKBOX.COUNT' | translate:tasksLength }}</li>-->
 	<li>
 		<!-- Inner menu: contains the tasks -->
 		<ul class="menu">
-			<li>
-				<!-- Task item --> <a href="#"> <!-- Task title and progress text -->
+			<li *ngFor="let expiredInvoice of expiredInvoices">
+
+				 <a [routerLink]="[ '/invoice/', expiredInvoice.id ]">
 					<h3>
-						Design some buttons <small class="pull-right">20%</small>
+						{{expiredInvoice.client.name}} {{expiredInvoice.client.surname}}
+						<!--<small class="pull-right">20%</small>-->
 					</h3> <!-- The progress bar -->
-					<div class="progress xs">
-						<!-- Change the css width attribute to simulate progress -->
-						<div class="progress-bar progress-bar-aqua" style="width: 20%"
-							role="progressbar" aria-valuenow="20" aria-valuemin="0"
-							aria-valuemax="100">
-							<span class="sr-only">20% Complete</span>
-						</div>
-					</div>
+					<!--<div class="progress xs">-->
+						<!--&lt;!&ndash; Change the css width attribute to simulate progress &ndash;&gt;-->
+						<!--<div class="progress-bar progress-bar-aqua" style="width: 20%"-->
+							<!--role="progressbar" aria-valuenow="20" aria-valuemin="0"-->
+							<!--aria-valuemax="100">-->
+							<!--<span class="sr-only">20% Complete</span>-->
+						<!--</div>-->
+					<!--</div>-->
 			</a>
 			</li>
 			<!-- end task item -->

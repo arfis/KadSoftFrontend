@@ -10,7 +10,7 @@
   <li class="user-header">
     <img [src]="currentUser.avatarUrl" class="img-circle" [alt]="currentUser.getName()">
     <p>
-      {{currentUser.getName()}} - Web Developer
+      {{currentUser.getName()}} - {{currentUser.role}}
       <small>Member since {{currentUser.creation_date}}</small>
     </p>
   </li>

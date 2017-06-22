@@ -1,0 +1,48 @@
+<button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú faktúru</button>
+
+<div class="well well-lg" [collapse]="isFormCollapsed">
+    <invoice-creation (createEmitter)="updateInvoiceList($event)"></invoice-creation>
+</div>
+
+<table *ngIf="showList" class="table table-bordered table-responsive table-hover">
+    <thead>Faktúry</thead>
+    <tbody>
+    <tr>
+        <th style="width: 10px">#</th>
+        <th class="sortable" (click)="orderBy('invoiceId')">Číslo</th>
+        <th class="sortable" (click)="orderBy('createdBy')">Zadal</th>
+        <th class="sortable" (click)="orderBy('status')">Stav</th>
+        <th class="sortable" (click)="orderBy('client','surname')">Klient</th>
+        <th class="sortable" (click)="orderBy('totalPrice')">Suma</th>
+        <th>Stiahnuť</th>
+    </tr>
+
+    <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">
+        <td>{{invoice.id}}</td>
+        <td>{{invoice.invoiceId}}</td>
+        <!--//TODO: resolver and make a user type in the invoice -->
+        <td><a>{{invoice.createdBy}}</a></td>
+        <td>
+			<span class="label" [ngClass]="getStatusMessage(invoice.status).label">
+			{{getStatusMessage(invoice.status).text}}
+			</span>
+        </td>
+        <td><a [routerLink]="[ '/user/', invoice.client.id ]">{{invoice.client.name}} {{invoice.client.surname}}</a>
+        </td>
+        <td>{{invoice.totalPrice}}</td>
+        <td><a [href]="invoice.invoicePath">Download</a></td>
+    </tr>
+    </tbody>
+</table>
+
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-4">
+            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                        class="pagination-sm"
+                        [boundaryLinks]="true" [rotate]="false"
+                        (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
+        </div>
+    </div>
+
+

@@ -1,25 +1,33 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { UserService } from './user.service';
+import {Injectable} from '@angular/core';
+import {CanActivate, Router} from '@angular/router';
+import {UserService} from './user.service';
+import {User} from '../models/user';
 
 @Injectable()
 export class CanActivateGuard implements CanActivate {
-  private connected: boolean = false;
+    private connected: boolean = false;
 
-  constructor(
-    private router: Router,
-    private user: UserService
-  ) {
-    this.user.currentUser.subscribe((user) => {
-      this.connected = user.connected;
-    });
-  }
+    constructor(private router: Router,
+                private user: UserService) {
 
-  public canActivate() {
-    // test here if you user is logged
-    if ( !this.connected ) {
-      this.router.navigate( [ 'login' ] );
+        this.user.setCurrentUser(user.getLoggedInUser());
+
+        if (user.getLoggedInUser()) {
+            this.user.currentUser.subscribe((user) => {
+                console.log(user);
+                this.connected = user.connected;
+            });
+        }
+
     }
-    return this.connected;
-  }
+
+    public canActivate() {
+        // test here if you user is logged
+        if (!this.connected) {
+            this.router.navigate(['login']);
+        }
+        else {
+            return true;
+        }
+    }
 }

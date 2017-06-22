@@ -1,0 +1,49 @@
+<h2>Faktúra</h2>
+
+<span>Zhotovil: </span><i><a [routerLink]="[ '/user/', invoice.createdBy ]">{{invoice.createdBy}}</a>({{invoice.created
+    | date}})</i>
+
+<h4><span class="label" [ngClass]="getStatusMessage(invoice.status).label">
+		{{getStatusMessage(invoice.status).text}}
+    </span>
+</h4>
+
+<button *ngIf="invoice.status != 4" (click)="invoiceStorno()" class="btn btn-danger">
+    Storno faktúry
+</button>
+
+<h3>Client:</h3>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="col-lg-6">
+            <i>Meno: </i><a [routerLink]="[ '/user/', invoice.client.id ]">{{invoice.client.name}}
+            {{invoice.client.surname}}</a>
+        </div>
+        <div class="col-lg-6">
+            <i>Mail: </i><a [href]="'mailto:'+ invoice.client.email">{{invoice.client.email}}</a>
+        </div>
+
+        <div class="col-lg-6">
+            <i>Telefón: </i>{{invoice.client.phone}}
+        </div>
+
+    </div>
+
+</div>
+
+<h3>Produkty:</h3>
+<div class="products well well-sm" *ngFor="let product of invoice.products">
+    <h4>{{product.product}}</h4>
+    <div>
+        <i>Cena: </i><span>{{product.value}}</span>
+    </div>
+    <div>
+        <i>Investor: </i><span>{{product.investor}}</span>
+    </div>
+    <div>
+        <i>Parcela: </i><span>{{product.parcell}}</span>
+    </div>
+</div>
+
+<h4>Cena:</h4>
+<i>{{invoice.totalPrice | currency:'EUR':false}}</i>

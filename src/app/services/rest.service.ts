@@ -3,11 +3,14 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
+import {LoginUser} from "../pages/login/login-user.model";
+import {LoginResponse} from "../models/login-response.model";
 
 @Injectable()
 export class RestService {
     public modelName: string;
     private headers: Headers;
+    private accessToken : string;
 
     // cache data
     public lastGetAll: Array<any>;
@@ -15,10 +18,55 @@ export class RestService {
 
     constructor(private http: Http, private config: Configuration) {
         this.modelName = 'to-configure';
+        this.accessToken = localStorage.getItem('accessToken');
 
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
+        this.headers.append("Authorization", "Bearer " + this.accessToken);
+
+    }
+
+    public authenticate(email, password): Observable<LoginResponse> {
+        const data = {
+            grant_type: "password",
+            client_id: "1_3bcbxd9e24g0gk4swg0kwgcwg4o8k8g4g888kwc44gcc0gwwk4",
+            client_secret: "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k",
+            username: email,
+            password: password
+        };
+
+        return this.http.post(this.config.server+this.config.authUrl, data).map(
+            response =>
+                response.json(),
+            error =>
+                console.log("authenticate error")
+        );
+
+    }
+
+    public setAccessToken( accessToken: string ) {
+        localStorage.setItem('accessToken', accessToken);
+        console.log("set accessToken " + accessToken);
+        this.accessToken = accessToken;
+        this.headers.set("Authorization", "Bearer " + this.accessToken);
+    }
+
+    public getUser(): Observable<LoginUser> {
+
+        this.headers = new Headers();
+        this.headers.append("Authorization", "Bearer " + this.accessToken);
+
+        console.log("token:");
+        console.log(this.headers);
+        console.log("token: " + this.accessToken);
+        console.log("getting user for url: " + this.config.server+this.config.userApi);
+        return this.http.get(this.config.server+this.config.userApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
     }
 
     // HELPERS

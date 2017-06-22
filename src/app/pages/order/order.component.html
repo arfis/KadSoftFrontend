@@ -1,0 +1,51 @@
+<ng-container *ngIf="!filteredOrders">
+    <button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú objednávku</button>
+
+    <div class="well well-lg" [collapse]="isFormCollapsed">
+        <order-creation (createEmitter)="updateOrderList($event)"></order-creation>
+    </div>
+</ng-container>
+
+<table class="table table-bordered table-responsive">
+    <caption>Objednávky</caption>
+    <tbody>
+    <tr>
+        <th style="width: 10px">#</th>
+        <th>Vytvoril</th>
+        <th>Popis</th>
+        <th class="sortable" (click)="orderBy('invoice','status')">Stav</th>
+        <th>Klient</th>
+        <th>Faktura</th>
+        <th class="sortable" (click)="orderBy('invoice','totalPrice')">Cena</th>
+        <th>Priradené</th>
+        <th>Stiahnuť</th>
+    </tr>
+
+    <tr *ngFor="let order of orders">
+        <td>{{order.id}}</td>
+        <td><a [routerLink]="[ '/user/', order.createdBy.id ]">{{order.createdBy.getName()}}</a></td>
+        <!--//TODO: resolver and make a user type in the invoice -->
+        <td>{{order.description}}</td>
+        <td>
+			<span class="label" [ngClass]="getStatusMessage(order.invoice.status).label">
+			{{getStatusMessage(order.invoice.status).text}}
+			</span>
+        </td>
+        <td><a [routerLink]="[ '/user/', order.invoice.client.id ]">{{order.invoice.client.name}}
+            {{order.invoice.client.surname}}</a></td>
+        <td><a [routerLink]="[ '/invoice/', order.invoice.id ]">Invoice</a></td>
+        <td>{{order.invoice.totalPrice}}</td>
+        <td>{{order.assignedTo}}</td>
+        <td><a [href]="order.invoice.invoicePath">Download</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-4">
+        <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                    class="pagination-sm"
+                    [boundaryLinks]="true" [rotate]="false"
+                    (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
+    </div>
+</div>

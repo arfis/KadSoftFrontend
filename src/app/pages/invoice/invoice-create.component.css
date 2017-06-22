@@ -1,0 +1,16 @@
+.products{
+    margin-top:10px;
+}
+
+.remove-mark{
+    float:right;
+    cursor:pointer;
+}
+
+.remove-mark:hover{
+    color:red;
+}
+
+.dropdown-menu li{
+    cursor:pointer;
+}

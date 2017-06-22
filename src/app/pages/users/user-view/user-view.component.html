@@ -1,0 +1,40 @@
+<div>
+    <h4>{{userInformation.name}} {{userInformation.surname}}</h4>
+    <div class="row">
+        <div class="col-lg-4">
+            Meno: <i>{{userInformation.name}}</i>
+        </div>
+        <div class="col-lg-4">
+            Priezvisko: <i>{{userInformation.surname}}</i>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">
+            Email: <i><a [href]="'mailto:'+ userInformation.email">{{userInformation.email}}</a></i>
+        </div>
+        <div class="col-lg-4">
+            Telefón: <i>{{userInformation.phone}}</i>
+        </div>
+    </div>
+
+    <div class="client-information">
+        <button type="button" class="btn btn-success"
+                (click)="isCollapsed = !isCollapsed">{{getButtonMessage()}}
+        </button>
+        <hr>
+
+        <div [collapse]="isCollapsed"
+             class="card card-block card-header">
+            <div class="form-group">
+                <label for="comment">Dodatočné informácie:</label>
+                <textarea class="form-control" rows="5" id="comment" [(ngModel)]="userInformation.information"></textarea>
+                <button class="btn btn-success" (click)="updateInformation()">Ulož</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="order-section">
+        <order [filteredOrders]="orders"></order>
+    </div>
+</div>

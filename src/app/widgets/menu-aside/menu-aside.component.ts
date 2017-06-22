@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import {UserRole} from "../../models/user-roles.model";
 
 @Component({
   selector: 'app-menu-aside',
@@ -24,4 +25,9 @@ export class MenuAsideComponent implements OnInit {
     // TODO
   }
 
+  checkPermission(role : UserRole){
+    if(role === UserRole.admin){
+      return true;
+    }
+  }
 }

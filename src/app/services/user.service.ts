@@ -13,14 +13,30 @@ export class UserService {
       // TODO
     }
 
+    public getLoggedInUser() : User{
+        let user = new User();
+        let userData = JSON.parse(localStorage.getItem('user'));
+        Object.assign(user, userData);
+        return user;
+    }
+
     public setCurrentUser( user: User ) {
-      this.currentUser.next( user );
+        localStorage.setItem('user', JSON.stringify(user));
+        this.currentUser.next( user );
     }
 
     public logout() {
       let user = new User();
       user.connected = false;
+      localStorage.removeItem('user');
       this.setCurrentUser( user );
       this.router.navigate(['login']);
+    }
+
+    public checkCredentials(email, password){
+        if(email === "test@test.com" && password === "test"){
+            return true;
+        }
+        else return false;
     }
 }

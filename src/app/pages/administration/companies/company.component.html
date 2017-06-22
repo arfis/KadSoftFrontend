@@ -1,0 +1,26 @@
+<h3>Administrácia firiem</h3>
+
+<company-creation></company-creation>
+<table class="table table-bordered table-hover">
+    <tbody>
+    <tr>
+        <th>Email</th>
+        <th>Meno</th>
+        <th>Adresa</th>
+        <th>Mesto</th>
+        <th style="width: 40px">Ucet</th>
+        <th>IBAN</th>
+        <th>Odstrániť</th>
+    </tr>
+
+    <tr *ngFor="let company of companies | async">
+        <td>{{company.email}}</td>
+        <td>{{company.name}}</td>
+        <td><a>{{company.address}}</a></td>
+        <td>{{company.city}}</td>
+        <td><a>{{company.accountNumber}}</a></td>
+        <td>{{company.IBAN}}</td>
+        <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCompany(company)"></span></td>
+    </tr>
+    </tbody>
+</table>

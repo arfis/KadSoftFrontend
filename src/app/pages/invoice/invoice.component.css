@@ -1,0 +1,11 @@
+tr a{
+    cursor:pointer;
+}
+
+.sortable{
+    cursor:pointer;
+}
+
+.sortable:hover{
+    color:lightgray;
+}
