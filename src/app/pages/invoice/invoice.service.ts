@@ -1,10 +1,11 @@
 import {Injectable, OnInit} from "@angular/core";
 import {Invoice} from "./invoice.model";
 import {Observable} from "rxjs/Observable";
-import {UserApplicationService} from "../users/user.service";
+import {CustomerService} from "../users/user.service";
 import {UserService} from "../../services/user.service";
 import {Product} from "../../models/Product";
 import {InvoiceStatus} from "./InvoiceStatus.model";
+import {RestService} from "../../services/rest.service";
 /**
  * Created by a619678 on 22. 5. 2017.
  */
@@ -14,8 +15,9 @@ export class InvoiceService{
 
     public invoices : Invoice[];
 
-    constructor(private userSrv : UserApplicationService,
-                private loggedUserService : UserService){
+    constructor(private userSrv : CustomerService,
+                private loggedUserService : UserService,
+                private restServ : RestService){
 
     }
     makeFakeInvoices(){
@@ -27,7 +29,7 @@ export class InvoiceService{
 
             invoice.value = Math.round(Math.random() * 560 + 1);
             invoice.id = i;
-            invoice.client = this.userSrv.getUserById(Math.floor(Math.random()*5));
+            invoice.customer = this.userSrv.getUserById(Math.floor(Math.random()*5));
             invoice.createdBy = this.loggedUserService.getLoggedInUser().getName();
             invoice.status = Math.round(Math.random() * 4 ) ;
             invoice.invoiceId = 1000 + i;
@@ -80,12 +82,14 @@ export class InvoiceService{
     }
 
     public createInvoice(invoice : Invoice) : Observable<Invoice>{
-        if (!invoice.client.id){
+        if (!invoice.customer.id){
             //If the user doesnt exist, create him!
             console.log("creating new user");
-            this.userSrv.createUser(invoice.client).subscribe(
+            this.restServ.createCustomer(invoice.customer).subscribe(
                 client => {
-                    invoice.client = client;
+                    console.log("customer was created: ");
+                    console.log(client);
+                    invoice.customer = client;
                 }
             )
         }

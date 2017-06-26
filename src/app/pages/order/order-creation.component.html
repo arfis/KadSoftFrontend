@@ -30,36 +30,81 @@
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="companyName">Company:</label>
+                    <label for="companyName">Meno:</label>
                     <input type="text" id="companyName" class="form-control" formControlName="name" readonly/>
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="companyEmail">Email:</label>
-                    <input type="text" id="companyEmail" class="form-control" formControlName="email" email
-                           readonly/>
+                    <label for="companyIco">ICO:</label>
+                    <input type="text" id="companyIco" class="form-control" formControlName="ico" readonly/>
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="companyAccount">Číslo účtu:</label>
-                    <input type="text" id="companyAccount" class="form-control" formControlName="accountNumber"
-                           readonly/>
+                    <label for="companyDic">DIC:</label>
+                    <input type="text" id="companyDic" class="form-control" formControlName="dic" readonly/>
                 </div>
 
-                <div class="col-lg-6 form-group">
-                    <label for="iban">IBAN:</label>
-                    <input type="text" id="iban" class="form-control" formControlName="IBAN" readonly/>
+                <div formGroupName="mainContact">
+
+                    <div class="col-lg-6 form-group">
+                        <label for="mainContactName">Meno:</label>
+                        <input type="text" id="mainContactName" class="form-control" formControlName="name" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="mainContactSurname">Priezvisko:</label>
+                        <input type="text" id="mainContactSurname" class="form-control" formControlName="surname"
+                               readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="postcode">Poštové smerovacie číslo:</label>
+                        <input type="text" id="postcode" class="form-control" formControlName="postcode" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="telephone">Telefón:</label>
+                        <input type="text" id="telephone" class="form-control" formControlName="telephone" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="name">Krajina:</label>
+                        <input type="text" id="country" class="form-control" formControlName="country" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="companyAccount">Číslo účtu:</label>
+                        <input type="text" id="companyAccount" class="form-control" formControlName="accountNumber"
+                               readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="iban">IBAN:</label>
+                        <input type="text" id="iban" class="form-control" formControlName="iban" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="swift">SWIFT:</label>
+                        <input type="text" id="swift" class="form-control" formControlName="swift" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="street">Ulica:</label>
+                        <input type="text" id="street" class="form-control" formControlName="street" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="city">Mesto:</label>
+                        <input type="text" id="city" class="form-control" formControlName="city" readonly/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="companyEmail">Email:</label>
+                        <input type="text" id="companyEmail" class="form-control" formControlName="email" email
+                               readonly/>
+                    </div>
                 </div>
 
-                <div class="col-lg-6 form-group">
-                    <label for="adress">Adresa:</label>
-                    <input type="text" id="adress" class="form-control" formControlName="address" readonly/>
-                </div>
-
-                <div class="col-lg-6 form-group">
-                    <label for="city">Mesto:</label>
-                    <input type="text" id="city" class="form-control" formControlName="city" readonly/>
-                </div>
             </div>
 
             <div class="form-group">
@@ -96,7 +141,7 @@
                 </label>
             </div>
 
-            <div formGroupName="client">
+            <div formGroupName="customer">
 
                 <div class="col-lg-6 form-group">
                     <label for="clientname">Name:</label>
@@ -104,15 +149,15 @@
                 </div>
 
                 <div *ngIf="invoiceForm.get('invoice').get('type').value == 'company'">
-                    <div class="col-lg-6 form-group">
-                        <label for="ico">ICO:</label>
-                        <input type="text" id="ico" class="form-control" formControlName="ico"/>
-                    </div>
+                        <div class="col-lg-6 form-group">
+                            <label for="ico">ICO:</label>
+                            <input type="text" id="ico" class="form-control" formControlName="ico"/>
+                        </div>
 
-                    <div class="col-lg-6 form-group">
-                        <label for="dic">DIC:</label>
-                        <input type="text" id="dic" class="form-control" formControlName="dic"/>
-                    </div>
+                        <div class="col-lg-6 form-group">
+                            <label for="dic">DIC:</label>
+                            <input type="text" id="dic" class="form-control" formControlName="dic"/>
+                        </div>
                 </div>
 
                 <div class="col-lg-6 form-group">

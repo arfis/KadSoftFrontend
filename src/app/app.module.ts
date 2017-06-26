@@ -1,10 +1,10 @@
 // external module
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import {AlertModule, CollapseModule, DatepickerModule, TabsModule} from 'ng2-bootstrap';
+import { AlertModule, CollapseModule, DatepickerModule, TabsModule} from 'ng2-bootstrap';
 import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { environment } from '../environments/environment';
@@ -82,8 +82,7 @@ let services = [
     UserResolve,
     InvoiceResolve,
     RestService,
-    Configuration,
-    FilterPipe
+    Configuration
 ];
 
 // les pages
@@ -121,7 +120,6 @@ import {RestService} from "./services/rest.service";
 import {Configuration} from "./app.constants";
 import {AdministrationComponent} from "./pages/administration/administration.component";
 import {AdministrationModule} from "./pages/administration/administration.module";
-import {FilterPipe} from "./widgets/tasks-box/invoice-filter.component";
 
 @NgModule( {
     bootstrap: [AppComponent],

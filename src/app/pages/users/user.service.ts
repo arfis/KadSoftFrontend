@@ -1,22 +1,30 @@
 import {Injectable} from "@angular/core";
-import {UserInformation} from "./user.model";
+import {Customer} from "./user.model";
 import {Observable} from "rxjs/Observable";
+import {RestService} from "../../services/rest.service";
 /**
  * Created by a619678 on 23. 5. 2017.
  */
 @Injectable()
-export class UserApplicationService{
+export class CustomerService{
 
-    private users : UserInformation[] = new Array();
+    private users : Customer[] = new Array();
     public names = ["Ferdinand","Milan","Rastislav","Julius","Palo"];
     public surnames = ["Vasko","Sokolsky","Stefanik","Hudacek","Zloduch"];
 
-    getUsers() : Observable<UserInformation[]>{
-        this.setFakeData();
-        return Observable.of(this.users);
+    constructor(private restServ : RestService){
+
     }
 
-    createUser(userInformation : UserInformation) : Observable<UserInformation>{
+    getUsers() : Observable<Customer[]>{
+        return this.restServ.getCustomers();
+    }
+
+    removeCustomer(customer) : Observable<any>{
+        return this.restServ.removeCustomer(customer);
+    }
+
+    createUser(userInformation : Customer) : Observable<Customer>{
         userInformation.id = this.users.length+1;
         this.users.push(userInformation);
 
@@ -25,7 +33,7 @@ export class UserApplicationService{
 
     setFakeData(){
         for (let i:number=0;i<10;i++){
-            let user : UserInformation = new UserInformation();
+            let user : Customer = new Customer();
 
             user.id = i;
             user.name = this.names[Math.floor(Math.random()*this.names.length)];
@@ -37,12 +45,12 @@ export class UserApplicationService{
         }
     }
 
-    getUserByMail(email : string) : Observable<UserInformation>{
+    getUserByMail(email : string) : Observable<Customer>{
         let usr = this.users.find(user => user.email == email);
         return Observable.of(usr);
     }
 
-    getUserById(userId : number) : UserInformation{
+    getUserById(userId : number) : Customer{
         if (this.users.length < 1){
             this.setFakeData();
         }

@@ -60,10 +60,6 @@ export class LoginComponent implements OnInit {
             response => {
                 this.restService.setAccessToken(response.access_token);
 
-                console.log("authenticate");
-                console.log(response);
-                console.log(response.access_token);
-
                 this.restService.getUser().subscribe(
                     response => {
 
@@ -87,8 +83,6 @@ export class LoginComponent implements OnInit {
                     },
                     error => {
                         this.notificationServ.error(error);
-                        console.log("error:");
-                        console.log(error);
                         this.router.navigate(['login']);
                     }
                 )

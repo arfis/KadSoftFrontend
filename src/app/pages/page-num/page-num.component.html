@@ -1,1 +1,20 @@
 <p>page {{id}} works!</p>
+<table class="table table-bordered table-hover">
+    <tbody>
+    <tr>
+        <th>Email</th>
+        <th>Meno</th>
+        <th>Priezvisko</th>
+        <th>Telefón</th>
+        <th>Odstrániť</th>
+    </tr>
+
+    <tr *ngFor="let customer of customers" [routerLink]="[ '/user/', customer.id ]">
+        <td>{{customer.email}}</td>
+        <td>{{customer.name}}</td>
+        <td><a>{{customer.surname}}</a></td>
+        <td>{{customer.phone}}</td>
+        <td><span class="remove glyphicon glyphicon-remove-sign" (click)="remove(customer)"></span></td>
+    </tr>
+    </tbody>
+</table>

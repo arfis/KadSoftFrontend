@@ -6,14 +6,15 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angul
 import {InvoiceService} from "../invoice/invoice.service";
 import {InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {Invoice} from "../invoice/invoice.model";
-import {UserApplicationService} from "../users/user.service";
-import {UserInformation} from "../users/user.model";
+import {CustomerService} from "../users/user.service";
+import {Customer} from "../users/user.model";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {Company} from "../../models/company-model";
 import {ConfigurationService} from "../../services/configuration.service";
 import {Order} from "./order.model";
 import {OrderService} from "./order.service";
+import {RestService} from "../../services/rest.service";
 
 @Component({
     selector: 'order-creation',
@@ -28,7 +29,7 @@ export class OrderCreationComponent implements OnInit {
     currentCompany: Company;
 
     private invoiceForm: FormGroup;
-    private userFoundByMail: UserInformation;
+    private userFoundByMail: Customer;
     private clientFormControlls: any[] = new Array();
     private fixedInputs: any[] = new Array();
 
@@ -39,11 +40,13 @@ export class OrderCreationComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private invoiceSrv: InvoiceService,
-                private userSrv: UserApplicationService,
+                private userSrv: CustomerService,
                 private notificationSrv: NotificationService,
                 private loggedUserService: UserService,
                 private configurationService: ConfigurationService,
-                private orderSrv: OrderService) {
+                private orderSrv: OrderService,
+                private restServ : RestService,
+                private loginServ : UserService) {
 
         this.createForm();
 
@@ -54,19 +57,27 @@ export class OrderCreationComponent implements OnInit {
             }
         )
 
-        configurationService.getComapnies().subscribe(
-            companies=>this.companies = companies
+
+        restServ.getCompanies().subscribe(
+            companies=>this.companies = companies,
+            error=>{
+                console.log("error");
+                console.log(error.status);
+                if (error.status === 401){
+                    this.loginServ.logout();
+                }
+            }
         );
     }
 
     ngOnInit() {
 
-        this.invoiceForm.get('invoice').get('client').get('email')
+        this.invoiceForm.get('invoice').get('customer').get('email')
             .valueChanges
             .filter((value: string) => {
 
                 if (value && value.length > 1 && this.invoiceForm.get('invoice').get('type').value == 'person') {
-                    this.disableClientInputs();
+                    this.disableCustomerInputs();
                     return true;
                 }
                 return false;
@@ -75,16 +86,16 @@ export class OrderCreationComponent implements OnInit {
             .subscribe(
                 value => {
                     console.log("finding user");
-                    this.userSrv.getUserByMail(value).subscribe(
+                    this.restServ.getCustomerByEmail(value).subscribe(
                         user => {
                             this.userFoundByMail = user;
                             if (!user) {
                                 this.userFoundByMail = null;
-                                this.enableClientInputs();
-                                this.resetClientInfo();
+                                this.enableCustomerInputs();
+                                //this.resetClientInfo();
                             }
                             else {
-                                this.enableClientInputs();
+                                this.enableCustomerInputs();
                                 this.setClientInfo();
                             }
                         })
@@ -96,7 +107,7 @@ export class OrderCreationComponent implements OnInit {
             .subscribe(
                 value => {
                     console.log("change type");
-                    this.invoiceForm.get('invoice').get('client').reset();
+                    this.invoiceForm.get('invoice').get('customer').reset();
             })
     }
 
@@ -108,33 +119,43 @@ export class OrderCreationComponent implements OnInit {
             'invoice': this.fb.group({
                 'company': this.fb.group({
                     'name': ['', Validators.required],
-                    'accountNumber': ['', Validators.required],
-                    'email': ['', Validators.required],
-                    'address': ['', Validators.required],
-                    'city': ['', Validators.required],
-                    'IBAN': ['', Validators.required]
+                    'ico': ['', Validators.required],
+                    'dic': ['', Validators.required],
+                    'mainContact': this.fb.group({
+                        'name' : ['',Validators.required],
+                        'surname' : ['',Validators.required],
+                        'postcode' : ['',Validators.required],
+                        'telephone' : ['', Validators.required],
+                        'country' : ['',Validators.required],
+                        'accountNumber': ['', Validators.required],
+                        'email': ['', Validators.required],
+                        'street': ['', Validators.required],
+                        'city': ['', Validators.required],
+                        'iban': ['', Validators.required],
+                        'swift': ['', Validators.required]
+                    })
                 }),
                 'name': ['name', Validators.required],
                 'invoiceId': [this.invoiceSrv.generateInvoiceId(), Validators.required],
                 'createdBy': [this.loggedUserService.getLoggedInUser().getName(), Validators.required],
                 'status': [InvoiceStatus.created, Validators.required],
                 'type': ['person'],
-                'client': this.fb.group({
+                'customer': this.fb.group({
                     'name': ['', Validators.required],
-                    'ico': ['12312'],
-                    'dic': ['41242'],
+                    'ico': [{value:'12312',disabled:true}],
+                    'dic': [{value:'12312',disabled:true}],
                     'surname': ['', Validators.required],
                     'email': ['', Validators.required],
-                    'phone': ['', Validators.required],
+                    'phone': ['', Validators.required]
                 }),
                 'products': this.fb.array([]),
                 'variableSymbol': [this.invoiceSrv.generateInvoiceId(), Validators.required]
             })
         })
 
-        this.clientFormControlls.push(this.invoiceForm.get('invoice').get('client').get('name'));
-        this.clientFormControlls.push(this.invoiceForm.get('invoice').get('client').get('surname'));
-        this.clientFormControlls.push(this.invoiceForm.get('invoice').get('client').get('phone'));
+        this.clientFormControlls.push(this.invoiceForm.get('invoice').get('customer').get('name'));
+        this.clientFormControlls.push(this.invoiceForm.get('invoice').get('customer').get('surname'));
+        this.clientFormControlls.push(this.invoiceForm.get('invoice').get('customer').get('phone'));
         //this.fixedInputs.push(this.invoiceForm.get('variableSymbol'));
         //this.fixedInputs.push(this.invoiceForm.get('company'));
 
@@ -182,28 +203,28 @@ export class OrderCreationComponent implements OnInit {
         this.prices.push(product.get('value'));
     }
 
-    disableClientInputs() {
+    disableCustomerInputs() {
         for (let clientFormControll of this.clientFormControlls) {
             clientFormControll.disable();
         }
     }
 
-    enableClientInputs() {
+    enableCustomerInputs() {
         for (let clientFormControll of this.clientFormControlls) {
             clientFormControll.enable();
         }
     }
 
     setClientInfo() {
-        this.invoiceForm.get('invoice').get('client').get('name').setValue(this.userFoundByMail.name);
-        this.invoiceForm.get('invoice').get('client').get('surname').setValue(this.userFoundByMail.surname);
-        this.invoiceForm.get('invoice').get('client').get('phone').setValue(this.userFoundByMail.phone);
+        this.invoiceForm.get('invoice').get('customer').get('name').setValue(this.userFoundByMail.name);
+        this.invoiceForm.get('invoice').get('customer').get('surname').setValue(this.userFoundByMail.surname);
+        this.invoiceForm.get('invoice').get('customer').get('phone').setValue(this.userFoundByMail.phone);
     }
 
     resetClientInfo() {
-        this.invoiceForm.get('invoice').get('client').get('name').setValue("");
-        this.invoiceForm.get('invoice').get('client').get('surname').setValue("");
-        this.invoiceForm.get('invoice').get('client').get('phone').setValue("");
+        this.invoiceForm.get('invoice').get('customer').get('name').setValue("");
+        this.invoiceForm.get('invoice').get('customer').get('surname').setValue("");
+        this.invoiceForm.get('invoice').get('customer').get('phone').setValue("");
     }
 
     removeProduct(index: number) {
@@ -225,10 +246,6 @@ export class OrderCreationComponent implements OnInit {
 
         value.createdBy = this.loggedUserService.getLoggedInUser();
         value.created = new Date();
-
-        if (this.userFoundByMail) {
-            value.invoice.client = this.userFoundByMail;
-        }
 
         console.log(value);
 

@@ -1,8 +1,9 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {UserInformation} from "../user.model";
+import {Customer} from "../user.model";
 import {Order} from "../../order/order.model";
 import {OrderService} from "../../order/order.service";
+import {RestService} from "../../../services/rest.service";
 /**
  * Created by a619678 on 23. 5. 2017.
  */
@@ -18,12 +19,13 @@ export class UserViewComponent implements OnInit {
     private buttonText = ['Zobraziť dodatočné informácie','Skryť dodatočné informácie'];
 
     public isCollapsed:boolean = true;
-    private userInformation: UserInformation;
+    private userInformation: Customer;
     private orders : Order[];
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
-                private orderServ : OrderService) {
+                private orderServ : OrderService,
+                private restServ : RestService) {
 
     }
 
@@ -31,6 +33,8 @@ export class UserViewComponent implements OnInit {
         this.activatedRoute.data.subscribe(data => {
 
             this.userInformation = data['userInformation'];
+
+            console.log(this.userInformation);
             this.loadUserOrders();
         });
     }
@@ -51,5 +55,13 @@ export class UserViewComponent implements OnInit {
 
     updateInformation(){
         console.log("saving: " + this.userInformation.information);
+        this.restServ.setCustomerInformation(this.userInformation.id, this.userInformation.information).subscribe(
+            result => {
+                console.log(result);
+            },
+            error => {
+                console.log(error);
+            }
+        )
     }
 }

@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {Company} from "../../../models/company-model";
 import {Observable} from "rxjs/Observable";
 import {NotificationService} from "../../../services/notification.service";
+import {RestService} from "../../../services/rest.service";
 
 @Component({
     selector: 'company',
@@ -16,20 +17,27 @@ import {NotificationService} from "../../../services/notification.service";
 })
 export class CompanyComponent implements OnInit,OnDestroy {
 
-    companies : Observable<Company[]>;
+    companies : Company[];
 
     constructor(
         private configurationServ : ConfigurationService,
         private msgServ: MessagesService,
         public router: Router,
-        private notificationServ : NotificationService
+        private notificationServ : NotificationService,
+        private restServ : RestService
     ) {
         // TODO
 
     }
 
     public ngOnInit(){
-        this.companies = this.configurationServ.getComapnies();
+        this.restServ.getCompanies().subscribe(
+            companies => this.companies = companies
+        );
+    }
+
+    public onAdd(company : Company){
+        this.companies.push(company);
     }
 
     public ngOnDestroy() {
@@ -38,8 +46,11 @@ export class CompanyComponent implements OnInit,OnDestroy {
     }
 
     public removeCompany(company : Company){
-        this.configurationServ.removeCompany(company).subscribe(
-            result => this.notificationServ.success("Company " + company.name + " was removed")
+        this.restServ.removeCompany(company.id).subscribe(
+            result => {
+                this.notificationServ.success("Company " + company.name + " was removed");
+                this.companies.splice(this.companies.indexOf(company),1);
+            }
         );
     }
 }

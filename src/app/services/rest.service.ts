@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { Configuration } from '../app.constants';
 import {LoginUser} from "../pages/login/login-user.model";
 import {LoginResponse} from "../models/login-response.model";
+import {Company} from "../models/company-model";
+import {Customer} from "../pages/users/user.model";
 
 @Injectable()
 export class RestService {
@@ -67,6 +69,89 @@ export class RestService {
                 error =>
                     console.log("an error was thrown")
             );
+    }
+
+    public getCompanies(): Observable<Company[]> {
+        return this.http.get(this.config.server+this.config.companiesApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+
+    public updateCompany(company : Company) : Observable<Company>{
+        return this.http.put(this.config.server+this.config.companiesApi, company, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public addComapny(company : Company) : Observable<Company>{
+        return this.http.post(this.config.server+this.config.companiesApi, company, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public removeCompany(companyId : number){
+        return this.http.delete(this.config.server+this.config.companiesApi+"/"+companyId, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getCustomerByEmail(email: string){
+        return this.http.get(this.config.server+this.config.customerApi+"/"+email, {headers: this.headers})
+            .map(
+                response => response.text() ? response.json() : {},
+                error => console.log("error: " + error));
+    }
+
+
+    public getCustomers() : Observable<Customer[]>{
+        return this.http.get(this.config.server+this.config.customerApi, {headers: this.headers})
+            .map(
+                response => response.text() ? response.json() : {},
+                error => console.log("error: " + error));
+    }
+
+    public removeCustomer(customerId : number){
+        return this.http.delete(this.config.server+this.config.customerApi+"/"+customerId, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+    public setCustomerInformation(customerId:number, information:string){
+        return this.http.put(this.config.server+this.config.customerApi+"/"+customerId, information, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    private extractData(res: Response) {
+        return res.text() ? res.json() : {}; ;
+    }
+
+    public createCustomer(customer : Customer){
+        console.log("trying to save customer: ");
+        console.log(customer);
+
+        return this.http.post(this.config.server+this.config.customerApi, customer, {headers: this.headers})
+            .map(
+                response => response.json(),
+                error => console.log("error: " + error));
     }
 
     // HELPERS

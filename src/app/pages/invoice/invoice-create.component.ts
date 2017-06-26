@@ -6,12 +6,13 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angul
 import {InvoiceService} from "./invoice.service";
 import {InvoiceStatus} from "./invoiceStatus.model";
 import {Invoice} from "./invoice.model";
-import {UserApplicationService} from "../users/user.service";
-import {UserInformation} from "../users/user.model";
+import {CustomerService} from "../users/user.service";
+import {Customer} from "../users/user.model";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {Company} from "../../models/company-model";
 import {ConfigurationService} from "../../services/configuration.service";
+import {RestService} from "../../services/rest.service";
 
 @Component({
     selector: 'invoice-creation',
@@ -26,7 +27,7 @@ export class InvoiceCreation implements OnInit {
     currentCompany : Company;
 
     private invoiceForm: FormGroup;
-    private userFoundByMail : UserInformation;
+    private userFoundByMail : Customer;
     private clientFormControlls : any[] = new Array();
     private fixedInputs : any[] = new Array();
 
@@ -35,10 +36,11 @@ export class InvoiceCreation implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private invoiceSrv: InvoiceService,
-                private userSrv : UserApplicationService,
+                private userSrv : CustomerService,
                 private notificationSrv : NotificationService,
                 private loggedUserService : UserService,
-                private configurationService : ConfigurationService) {
+                private configurationService : ConfigurationService,
+                private restServ : RestService) {
 
         this.createForm();
 
@@ -49,7 +51,7 @@ export class InvoiceCreation implements OnInit {
             }
         )
 
-        configurationService.getComapnies().subscribe(
+        restServ.getCompanies().subscribe(
             companies => this.companies = companies
         );
     }
@@ -67,7 +69,7 @@ export class InvoiceCreation implements OnInit {
                 }
                 return false;
             })
-            .debounceTime(600)
+            .debounceTime(100)
             .subscribe(
 
                 value => this.userSrv.getUserByMail(value).subscribe(
@@ -192,9 +194,6 @@ export class InvoiceCreation implements OnInit {
         value.company = this.invoiceForm.get("company").value;
         value.totalPrice = this.getPrice();
 
-        if (this.userFoundByMail){
-            value.client = this.userFoundByMail;
-        }
 
         this.invoiceSrv.createInvoice(value).subscribe(
             result => {

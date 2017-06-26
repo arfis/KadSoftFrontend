@@ -6,6 +6,7 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angul
 import {ConfigurationService} from "../../../services/configuration.service";
 import {Company} from "../../../models/company-model";
 import {NotificationService} from "../../../services/notification.service";
+import {RestService} from "../../../services/rest.service";
 
 
 @Component({
@@ -23,9 +24,13 @@ export class CompanyCreation implements OnInit {
 
     private prices: any[] = new Array();
 
+    @Output()
+    private onAdd = new EventEmitter<Company>();
+
     constructor(private fb: FormBuilder,
                 private configurationService: ConfigurationService,
-                private notificationSrv: NotificationService) {
+                private notificationSrv: NotificationService,
+                private restServ : RestService) {
 
         this.createForm();
 
@@ -42,13 +47,19 @@ export class CompanyCreation implements OnInit {
             'name': ['', Validators.required],
             'ico': ['', Validators.required],
             'dic': ['', Validators.required],
-            'accountNumber': ['', Validators.required],
-            'email': ['', Validators.required],
-            'address': ['', Validators.required],
-            'city': ['', Validators.required],
-            'IBAN': ['', Validators.required],
-            'SWIFT': ['', Validators.required]
-
+            'mainContact': this.fb.group({
+                'name' : ['',Validators.required],
+                'surname' : ['',Validators.required],
+                'postcode' : ['',Validators.required],
+                'telephone' : ['', Validators.required],
+                'country' : ['',Validators.required],
+                'accountNumber': ['', Validators.required],
+                'email': ['', Validators.required],
+                'street': ['', Validators.required],
+                'city': ['', Validators.required],
+                'iban': ['', Validators.required],
+                'swift': ['', Validators.required]
+            })
         })
     }
 
@@ -63,14 +74,15 @@ export class CompanyCreation implements OnInit {
 
     onSubmit({value}: { value: Company }) {
 
-        this.configurationService.addComapny(value).subscribe(
+        this.restServ.addComapny(value).subscribe(
             result => {
-                this.notificationSrv.success("Nova firma bola vytvorena", "Firma");
+                this.notificationSrv.success( value.name + " firma bola vytvorena", "Firma");
+                this.onAdd.next(result);
                 // window.alert("Nova faktura bola vytvorena!");
                 //this.invoiceForm.reset();
             },
             error => {
-                this.notificationSrv.error("Problem pri vytvarani novej firmy","Firma");
+                this.notificationSrv.error("Problem pri vytvarani novej firmy", "Firma");
             }
         )
     }

@@ -1,7 +1,7 @@
 /**
  * Created by a619678 on 23. 5. 2017.
  */
-export class UserInformation{
+export class Customer{
     id : number;
     name : string;
     surname : string;

@@ -1,5 +1,5 @@
 import {InvoiceStatus} from "./InvoiceStatus.model";
-import {UserInformation} from "../users/user.model";
+import {Customer} from "../users/user.model";
 import {Company} from "../../models/company-model";
 import {Product} from "../../models/Product";
 /**
@@ -13,7 +13,7 @@ export class Invoice{
     created : Date;
     company : Company;
     status : InvoiceStatus;
-    client : UserInformation;
+    customer : Customer;
     totalPrice : number;
     products : Product[];
     value : number;
