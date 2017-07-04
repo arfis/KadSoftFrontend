@@ -8,7 +8,7 @@ import {Order} from "./order.model";
 import {OrderService} from "./order.service";
 import {InvoiceService} from "../invoice/invoice.service";
 import {InvoiceCreation} from "../invoice/invoice-create.component";
-import {getTranslation} from "../invoice/InvoiceStatus.model";
+import {getTranslation} from "../invoice/invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 
 @Component({

@@ -49,7 +49,7 @@ export class OrderService {
 
     getOrdersByClientId(clientId : number) : Observable<Order[]>{
 
-        let orders = this.orders.filter(order=> order.invoice.customer.id == clientId);
+        let orders = this.orders.filter(order=> order.invoice.customerContact.id == clientId);
         return Observable.of(orders);
     }
 

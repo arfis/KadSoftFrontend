@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Message } from '../../models/message';
 import {InvoiceService} from "../../pages/invoice/invoice.service";
-import {InvoiceStatus} from "../../pages/invoice/InvoiceStatus.model";
+import {InvoiceStatus} from "../../pages/invoice/invoiceStatus.model";
 
 @Component( {
     /* tslint:disable */

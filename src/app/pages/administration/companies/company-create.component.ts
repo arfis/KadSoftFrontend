@@ -47,6 +47,7 @@ export class CompanyCreation implements OnInit {
             'name': ['', Validators.required],
             'ico': ['', Validators.required],
             'dic': ['', Validators.required],
+            'bankApiToken' : ['12312312dsa'],
             'mainContact': this.fb.group({
                 'name' : ['',Validators.required],
                 'surname' : ['',Validators.required],
@@ -83,6 +84,7 @@ export class CompanyCreation implements OnInit {
             },
             error => {
                 this.notificationSrv.error("Problem pri vytvarani novej firmy", "Firma");
+                console.log(error);
             }
         )
     }

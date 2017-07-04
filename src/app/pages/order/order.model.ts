@@ -1,5 +1,5 @@
 import {Invoice} from "../invoice/invoice.model";
-import {InvoiceStatus} from "../invoice/InvoiceStatus.model";
+import {InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {User} from "../../models/user";
 
 /**

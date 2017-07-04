@@ -16,7 +16,7 @@ export class InvoiceResolve implements Resolve<Invoice> {
 
     resolve(route: ActivatedRouteSnapshot) {
 
-        let invoiceId : number = route.params['invoiceId'];
+        let invoiceId : number = route.params['invoiceNumber'];
         console.log("invoice id: ");
         console.log(invoiceId);
 

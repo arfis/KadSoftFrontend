@@ -1,4 +1,4 @@
-import {InvoiceStatus} from "./InvoiceStatus.model";
+import {InvoiceStatus} from "./invoiceStatus.model";
 import {Customer} from "../users/user.model";
 import {Company} from "../../models/company-model";
 import {Product} from "../../models/Product";
@@ -8,12 +8,12 @@ import {Product} from "../../models/Product";
 
 export class Invoice{
     id : number;
-    invoiceId : number;
+    invoiceNumber : number;
     createdBy : string;
     created : Date;
-    company : Company;
+    companyContact : Company;
     status : InvoiceStatus;
-    customer : Customer;
+    customerContact : Customer;
     totalPrice : number;
     products : Product[];
     value : number;

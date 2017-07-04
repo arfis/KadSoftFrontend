@@ -5,7 +5,7 @@
 import {Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Invoice} from "./invoice.model";
-import {getTranslation} from "./InvoiceStatus.model";
+import {getTranslation} from "./invoiceStatus.model";
 import {InvoiceService} from "./invoice.service";
 @Component({
     selector: 'invoice-detail',

@@ -1,179 +1,236 @@
 <form (ngSubmit)="onSubmit(invoiceForm)" [formGroup]="invoiceForm">
 
-    <!--<accordion-group #group>-->
-    <!--<div accordion-heading>-->
-    <!--I can have markup, too!-->
-    <!--<i class="pull-right float-xs-right glyphicon"-->
-    <!--[ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>-->
-    <!--</div>-->
-    <!--This is just some content to illustrate fancy headings.-->
-    <!--</accordion-group>-->
-
     <div class="form-group">
         <label for="description">Popis:</label>
         <input type="text" id="description" class="form-control" formControlName="description"/>
     </div>
 
+    <div class="form-group">
+        <label for="createdByLab">Vytvoril:</label>
+        <input type="text" id="createdByLab" class="form-control" formControlName="createdBy"/>
+    </div>
+
+    <div class="form-group">
+        <label for="name">Meno</label>
+        <input type="text" id="name" class="form-control" formControlName="name"/>
+        <div *ngIf="invoiceForm.get('name').hasError('required') &&
+                            (parameterTypeForm.get('invoice').get('name').dirty || formSubmitted)"
+             class="alert alert-danger">
+            Name is required
+        </div>
+    </div>
+
     <div formGroupName="invoice">
 
         <div class="form-group">
-            <div formGroupName="company">
-                <div class="dropdown center-block">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                        {{currentCompany?.name}}
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu animated-dropdown-menu">
-                        <li *ngFor="let company of companies">
-                            <a (click)="selectCompany(company)">{{company.name}}</a>
-                        </li>
-                    </ul>
+            <label for="invoiceId">Faktúra číslo:</label>
+            <input type="number" id="invoiceId" class="form-control" formControlName="invoiceNumber"/>
+        </div>
+
+        <div class="form-group">
+            <!--<div formGroupName="companyContact">-->
+            <div class="dropdown center-block">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    {{currentCompany?.name}}
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu animated-dropdown-menu">
+                    <li *ngFor="let company of companies">
+                        <a (click)="selectCompany(company)">{{company.name}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!--<div class="col-lg-6 form-group">-->
+            <!--<label for="companyName">Meno:</label>-->
+            <!--<input type="text" id="companyName" class="form-control" formControlName="name" readonly/>-->
+            <!--</div>-->
+
+            <!--<div class="col-lg-6 form-group">-->
+            <!--<label for="companyIco">ICO:</label>-->
+            <!--<input type="text" id="companyIco" class="form-control" formControlName="ico" readonly/>-->
+            <!--</div>-->
+
+            <!--<div class="col-lg-6 form-group">-->
+            <!--<label for="companyDic">DIC:</label>-->
+            <!--<input type="text" id="companyDic" class="form-control" formControlName="dic"/>-->
+
+            <!--</div>-->
+
+            <div formGroupName="companyContact">
+
+                <div class="col-lg-6 form-group">
+                    <label for="mainContactName">Meno:</label>
+                    <input type="text" id="mainContactName" class="form-control" formControlName="name"/>
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="companyName">Meno:</label>
-                    <input type="text" id="companyName" class="form-control" formControlName="name" readonly/>
+                    <label for="mainContactSurname">Priezvisko:</label>
+                    <input type="text" id="mainContactSurname" class="form-control" formControlName="surname"
+                    />
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="companyIco">ICO:</label>
-                    <input type="text" id="companyIco" class="form-control" formControlName="ico" readonly/>
+                    <label for="postcode">Poštové smerovacie číslo:</label>
+                    <input type="text" id="postcode" class="form-control" formControlName="postcode"/>
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="companyDic">DIC:</label>
-                    <input type="text" id="companyDic" class="form-control" formControlName="dic" readonly/>
+                    <label for="telephone">Telefón:</label>
+                    <input type="text" id="telephone" class="form-control" formControlName="telephone"/>
                 </div>
 
-                <div formGroupName="mainContact">
-
-                    <div class="col-lg-6 form-group">
-                        <label for="mainContactName">Meno:</label>
-                        <input type="text" id="mainContactName" class="form-control" formControlName="name" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="mainContactSurname">Priezvisko:</label>
-                        <input type="text" id="mainContactSurname" class="form-control" formControlName="surname"
-                               readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="postcode">Poštové smerovacie číslo:</label>
-                        <input type="text" id="postcode" class="form-control" formControlName="postcode" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="telephone">Telefón:</label>
-                        <input type="text" id="telephone" class="form-control" formControlName="telephone" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="name">Krajina:</label>
-                        <input type="text" id="country" class="form-control" formControlName="country" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="companyAccount">Číslo účtu:</label>
-                        <input type="text" id="companyAccount" class="form-control" formControlName="accountNumber"
-                               readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="iban">IBAN:</label>
-                        <input type="text" id="iban" class="form-control" formControlName="iban" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="swift">SWIFT:</label>
-                        <input type="text" id="swift" class="form-control" formControlName="swift" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="street">Ulica:</label>
-                        <input type="text" id="street" class="form-control" formControlName="street" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="city">Mesto:</label>
-                        <input type="text" id="city" class="form-control" formControlName="city" readonly/>
-                    </div>
-
-                    <div class="col-lg-6 form-group">
-                        <label for="companyEmail">Email:</label>
-                        <input type="text" id="companyEmail" class="form-control" formControlName="email" email
-                               readonly/>
-                    </div>
+                <div class="col-lg-6 form-group">
+                    <label for="country">Krajina:</label>
+                    <input type="text" id="country" class="form-control" formControlName="country"/>
                 </div>
 
-            </div>
-
-            <div class="form-group">
-                <label for="name">Meno</label>
-                <input type="text" id="name" class="form-control" formControlName="name"/>
-                <div *ngIf="invoiceForm.get('invoice').get('name').hasError('required') &&
-                            (parameterTypeForm.get('invoice').get('name').dirty || formSubmitted)"
-                     class="alert alert-danger">
-                    Name is required
+                <div class="col-lg-6 form-group">
+                    <label for="companyAccount">Číslo účtu:</label>
+                    <input type="text" id="companyAccount" class="form-control" formControlName="accountNumber"
+                    />
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="invoiceId">Faktúra číslo:</label>
-                <input type="number" id="invoiceId" class="form-control" formControlName="invoiceId"/>
-            </div>
+                <div class="col-lg-6 form-group">
+                    <label for="iban">IBAN:</label>
+                    <input type="text" id="iban" class="form-control" formControlName="iban"/>
+                </div>
 
-            <div class="form-group">
-                <label for="createdByLab">Vytvoril:</label>
-                <input type="text" id="createdByLab" class="form-control" formControlName="createdBy"/>
-            </div>
+                <div class="col-lg-6 form-group">
+                    <label for="swift">SWIFT:</label>
+                    <input type="text" id="swift" class="form-control" formControlName="swift"/>
+                </div>
 
-            <pre class="card card-block card-header">das</pre>
+                <div class="col-lg-6 form-group">
+                    <label for="street">Ulica:</label>
+                    <input type="text" id="street" class="form-control" formControlName="street"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="city">Mesto:</label>
+                    <input type="text" id="city" class="form-control" formControlName="city"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="companyEmail">Email:</label>
+                    <input type="text" id="companyEmail" class="form-control" formControlName="email" email/>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+                <!--</div>-->
+
+            </div>
+            <div class="row">
+
+            </div>
 
             <div class="row">
                 <label class="md-check">
-                    <input type="radio" value="person" name="type" formControlName="type">
+                    <input type="radio" [checked]="type == 'person'" (click)="setType('person')" value="person"
+                           name="type">
                     Fyzická osoba
                 </label>
 
                 <label class="md-check">
-                    <input type="radio" value="company" name="type" formControlName="type">
+                    <input type="radio" [checked]="type == 'company'" (click)="setType('company')" value="company"
+                           name="type">
                     Firma
                 </label>
             </div>
 
-            <div formGroupName="customer">
+            <div formGroupName="customerContact">
 
-                <div class="col-lg-6 form-group">
-                    <label for="clientname">Name:</label>
-                    <input type="text" id="clientname" class="form-control" formControlName="name"/>
-                </div>
 
-                <div *ngIf="invoiceForm.get('invoice').get('type').value == 'company'">
-                        <div class="col-lg-6 form-group">
-                            <label for="ico">ICO:</label>
-                            <input type="text" id="ico" class="form-control" formControlName="ico"/>
-                        </div>
+                <div *ngIf="type == 'company'">
+                    <div class="col-lg-6 form-group">
+                        <label for="ico">ICO:</label>
+                        <input type="text" id="ico" class="form-control" formControlName="ico"/>
+                    </div>
 
-                        <div class="col-lg-6 form-group">
-                            <label for="dic">DIC:</label>
-                            <input type="text" id="dic" class="form-control" formControlName="dic"/>
-                        </div>
+                    <div class="col-lg-6 form-group">
+                        <label for="dic">DIC:</label>
+                        <input type="text" id="dic" class="form-control" formControlName="dic"/>
+                    </div>
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" class="form-control" formControlName="email" email/>
+                    <label for="customerName">Meno:</label>
+                    <input type="text" id="customerName" class="form-control" formControlName="name"/>
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="surname">Surname:</label>
-                    <input type="text" id="surname" class="form-control" formControlName="surname"/>
+                    <label for="customerSurname">Priezvisko:</label>
+                    <input type="text" id="customerSurname" class="form-control" formControlName="surname"
+                    />
                 </div>
 
                 <div class="col-lg-6 form-group">
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" class="form-control" formControlName="phone"/>
+                    <label for="customerPostcode">Poštové smerovacie číslo:</label>
+                    <input type="text" id="customerPostcode" class="form-control" formControlName="postcode"/>
                 </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerTelephone">Telefón:</label>
+                    <input type="text" id="customerTelephone" class="form-control" formControlName="telephone"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerCountry">Krajina:</label>
+                    <input type="text" id="customerCountry" class="form-control" formControlName="country"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerAccount">Číslo účtu:</label>
+                    <input type="text" id="customerAccount" class="form-control" formControlName="accountNumber"
+                    />
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerIban">IBAN:</label>
+                    <input type="text" id="customerIban" class="form-control" formControlName="iban"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerSwift">SWIFT:</label>
+                    <input type="text" id="customerSwift" class="form-control" formControlName="swift"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerStreet">Ulica:</label>
+                    <input type="text" id="customerStreet" class="form-control" formControlName="street"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerCity">Mesto:</label>
+                    <input type="text" id="customerCity" class="form-control" formControlName="city"/>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="customerEmail">Email:</label>
+                    <input type="text" id="customerEmail" class="form-control" formControlName="email" email/>
+                </div>
+                <div class="col-lg-6">
+
+                </div>
+                <!--<div class="col-lg-6 form-group">-->
+                <!--<label for="email">Email:</label>-->
+                <!--<input type="text" id="email" class="form-control" formControlName="email" email/>-->
+                <!--</div>-->
+
+                <!--<div class="col-lg-6 form-group">-->
+                <!--<label for="clientname">Name:</label>-->
+                <!--<input type="text" id="clientname" class="form-control" formControlName="name"/>-->
+                <!--</div>-->
+
+                <!--<div class="col-lg-6 form-group">-->
+                <!--<label for="surname">Surname:</label>-->
+                <!--<input type="text" id="surname" class="form-control" formControlName="surname"/>-->
+                <!--</div>-->
+
+                <!--<div class="col-lg-6 form-group">-->
+                <!--<label for="phone">Phone:</label>-->
+                <!--<input type="text" id="phone" class="form-control" formControlName="phone"/>-->
+                <!--</div>-->
 
                 <!--<div *ngSwitchCase="'company'" formGroupName="company">-->
                 <!--<div class="col-lg-6 form-group">-->

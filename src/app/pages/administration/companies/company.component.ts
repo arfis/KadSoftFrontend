@@ -32,7 +32,10 @@ export class CompanyComponent implements OnInit,OnDestroy {
 
     public ngOnInit(){
         this.restServ.getCompanies().subscribe(
-            companies => this.companies = companies
+            companies => {
+                this.companies = companies;
+                console.log(this.companies);
+            }
         );
     }
 

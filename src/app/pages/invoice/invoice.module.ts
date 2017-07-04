@@ -9,6 +9,7 @@ import {RouterModule} from "@angular/router";
 import {CustomerService} from "../users/user.service";
 import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
+import {UserService} from "../../services/user.service";
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {RestService} from "../../services/rest.service";
         InvoiceService,
         CustomerService,
         ConfigurationService,
-        RestService
+        RestService,
+        UserService
     ],
     exports : [
         InvoiceCreation,

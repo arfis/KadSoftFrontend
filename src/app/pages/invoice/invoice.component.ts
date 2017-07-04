@@ -6,7 +6,7 @@ import {User} from '../../models/user';
 import {InvoiceService} from "./invoice.service";
 import {Invoice} from "./invoice.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {getTranslation} from "./InvoiceStatus.model";
+import {getTranslation} from "./invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 
 @Component({

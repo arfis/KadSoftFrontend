@@ -40,7 +40,8 @@ export class InvoiceCreation implements OnInit {
                 private notificationSrv : NotificationService,
                 private loggedUserService : UserService,
                 private configurationService : ConfigurationService,
-                private restServ : RestService) {
+                private restServ : RestService,
+                private loginServ : UserService) {
 
         this.createForm();
 
@@ -52,7 +53,12 @@ export class InvoiceCreation implements OnInit {
         )
 
         restServ.getCompanies().subscribe(
-            companies => this.companies = companies
+            companies => this.companies = companies,
+            error=>{
+                if (error.status === 401){
+                    this.loginServ.logout();
+                }
+            }
         );
     }
 
@@ -100,7 +106,7 @@ export class InvoiceCreation implements OnInit {
                 'IBAN':['',Validators.required]
             }),
             'name': ['name', Validators.required],
-            'invoiceId': [this.invoiceSrv.generateInvoiceId(), Validators.required],
+            'invoiceNumber': [this.invoiceSrv.generateInvoiceId(), Validators.required],
             'createdBy': [this.loggedUserService.getLoggedInUser().getName(), Validators.required],
             'status': [InvoiceStatus.created, Validators.required],
             'client': this.fb.group({
@@ -191,7 +197,7 @@ export class InvoiceCreation implements OnInit {
 
         console.log(value);
         value.variableSymbol = this.invoiceForm.get("variableSymbol").value;
-        value.company = this.invoiceForm.get("company").value;
+        value.companyContact = this.invoiceForm.get("companyContact").value;
         value.totalPrice = this.getPrice();
 
 
