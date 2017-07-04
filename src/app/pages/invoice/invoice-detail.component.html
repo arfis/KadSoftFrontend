@@ -16,15 +16,15 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="col-lg-6">
-            <i>Meno: </i><a [routerLink]="[ '/user/', invoice.client.id ]">{{invoice.client.name}}
-            {{invoice.client.surname}}</a>
+            <i>Meno: </i><a [routerLink]="[ '/user/', invoice.customer.id ]">{{invoice.customer.name}}
+            {{invoice.customer.surname}}</a>
         </div>
         <div class="col-lg-6">
-            <i>Mail: </i><a [href]="'mailto:'+ invoice.client.email">{{invoice.client.email}}</a>
+            <i>Mail: </i><a [href]="'mailto:'+ invoice.customer.email">{{invoice.customer.email}}</a>
         </div>
 
         <div class="col-lg-6">
-            <i>Telefón: </i>{{invoice.client.phone}}
+            <i>Telefón: </i>{{invoice.customer.phone}}
         </div>
 
     </div>

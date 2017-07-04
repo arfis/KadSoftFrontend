@@ -22,7 +22,7 @@ export class OrderService {
     fakeData(){
         console.log("faking data");
 
-        for (let i=0;i<400;i++){
+        for (let i=0;i<100;i++){
             let order = new Order();
 
             order.id = i;

@@ -17,17 +17,17 @@
         <th>Stiahnuť</th>
     </tr>
 
-    <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">
-        <td>{{invoice.id}}</td>
-        <td>{{invoice.invoiceId}}</td>
+    <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice?.id ]">
+        <td>{{invoice?.id}}</td>
+        <td>{{invoice?.invoiceId}}</td>
         <!--//TODO: resolver and make a user type in the invoice -->
-        <td><a>{{invoice.createdBy}}</a></td>
+        <td><a>{{invoice?.createdBy}}</a></td>
         <td>
 			<span class="label" [ngClass]="getStatusMessage(invoice.status).label">
 			{{getStatusMessage(invoice.status).text}}
 			</span>
         </td>
-        <td><a [routerLink]="[ '/user/', invoice.client.id ]">{{invoice.client.name}} {{invoice.client.surname}}</a>
+        <td><a [routerLink]="[ '/user/', invoice?.customer.id ]">{{invoice?.customer.name}} {{invoice.customer.surname}}</a>
         </td>
         <td>{{invoice.totalPrice}}</td>
         <td><a [href]="invoice.invoicePath">Download</a></td>

@@ -5,6 +5,11 @@ import {Router} from '@angular/router';
 import {Http} from "@angular/http";
 import {RestService} from "../../services/rest.service";
 import {NotificationService} from "../../services/notification.service";
+import {CustomerService} from "../users/user.service";
+import {InvoiceService} from "../invoice/invoice.service";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
+import {CompanyService} from "../administration/companies/company.service";
 
 @Component({
     selector: 'app-login',
@@ -17,8 +22,11 @@ export class LoginComponent implements OnInit {
     constructor(private userServ: UserService,
                 private router: Router,
                 private http: Http,
-                private restService : RestService,
-                private notificationServ : NotificationService) {
+                private restService: RestService,
+                private notificationServ: NotificationService,
+                private customerServ: CustomerService,
+                private invoiceServ : InvoiceService,
+                private companyServ : CompanyService) {
     }
 
     public ngOnInit() {
@@ -66,7 +74,7 @@ export class LoginComponent implements OnInit {
                         console.log("response!:");
                         console.log(response);
                         let user1 = new User({
-                            id : response.id,
+                            id: response.id,
                             avatarUrl: 'public/assets/img/stano.jpg',
                             email: response.email,
                             username: response.email,
@@ -77,9 +85,18 @@ export class LoginComponent implements OnInit {
 
                         user1.connected = true;
 
-                        this.userServ.setCurrentUser(user1);
+                        Observable.forkJoin(this.customerServ.getCustomers(), this.restService.getCompanies()).subscribe(
+                            result => {
+                                console.log("got users:");
+                                console.log(result);
+                                this.customerServ.cacheCustomers(result[0]);
+                                this.companyServ.cacheCompanies(result[1]);
+                                this.invoiceServ.loadInvoices();
+                                this.userServ.setCurrentUser(user1);
+                                this.router.navigate(['orders']);
+                            }
+                        )
 
-                        this.router.navigate(['orders']);
                     },
                     error => {
                         this.notificationServ.error(error);

@@ -40,7 +40,7 @@ export class OrderCreationComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private invoiceSrv: InvoiceService,
-                private userSrv: CustomerService,
+                private customerServ: CustomerService,
                 private notificationSrv: NotificationService,
                 private loggedUserService: UserService,
                 private configurationService: ConfigurationService,
@@ -61,8 +61,6 @@ export class OrderCreationComponent implements OnInit {
         restServ.getCompanies().subscribe(
             companies=>this.companies = companies,
             error=>{
-                console.log("error");
-                console.log(error.status);
                 if (error.status === 401){
                     this.loginServ.logout();
                 }
@@ -86,7 +84,7 @@ export class OrderCreationComponent implements OnInit {
             .subscribe(
                 value => {
                     console.log("finding user");
-                    this.restServ.getCustomerByEmail(value).subscribe(
+                    this.customerServ.getCustomerByEmail(value).subscribe(
                         user => {
                             this.userFoundByMail = user;
                             if (!user) {

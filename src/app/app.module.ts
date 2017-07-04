@@ -82,7 +82,8 @@ let services = [
     UserResolve,
     InvoiceResolve,
     RestService,
-    Configuration
+    Configuration,
+    CompanyService
 ];
 
 // les pages
@@ -120,6 +121,7 @@ import {RestService} from "./services/rest.service";
 import {Configuration} from "./app.constants";
 import {AdministrationComponent} from "./pages/administration/administration.component";
 import {AdministrationModule} from "./pages/administration/administration.module";
+import {CompanyService} from "./pages/administration/companies/company.service";
 
 @NgModule( {
     bootstrap: [AppComponent],

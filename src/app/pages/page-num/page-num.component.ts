@@ -51,14 +51,13 @@ export class PageNumComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.customerServ.getUsers().subscribe(
+    this.customerServ.getCustomers().subscribe(
         customers => { this.customers = customers }
     )
   }
 
   public remove(customer : Customer){
-    console.log("removing: ");
-    console.log(customer);
+
     this.customerServ.removeCustomer(customer.id).subscribe(
         result => {
           this.customers.splice(this.customers.indexOf(customer),1);

@@ -31,7 +31,7 @@
 			{{getStatusMessage(order.invoice.status).text}}
 			</span>
         </td>
-        <td><a [routerLink]="[ '/user/', order.invoice.customer.id ]">{{order.invoice.customer.name}}
+        <td><a [routerLink]="[ '/user/', order.invoice.customer?.id ]">{{order.invoice.customer?.name}}
             {{order.invoice.customer.surname}}</a></td>
         <td><a [routerLink]="[ '/invoice/', order.invoice.id ]">Invoice</a></td>
         <td>{{order.invoice.totalPrice}}</td>

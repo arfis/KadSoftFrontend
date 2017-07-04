@@ -19,7 +19,7 @@ export class UserViewComponent implements OnInit {
     private buttonText = ['Zobraziť dodatočné informácie','Skryť dodatočné informácie'];
 
     public isCollapsed:boolean = true;
-    private userInformation: Customer;
+    private customer: Customer;
     private orders : Order[];
 
     constructor(private activatedRoute: ActivatedRoute,
@@ -32,16 +32,17 @@ export class UserViewComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
 
-            this.userInformation = data['userInformation'];
+            this.customer = data['customer'];
 
-            console.log(this.userInformation);
+            console.log("customer: ");
+            console.log(this.customer);
             this.loadUserOrders();
         });
     }
 
     private loadUserOrders(){
 
-        this.orderServ.getOrdersByClientId(this.userInformation.id).subscribe(
+        this.orderServ.getOrdersByClientId(this.customer.id).subscribe(
             result => {
                 this.orders = result;
                 console.log(this.orders);
@@ -54,8 +55,8 @@ export class UserViewComponent implements OnInit {
     }
 
     updateInformation(){
-        console.log("saving: " + this.userInformation.information);
-        this.restServ.setCustomerInformation(this.userInformation.id, this.userInformation.information).subscribe(
+        console.log("saving: " + this.customer.information);
+        this.restServ.setCustomerInformation(this.customer.id, this.customer.information).subscribe(
             result => {
                 console.log(result);
             },

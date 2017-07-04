@@ -115,6 +115,12 @@ export class RestService {
                 error => console.log("error: " + error));
     }
 
+    public getCustomerById(id: number){
+        return this.http.get(this.config.server+this.config.customerApi+"/"+id, {headers: this.headers})
+            .map(
+                response => response.text() ? response.json() : {},
+                error => console.log("error: " + error));
+    }
 
     public getCustomers() : Observable<Customer[]>{
         return this.http.get(this.config.server+this.config.customerApi, {headers: this.headers})

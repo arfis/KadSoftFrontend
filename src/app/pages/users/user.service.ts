@@ -2,21 +2,46 @@ import {Injectable} from "@angular/core";
 import {Customer} from "./user.model";
 import {Observable} from "rxjs/Observable";
 import {RestService} from "../../services/rest.service";
+import {Subscription} from "rxjs/Subscription";
 /**
  * Created by a619678 on 23. 5. 2017.
  */
 @Injectable()
 export class CustomerService{
 
-    private users : Customer[] = new Array();
-    public names = ["Ferdinand","Milan","Rastislav","Julius","Palo"];
-    public surnames = ["Vasko","Sokolsky","Stefanik","Hudacek","Zloduch"];
+    private customers : Customer[] = new Array();
+    // public names = ["Ferdinand","Milan","Rastislav","Julius","Palo"];
+    // public surnames = ["Vasko","Sokolsky","Stefanik","Hudacek","Zloduch"];
 
     constructor(private restServ : RestService){
 
     }
 
-    getUsers() : Observable<Customer[]>{
+
+    getCustomerByEmail(email : string) : Observable<Customer>{
+        if(this.customers.length <1){
+            this.getCachedCustomers();
+        }
+
+        return Observable.of(this.customers.find(customer => customer.email.indexOf(email) > 0));
+
+    }
+
+    cacheCustomers(customers : Customer[]) {
+        //TODO: Timer
+        console.log("setting customers: ");
+        console.log(customers);
+        localStorage.setItem("customers",JSON.stringify(customers));
+        localStorage.setItem("customers-download",JSON.stringify(new Date()));
+        this.customers = customers;
+    }
+
+    getCachedCustomers(){
+        this.customers = JSON.parse(localStorage.getItem("customers"));
+        return this.customers;
+    }
+
+    getCustomers() : Observable<Customer[]>{
         return this.restServ.getCustomers();
     }
 
@@ -24,43 +49,46 @@ export class CustomerService{
         return this.restServ.removeCustomer(customer);
     }
 
-    createUser(userInformation : Customer) : Observable<Customer>{
-        userInformation.id = this.users.length+1;
-        this.users.push(userInformation);
-
-        return Observable.of(userInformation);
+    createUser(customer : Customer) : Observable<Customer>{
+        return this.restServ.createCustomer(customer);
     }
 
-    setFakeData(){
-        for (let i:number=0;i<10;i++){
-            let user : Customer = new Customer();
+    getCachedUserById(customerId : number){
+        console.log(customerId);
 
-            user.id = i;
-            user.name = this.names[Math.floor(Math.random()*this.names.length)];
-            user.email = "michalsevcikk"+i+"@gmail.com";
-            user.phone = "091232123";
-            user.surname = this.surnames[Math.floor(Math.random()*this.surnames.length)];
+        console.log(this.customers);
 
-            this.users.push(user);
+        if (this.customers.length < 1){
+            console.log("getting cached customers: ");
+            this.customers = this.getCachedCustomers();
+            console.log(this.customers);
         }
+        console.log(this.customers);
+        let customer = this.customers.find(customer => customer.id === customerId);
+        console.log(customer);
+        return customer;
     }
+    // setFakeData(){
+    //     for (let i:number=0;i<10;i++){
+    //         let user : Customer = new Customer();
+    //
+    //         user.id = i;
+    //         user.name = this.names[Math.floor(Math.random()*this.names.length)];
+    //         user.email = "michalsevcikk"+i+"@gmail.com";
+    //         user.phone = "091232123";
+    //         user.surname = this.surnames[Math.floor(Math.random()*this.surnames.length)];
+    //
+    //         this.users.push(user);
+    //     }
+    // }
 
     getUserByMail(email : string) : Observable<Customer>{
-        let usr = this.users.find(user => user.email == email);
-        return Observable.of(usr);
+        return this.restServ.getCustomerByEmail(email);
     }
 
-    getUserById(userId : number) : Customer{
-        if (this.users.length < 1){
-            this.setFakeData();
-        }
+    getUserById(customerId : number) : Observable<Customer>{
 
-        let usr = this.users.find(user => user.id == userId);
-
-        return usr;
+        return Observable.of(this.customers.find(customer => customer.id == customerId));
     }
 
-    updateInformation(userId : number, information : string){
-        this.getUserById(userId).information = information;
-    }
 }

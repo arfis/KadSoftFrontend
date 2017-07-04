@@ -55,7 +55,7 @@ const routes: Routes = [
                 path: 'user/:userId',
                 component: UserViewComponent,
                 resolve: {
-                    userInformation: UserResolve
+                    customer: UserResolve
                 }
             },
             {
