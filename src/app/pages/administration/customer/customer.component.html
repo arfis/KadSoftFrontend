@@ -1,0 +1,26 @@
+<h3>Administrácia klientov</h3>
+
+<customer-creation (onAdd)="onAdd($event)"></customer-creation>
+<table class="table table-bordered table-hover">
+    <tbody>
+    <tr>
+        <th>Email</th>
+        <th>Meno</th>
+        <th>Adresa</th>
+        <th>Mesto</th>
+        <th>ICO</th>
+        <th>DIC</th>
+        <th>Odstrániť</th>
+    </tr>
+
+    <tr *ngFor="let customer of customers">
+        <td>{{customer.mainContact?.email}}</td>
+        <td>{{customer.mainContact.name + " " + customer.mainContact?.surname}}</td>
+        <td><a>{{customer?.mainContact?.city + "," + customer?.mainContact?.country}}</a></td>
+        <td>{{customer?.mainContact?.city}}</td>
+        <td><a>{{customer?.ico || '-'}}</a></td>
+        <td>{{customer?.dic || '-'}}</td>
+        <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCompany(customer)"></span></td>
+    </tr>
+    </tbody>
+</table>

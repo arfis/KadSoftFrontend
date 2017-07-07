@@ -171,9 +171,9 @@ export class InvoiceCreation implements OnInit {
     }
 
     setClientInfo(){
-        this.invoiceForm.get('client').get('name').setValue(this.userFoundByMail.name);
-        this.invoiceForm.get('client').get('surname').setValue(this.userFoundByMail.surname);
-        this.invoiceForm.get('client').get('phone').setValue(this.userFoundByMail.phone);
+        this.invoiceForm.get('client').get('name').setValue(this.userFoundByMail.mainContact.name);
+        this.invoiceForm.get('client').get('surname').setValue(this.userFoundByMail.mainContact.surname);
+        this.invoiceForm.get('client').get('phone').setValue(this.userFoundByMail.mainContact.telephone);
     }
 
     resetClientInfo(){

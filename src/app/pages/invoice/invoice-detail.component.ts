@@ -5,7 +5,7 @@
 import {Component} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Invoice} from "./invoice.model";
-import {getTranslation} from "./invoiceStatus.model";
+import {getTranslation, InvoiceStatus} from "./invoiceStatus.model";
 import {InvoiceService} from "./invoice.service";
 @Component({
     selector: 'invoice-detail',
@@ -27,11 +27,14 @@ export class InvoiceDetailComponent{
         this.activatedRoute.data.subscribe(data => {
 
             this.invoice = data['invoice'];
-
+            console.log(data);
+            console.log(this.invoice);
+            console.log("Invoice end");
         });
     }
 
     getStatusMessage(status){
+        if (!status) status = InvoiceStatus.created;
         return getTranslation(status);
     }
 

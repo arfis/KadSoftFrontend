@@ -3,6 +3,8 @@ import {Order} from "./order.model";
 import {Observable} from "rxjs/Observable";
 import {InvoiceService} from "../invoice/invoice.service";
 import {UserService} from "../../services/user.service";
+import {Invoice} from "../invoice/invoice.model";
+import {Customer} from "../users/user.model";
 
 /**
  * Created by a619678 on 23. 5. 2017.
@@ -14,12 +16,12 @@ export class OrderService {
 
     constructor(private invoiceSrv : InvoiceService,
                 private usrService : UserService){
-        if(!this.orders) {
-            this.fakeData();
-        }
+        // if(!this.orders) {
+        //     this.fakeData();
+        // }
     }
 
-    fakeData(){
+    /*fakeData(){
         console.log("faking data");
 
         for (let i=0;i<400;i++){
@@ -45,18 +47,18 @@ export class OrderService {
 
             this.orders.push(order);
         }
-    }
+    }*/
 
     getOrdersByClientId(clientId : number) : Observable<Order[]>{
 
-        let orders = this.orders.filter(order=> order.invoice.customerContact.id == clientId);
+        let orders = this.orders.filter(order=> order.invoice.customer.id == clientId);
         return Observable.of(orders);
     }
 
     getOrders() : Observable<Order[]>{
-        if (this.orders.length < 1){
-            this.fakeData();
-        }
+        // if (this.orders.length < 1){
+        //     this.fakeData();
+        // }
         return Observable.of(this.orders);
     }
 
@@ -64,10 +66,14 @@ export class OrderService {
         return this.orders.find(order=> order.id == orderId);
     }
 
-    createOrder(order : Order) : Observable<Order>{
+    createOrder(order : Order) : Observable<Invoice>{
+        console.log("saving invoice");
+        console.log(order.invoice);
+        return this.invoiceSrv.createInvoice(order.invoice);
+    }
 
-        this.orders.push(order);
 
-        return Observable.of(order);
+    public getCustomersByEmail(email: string, users : Customer[]) : Customer[] {
+        return users.filter(user => user.mainContact.email.indexOf(email) > -1);
     }
 }

@@ -8,9 +8,13 @@ import {LoginResponse} from "../models/login-response.model";
 import {Company} from "../models/company-model";
 import {Customer} from "../pages/users/user.model";
 import {Invoice} from "../pages/invoice/invoice.model";
+import {Contact} from "../models/contact.model";
+import {ReplaySubject} from "rxjs/ReplaySubject";
 
 @Injectable()
 export class RestService {
+    public currentInvoices: ReplaySubject<Invoice[]> = new ReplaySubject<Invoice[]>();
+
     public modelName: string;
     private headers: Headers;
     private accessToken: string;
@@ -120,20 +124,37 @@ export class RestService {
             );
     }
 
-    public addInvoice(invoice : Invoice){
-        // if (!invoice.customer.id) {
+    public getInvoices() : Observable<Invoice[]>{
+        return this.http.get(this.config.server + this.config.invoicesApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getInvoiceById(invoiceId : number) : Observable<Invoice>{
+        return this.http.put(this.config.server + this.config.invoicesApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+    public addInvoice(invoice : Invoice) : Observable<Invoice>{
+        // if (!invoice.customerContact.id) {
         //     //If the user doesnt exist, create him!
         //     console.log("creating new user");
         //     this.createCustomer(invoice.customer).subscribe(
         //         client => {
         //             console.log("customer was created: ");
         //             console.log(client);
-        //             invoice.customer = client;
+        //             invoice.customerContact = client;
         //         }
         //     )
         // }
-        //
-        // console.log("creating invoice");
+
+        console.log("creating invoice");
         // invoice.invoicePath = "public/assets/invoices/invoice1.pdf";
 
         console.log("trying to save:");
@@ -145,14 +166,6 @@ export class RestService {
                     console.log("an error was thrown")
             );
     }
-
-    public getCustomerByEmail(email: string) {
-        return this.http.get(this.config.server + this.config.customerApi + "/" + email, {headers: this.headers})
-            .map(
-                response => response.text() ? response.json() : {},
-                error => console.log("error: " + error));
-    }
-
 
     public getCustomers(): Observable<Customer[]> {
         return this.http.get(this.config.server + this.config.customerApi, {headers: this.headers})
@@ -186,7 +199,7 @@ export class RestService {
 
     public createCustomer(customer: Customer) {
         console.log("trying to save customer: ");
-        console.log(customer);
+
 
         return this.http.post(this.config.server + this.config.customerApi, customer, {headers: this.headers})
             .map(

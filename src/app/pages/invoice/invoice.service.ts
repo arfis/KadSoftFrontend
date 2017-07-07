@@ -21,38 +21,20 @@ export class InvoiceService {
 
     }
 
-    makeFakeInvoices() {
-        this.invoices = new Array<Invoice>();
-        this.userSrv.setFakeData();
-
-        for (let i = 0; i < 400; i++) {
-            let invoice: Invoice = new Invoice();
-
-            invoice.value = Math.round(Math.random() * 560 + 1);
-            invoice.id = i;
-            invoice.customerContact = this.userSrv.getUserById(Math.floor(Math.random() * 5));
-            invoice.createdBy = this.loggedUserService.getLoggedInUser().getName();
-            invoice.status = Math.round(Math.random() * 4);
-            invoice.invoiceNumber = 1000 + i;
-            invoice.invoicePath = "public/assets/invoices/invoice1.pdf";
-            invoice.totalPrice = invoice.value;
-
-            let products = new Array<Product>();
-
-            for (let i = 0; i < 3; i++) {
-                let product = new Product();
-                product.investor = "Marian Investor";
-                product.parcell = "1232132321";
-                product.product = "Rodinny dom";
-                product.value = 123 + i;
-
-                products.push(product);
+    public initializeInvoices(){
+        this.restServ.getInvoices().subscribe(
+            invoices => {
+                this.invoices = invoices;
+            },
+            error => {
+                console.log("error getting invoices");
+                console.log(error);
             }
+        )
+    }
 
-            invoice.products = products;
-
-            this.invoices.push(invoice);
-        }
+    public setInvoices(invoices : Invoice[]){
+        this.invoices = invoices;
     }
 
     public generateInvoiceId(): number {
@@ -60,18 +42,13 @@ export class InvoiceService {
     }
 
     public getInvoice(id: number): Observable<Invoice> {
-        if (!this.invoices) {
-            this.makeFakeInvoices();
-        }
-        console.log("getting invoice by id: " + id);
+
         return Observable.of(this.invoices.find(invoice => invoice.id == id));
     }
 
     public getInvoices(): Observable<Invoice[]> {
-        if (!this.invoices || this.invoices.length < 1) {
-            this.makeFakeInvoices();
-        }
-        return Observable.of(this.invoices);
+
+        return this.restServ.getInvoices();
     }
 
     public storno(invoiceDelete: Invoice): Observable<Invoice> {

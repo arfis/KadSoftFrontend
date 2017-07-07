@@ -2,6 +2,7 @@ import {InvoiceStatus} from "./invoiceStatus.model";
 import {Customer} from "../users/user.model";
 import {Company} from "../../models/company-model";
 import {Product} from "../../models/Product";
+import {Contact} from "../../models/contact.model";
 /**
  * Created by a619678 on 22. 5. 2017.
  */
@@ -11,12 +12,13 @@ export class Invoice{
     invoiceNumber : number;
     createdBy : string;
     created : Date;
-    companyContact : Company;
+    companyContact : Contact;
     status : InvoiceStatus;
-    customerContact : Customer;
+    customer : Customer;
     totalPrice : number;
-    products : Product[];
+    invoiceItems : Product[];
     value : number;
     invoicePath : string;
     variableSymbol : number;
+    emailText?: string;
 }

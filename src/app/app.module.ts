@@ -34,7 +34,8 @@ let modules = [
     ToasterModule,
     InvoiceModule,
     OrderModule,
-    AdministrationModule
+    AdministrationModule,
+    SlimLoadingBarModule.forRoot()
 ];
 
 import { AppComponent } from './app.component';
@@ -82,7 +83,8 @@ let services = [
     UserResolve,
     InvoiceResolve,
     RestService,
-    Configuration
+    Configuration,
+    SlimLoadingBarService
 ];
 
 // les pages
@@ -120,6 +122,7 @@ import {RestService} from "./services/rest.service";
 import {Configuration} from "./app.constants";
 import {AdministrationComponent} from "./pages/administration/administration.component";
 import {AdministrationModule} from "./pages/administration/administration.module";
+import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @NgModule( {
     bootstrap: [AppComponent],

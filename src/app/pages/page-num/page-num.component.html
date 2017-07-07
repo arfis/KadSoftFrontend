@@ -10,10 +10,10 @@
     </tr>
 
     <tr *ngFor="let customer of customers" [routerLink]="[ '/user/', customer.id ]">
-        <td>{{customer.email}}</td>
-        <td>{{customer.name}}</td>
-        <td><a>{{customer.surname}}</a></td>
-        <td>{{customer.phone}}</td>
+        <td>{{customer.mainContact.email}}</td>
+        <td>{{customer.mainContact.name}}</td>
+        <td><a>{{customer.mainContact.surname}}</a></td>
+        <td>{{customer.mainContact.telephone}}</td>
         <td><span class="remove glyphicon glyphicon-remove-sign" (click)="remove(customer)"></span></td>
     </tr>
     </tbody>

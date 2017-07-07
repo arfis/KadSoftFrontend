@@ -15,7 +15,8 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "styles.less"
+        "styles.less",
+        "../node_modules/ng2-slim-loading-bar/style.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",

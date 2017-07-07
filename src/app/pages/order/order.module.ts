@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {AccordionModule, BsDropdownModule, CollapseModule, PaginationModule} from "ng2-bootstrap";
+import {AccordionModule, BsDropdownModule, CollapseModule, ModalModule, PaginationModule} from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
 import {CustomerService} from "../users/user.service";
 import {ConfigurationService} from "../../services/configuration.service";
@@ -10,6 +10,7 @@ import {OrderComponent} from "./order.component";
 import {InvoiceService} from "../invoice/invoice.service";
 import {OrderService} from "./order.service";
 import {UserService} from "../../services/user.service";
+import {OrderModal} from "./order-modal.component";
 
 @NgModule({
     imports: [
@@ -20,11 +21,13 @@ import {UserService} from "../../services/user.service";
         CollapseModule.forRoot(),
         AccordionModule.forRoot(),
         BsDropdownModule.forRoot(),
-        PaginationModule.forRoot()
+        PaginationModule.forRoot(),
+        ModalModule.forRoot()
     ],
     declarations: [
         OrderComponent,
-        OrderCreationComponent
+        OrderCreationComponent,
+        OrderModal
     ],
     providers: [
         InvoiceService,

@@ -6,7 +6,7 @@
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{currentCompany?.name}}
                 <span class="caret"></span></button>
             <ul class="dropdown-menu">
-                <li *ngFor="let company of companies">
+                <li *ngFor="let company of customer">
                     <a (click)="selectCompany(company)">{{company.name}}</a>
                 </li>
             </ul>
@@ -104,15 +104,15 @@
                     <input type="number" id="valueL" class="form-control" formControlName="value"/>
                 </div>
 
-                <div class="form-group">
-                    <label for="investor">Investor:</label>
-                    <input type="number" id="investor" class="form-control" formControlName="investor"/>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="investor">Investor:</label>-->
+                    <!--<input type="number" id="investor" class="form-control" formControlName="investor"/>-->
+                <!--</div>-->
 
-                <div class="form-group">
-                    <label for="parcell">Parcela:</label>
-                    <input type="number" id="parcell" class="form-control" formControlName="parcell"/>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="parcel">Parcela:</label>-->
+                    <!--<input type="number" id="parcel" class="form-control" formControlName="parcel"/>-->
+                <!--</div>-->
             </div>
         </fieldset>
 

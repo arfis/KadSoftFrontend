@@ -8,7 +8,7 @@ import {Order} from "./order.model";
 import {OrderService} from "./order.service";
 import {InvoiceService} from "../invoice/invoice.service";
 import {InvoiceCreation} from "../invoice/invoice-create.component";
-import {getTranslation} from "../invoice/invoiceStatus.model";
+import {getTranslation, InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 
 @Component({
@@ -101,6 +101,7 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
     }
 
     getStatusMessage(status){
+        if(!status) status = InvoiceStatus.created;
         return getTranslation(status);
     }
 

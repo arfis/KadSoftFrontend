@@ -1,7 +1,8 @@
 <h2>Faktúra</h2>
 
-<span>Zhotovil: </span><i><a [routerLink]="[ '/user/', invoice.createdBy ]">{{invoice.createdBy}}</a>({{invoice.created
-    | date}})</i>
+<span>Zhotovil: </span><i><a [routerLink]="[ '/user/', invoice?.createdBy ]">
+    {{invoice?.createdBy}}</a>
+    <!--({{invoice?.created | date}})</i>-->
 
 <h4><span class="label" [ngClass]="getStatusMessage(invoice.status).label">
 		{{getStatusMessage(invoice.status).text}}
@@ -16,15 +17,15 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="col-lg-6">
-            <i>Meno: </i><a [routerLink]="[ '/user/', invoice.client.id ]">{{invoice.client.name}}
-            {{invoice.client.surname}}</a>
+            <i>Meno: </i><a [routerLink]="[ '/user/', invoice.customer.mainContact.id ]">{{invoice.customer.mainContact.name}}
+            {{invoice.customer.mainContact.surname}}</a>
         </div>
         <div class="col-lg-6">
-            <i>Mail: </i><a [href]="'mailto:'+ invoice.client.email">{{invoice.client.email}}</a>
+            <i>Mail: </i><a [href]="'mailto:'+ invoice.customer.mainContact.email">{{invoice.customer.mainContact.email}}</a>
         </div>
 
         <div class="col-lg-6">
-            <i>Telefón: </i>{{invoice.client.phone}}
+            <i>Telefón: </i>{{invoice.customer.mainContact.telephone}}
         </div>
 
     </div>
@@ -32,16 +33,16 @@
 </div>
 
 <h3>Produkty:</h3>
-<div class="products well well-sm" *ngFor="let product of invoice.products">
-    <h4>{{product.product}}</h4>
+<div class="products well well-sm" *ngFor="let product of invoice.invoiceItems">
+    <h4>{{product.item.name}}</h4>
     <div>
-        <i>Cena: </i><span>{{product.value}}</span>
+        <i>Cena: </i><span>{{product.price}}</span>
     </div>
     <div>
-        <i>Investor: </i><span>{{product.investor}}</span>
+        <i>Investor: </i><span>{{product.contractor}}</span>
     </div>
     <div>
-        <i>Parcela: </i><span>{{product.parcell}}</span>
+        <i>Parcela: </i><span>{{product.parcel}}</span>
     </div>
 </div>
 

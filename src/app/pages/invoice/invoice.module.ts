@@ -10,6 +10,7 @@ import {CustomerService} from "../users/user.service";
 import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
 import {UserService} from "../../services/user.service";
+import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import {UserService} from "../../services/user.service";
         CollapseModule.forRoot(),
         PaginationModule.forRoot(),
         BsDropdownModule.forRoot(),
+        SlimLoadingBarModule.forRoot()
     ],
     declarations: [
         InvoiceComponent,
@@ -30,7 +32,8 @@ import {UserService} from "../../services/user.service";
         CustomerService,
         ConfigurationService,
         RestService,
-        UserService
+        UserService,
+        SlimLoadingBarService
     ],
     exports : [
         InvoiceCreation,
