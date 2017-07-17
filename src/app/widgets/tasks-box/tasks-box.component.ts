@@ -21,7 +21,7 @@ export class TasksBoxComponent implements OnInit {
     constructor(invoiceSrv : InvoiceService) {
         invoiceSrv.getInvoices().subscribe(
             invoices=>{
-                this.expiredInvoices = invoices.filter(invoice => invoice.status == InvoiceStatus.expired);
+                this.expiredInvoices = invoices.filter(invoice => invoice.status == "expired");
             }
         )
         // TODO 

@@ -11,6 +11,8 @@ import {InvoiceService} from "../invoice/invoice.service";
 import {OrderService} from "./order.service";
 import {UserService} from "../../services/user.service";
 import {OrderModal} from "./order-modal.component";
+import {RestService} from "../../services/rest.service";
+import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @NgModule({
     imports: [
@@ -22,7 +24,8 @@ import {OrderModal} from "./order-modal.component";
         AccordionModule.forRoot(),
         BsDropdownModule.forRoot(),
         PaginationModule.forRoot(),
-        ModalModule.forRoot()
+        ModalModule.forRoot(),
+        SlimLoadingBarModule.forRoot()
     ],
     declarations: [
         OrderComponent,
@@ -34,7 +37,9 @@ import {OrderModal} from "./order-modal.component";
         CustomerService,
         ConfigurationService,
         OrderService,
-        UserService
+        UserService,
+        RestService,
+        SlimLoadingBarService
     ],
     exports : [
         OrderComponent,

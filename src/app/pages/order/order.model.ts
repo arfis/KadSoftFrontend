@@ -1,6 +1,7 @@
 import {Invoice} from "../invoice/invoice.model";
 import {InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {User} from "../../models/user";
+import {Contact} from "../../models/contact.model";
 
 /**
  * Created by a619678 on 23. 5. 2017.
@@ -8,8 +9,10 @@ import {User} from "../../models/user";
 
 export class Order{
     id : number;
-    description : string;
-    invoice : Invoice;
+    text : string;
+    mainContact : Contact;
+    invoice: Invoice;
+    invoices : Invoice[];
     createdBy : User;
     assignedTo : User;
     created : Date;

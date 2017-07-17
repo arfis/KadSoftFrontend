@@ -11,7 +11,7 @@ import { User } from '../../models/user';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public date: Date = new Date();
-
+    public test = new Array(400);
   constructor(
     private msgServ: MessagesService,
     private breadServ: BreadcrumbService

@@ -11,11 +11,13 @@ export class Invoice{
     id : number;
     invoiceNumber : number;
     createdBy : string;
+    order : number;
     created : Date;
+    company : Company;
     companyContact : Contact;
-    status : InvoiceStatus;
+    status : string;
     customer : Customer;
-    totalPrice : number;
+    totalPrice : number = 0;
     invoiceItems : Product[];
     value : number;
     invoicePath : string;

@@ -6,6 +6,8 @@ import {UserService} from "../../services/user.service";
 import {Product} from "../../models/Product";
 import {InvoiceStatus} from "./invoiceStatus.model";
 import {RestService} from "../../services/rest.service";
+import {CompanyPermissions} from "../../models/company-permisions.model";
+import {Configuration} from "../../app.constants";
 /**
  * Created by a619678 on 22. 5. 2017.
  */
@@ -13,24 +15,21 @@ import {RestService} from "../../services/rest.service";
 export class InvoiceService {
 
 
-    public invoices: Invoice[];
+    public invoices: Invoice[] = new Array<Invoice>();
 
     constructor(private userSrv: CustomerService,
                 private loggedUserService: UserService,
-                private restServ: RestService) {
+                private restServ: RestService,
+                private configuration : Configuration) {
 
     }
 
-    public initializeInvoices(){
-        this.restServ.getInvoices().subscribe(
-            invoices => {
-                this.invoices = invoices;
-            },
-            error => {
-                console.log("error getting invoices");
-                console.log(error);
-            }
-        )
+    public getCachedInvoices(){
+        return this.invoices;
+    }
+
+    public getPermissions(companyId : number) : Observable<CompanyPermissions>{
+        return this.restServ.getCompanyPermissions(companyId);
     }
 
     public setInvoices(invoices : Invoice[]){
@@ -41,9 +40,21 @@ export class InvoiceService {
         return 10001;
     }
 
-    public getInvoice(id: number): Observable<Invoice> {
+    // TODO : If just going directly on an specific invoice, no data is cached
+    public getInvoiceById(id : number){
 
-        return Observable.of(this.invoices.find(invoice => invoice.id == id));
+    }
+
+
+    public getInvoice(id: number): Invoice {
+        if (this.invoices.length > 0) {
+            return this.invoices.find(invoice => invoice.id == id);
+        }
+        else{
+            let newInvoice = new Invoice();
+            newInvoice.id = id;
+            return newInvoice;
+        }
     }
 
     public getInvoices(): Observable<Invoice[]> {
@@ -51,12 +62,28 @@ export class InvoiceService {
         return this.restServ.getInvoices();
     }
 
-    public storno(invoiceDelete: Invoice): Observable<Invoice> {
-        let updatedInvoice = this.invoices.find(
-            invoice => invoice.id == invoiceDelete.id);
-        updatedInvoice.status = InvoiceStatus.canceled;
+    public generatePdfLink(invoice : Invoice){
+        return this.configuration.server + "invoice/" + invoice.id + ".pdf";
+    }
 
-        return Observable.of(updatedInvoice);
+    public generateHtmlLink(invoice : Invoice){
+        return this.configuration.server + "invoice/" + invoice.id + ".html";
+    }
+
+    public payInvoice(invoice : Invoice){
+        return this.restServ.payInvoice(invoice);
+    }
+
+    public generatePdfOfInvoice(invoice : Invoice){
+        return this.restServ.generatePdfOfInvoice(invoice);
+    }
+
+    public sendEmailForInvoice(invoice : Invoice){
+        return this.restServ.sendEmailForInvoice(invoice);
+    }
+
+    public storno(invoice: Invoice): Observable<Invoice> {
+        return this.restServ.cancelInvoice(invoice);
     }
 
     public createInvoice(invoice: Invoice): Observable<Invoice> {

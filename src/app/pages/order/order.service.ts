@@ -5,6 +5,7 @@ import {InvoiceService} from "../invoice/invoice.service";
 import {UserService} from "../../services/user.service";
 import {Invoice} from "../invoice/invoice.model";
 import {Customer} from "../users/user.model";
+import {RestService} from "../../services/rest.service";
 
 /**
  * Created by a619678 on 23. 5. 2017.
@@ -15,61 +16,47 @@ export class OrderService {
     orders : Order[] = new Array();
 
     constructor(private invoiceSrv : InvoiceService,
-                private usrService : UserService){
-        // if(!this.orders) {
-        //     this.fakeData();
-        // }
+                private usrService : UserService,
+                private restSrv : RestService){
+
     }
 
-    /*fakeData(){
-        console.log("faking data");
+    setOrders(orders : Order[]){
+        this.orders = orders;
+    }
 
-        for (let i=0;i<400;i++){
-            let order = new Order();
-
-            order.id = i;
-
-            this.usrService.currentUser.subscribe(
-                user=>{
-                    // order.createdBy = user;
-                }
-            );
-
-            order.description = "dsadsaa";
-            this.invoiceSrv.getInvoice(i).subscribe(
-                invoice => {
-                    order.invoice = invoice;
-                }
-            )
-
-            order.createdBy = this.usrService.getLoggedInUser();
-            order.created = new Date();
-
-            this.orders.push(order);
-        }
-    }*/
+    getCachedOrders(){
+        return this.orders;
+    }
 
     getOrdersByClientId(clientId : number) : Observable<Order[]>{
 
-        let orders = this.orders.filter(order=> order.invoice.customer.id == clientId);
+        let orders = this.orders.filter(order=> order.invoices[0].customer.id == clientId);
         return Observable.of(orders);
     }
 
     getOrders() : Observable<Order[]>{
+
+        return this.restSrv.getOrders();
         // if (this.orders.length < 1){
         //     this.fakeData();
         // }
-        return Observable.of(this.orders);
+        // return this.restSrv.getOrders().subscribe(
+        //     result=>{
+        //         this.orders = result;
+        //     }
+        // )
+        //return Observable.of(this.orders);
     }
 
     getOrder(orderId : number) : Order{
         return this.orders.find(order=> order.id == orderId);
     }
 
-    createOrder(order : Order) : Observable<Invoice>{
+    createOrder(order : Order) : Observable<Order>{
         console.log("saving invoice");
-        console.log(order.invoice);
-        return this.invoiceSrv.createInvoice(order.invoice);
+        return this.restSrv.createOrder(order);
+        // return this.invoiceSrv.createInvoice(order.invoice);
     }
 
 

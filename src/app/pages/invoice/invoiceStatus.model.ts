@@ -9,13 +9,15 @@ export enum InvoiceStatus {
     canceled = 4
 }
 
-export function getTranslation(status : InvoiceStatus){
+export function getTranslation(status : string){
 
   switch(status){
-      case InvoiceStatus.payed : return {text : "Zaplatená", label:"label-success"};
-      case InvoiceStatus.created : return {text : "Vystavená", label:"label-info"};
-      case InvoiceStatus.expired : return {text : "Expirovaná", label:"label-danger"};
-      case InvoiceStatus.canceled : return {text : "Stornovaná", label:"label-default"};
-      case InvoiceStatus.latePay : return {text : "Zaplatená po splatnosti", label:"label-success"};
+      case "paid" : return {text : "Zaplatená", label:"label-success"};
+      case "created" : return {text : "Vystavená", label:"label-info"};
+      case "expired" : return {text : "Expirovaná", label:"label-danger"};
+      case "canceled" : return {text : "Stornovaná", label:"label-default"};
+      case "latePay" : return {text : "Zaplatená po splatnosti", label:"label-success"};
+
+      default: return {text:"Undefined: " + status, label:"label-danger"};
   }
 }

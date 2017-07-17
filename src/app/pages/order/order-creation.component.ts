@@ -146,10 +146,10 @@ export class OrderCreationComponent implements OnInit {
         let disabledEmpty = {value: '', disabled: false};
         this.invoiceForm = this.fb.group({
 
-            'description': ['simple desc', Validators.required],
-            'assignedTo': [this.loggedUserService.getLoggedInUser().getName(), Validators.required],
-            'name': ['name', Validators.required],
-            'createdBy': [this.loggedUserService.getLoggedInUser().getName(), Validators.required],
+            'text': ['simple desc', Validators.required],
+            'assignedTo': [{value:this.loggedUserService.getLoggedInUser().getName(),disabled:true}, Validators.required],
+            'name': [{value:'name',disabled:true}, Validators.required],
+            'createdBy': [{value:this.loggedUserService.getLoggedInUser().getName(),disabled:true}, Validators.required],
             // 'status': [InvoiceStatus.created, Validators.required],
             'invoice': this.fb.group({
                 'company': [''],
@@ -167,7 +167,7 @@ export class OrderCreationComponent implements OnInit {
                     'iban': [disabledEmpty],
                     'swift': [disabledEmpty]
                 }),
-                "invoiceNumber": [this.invoiceSrv.generateInvoiceId(), Validators.required],
+                "invoiceNumber": [{value:this.invoiceSrv.generateInvoiceId()}, Validators.required],
                 'customer': this.fb.group({
                     'ico': [],
                     'dic': [],
@@ -301,9 +301,12 @@ export class OrderCreationComponent implements OnInit {
 
     onSubmit({value}: { value: Order }) {
 
-        value.created = new Date();
-        value.createdBy = this.loggedUserService.getLoggedInUser();
-        value.created = new Date();
+        // value.created = new Date();
+        // value.createdBy = this.loggedUserService.getLoggedInUser();
+        // value.created = new Date();
+
+        console.log("value:");
+        console.log(value);
 
         this.activeOrder = value;
 
@@ -319,12 +322,33 @@ export class OrderCreationComponent implements OnInit {
         console.log(order);
         if(order !== null) {
             console.log("saving order");
+            console.log(order);
+
+            let invoice = order.invoice;
+
+            delete order.invoice;
+
+            // there is no data about the main contact in the form yet
+            order.mainContact = invoice.customer.mainContact;
             this.orderSrv.createOrder(order).subscribe(
                 result => {
-                    order.invoice = result;
-                    this.createEmitter.next(order);
-                    this.invoiceForm.reset();
-                    this.notificationSrv.success("Nova objednávka bola vytvorena", "Objednávka");
+
+                    invoice.order = result.id;
+                    this.notificationSrv.success("Nova objednavka bola vytvorena", "Objednavka");
+
+                    this.invoiceSrv.createInvoice(invoice).subscribe(
+                        result=>{
+                            this.createEmitter.next(order);
+                            this.invoiceForm.reset();
+                            this.notificationSrv.success("Nova faktura bola vytvorena", "Faktura");
+                        },
+                        error=>{
+                            this.notificationSrv.error("Nova faktura nebola vytvorena", "Faktura");
+                            console.log(error);
+                        }
+                    )
+                    //order.invoice = result;
+
                 },
                 error => {
                     if (error.status === 401) {

@@ -10,6 +10,8 @@ import {Customer} from "../pages/users/user.model";
 import {Invoice} from "../pages/invoice/invoice.model";
 import {Contact} from "../models/contact.model";
 import {ReplaySubject} from "rxjs/ReplaySubject";
+import {Order} from "../pages/order/order.model";
+import {CompanyPermissions} from "../models/company-permisions.model";
 
 @Injectable()
 export class RestService {
@@ -64,10 +66,6 @@ export class RestService {
         this.headers = new Headers();
         this.headers.append("Authorization", "Bearer " + this.accessToken);
 
-        console.log("token:");
-        console.log(this.headers);
-        console.log("token: " + this.accessToken);
-        console.log("getting user for url: " + this.config.server + this.config.userApi);
         return this.http.get(this.config.server + this.config.userApi, {headers: this.headers})
             .map((response) =>
                     response.json(),
@@ -76,6 +74,66 @@ export class RestService {
             );
     }
 
+    // ACTIONS
+    public payInvoice(invoice: Invoice): Observable<Invoice> {
+        console.log("trying to change state of invoice to payed");
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/pay",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public cancelInvoice(invoice: Invoice): Observable<Invoice> {
+        console.log(this.headers);
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/cancel",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public generatePdfOfInvoice(invoice: Invoice): Observable<Invoice> {
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/generate-pdf",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public sendEmailForInvoice(invoice: Invoice): Observable<Invoice> {
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/send-email",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+    // END OF ACTIONS
+    public getCompanyPermissions(companyId) : Observable<CompanyPermissions>{
+        return this.http.get(this.config.server + "api/invoices/"+companyId+"/action", {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getEmails(){
+        return this.http.get(this.config.server + "api/email/text", {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
     /*Companies API*/
     public getCompanies(): Observable<Company[]> {
         return this.http.get(this.config.server + this.config.companiesApi, {headers: this.headers})
@@ -124,7 +182,7 @@ export class RestService {
             );
     }
 
-    public getInvoices() : Observable<Invoice[]>{
+    public getInvoices() : Observable<Invoice[]> {
         return this.http.get(this.config.server + this.config.invoicesApi, {headers: this.headers})
             .map((response) =>
                     response.json(),
@@ -141,21 +199,30 @@ export class RestService {
                     console.log("an error was thrown")
             );
     }
-    public addInvoice(invoice : Invoice) : Observable<Invoice>{
-        // if (!invoice.customerContact.id) {
-        //     //If the user doesnt exist, create him!
-        //     console.log("creating new user");
-        //     this.createCustomer(invoice.customer).subscribe(
-        //         client => {
-        //             console.log("customer was created: ");
-        //             console.log(client);
-        //             invoice.customerContact = client;
-        //         }
-        //     )
-        // }
 
-        console.log("creating invoice");
-        // invoice.invoicePath = "public/assets/invoices/invoice1.pdf";
+    public getOrders(): Observable<Order[]> {
+        return this.http.get(this.config.server + this.config.ordersApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public createOrder(order : Order){
+        console.log("trying to create an order:");
+        console.log(order);
+        return this.http.post(this.config.server + this.config.ordersApi, order, {headers: this.headers})
+            .map((response) =>
+                    <Order>response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+
+    public addInvoice(invoice : Invoice) : Observable<Invoice>{
+
 
         console.log("trying to save:");
         console.log(invoice);
@@ -233,8 +300,8 @@ export class RestService {
 
 
     // REST functions
-    public getAll(): Observable<any[]> {
-        return this.http.get(this.getActionUrl())
+    public getAll(link : string): Observable<any[]> {
+        return this.http.get(this.config.server + link,{headers: this.headers})
             .map((response: Response) => {
                 // getting an array having the same name as the model
                 let data = response.json()[this.modelName];

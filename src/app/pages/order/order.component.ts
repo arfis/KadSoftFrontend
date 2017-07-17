@@ -10,6 +10,9 @@ import {InvoiceService} from "../invoice/invoice.service";
 import {InvoiceCreation} from "../invoice/invoice-create.component";
 import {getTranslation, InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
+import {Observable} from "rxjs/Observable";
+import {Invoice} from "../invoice/invoice.model";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 
 @Component({
     selector: 'order',
@@ -19,16 +22,21 @@ import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 export class OrderComponent extends SortableTable<Order> implements OnChanges,OnInit, OnDestroy {
 
     public date: Date = new Date();
-    public orders : Order[] = null;
+    public orders : Order[] = new Array();
     public isFormCollapsed = true;
 
 
     public maxSize:number = 10;
-    public bigTotalItems:number = 175;
+    public bigTotalItems:number = 0;
     public bigCurrentPage:number = 1;
     public numPages:number = 0;
 
     public currentPage : number = 1;
+
+    public showModal = false;
+    public activeInvoices : Invoice[];
+
+    public invoiceTypes = ["Zálohová faktúra","Ostrá faktúra","Posledná faktúra"];
 
     @Input()
     filteredOrders : Order[];
@@ -38,23 +46,46 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
         private breadServ: BreadcrumbService,
         private invoiceServ : InvoiceService,
         private orderServ : OrderService,
-        public router: Router
+        public router: Router,
+        private loadingBar : SlimLoadingBarService
     ) {
         super();
-        if(!this.filteredOrders) {
 
-            orderServ.getOrders().subscribe(
+        this.setOrders(this.orderServ.getCachedOrders());
+
+        if (!this.filteredOrders) {
+            this.loadingBar.start(()=>{
+                console.log("complete");
+            });
+            Observable.forkJoin(orderServ.getOrders(),this.invoiceServ.getInvoices()).subscribe(
                 result => {
-                    this.totalRecords = result;
-                    this.bigTotalItems = result.length;
+                    this.setOrders(result[0]);
+                    this.orderServ.setOrders(result[0]);
+                    this.invoiceServ.setInvoices(result[1]);
+                    this.getFirstRecords();
+                },
+                error =>{
+                    console.log(error);
+                },
+                () =>{
+                    this.loadingBar.complete();
                 }
             );
         }
-        else{
+        else {
             this.totalRecords = this.filteredOrders;
             this.bigTotalItems = this.filteredOrders.length;
         }
 
+    }
+
+    public setActiveOrderForModal(order : Order){
+        this.activeInvoices = order.invoices;
+    }
+
+    public setOrders(orders : Order[]){
+        this.totalRecords = orders;
+        this.bigTotalItems = orders.length;
         this.getFirstRecords();
     }
 
@@ -97,6 +128,8 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
     }
 
     public updateOrderList(order : Order){
+        console.log("Created order: ");
+        console.log(order);
         this.isFormCollapsed = false;
     }
 

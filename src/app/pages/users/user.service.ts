@@ -17,7 +17,7 @@ export class CustomerService{
 
     }
 
-    getCustomers() : Observable<Customer[]>{
+    getCustomers() : Observable<any>{
         return this.restServ.getCustomers();
     }
 

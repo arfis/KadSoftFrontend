@@ -11,26 +11,25 @@
         <th style="width: 10px">#</th>
         <th class="sortable" (click)="orderBy('invoiceNumber')">Číslo</th>
         <th class="sortable" (click)="orderBy('createdBy')">Zadal</th>
-        <th class="sortable" (click)="orderBy('status')">Stav</th>
         <th class="sortable" (click)="orderBy('client','surname')">Klient</th>
         <th class="sortable" (click)="orderBy('totalPrice')">Suma</th>
+        <th>Pocet poloziek</th>
+        <th>Zobraz</th>
         <th>Stiahnuť</th>
     </tr>
 
     <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">
         <td>{{invoice.id}}</td>
         <td>{{invoice.invoiceNumber}}</td>
-        <td><a>{{invoice.createdBy}}</a></td>
-        <td>
-			<span class="label" [ngClass]="getStatusMessage(invoice.status).label">
-			{{ getStatusMessage(invoice?.status).text }}
-			</span>
-        </td>
+        <td><a>{{invoice.company.name}}</a></td>
+
         <td><a [routerLink]="[ '/user/', invoice.customer.id ]">
             {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}{{invoice.customer.id}}</a>
         </td>
-        <td>{{invoice.totalPrice}}</td>
-        <td><a [href]="invoice.invoicePath">Download</a></td>
+        <td>{{invoice.totalPrice | currency:'eur':true}}</td>
+        <td>{{invoice?.invoiceItems?.length}}</td>
+        <td><a [href]="getHtmlLink(invoice)" target="_blank">Zobraz HTML</a></td>
+        <td><a [href]="getPdfLink(invoice)">Download</a></td>
     </tr>
     </tbody>
 </table>

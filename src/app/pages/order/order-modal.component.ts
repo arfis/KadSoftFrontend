@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import {Order} from "./order.model";
 import {ModalDirective} from "ng2-bootstrap";
+import {RestService} from "../../services/rest.service";
 
 @Component({
     selector: 'order-modal',
@@ -26,7 +27,7 @@ import {ModalDirective} from "ng2-bootstrap";
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu animated-dropdown-menu">
                                     <li *ngFor="let template of templates">
-                                        <a (click)="selectTemplate(template)">{{template}}</a>
+                                        <a (click)="selectTemplate(template.text)">{{template.text}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -62,8 +63,8 @@ export class OrderModal implements OnInit, OnChanges {
     proceedRequest = new EventEmitter<Order>();
 
     private isModalShown: boolean = false;
-    private templates: String[] = ["Dakujeme za zkupenie produktu", "Nedakujeme za zakupenie produktu"];
-    private selectedMailTemplate = this.templates[0];
+    private templates: string[] = ["Dakujeme za zkupenie produktu", "Nedakujeme za zakupenie produktu"];
+    private selectedMailTemplate : string = this.templates[0];
 
     @ViewChild('staticModal') public autoShownModal: ModalDirective;
 
@@ -85,12 +86,18 @@ export class OrderModal implements OnInit, OnChanges {
 
     }
 
-    constructor() {
-
+    constructor(private restSrv : RestService) {
+        this.restSrv.getEmails().subscribe(
+            emails => {
+                this.templates = emails;
+            }
+        );
     }
 
     returnOrderToParent(staticModal, mailText) {
         //this.order.invoice.emailText = mailText;
+        this.order.invoice.emailText = this.selectedMailTemplate;
+
         if (mailText == null) {
             this.proceedRequest.next(null);
         }

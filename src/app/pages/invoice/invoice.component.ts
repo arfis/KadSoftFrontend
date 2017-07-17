@@ -52,14 +52,17 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
             console.log("complete");
         });
 
+        this.totalRecords = this.invoiceServ.getCachedInvoices();
+        this.setActiveRecords();
+
         //loading all invoices and all customers, so the customers are cached
         Observable.forkJoin(this.invoiceServ.getInvoices(),this.customerServ.getCustomers()).subscribe(
             result=>{
+                // result[0] = result[0].json();
                 this.totalRecords = result[0];
-                this.invoices = result[0].slice(0, this.maxSize);
-                this.bigTotalItems = this.totalRecords.length;
                 this.invoiceServ.setInvoices(this.totalRecords);
                 this.customerServ.setCustomers(result[1]);
+                this.setActiveRecords();
 
                 this.loadingBar.complete();
             }
@@ -82,8 +85,24 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
 
     setActiveRecords(){
 
+        this.bigTotalItems = this.totalRecords.length;
         let startingIndex = ((this.currentPage) * this.maxSize);
         this.invoices = this.totalRecords.slice(startingIndex, startingIndex+this.maxSize);
+
+        for (let invoice of this.invoices){
+            invoice.totalPrice = 0;
+            for (let product of invoice.invoiceItems) {
+                invoice.totalPrice += ( product.price * product.count);
+            }
+        }
+    }
+
+    getHtmlLink(invoice : Invoice){
+        return this.invoiceServ.generateHtmlLink(invoice);
+    }
+
+    getPdfLink(invoice : Invoice){
+        return this.invoiceServ.generatePdfLink(invoice);
     }
 
     redirect(invoice: Invoice) {
@@ -107,7 +126,7 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
 
     getStatusMessage(status) {
 
-        if(!status) status = InvoiceStatus.created;
+        if(!status) status = "created";
         return getTranslation(status);
     }
 }

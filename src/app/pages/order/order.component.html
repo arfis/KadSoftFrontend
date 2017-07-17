@@ -1,3 +1,24 @@
+<ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
+
+<div [config]="{ show: false }" class="modal fade" bsModal
+     #staticModal="bs-modal"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Faktury</h4>
+
+                <div class="modal-body">
+                    <div *ngFor="let invoice of activeInvoices; let i = index">
+                        <a [routerLink]="[ '/invoice/'+invoice.id ]">
+                            <i>{{invoiceTypes[i]}}</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <ng-container *ngIf="!filteredOrders">
     <button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú objednávku</button>
 
@@ -15,30 +36,44 @@
         <th>Popis</th>
         <th class="sortable" (click)="orderBy('invoice','status')">Stav</th>
         <th>Klient</th>
-        <th>Faktura</th>
+        <th>Faktúry</th>
         <th class="sortable" (click)="orderBy('invoice','totalPrice')">Cena</th>
         <th>Priradené</th>
         <th>Stiahnuť</th>
     </tr>
 
     <tr *ngFor="let order of orders">
-        <td>{{order.id}}</td>
-        <td><a [routerLink]="[ '/user/', order.createdBy.id ]">{{order.createdBy.getName()}}</a></td>
-        <!--//TODO: resolver and make a user type in the invoice -->
-        <td>{{order.description}}</td>
+        <td>{{order?.id}}</td>
+        <td><a [routerLink]="[ '/user/' ]">{{order?.createdBy?.getName()}}</a></td>
+        <!--// TODO: resolver and make a user type in the invoice -->
+        <td>{{order?.text}}</td>
         <td>
-			<span class="label" [ngClass]="getStatusMessage(order.invoice.status).label">
-			{{getStatusMessage(order.invoice.status).text}}
-			</span>
+            <ng-container *ngIf="order.invoices.length > 0">
+                <span class="label" [ngClass]="getStatusMessage(order?.invoices[0]?.status).label">
+                {{getStatusMessage(order?.invoices[0]?.status).text}}
+                </span>
+            </ng-container>
         </td>
-        <td><a [routerLink]="[ '/user/', order.invoice.customer.id ]">
-            {{order.invoice.customer.mainContact.name}}
-            {{order.invoice.customer.mainContact.surname}}
-        {{order.invoice.customer.id}}</a></td>
-        <td><a [routerLink]="[ '/invoice/', order.invoice.id ]">Invoice</a></td>
-        <td>{{order.invoice.totalPrice}}</td>
-        <td>{{order.assignedTo}}</td>
-        <td><a [href]="order.invoice.invoicePath">Download</a></td>
+        <td>
+            <ng-container *ngIf="order.invoices.length > 0">
+                <a [routerLink]="[ '/user/' ]">
+                    {{order?.mainContact?.name}}
+                    {{order?.mainContact?.surname}}
+                </a>
+            </ng-container>
+        </td>
+        <td>
+            <ng-container *ngIf="order.invoices.length > 0">
+                <a (click)="setActiveOrderForModal(order);staticModal.show()">Zobraz</a>
+            </ng-container>
+        </td>
+        <td>
+            <ng-container *ngIf="order.invoices.length > 0">
+                {{order?.invoices[0]?.totalPrice}}
+            </ng-container>
+        </td>
+        <td>{{order?.assignedTo}}</td>
+        <td><a [href]="order?.invoices?.invoicePath">Download</a></td>
     </tr>
     </tbody>
 </table>

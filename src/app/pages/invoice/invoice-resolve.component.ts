@@ -12,6 +12,9 @@ import {InvoiceService} from "./invoice.service";
 export class InvoiceResolve implements Resolve<Invoice> {
 
     constructor(private invoiceSrv: InvoiceService) {
+        this.invoiceSrv.getInvoices().subscribe(result=>{
+            this.invoiceSrv.setInvoices(result);
+        });
     }
 
     resolve(route: ActivatedRouteSnapshot) {
@@ -23,6 +26,8 @@ export class InvoiceResolve implements Resolve<Invoice> {
         if (!invoiceId)
             return null;
 
-        return this.invoiceSrv.getInvoice(invoiceId);
+        let invoice = this.invoiceSrv.getInvoice(invoiceId);
+
+        return invoice;
     }
 }
