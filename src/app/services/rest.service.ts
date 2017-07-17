@@ -1,18 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, Response, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { Configuration } from '../app.constants';
+import {Observable} from 'rxjs/Observable';
+import {Configuration} from '../app.constants';
 import {LoginUser} from "../pages/login/login-user.model";
 import {LoginResponse} from "../models/login-response.model";
 import {Company} from "../models/company-model";
 import {Customer} from "../pages/users/user.model";
+import {Invoice} from "../pages/invoice/invoice.model";
+import {Contact} from "../models/contact.model";
+import {ReplaySubject} from "rxjs/ReplaySubject";
+import {Order} from "../pages/order/order.model";
+import {CompanyPermissions} from "../models/company-permisions.model";
 
 @Injectable()
 export class RestService {
+    public currentInvoices: ReplaySubject<Invoice[]> = new ReplaySubject<Invoice[]>();
+
     public modelName: string;
     private headers: Headers;
-    private accessToken : string;
+    private accessToken: string;
 
     // cache data
     public lastGetAll: Array<any>;
@@ -38,7 +45,7 @@ export class RestService {
             password: password
         };
 
-        return this.http.post(this.config.server+this.config.authUrl, data).map(
+        return this.http.post(this.config.server + this.config.authUrl, data).map(
             response =>
                 response.json(),
             error =>
@@ -47,7 +54,7 @@ export class RestService {
 
     }
 
-    public setAccessToken( accessToken: string ) {
+    public setAccessToken(accessToken: string) {
         localStorage.setItem('accessToken', accessToken);
         console.log("set accessToken " + accessToken);
         this.accessToken = accessToken;
@@ -59,11 +66,30 @@ export class RestService {
         this.headers = new Headers();
         this.headers.append("Authorization", "Bearer " + this.accessToken);
 
-        console.log("token:");
+        return this.http.get(this.config.server + this.config.userApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    // ACTIONS
+    public payInvoice(invoice: Invoice): Observable<Invoice> {
+        console.log("trying to change state of invoice to payed");
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/pay",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public cancelInvoice(invoice: Invoice): Observable<Invoice> {
         console.log(this.headers);
-        console.log("token: " + this.accessToken);
-        console.log("getting user for url: " + this.config.server+this.config.userApi);
-        return this.http.get(this.config.server+this.config.userApi, {headers: this.headers})
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/cancel",
+            null,{headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
@@ -71,8 +97,46 @@ export class RestService {
             );
     }
 
+    public generatePdfOfInvoice(invoice: Invoice): Observable<Invoice> {
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/generate-pdf",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public sendEmailForInvoice(invoice: Invoice): Observable<Invoice> {
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/send-email",
+            null,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+    // END OF ACTIONS
+    public getCompanyPermissions(companyId) : Observable<CompanyPermissions>{
+        return this.http.get(this.config.server + "api/invoices/"+companyId+"/action", {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getEmails(){
+        return this.http.get(this.config.server + "api/email/text", {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+    /*Companies API*/
     public getCompanies(): Observable<Company[]> {
-        return this.http.get(this.config.server+this.config.companiesApi, {headers: this.headers})
+        return this.http.get(this.config.server + this.config.companiesApi, {headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
@@ -81,8 +145,8 @@ export class RestService {
     }
 
 
-    public updateCompany(company : Company) : Observable<Company>{
-        return this.http.put(this.config.server+this.config.companiesApi, company, {headers: this.headers})
+    public updateCompany(company: Company): Observable<Company> {
+        return this.http.put(this.config.server + this.config.companiesApi, company, {headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
@@ -90,8 +154,9 @@ export class RestService {
             );
     }
 
-    public addComapny(company : Company) : Observable<Company>{
-        return this.http.post(this.config.server+this.config.companiesApi, company, {headers: this.headers})
+
+    public addComapny(company: Company): Observable<Company> {
+        return this.http.post(this.config.server + this.config.companiesApi, company, {headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
@@ -99,8 +164,8 @@ export class RestService {
             );
     }
 
-    public removeCompany(companyId : number){
-        return this.http.delete(this.config.server+this.config.companiesApi+"/"+companyId, {headers: this.headers})
+    public removeCompany(companyId: number) {
+        return this.http.delete(this.config.server + this.config.companiesApi + "/" + companyId, {headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
@@ -108,31 +173,85 @@ export class RestService {
             );
     }
 
-    public getCustomerByEmail(email: string){
-        return this.http.get(this.config.server+this.config.customerApi+"/"+email, {headers: this.headers})
+    /*Invoice API*/
+    public getNextInvoiceNumber(companyId: number) {
+        return this.http.get(this.config.server + "api/nexts/" + companyId + "/invoice/number", {headers: this.headers})
+            .map(
+                response => response.json(),
+                error => error.json()
+            );
+    }
+
+    public getInvoices() : Observable<Invoice[]> {
+        return this.http.get(this.config.server + this.config.invoicesApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getInvoiceById(invoiceId : number) : Observable<Invoice>{
+        return this.http.put(this.config.server + this.config.invoicesApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getOrders(): Observable<Order[]> {
+        return this.http.get(this.config.server + this.config.ordersApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public createOrder(order : Order){
+        console.log("trying to create an order:");
+        console.log(order);
+        return this.http.post(this.config.server + this.config.ordersApi, order, {headers: this.headers})
+            .map((response) =>
+                    <Order>response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+
+    public addInvoice(invoice : Invoice) : Observable<Invoice>{
+
+
+        console.log("trying to save:");
+        console.log(invoice);
+        return this.http.post(this.config.server + this.config.invoicesApi, invoice, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    public getCustomers(): Observable<Customer[]> {
+        return this.http.get(this.config.server + this.config.customerApi, {headers: this.headers})
             .map(
                 response => response.text() ? response.json() : {},
                 error => console.log("error: " + error));
     }
 
-
-    public getCustomers() : Observable<Customer[]>{
-        return this.http.get(this.config.server+this.config.customerApi, {headers: this.headers})
-            .map(
-                response => response.text() ? response.json() : {},
-                error => console.log("error: " + error));
-    }
-
-    public removeCustomer(customerId : number){
-        return this.http.delete(this.config.server+this.config.customerApi+"/"+customerId, {headers: this.headers})
+    public removeCustomer(customerId: number) {
+        return this.http.delete(this.config.server + this.config.customerApi + "/" + customerId, {headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
                     console.log("an error was thrown")
             );
     }
-    public setCustomerInformation(customerId:number, information:string){
-        return this.http.put(this.config.server+this.config.customerApi+"/"+customerId, information, {headers: this.headers})
+
+    public setCustomerInformation(customerId: number, information: string) {
+        return this.http.put(this.config.server + this.config.customerApi + "/" + customerId, information, {headers: this.headers})
             .map((response) =>
                     response.json(),
                 error =>
@@ -141,14 +260,15 @@ export class RestService {
     }
 
     private extractData(res: Response) {
-        return res.text() ? res.json() : {}; ;
+        return res.text() ? res.json() : {};
+        ;
     }
 
-    public createCustomer(customer : Customer){
+    public createCustomer(customer: Customer) {
         console.log("trying to save customer: ");
-        console.log(customer);
 
-        return this.http.post(this.config.server+this.config.customerApi, customer, {headers: this.headers})
+
+        return this.http.post(this.config.server + this.config.customerApi, customer, {headers: this.headers})
             .map(
                 response => response.json(),
                 error => console.log("error: " + error));
@@ -156,51 +276,51 @@ export class RestService {
 
     // HELPERS
     public getAllFromLS(maxtime = 0): Array<any> {
-      let json = localStorage.getItem( 'rest_all_' + this.modelName );
-      if ( json ) {
-        let obj = JSON.parse(json);
-        if ( obj && (obj.date < (Date.now() - maxtime) ) ) {
-          return obj;
+        let json = localStorage.getItem('rest_all_' + this.modelName);
+        if (json) {
+            let obj = JSON.parse(json);
+            if (obj && (obj.date < (Date.now() - maxtime) )) {
+                return obj;
+            }
         }
-      }
     }
 
 
     public getFromCache(id): any {
-      if (this.lastGetAll) {
-        return this.lastGetAll.find((unit) => unit.id === id);
-      } else {
-        return null;
-      }
+        if (this.lastGetAll) {
+            return this.lastGetAll.find((unit) => unit.id === id);
+        } else {
+            return null;
+        }
     }
 
     private getActionUrl() {
-      return this.config.serverWithApiUrl + this.modelName + '/';
+        return this.config.serverWithApiUrl + this.modelName + '/';
     }
 
 
     // REST functions
-    public getAll(): Observable<any[]> {
-        return this.http.get(this.getActionUrl())
+    public getAll(link : string): Observable<any[]> {
+        return this.http.get(this.config.server + link,{headers: this.headers})
             .map((response: Response) => {
-              // getting an array having the same name as the model
-              let data = response.json()[this.modelName];
-              // transforming the array from indexed to associative
-              let tab = data.records.map((elem) => {
-                let unit = {};
-                // using the columns order and number to rebuild the object
-                data.columns.forEach( (champ, index) => {
-                  unit[champ] = elem[index];
+                // getting an array having the same name as the model
+                let data = response.json()[this.modelName];
+                // transforming the array from indexed to associative
+                let tab = data.records.map((elem) => {
+                    let unit = {};
+                    // using the columns order and number to rebuild the object
+                    data.columns.forEach((champ, index) => {
+                        unit[champ] = elem[index];
+                    });
+                    return unit;
                 });
-                return unit;
-              });
-              this.lastGetAll = tab;
-              let obj = {
-                data: tab,
-                date: Date.now()
-              };
-              localStorage.setItem( 'rest_all_' + this.modelName, JSON.stringify(obj) );
-              return tab;
+                this.lastGetAll = tab;
+                let obj = {
+                    data: tab,
+                    date: Date.now()
+                };
+                localStorage.setItem('rest_all_' + this.modelName, JSON.stringify(obj));
+                return tab;
             })
             .catch(this.handleError);
     }
@@ -208,9 +328,9 @@ export class RestService {
     public get(id: number): Observable<any> {
         return this.http.get(this.getActionUrl() + id)
             .map((response: Response) => {
-              let data = response.json();
-              this.lastGet = data;
-              return data;
+                let data = response.json();
+                this.lastGet = data;
+                return data;
             })
             .catch(this.handleError);
     }
@@ -218,21 +338,21 @@ export class RestService {
     public add(item: any): Observable<number> {
         let toAdd = JSON.stringify(item);
 
-        return this.http.post(this.getActionUrl(), toAdd, { headers: this.headers })
+        return this.http.post(this.getActionUrl(), toAdd, {headers: this.headers})
             .map((response: Response) => response.json())
             .catch(this.handleError);
     }
 
     public addAll(tab: Array<any>): Observable<Array<number>> {
-      let toAdd = JSON.stringify(tab);
+        let toAdd = JSON.stringify(tab);
 
-      return this.http.post(this.getActionUrl(), toAdd, { headers: this.headers })
-          .map((response: Response) => response.json())
-          .catch(this.handleError);
+        return this.http.post(this.getActionUrl(), toAdd, {headers: this.headers})
+            .map((response: Response) => response.json())
+            .catch(this.handleError);
     }
 
     public update(id: number, itemToUpdate: any): Observable<number> {
-        return this.http.put(this.getActionUrl() + id, JSON.stringify(itemToUpdate), { headers: this.headers })
+        return this.http.put(this.getActionUrl() + id, JSON.stringify(itemToUpdate), {headers: this.headers})
             .map((response: Response) => response.json())
             .catch(this.handleError);
     }

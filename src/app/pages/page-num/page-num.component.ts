@@ -51,7 +51,7 @@ export class PageNumComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.customerServ.getUsers().subscribe(
+    this.customerServ.getCustomers().subscribe(
         customers => { this.customers = customers }
     )
   }
@@ -62,13 +62,13 @@ export class PageNumComponent implements OnInit, OnDestroy {
     this.customerServ.removeCustomer(customer.id).subscribe(
         result => {
           this.customers.splice(this.customers.indexOf(customer),1);
-          this.notificationServ.success("Customer " + customer.name + " was removed","Customer");
+          this.notificationServ.success("Customer " + customer.mainContact.name + " was removed","Customer");
         },
         error => {
           if (error.status === 401){
             this.userServ.logout();
           }
-          this.notificationServ.error("Customer " + customer.name + " was not removed","Customer");
+          this.notificationServ.error("Customer " + customer.mainContact.name + " was not removed","Customer");
         }
     )
   }

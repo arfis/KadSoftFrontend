@@ -9,15 +9,16 @@ import {Company} from "../../../models/company-model";
 import {Observable} from "rxjs/Observable";
 import {NotificationService} from "../../../services/notification.service";
 import {RestService} from "../../../services/rest.service";
+import {Customer} from "../../users/user.model";
 
 @Component({
-    selector: 'company',
-    styleUrls: ['./company.component.css'],
-    templateUrl: './company.component.html'
+    selector: 'customer',
+    styleUrls: ['./customer.component.css'],
+    templateUrl: './customer.component.html'
 })
-export class CompanyComponent implements OnInit,OnDestroy {
+export class CustomerComponent implements OnInit,OnDestroy {
 
-    companies : Company[];
+    customers : Customer[];
 
     constructor(
         private configurationServ : ConfigurationService,
@@ -31,16 +32,17 @@ export class CompanyComponent implements OnInit,OnDestroy {
     }
 
     public ngOnInit(){
-        this.restServ.getCompanies().subscribe(
-            companies => {
-                this.companies = companies;
-                console.log(this.companies);
+        this.restServ.getCustomers().subscribe(
+            customers => {
+                this.customers = customers;
+                console.log("customers");
+                console.log(this.customers);
             }
         );
     }
 
-    public onAdd(company : Company){
-        this.companies.push(company);
+    public onAdd(customer : Customer){
+        this.customers.push(customer);
     }
 
     public ngOnDestroy() {
@@ -48,11 +50,11 @@ export class CompanyComponent implements OnInit,OnDestroy {
         console.log("destroying the component");
     }
 
-    public removeCompany(company : Company){
-        this.restServ.removeCompany(company.id).subscribe(
+    public removeCompany(customer : Customer){
+        this.restServ.removeCompany(customer.id).subscribe(
             result => {
-                this.notificationServ.success("Company " + company.name + " was removed");
-                this.companies.splice(this.companies.indexOf(company),1);
+                this.notificationServ.success("Company " + customer.mainContact.name + " was removed");
+                this.customers.splice(this.customers.indexOf(customer),1);
             }
         );
     }

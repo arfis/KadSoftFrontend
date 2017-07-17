@@ -20,7 +20,7 @@ export class ConfigurationService {
     // public getComapnies(): Observable<Company[]> {
 
 
-        // if (this.companies.length < 1) {
+        // if (this.customer.length < 1) {
         //     let company1 = new Company();
         //     let company2 = new Company();
         //
@@ -42,12 +42,12 @@ export class ConfigurationService {
         //     company2.SWIFT = "FIOZSKBAXXX";
         //     company2.accountNumber = "1231213219/3213";
         //
-        //     this.companies.push(company1);
-        //     this.companies.push(company2);
+        //     this.customer.push(company1);
+        //     this.customer.push(company2);
         // }
         //
-        // this.setCurrentCompany(this.companies[0]);
-        // return Observable.of(this.companies);
+        // this.setCurrentCompany(this.customer[0]);
+        // return Observable.of(this.customer);
     // }
 
     public setCurrentCompany(company: Company) {

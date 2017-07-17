@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 canActivate: [CanActivateGuard],
-                path: 'invoice/:invoiceId',
+                path: 'invoice/:invoiceNumber',
                 component: InvoiceDetailComponent,
                 resolve: {
                     invoice: InvoiceResolve

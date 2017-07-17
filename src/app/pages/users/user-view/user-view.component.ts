@@ -34,6 +34,7 @@ export class UserViewComponent implements OnInit {
 
             this.userInformation = data['userInformation'];
 
+            console.log("customer:");
             console.log(this.userInformation);
             this.loadUserOrders();
         });

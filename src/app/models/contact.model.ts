@@ -12,7 +12,7 @@ export class Contact extends RecordObject
     telephone: string;
     email : string;
     country : string;
-    iban : string;
-    accountNumber: string;
-    swift: string;
+    iban? : string;
+    accountNumber? : string;
+    swift? : string;
 }

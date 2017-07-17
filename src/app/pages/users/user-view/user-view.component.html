@@ -1,20 +1,21 @@
 <div>
-    <h4>{{userInformation.name}} {{userInformation.surname}}</h4>
+    <h4>{{userInformation.mainContact.name}} {{userInformation.mainContact.surname}}</h4>
     <div class="row">
         <div class="col-lg-4">
-            Meno: <i>{{userInformation.name}}</i>
+            Meno: <i>{{userInformation.mainContact.name}}</i>
         </div>
         <div class="col-lg-4">
-            Priezvisko: <i>{{userInformation.surname}}</i>
+            Priezvisko: <i>{{userInformation.mainContact.surname}}</i>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-4">
-            Email: <i><a [href]="'mailto:'+ userInformation.email">{{userInformation.email}}</a></i>
+            Email: <i><a [href]="'mailto:'+ userInformation.mainContact.email">
+            {{userInformation.mainContact.email}}</a></i>
         </div>
         <div class="col-lg-4">
-            Telefón: <i>{{userInformation.phone}}</i>
+            Telefón: <i>{{userInformation.mainContact.telephone}}</i>
         </div>
     </div>
 

@@ -2,7 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
+import {Http, HttpModule} from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AlertModule, CollapseModule, DatepickerModule, TabsModule} from 'ng2-bootstrap';
 import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
@@ -34,7 +34,8 @@ let modules = [
     ToasterModule,
     InvoiceModule,
     OrderModule,
-    AdministrationModule
+    AdministrationModule,
+    SlimLoadingBarModule.forRoot()
 ];
 
 import { AppComponent } from './app.component';
@@ -82,7 +83,8 @@ let services = [
     UserResolve,
     InvoiceResolve,
     RestService,
-    Configuration
+    Configuration,
+    SlimLoadingBarService
 ];
 
 // les pages
@@ -120,6 +122,8 @@ import {RestService} from "./services/rest.service";
 import {Configuration} from "./app.constants";
 import {AdministrationComponent} from "./pages/administration/administration.component";
 import {AdministrationModule} from "./pages/administration/administration.module";
+import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
+import {HttpCacheModule} from "ng-http-cache";
 
 @NgModule( {
     bootstrap: [AppComponent],

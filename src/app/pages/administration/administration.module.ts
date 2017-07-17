@@ -13,6 +13,8 @@ import {CompanyComponent} from "./companies/company.component";
 import {AdministrationComponent} from "./administration.component";
 import {NotificationService} from "../../services/notification.service";
 import {CompanyCreation} from "./companies/company-create.component";
+import {CustomerComponent} from "./customer/customer.component";
+import {CustomerCreation} from "./customer/customer-create.component";
 
 
 @NgModule({
@@ -29,7 +31,9 @@ import {CompanyCreation} from "./companies/company-create.component";
     declarations: [
         CompanyComponent,
         AdministrationComponent,
-        CompanyCreation
+        CompanyCreation,
+        CustomerComponent,
+        CustomerCreation
     ],
     providers: [
         CustomerService,

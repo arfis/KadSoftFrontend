@@ -17,6 +17,8 @@ export class UserResolve implements Resolve<Customer> {
         if (!userId)
             return null;
 
+        console.log("getting user by id " + userId);
+
         return this.userSrv.getUserById(userId);
     }
 }

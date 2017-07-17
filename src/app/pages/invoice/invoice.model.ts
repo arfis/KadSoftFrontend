@@ -1,22 +1,26 @@
-import {InvoiceStatus} from "./InvoiceStatus.model";
+import {InvoiceStatus} from "./invoiceStatus.model";
 import {Customer} from "../users/user.model";
 import {Company} from "../../models/company-model";
 import {Product} from "../../models/Product";
+import {Contact} from "../../models/contact.model";
 /**
  * Created by a619678 on 22. 5. 2017.
  */
 
 export class Invoice{
     id : number;
-    invoiceId : number;
+    invoiceNumber : number;
     createdBy : string;
+    order : number;
     created : Date;
     company : Company;
-    status : InvoiceStatus;
+    companyContact : Contact;
+    status : string;
     customer : Customer;
-    totalPrice : number;
-    products : Product[];
+    totalPrice : number = 0;
+    invoiceItems : Product[];
     value : number;
     invoicePath : string;
     variableSymbol : number;
+    emailText?: string;
 }

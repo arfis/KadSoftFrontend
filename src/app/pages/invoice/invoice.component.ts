@@ -6,8 +6,12 @@ import {User} from '../../models/user';
 import {InvoiceService} from "./invoice.service";
 import {Invoice} from "./invoice.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {getTranslation} from "./InvoiceStatus.model";
+import {getTranslation, InvoiceStatus} from "./invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
+import {RestService} from "../../services/rest.service";
+import {SlimLoadingBarService} from "ng2-slim-loading-bar";
+import {CustomerService} from "../users/user.service";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'invoice',
@@ -24,7 +28,7 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
     Pagination parameters
      */
     public maxSize:number = 10;
-    public bigTotalItems:number = 175;
+    public bigTotalItems:number = 0;
     public bigCurrentPage:number = 1;
     public numPages:number = 0;
 
@@ -34,23 +38,36 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
                 private invoiceServ: InvoiceService,
-                public router: Router) {
+                private customerServ : CustomerService,
+                public router: Router,
+                private loadingBar : SlimLoadingBarService) {
         // TODO
         super();
     }
 
 
-    public ngOnInit() {
+    public ngOnInit(){
         // setttings the header for the home
+        this.loadingBar.start(()=>{
+            console.log("complete");
+        });
 
-        this.invoiceServ.getInvoices().subscribe(
-            result => {
-                this.totalRecords = result;
-                console.log(this.totalRecords);
-                this.invoices = result.slice(0, this.maxSize);
-                this.bigTotalItems = this.totalRecords.length;
+        this.totalRecords = this.invoiceServ.getCachedInvoices();
+        this.setActiveRecords();
+
+        //loading all invoices and all customers, so the customers are cached
+        Observable.forkJoin(this.invoiceServ.getInvoices(),this.customerServ.getCustomers()).subscribe(
+            result=>{
+                // result[0] = result[0].json();
+                this.totalRecords = result[0];
+                this.invoiceServ.setInvoices(this.totalRecords);
+                this.customerServ.setCustomers(result[1]);
+                this.setActiveRecords();
+
+                this.loadingBar.complete();
             }
-        );
+        )
+
         this.breadServ.set({
             description: 'Invoices',
             display: true,
@@ -68,8 +85,24 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
 
     setActiveRecords(){
 
+        this.bigTotalItems = this.totalRecords.length;
         let startingIndex = ((this.currentPage) * this.maxSize);
         this.invoices = this.totalRecords.slice(startingIndex, startingIndex+this.maxSize);
+
+        for (let invoice of this.invoices){
+            invoice.totalPrice = 0;
+            for (let product of invoice.invoiceItems) {
+                invoice.totalPrice += ( product.price * product.count);
+            }
+        }
+    }
+
+    getHtmlLink(invoice : Invoice){
+        return this.invoiceServ.generateHtmlLink(invoice);
+    }
+
+    getPdfLink(invoice : Invoice){
+        return this.invoiceServ.generatePdfLink(invoice);
     }
 
     redirect(invoice: Invoice) {
@@ -93,6 +126,7 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
 
     getStatusMessage(status) {
 
+        if(!status) status = "created";
         return getTranslation(status);
     }
 }

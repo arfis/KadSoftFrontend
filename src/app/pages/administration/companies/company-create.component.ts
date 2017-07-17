@@ -44,9 +44,7 @@ export class CompanyCreation implements OnInit {
 
     createForm() {
         this.invoiceForm = this.fb.group({
-            'name': ['', Validators.required],
-            'ico': ['', Validators.required],
-            'dic': ['', Validators.required],
+            'name' : ['',Validators.required],
             'mainContact': this.fb.group({
                 'name' : ['',Validators.required],
                 'surname' : ['',Validators.required],
@@ -59,7 +57,10 @@ export class CompanyCreation implements OnInit {
                 'city': ['', Validators.required],
                 'iban': ['', Validators.required],
                 'swift': ['', Validators.required]
-            })
+            }),
+            'bankApiToken' : ['', Validators.required],
+            'ico': ['', Validators.required],
+            'dic': ['', Validators.required]
         })
     }
 
@@ -74,6 +75,7 @@ export class CompanyCreation implements OnInit {
 
     onSubmit({value}: { value: Company }) {
 
+        console.log(value);
         this.restServ.addComapny(value).subscribe(
             result => {
                 this.notificationSrv.success( value.name + " firma bola vytvorena", "Firma");
@@ -83,6 +85,7 @@ export class CompanyCreation implements OnInit {
             },
             error => {
                 this.notificationSrv.error("Problem pri vytvarani novej firmy", "Firma");
+                console.log(error);
             }
         )
     }

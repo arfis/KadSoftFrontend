@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Message } from '../../models/message';
 import {InvoiceService} from "../../pages/invoice/invoice.service";
-import {InvoiceStatus} from "../../pages/invoice/InvoiceStatus.model";
+import {InvoiceStatus} from "../../pages/invoice/invoiceStatus.model";
 
 @Component( {
     /* tslint:disable */
@@ -21,7 +21,7 @@ export class TasksBoxComponent implements OnInit {
     constructor(invoiceSrv : InvoiceService) {
         invoiceSrv.getInvoices().subscribe(
             invoices=>{
-                this.expiredInvoices = invoices.filter(invoice => invoice.status == InvoiceStatus.expired);
+                this.expiredInvoices = invoices.filter(invoice => invoice.status == "expired");
             }
         )
         // TODO 

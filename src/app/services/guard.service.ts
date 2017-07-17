@@ -10,6 +10,8 @@ export class CanActivateGuard implements CanActivate {
     constructor(private router: Router,
                 private user: UserService) {
 
+        console.log("in guard");
+        console.log(this.user.getLoggedInUser());
         this.user.setCurrentUser(user.getLoggedInUser());
 
         if (user.getLoggedInUser()) {
@@ -22,6 +24,8 @@ export class CanActivateGuard implements CanActivate {
     }
 
     public canActivate() {
+        console.log("can activate?");
+        console.log(this.router);
         // test here if you user is logged
         if (!this.connected) {
             this.router.navigate(['login']);

@@ -1,0 +1,179 @@
+<form (ngSubmit)="onSubmit(customerForm)" [formGroup]="customerForm">
+
+    <div class="form-group">
+
+
+            <label class="md-check">
+                <input type="radio" [checked]="type == 'person'" (click)="type = 'person'" value="person"
+                       name="type">
+                Fyzická osoba
+            </label>
+
+            <label class="md-check">
+                <input type="radio" [checked]="type == 'company'" (click)="type = 'company'" value="company"
+                       name="type">
+                Firma
+            </label>
+
+
+                <div *ngIf="type == 'company'">
+                    <div class="col-lg-6 form-group">
+                        <label for="ico">ICO:</label>
+                        <input type="text" id="ico" class="form-control" formControlName="ico"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="dic">DIC:</label>
+                        <input type="text" id="dic" class="form-control" formControlName="dic"/>
+                    </div>
+                </div>
+
+                <div formGroupName="mainContact">
+
+                    <h3>Klient</h3>
+                    <div class="col-lg-6 form-group">
+                        <label for="customerName">Meno:</label>
+                        <input type="text" id="customerName" class="form-control" formControlName="name"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerSurname">Priezvisko:</label>
+                        <input type="text" id="customerSurname" class="form-control" formControlName="surname"
+                        />
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerPostcode">Poštové smerovacie číslo:</label>
+                        <input type="text" id="customerPostcode" class="form-control" formControlName="postcode"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerTelephone">Telefón:</label>
+                        <input type="text" id="customerTelephone" class="form-control" formControlName="telephone"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerCountry">Krajina:</label>
+                        <input type="text" id="customerCountry" class="form-control" formControlName="country"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerAccount">Číslo účtu:</label>
+                        <input type="text" id="customerAccount" class="form-control" formControlName="accountNumber"
+                        />
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerIban">IBAN:</label>
+                        <input type="text" id="customerIban" class="form-control" formControlName="iban"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerSwift">SWIFT:</label>
+                        <input type="text" id="customerSwift" class="form-control" formControlName="swift"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerStreet">Ulica:</label>
+                        <input type="text" id="customerStreet" class="form-control" formControlName="street"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerCity">Mesto:</label>
+                        <input type="text" id="customerCity" class="form-control" formControlName="city"/>
+                    </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="customerEmail">Email:</label>
+                        <input type="text" id="customerEmail" class="form-control" formControlName="email" email/>
+                    </div>
+                    <div class="col-lg-6">
+
+                    </div>
+                </div>
+
+                <div class="row">
+
+                </div>
+
+                <ng-container *ngIf="invoiceContact">
+
+                    <div formGroupName="invoiceContact">
+                        <h3>Fakturačné údaje</h3>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerName">Meno:</label>
+                            <input type="text" id="invoice_customerName" class="form-control" formControlName="name"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerSurname">Priezvisko:</label>
+                            <input type="text" id="invoice_customerSurname" class="form-control"
+                                   formControlName="surname"
+                            />
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerPostcode">Poštové smerovacie číslo:</label>
+                            <input type="text" id="invoice_customerPostcode" class="form-control"
+                                   formControlName="postcode"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerTelephone">Telefón:</label>
+                            <input type="text" id="invoice_customerTelephone" class="form-control"
+                                   formControlName="telephone"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerCountry">Krajina:</label>
+                            <input type="text" id="invoice_customerCountry" class="form-control"
+                                   formControlName="country"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerAccount">Číslo účtu:</label>
+                            <input type="text" id="invoice_customerAccount" class="form-control"
+                                   formControlName="accountNumber"
+                            />
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerIban">IBAN:</label>
+                            <input type="text" id="invoice_customerIban" class="form-control" formControlName="iban"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerSwift">SWIFT:</label>
+                            <input type="text" id="invoice_customerSwift" class="form-control" formControlName="swift"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerStreet">Ulica:</label>
+                            <input type="text" id="invoice_customerStreet" class="form-control"
+                                   formControlName="street"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerCity">Mesto:</label>
+                            <input type="text" id="invoice_customerCity" class="form-control" formControlName="city"/>
+                        </div>
+
+                        <div class="col-lg-6 form-group">
+                            <label for="invoice_customerEmail">Email:</label>
+                            <input type="text" id="invoice_customerEmail" class="form-control" formControlName="email"
+                                   email/>
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                    </div>
+                </ng-container>
+
+        <div class="col-lg-12 form-group">
+            <button type="submit" class="full-width btn btn-success" [disabled]="!customerForm.valid">Pridaj klienta
+            </button>
+        </div>
+
+    </div>
+</form>
