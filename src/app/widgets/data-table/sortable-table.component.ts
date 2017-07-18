@@ -6,7 +6,7 @@ export abstract class SortableTable<T>{
     public lastSort;
     public desc;
     public totalRecords : T[];
-    public currentPage : number = 1;
+    public currentPage : number = 0;
 
     abstract setActiveRecords();
 

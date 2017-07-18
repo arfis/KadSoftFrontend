@@ -61,7 +61,6 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
                 result => {
                     this.setOrders(result[0]);
                     this.orderServ.setOrders(result[0]);
-                    this.invoiceServ.setInvoices(result[1]);
                     this.getFirstRecords();
                 },
                 error =>{

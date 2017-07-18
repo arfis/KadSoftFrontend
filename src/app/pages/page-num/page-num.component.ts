@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
-import {CustomerService} from "../users/user.service";
-import {Customer} from "../users/user.model";
+import {CustomerService} from "../customer/user.service";
+import {Customer} from "../customer/user.model";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 

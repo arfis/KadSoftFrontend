@@ -99,6 +99,27 @@ It is registred to the user service (for the current user display)
 * *avatar_url* : string, URL for the user avatar, could be absolute or relative
 * *creation_date* : string, timestamp of the creation of the user
 
+### Customer
+
+* *ico*: string, ICO number of the customer 
+* *dic* : string, DIC number of the customer
+* *mainContact* : Contact, main Contact of the customer
+* *invoiceContact* : Contact, if the main contact differs from the invoice contact
+* *information* : string, information string about the user visible to the users
+
+### Contact
+    
+* *name*: string, name of the contact 
+* *surname* : string, surname of the contact
+* *street*: string, street address of the contact 
+* *city* : string, city from where is the contact
+* *postcode* : string, postcode of the city from where is the contact
+* *telephone* : string, telephone number of the contact
+* *email* : string, email address of the contact
+* *country* : string, country of the contact
+* *iban* : string, international bank number of the contact
+* *accountNumber* : string, account number of the contact
+
 ### Message
 
 * *title* : string, title of the message

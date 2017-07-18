@@ -1,6 +1,7 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 <ng-container *ngIf="dataLoaded">
-    <h2>Faktúra {{invoice.id}}</h2>
+
+    <h2>Faktúra {{invoice.invoiceNumber}}</h2>
 
     <a href="{{getHtmlLink()}}"><h4>Zobraz</h4></a>
     <div>Zhotovil: <i><a [routerLink]="[ '/user/' ]">

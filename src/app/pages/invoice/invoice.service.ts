@@ -1,7 +1,7 @@
 import {Injectable, OnInit} from "@angular/core";
 import {Invoice} from "./invoice.model";
 import {Observable} from "rxjs/Observable";
-import {CustomerService} from "../users/user.service";
+import {CustomerService} from "../customer/user.service";
 import {UserService} from "../../services/user.service";
 import {Product} from "../../models/Product";
 import {InvoiceStatus} from "./invoiceStatus.model";
@@ -32,9 +32,6 @@ export class InvoiceService {
         return this.restServ.getCompanyPermissions(companyId);
     }
 
-    public setInvoices(invoices : Invoice[]){
-        this.invoices = invoices;
-    }
 
     public generateInvoiceId(): number {
         return 10001;
@@ -59,7 +56,10 @@ export class InvoiceService {
 
     public getInvoices(): Observable<Invoice[]> {
 
-        return this.restServ.getInvoices();
+        return this.restServ.getInvoices()
+            .do((invoices:Invoice[])=>{
+                this.invoices = invoices;
+            })
     }
 
     public generatePdfLink(invoice : Invoice){

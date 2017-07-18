@@ -6,8 +6,8 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angul
 import {InvoiceService} from "./invoice.service";
 import {InvoiceStatus} from "./invoiceStatus.model";
 import {Invoice} from "./invoice.model";
-import {CustomerService} from "../users/user.service";
-import {Customer} from "../users/user.model";
+import {CustomerService} from "../customer/user.service";
+import {Customer} from "../customer/user.model";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {Company} from "../../models/company-model";

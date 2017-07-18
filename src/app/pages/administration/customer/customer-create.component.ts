@@ -7,7 +7,7 @@ import {ConfigurationService} from "../../../services/configuration.service";
 import {Company} from "../../../models/company-model";
 import {NotificationService} from "../../../services/notification.service";
 import {RestService} from "../../../services/rest.service";
-import {Customer} from "../../users/user.model";
+import {Customer} from "../../customer/user.model";
 
 
 @Component({
@@ -92,7 +92,7 @@ export class CustomerCreation implements OnInit {
 
         console.log(value);
 
-        this.restServ.createCustomer(value).subscribe(
+        this.restServ.addCustomer(value).subscribe(
             result => {
                 console.log(result);
                 this.notificationSrv.success( "Klient " + value.mainContact.name + " bola vytvoreny", "Klient");

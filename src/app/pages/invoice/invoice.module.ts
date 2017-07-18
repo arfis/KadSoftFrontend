@@ -6,7 +6,7 @@ import {InvoiceService} from "./invoice.service";
 import {InvoiceComponent} from "./invoice.component";
 import {InvoiceCreation} from "./invoice-create.component";
 import {RouterModule} from "@angular/router";
-import {CustomerService} from "../users/user.service";
+import {CustomerService} from "../customer/user.service";
 import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
 import {UserService} from "../../services/user.service";

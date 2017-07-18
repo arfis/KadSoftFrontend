@@ -45,7 +45,6 @@ export class InvoiceDetailComponent {
 
                 this.invoiceSrv.getInvoices().subscribe(
                     result => {
-                        this.invoiceSrv.setInvoices(result);
                         this.invoice = this.invoiceSrv.getInvoice(this.invoice.id);
                         this.dataLoaded = true;
                     }

@@ -10,7 +10,7 @@ import {getTranslation, InvoiceStatus} from "./invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 import {RestService} from "../../services/rest.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {CustomerService} from "../users/user.service";
+import {CustomerService} from "../customer/user.service";
 import {Observable} from "rxjs/Observable";
 
 @Component({
@@ -56,11 +56,10 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
         this.setActiveRecords();
 
         //loading all invoices and all customers, so the customers are cached
-        Observable.forkJoin(this.invoiceServ.getInvoices(),this.customerServ.getCustomers()).subscribe(
+        Observable.forkJoin(this.invoiceServ.getInvoices(), this.customerServ.getCustomers()).subscribe(
             result=>{
                 // result[0] = result[0].json();
                 this.totalRecords = result[0];
-                this.invoiceServ.setInvoices(this.totalRecords);
                 this.customerServ.setCustomers(result[1]);
                 this.setActiveRecords();
 
@@ -129,4 +128,5 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
         if(!status) status = "created";
         return getTranslation(status);
     }
+
 }

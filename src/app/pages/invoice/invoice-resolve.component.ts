@@ -13,7 +13,7 @@ export class InvoiceResolve implements Resolve<Invoice> {
 
     constructor(private invoiceSrv: InvoiceService) {
         this.invoiceSrv.getInvoices().subscribe(result=>{
-            this.invoiceSrv.setInvoices(result);
+
         });
     }
 

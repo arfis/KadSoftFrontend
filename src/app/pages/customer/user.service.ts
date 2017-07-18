@@ -46,6 +46,9 @@ export class CustomerService{
     //     }
     // }
 
+    createCustomer(customer : Customer) : Observable<Customer>{
+        return this.restServ.addCustomer(customer);
+    }
     getUserByMail(email : string) : Observable<Customer>{
         let usr = this.customers.find(user => user.mainContact.email == email);
         return Observable.of(usr);

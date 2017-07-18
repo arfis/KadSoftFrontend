@@ -6,7 +6,7 @@ import {Configuration} from '../app.constants';
 import {LoginUser} from "../pages/login/login-user.model";
 import {LoginResponse} from "../models/login-response.model";
 import {Company} from "../models/company-model";
-import {Customer} from "../pages/users/user.model";
+import {Customer} from "../pages/customer/user.model";
 import {Invoice} from "../pages/invoice/invoice.model";
 import {Contact} from "../models/contact.model";
 import {ReplaySubject} from "rxjs/ReplaySubject";
@@ -209,7 +209,7 @@ export class RestService {
             );
     }
 
-    public createOrder(order : Order){
+    public addOrder(order : Order){
         console.log("trying to create an order:");
         console.log(order);
         return this.http.post(this.config.server + this.config.ordersApi, order, {headers: this.headers})
@@ -238,7 +238,12 @@ export class RestService {
         return this.http.get(this.config.server + this.config.customerApi, {headers: this.headers})
             .map(
                 response => response.text() ? response.json() : {},
-                error => console.log("error: " + error));
+                error => console.log("error: " + error))
+            .do((customers:Customer[]) => {
+                console.log("customers from service");
+                console.log(customers);
+                console.log("end");
+            })
     }
 
     public removeCustomer(customerId: number) {
@@ -264,7 +269,7 @@ export class RestService {
         ;
     }
 
-    public createCustomer(customer: Customer) {
+    public addCustomer(customer: Customer) {
         console.log("trying to save customer: ");
 
 
@@ -295,7 +300,7 @@ export class RestService {
     }
 
     private getActionUrl() {
-        return this.config.serverWithApiUrl + this.modelName + '/';
+        return this.config.server + this.modelName + '/';
     }
 
 

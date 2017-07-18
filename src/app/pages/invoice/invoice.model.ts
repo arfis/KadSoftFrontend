@@ -1,5 +1,5 @@
 import {InvoiceStatus} from "./invoiceStatus.model";
-import {Customer} from "../users/user.model";
+import {Customer} from "../customer/user.model";
 import {Company} from "../../models/company-model";
 import {Product} from "../../models/Product";
 import {Contact} from "../../models/contact.model";

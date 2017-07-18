@@ -109,8 +109,8 @@ let pages = [
 // main bootstrap
 import { routing } from './app.routes';
 import {InvoiceModule} from "./pages/invoice/invoice.module";
-import {UserViewComponent} from "./pages/users/user-view/user-view.component";
-import {UserResolve} from "./pages/users/user-view/user-resolver.component";
+import {UserViewComponent} from "./pages/customer/user-view/user-view.component";
+import {UserResolve} from "./pages/customer/user-view/user-resolver.component";
 import {OrderComponent} from "./pages/order/order.component";
 import {OrderService} from "./pages/order/order.service";
 import {InvoiceCreation} from "./pages/invoice/invoice-create.component";

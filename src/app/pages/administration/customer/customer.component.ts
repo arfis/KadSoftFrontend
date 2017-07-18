@@ -9,7 +9,7 @@ import {Company} from "../../../models/company-model";
 import {Observable} from "rxjs/Observable";
 import {NotificationService} from "../../../services/notification.service";
 import {RestService} from "../../../services/rest.service";
-import {Customer} from "../../users/user.model";
+import {Customer} from "../../customer/user.model";
 
 @Component({
     selector: 'customer',

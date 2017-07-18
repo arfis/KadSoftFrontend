@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {InvoiceService} from "../invoice/invoice.service";
 import {UserService} from "../../services/user.service";
 import {Invoice} from "../invoice/invoice.model";
-import {Customer} from "../users/user.model";
+import {Customer} from "../customer/user.model";
 import {RestService} from "../../services/rest.service";
 
 /**
@@ -55,7 +55,7 @@ export class OrderService {
 
     createOrder(order : Order) : Observable<Order>{
         console.log("saving invoice");
-        return this.restSrv.createOrder(order);
+        return this.restSrv.addOrder(order);
         // return this.invoiceSrv.createInvoice(order.invoice);
     }
 
