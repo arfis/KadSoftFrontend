@@ -9,3 +9,7 @@ tr a{
 .sortable:hover{
     color:lightgray;
 }
+
+.glyphicon{
+    z-index:100;
+}

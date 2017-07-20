@@ -98,7 +98,7 @@ export class RestService {
     }
 
     public generatePdfOfInvoice(invoice: Invoice): Observable<Invoice> {
-        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/generate-pdf",
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/generatePdf",
             null,{headers: this.headers})
             .map((response) =>
                     response.json(),
@@ -108,7 +108,7 @@ export class RestService {
     }
 
     public sendEmailForInvoice(invoice: Invoice): Observable<Invoice> {
-        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/send-email",
+        return this.http.post(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/sendEmail",
             null,{headers: this.headers})
             .map((response) =>
                     response.json(),

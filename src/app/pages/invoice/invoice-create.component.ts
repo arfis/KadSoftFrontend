@@ -205,6 +205,7 @@ export class InvoiceCreation implements OnInit {
             result => {
                 this.createEmitter.next(result);
                 this.notificationSrv.success("Nova faktura bola vytvorena","Faktura");
+
                 // window.alert("Nova faktura bola vytvorena!");
                 //this.invoiceForm.reset();
             }

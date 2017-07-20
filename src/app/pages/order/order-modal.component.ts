@@ -33,7 +33,7 @@ import {RestService} from "../../services/rest.service";
                             </div>
                             <div class="form-group">
                                 <label for="mailText">Text Notifikačného mailu:</label>
-                                <input #mailText [ngModel]="selectedMailTemplate" type="text" id="mailText"
+                                <input #mailText [(ngModel)]="selectedMailTemplate" type="text" id="mailText"
                                        class="form-control"/>
                             </div>
 

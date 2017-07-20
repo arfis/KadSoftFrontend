@@ -10,23 +10,20 @@ import {Contact} from "../../models/contact.model";
 export class CustomerService{
 
     private customers : Customer[] = new Array();
-    public names = ["Ferdinand","Milan","Rastislav","Julius","Palo"];
-    public surnames = ["Vasko","Sokolsky","Stefanik","Hudacek","Zloduch"];
 
     constructor(private restServ : RestService){
 
     }
 
-    getCustomers() : Observable<any>{
+    public getCustomers() : Observable<Customer[]>{
         return this.restServ.getCustomers();
     }
 
-    removeCustomer(customer) : Observable<any>{
+    public removeCustomer(customer) : Observable<any>{
         return this.restServ.removeCustomer(customer);
     }
 
-    setCustomers(customers : Customer[]){
-        console.log(customers);
+    public setCustomers(customers : Customer[]){
         this.customers = customers;
     }
 
@@ -53,7 +50,7 @@ export class CustomerService{
 
     getUserById(userId : number) : Customer{
         console.log("getting user");
-
+        console.log(this.customers);
         let usr = this.customers.find(user => user.id == userId);
         console.log(usr);
         return usr;

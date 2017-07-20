@@ -12,6 +12,7 @@ import {RestService} from "../../services/rest.service";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {CustomerService} from "../users/user.service";
 import {Observable} from "rxjs/Observable";
+import {UserService} from "../../services/user.service";
 
 @Component({
     selector: 'invoice',
@@ -40,7 +41,8 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
                 private invoiceServ: InvoiceService,
                 private customerServ : CustomerService,
                 public router: Router,
-                private loadingBar : SlimLoadingBarService) {
+                private loadingBar : SlimLoadingBarService,
+                private loginServ : UserService) {
         // TODO
         super();
     }
@@ -56,15 +58,20 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
         this.setActiveRecords();
 
         //loading all invoices and all customers, so the customers are cached
-        Observable.forkJoin(this.invoiceServ.getInvoices(),this.customerServ.getCustomers()).subscribe(
+        Observable.forkJoin(this.invoiceServ.getInvoices(),
+                            this.customerServ.getCustomers()).subscribe(
             result=>{
-                // result[0] = result[0].json();
+                console.log(result[0]);
                 this.totalRecords = result[0];
                 this.invoiceServ.setInvoices(this.totalRecords);
                 this.customerServ.setCustomers(result[1]);
                 this.setActiveRecords();
-
                 this.loadingBar.complete();
+            },
+            error=>{
+                if (error.status === 401){
+                    this.loginServ.logout();
+                }
             }
         )
 
@@ -87,7 +94,14 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
 
         this.bigTotalItems = this.totalRecords.length;
         let startingIndex = ((this.currentPage) * this.maxSize);
-        this.invoices = this.totalRecords.slice(startingIndex, startingIndex+this.maxSize);
+        console.log(startingIndex);
+        console.log(this.maxSize);
+        this.invoices = this.totalRecords.slice(startingIndex,
+            this.bigTotalItems < this.maxSize ? this.bigTotalItems : startingIndex+this.maxSize);
+
+        console.log("invoices");
+        console.log(this.invoices);
+        console.log(this.totalRecords);
 
         for (let invoice of this.invoices){
             invoice.totalPrice = 0;

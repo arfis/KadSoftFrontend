@@ -63,6 +63,10 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
                     this.orderServ.setOrders(result[0]);
                     this.invoiceServ.setInvoices(result[1]);
                     this.getFirstRecords();
+
+                    console.log("orders");
+                    console.log(result[0]);
+                    this.loadingBar.complete();
                 },
                 error =>{
                     console.log(error);
@@ -98,7 +102,10 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
     }
 
     private getFirstRecords(){
-        this.orders = this.totalRecords.slice(0, this.maxSize);
+
+        if (this.totalRecords.length > 0) {
+            this.orders = this.totalRecords.slice(0, this.maxSize);
+        }
     }
 
     public ngOnInit() {
@@ -130,7 +137,8 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
     public updateOrderList(order : Order){
         console.log("Created order: ");
         console.log(order);
-        this.isFormCollapsed = false;
+        this.isFormCollapsed = true;
+        this.orders.push(order);
     }
 
     getStatusMessage(status){

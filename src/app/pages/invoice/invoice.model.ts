@@ -23,4 +23,8 @@ export class Invoice{
     invoicePath : string;
     variableSymbol : number;
     emailText?: string;
+
+    customerId : number;
+    sendByEmail : string;
+    type : string;
 }

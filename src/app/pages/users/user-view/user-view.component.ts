@@ -42,6 +42,7 @@ export class UserViewComponent implements OnInit {
 
     private loadUserOrders(){
 
+        console.log("loading by id: " + this.userInformation.id);
         this.orderServ.getOrdersByClientId(this.userInformation.id).subscribe(
             result => {
                 this.orders = result;

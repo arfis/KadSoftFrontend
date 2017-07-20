@@ -13,5 +13,6 @@ export const environment = {
     storageBucket: 'ng2-admin-lte-a3958.appspot.com'
   },
   production: false,
+  apiUrl : "http://digitalwalk.sk/",
   silent: false
 };

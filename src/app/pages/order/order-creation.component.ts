@@ -168,6 +168,7 @@ export class OrderCreationComponent implements OnInit {
                     'swift': [disabledEmpty]
                 }),
                 "invoiceNumber": [{value:this.invoiceSrv.generateInvoiceId()}, Validators.required],
+                'customerId' : [],
                 'customer': this.fb.group({
                     'ico': [],
                     'dic': [],
@@ -328,19 +329,22 @@ export class OrderCreationComponent implements OnInit {
 
             delete order.invoice;
 
+            invoice.customerId = this.userFoundByMail.id;
             // there is no data about the main contact in the form yet
             order.mainContact = invoice.customer.mainContact;
             this.orderSrv.createOrder(order).subscribe(
-                result => {
+                order => {
 
-                    invoice.order = result.id;
+                    invoice.order = order.id;
                     this.notificationSrv.success("Nova objednavka bola vytvorena", "Objednavka");
 
                     this.invoiceSrv.createInvoice(invoice).subscribe(
                         result=>{
-                            this.createEmitter.next(order);
+                            order.invoice = result;
                             this.invoiceForm.reset();
                             this.notificationSrv.success("Nova faktura bola vytvorena", "Faktura");
+                            this.createForm();
+                            this.createEmitter.next(order);
                         },
                         error=>{
                             this.notificationSrv.error("Nova faktura nebola vytvorena", "Faktura");

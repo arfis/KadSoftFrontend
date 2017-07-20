@@ -18,5 +18,6 @@ export class Order{
     created : Date;
     modified : Date;
     files : string[];
+    customerId : number;
 
 }

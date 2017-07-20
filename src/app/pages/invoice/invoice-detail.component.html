@@ -16,21 +16,23 @@
 
     <div class="container">
         <div class="row">
-            <button *ngIf="permissions.cancel && invoice.status != 4"
-                    (click)="stornoInvoice()" class="col-lg-6 btn btn-danger">
+            <button *ngIf="permissions.cancel"
+                    (click)="stornoInvoice()" class="col-lg-4 btn btn-danger">
                 Storno faktúry
             </button>
 
             <button *ngIf="permissions.pay"
-                    (click)="payInvoice()" class="col-lg-6 btn btn-success">
+                    (click)="payInvoice()" class="col-lg-4 btn btn-success">
                 Faktura bola zaplatena
             </button>
 
-            <button *ngIf="invoice?.status != 4" (click)="generatePdf()" class="col-lg-6 btn btn-warning">
+            <button *ngIf="permissions.generatePdf" (click)="generatePdf()"
+                    class="col-lg-4 btn btn-warning">
                 Vygeneruj znova pdf
             </button>
 
-            <button *ngIf="invoice?.status != 4" (click)="sentNotificationEmail()" class="col-lg-6 btn btn-warning">
+            <button *ngIf="permissions.sendEmail" (click)="sentNotificationEmail()"
+                    class="col-lg-4 btn btn-warning">
                 Odošli notifikačný mail
             </button>
         </div>

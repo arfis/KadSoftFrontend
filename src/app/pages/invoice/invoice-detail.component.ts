@@ -10,6 +10,7 @@ import {InvoiceService} from "./invoice.service";
 import {CompanyPermissions} from "../../models/company-permisions.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {NotificationService} from "../../services/notification.service";
+import {UserService} from "../../services/user.service";
 @Component({
     selector: 'invoice-detail',
     styleUrls: ['./invoice-detail.component.css'],
@@ -27,7 +28,8 @@ export class InvoiceDetailComponent {
                 public router: Router,
                 private invoiceSrv: InvoiceService,
                 private loadingBar: SlimLoadingBarService,
-                private notificationSrv: NotificationService) {
+                private notificationSrv: NotificationService,
+                private loginServ : UserService) {
 
     }
 
@@ -48,6 +50,11 @@ export class InvoiceDetailComponent {
                         this.invoiceSrv.setInvoices(result);
                         this.invoice = this.invoiceSrv.getInvoice(this.invoice.id);
                         this.dataLoaded = true;
+                    },
+                    error => {
+                        if (error.status === 401){
+                            this.loginServ.logout();
+                        }
                     }
                 )
             }

@@ -1,7 +1,7 @@
 <!--<button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú faktúru</button>-->
 
 <!--<div class="well well-lg" [collapse]="isFormCollapsed">-->
-    <!--<invoice-creation (createEmitter)="updateInvoiceList($event)"></invoice-creation>-->
+<!--<invoice-creation (createEmitter)="updateInvoiceList($event)"></invoice-creation>-->
 <!--</div>-->
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 <table *ngIf="showList" class="table table-bordered table-responsive table-hover">
@@ -13,9 +13,11 @@
         <th class="sortable" (click)="orderBy('createdBy')">Zadal</th>
         <th class="sortable" (click)="orderBy('client','surname')">Klient</th>
         <th class="sortable" (click)="orderBy('totalPrice')">Suma</th>
-        <th>Pocet poloziek</th>
-        <th>Zobraz</th>
-        <th>Stiahnuť</th>
+        <th>položky</th>
+        <th class="sortable" (click)="orderBy('type')">Typ</th>
+        <th class="sortable" (click)="orderBy('status')">Status</th>
+        <th class="sortable" (click)="orderBy('sendByEmail')">Odoslane</th>
+        <th>Možnosti</th>
     </tr>
 
     <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">
@@ -24,24 +26,35 @@
         <td><a>{{invoice.company.name}}</a></td>
 
         <td><a [routerLink]="[ '/user/', invoice.customer.id ]">
-            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}{{invoice.customer.id}}</a>
+            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} {{invoice.customer.id}}</a>
         </td>
         <td>{{invoice.totalPrice | currency:'eur':true}}</td>
         <td>{{invoice?.invoiceItems?.length}}</td>
-        <td><a [href]="getHtmlLink(invoice)" target="_blank">Zobraz HTML</a></td>
-        <td><a [href]="getPdfLink(invoice)">Download</a></td>
+        <td>{{invoice?.type}}</td>
+        <td><span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
+                {{getStatusMessage(invoice?.status).text}}
+                </span>
+        </td>
+        <td>{{invoice?.sendByEmail === true ? 'áno' : 'nie'}}</td>
+        <td>
+            <a (click)="$event.stopPropagation()" [href]="getHtmlLink(invoice)" target="_blank" alt="zobraz">
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+            <a (click)="$event.stopPropagation()" [href]="getPdfLink(invoice)" target="_blank" alt="stiahni pdf">
+                <span class="glyphicon glyphicon-save"></span>
+            </a></td>
     </tr>
     </tbody>
 </table>
 
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-4">
-            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
-                        class="pagination-sm"
-                        [boundaryLinks]="true" [rotate]="false"
-                        (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
-        </div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-4">
+        <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
+                    class="pagination-sm"
+                    [boundaryLinks]="true" [rotate]="false"
+                    (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
     </div>
+</div>
 
 

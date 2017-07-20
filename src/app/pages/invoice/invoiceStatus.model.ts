@@ -17,7 +17,8 @@ export function getTranslation(status : string){
       case "expired" : return {text : "Expirovaná", label:"label-danger"};
       case "canceled" : return {text : "Stornovaná", label:"label-default"};
       case "latePay" : return {text : "Zaplatená po splatnosti", label:"label-success"};
-
+      case "wrong_paid" : return {text : "Zlá suma uhradená", label:"label-danger"};
       default: return {text:"Undefined: " + status, label:"label-danger"};
   }
+
 }
