@@ -10,6 +10,10 @@ import {Observable} from "rxjs/Observable";
 import {NotificationService} from "../../../services/notification.service";
 import {RestService} from "../../../services/rest.service";
 import {Customer} from "../../customer/user.model";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../../reducers/app.reducer';
+import * as customerActions from '../../../actions/customer';
+import {CustomerService} from "../../customer/user.service";
 
 @Component({
     selector: 'customer',
@@ -25,20 +29,24 @@ export class CustomerComponent implements OnInit,OnDestroy {
         private msgServ: MessagesService,
         public router: Router,
         private notificationServ : NotificationService,
-        private restServ : RestService
-    ) {
-        // TODO
-
-    }
+        private restServ : RestService,
+        private _store: Store<fromRoot.State>,
+        private customerSrv : CustomerService
+) {
+    _store.dispatch(new customerActions.GetAllCustomersAction());
+}
 
     public ngOnInit(){
-        this.restServ.getCustomers().subscribe(
-            customers => {
-                this.customers = customers;
-                console.log("customers");
-                console.log(this.customers);
+        this._store.select(fromRoot.getAllCustomers).subscribe(
+            result => {
+                console.log("customers from store");
+                console.log(result);
+                this.customers = result;
+            },
+            error => {
+                console.log(error);
             }
-        );
+        )
     }
 
     public onAdd(customer : Customer){

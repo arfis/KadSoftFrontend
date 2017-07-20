@@ -1,17 +1,20 @@
 import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {BreadcrumbService} from '../../services/breadcrumb.service';
-import {Message} from '../../models/message';
+
 import {MessagesService} from '../../services/messages.service';
-import {User} from '../../models/user';
+
 import {InvoiceService} from "./invoice.service";
 import {Invoice} from "./invoice.model";
-import {ActivatedRoute, Router} from "@angular/router";
-import {getTranslation, InvoiceStatus} from "./invoiceStatus.model";
+import {Router} from "@angular/router";
+import {getTranslation} from "./invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
-import {RestService} from "../../services/rest.service";
+
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {CustomerService} from "../customer/user.service";
 import {Observable} from "rxjs/Observable";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../reducers/app.reducer';
+import * as invoiceActions from '../../actions/invoice';
 
 @Component({
     selector: 'invoice',
@@ -40,9 +43,10 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
                 private invoiceServ: InvoiceService,
                 private customerServ : CustomerService,
                 public router: Router,
-                private loadingBar : SlimLoadingBarService) {
-        // TODO
+                private loadingBar : SlimLoadingBarService,
+                private _store: Store<fromRoot.State>) {
         super();
+        _store.dispatch(new invoiceActions.GetAllInvoicesAction());
     }
 
 
@@ -56,16 +60,16 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
         this.setActiveRecords();
 
         //loading all invoices and all customers, so the customers are cached
-        Observable.forkJoin(this.invoiceServ.getInvoices(), this.customerServ.getCustomers()).subscribe(
-            result=>{
-                // result[0] = result[0].json();
-                this.totalRecords = result[0];
-                this.customerServ.setCustomers(result[1]);
-                this.setActiveRecords();
-
-                this.loadingBar.complete();
-            }
-        )
+        // Observable.forkJoin(this.invoiceServ.getInvoices(), this.customerServ.getCustomers()).subscribe(
+        //     result=>{
+        //         // result[0] = result[0].json();
+        //         this.totalRecords = result[0];
+        //         this.customerServ.setCustomers(result[1]);
+        //         this.setActiveRecords();
+        //
+        //         this.loadingBar.complete();
+        //     }
+        // )
 
         this.breadServ.set({
             description: 'Invoices',
@@ -79,6 +83,20 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
                 }
             ]
         });
+
+        this._store.select(fromRoot.getAllInvoices).subscribe(
+            result => {
+                console.log("invoices from store");
+                console.log(result);
+                this.totalRecords = result;
+                this.setActiveRecords();
+
+                this.loadingBar.complete();
+            },
+            error => {
+                console.log(error);
+            }
+        )
 
     }
 

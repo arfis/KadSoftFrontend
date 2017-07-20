@@ -26,6 +26,12 @@ let modules = [
     ReactiveFormsModule,
     RouterModule,
     AngularFireModule.initializeApp( environment.firebase ),
+    StoreModule.provideStore(reducer),
+    StoreDevtoolsModule.instrumentStore({
+        maxAge: 5,
+    }),
+    EffectsModule.run(CustomerService),
+    EffectsModule.run(InvoiceService),
     TranslateModule.forRoot({
         deps: [Http],
         provide: TranslateLoader,
@@ -89,7 +95,7 @@ let services = [
 
 // les pages
 import { HomeComponent } from './pages/home/home.component';
-import { PageNumComponent } from './pages/page-num/page-num.component';
+import { CustomersComponent } from './pages/customer/customers.component';
 import { ClientComponent } from './pages/client/client.component';
 import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
@@ -97,7 +103,7 @@ import { RegisterComponent } from './pages/register/register.component';
 
 let pages = [
     HomeComponent,
-    PageNumComponent,
+    CustomersComponent,
     ClientComponent,
     LayoutsAuthComponent,
     LoginComponent,
@@ -124,6 +130,13 @@ import {AdministrationComponent} from "./pages/administration/administration.com
 import {AdministrationModule} from "./pages/administration/administration.module";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {HttpCacheModule} from "ng-http-cache";
+import {EffectsModule} from "@ngrx/effects";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {reducer} from "./reducers/app.reducer";
+import {StoreModule} from "@ngrx/store";
+import {CustomerEffects} from "./effects/customer";
+import {CustomerService} from "./pages/customer/user.service";
+import {InvoiceService} from "./pages/invoice/invoice.service";
 
 @NgModule( {
     bootstrap: [AppComponent],

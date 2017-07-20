@@ -8,7 +8,10 @@ import {Company} from "../../../models/company-model";
 import {NotificationService} from "../../../services/notification.service";
 import {RestService} from "../../../services/rest.service";
 import {Customer} from "../../customer/user.model";
+import {Store} from "@ngrx/store";
 
+import * as customerAction from '../../../actions/customer';
+import * as fromRoot from '../../../reducers/app.reducer';
 
 @Component({
     selector: 'customer-creation',
@@ -34,8 +37,7 @@ export class CustomerCreation implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private configurationService: ConfigurationService,
-                private notificationSrv: NotificationService,
-                private restServ : RestService) {
+                private store: Store<fromRoot.State>) {
 
         this.createForm();
 
@@ -83,16 +85,17 @@ export class CustomerCreation implements OnInit {
         return this.customerForm.get('products') as FormArray;
     }
 
-
     selectCompany(company) {
         this.configurationService.setCurrentCompany(company);
     }
     
     onSubmit({value}: { value: Customer }) {
 
+        console.log("submitting:");
         console.log(value);
+        this.store.dispatch(new customerAction.AddCustomerAction(value));
 
-        this.restServ.addCustomer(value).subscribe(
+/*        this.restServ.addCustomer(value).subscribe(
             result => {
                 console.log(result);
                 this.notificationSrv.success( "Klient " + value.mainContact.name + " bola vytvoreny", "Klient");
@@ -105,6 +108,6 @@ export class CustomerCreation implements OnInit {
                 console.log(error._body);
                 console.log(error);
             }
-        )
+        )*/
     }
 }

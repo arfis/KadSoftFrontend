@@ -10,6 +10,11 @@ import {InvoiceService} from "./invoice.service";
 import {CompanyPermissions} from "../../models/company-permisions.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {NotificationService} from "../../services/notification.service";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../reducers/app.reducer';
+import * as invoice from '../../actions/invoice'
+import {Observable} from "rxjs/Observable";
+
 @Component({
     selector: 'invoice-detail',
     styleUrls: ['./invoice-detail.component.css'],
@@ -23,14 +28,19 @@ export class InvoiceDetailComponent {
     public permissions: CompanyPermissions = new CompanyPermissions();
     public dataLoaded: boolean = false;
 
+    invoice$ : Observable<Invoice>;
+
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
                 private invoiceSrv: InvoiceService,
                 private loadingBar: SlimLoadingBarService,
-                private notificationSrv: NotificationService) {
+                private notificationSrv: NotificationService,
+                private store: Store<fromRoot.State>) {
 
+        this.invoice$ = store.select(fromRoot.getSelectedInvoice);
     }
 
+    //TODO : how to set the selectedInvoice by id
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
 
@@ -51,6 +61,8 @@ export class InvoiceDetailComponent {
                 )
             }
 
+
+            // this.isSelectedBookInCollection$ = store.select(fromRoot.isSelectedBookInCollection);
             this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
                 result => {
                     this.permissions = result;

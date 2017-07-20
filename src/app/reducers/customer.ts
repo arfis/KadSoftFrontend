@@ -5,38 +5,45 @@ import {Customer} from "../pages/customer/user.model";
 import * as customer from "../actions/customer";
 
 export interface State {
-    ids: string[] ;
-    entities : Customer[] ;
-    selectedCustomerId: string | null;
+    customers : Customer[] ;
+    selectedCustomer: Customer | null;
 };
 
 export const initialState: State = {
-    ids: [],
-    entities: [],
-    selectedCustomerId: null,
+    customers: [],
+    selectedCustomer: null,
 };
 
 export function reducer(state = initialState, action: customer.Actions ): State {
     switch (action.type) {
 
-        case customer.LOAD: {
+        case customer.ADD_ALL_CUSTOMERS_TO_TABLE: {
             const customers = action.payload;
-            const newCustomers = customers.filter(customer => !state.entities[customer.id]);
-
-            const newCustomerIds : string[] = newCustomers.map(customer => String(customer.id));
-            // const newCustomerEntities = newCustomers.reduce((entities: { customers: Customer[] }, customer: Customer) => {
-            //     return Object.assign(entities, {
-            //         customer: customer
-            //     });
-            // }, {});
 
             return {
-                ids: [ ...state.ids, ...newCustomerIds ],
-                entities: newCustomers,
-                selectedCustomerId: null
+                customers: customers,
+                selectedCustomer: null
             };
         }
 
+        case customer.LOAD_SUCCESS:{
+            const customers = action.payload;
+
+            return {
+                customers : customers,
+                selectedCustomer : null
+            };
+        }
+
+        case customer.CREATE_SUCCESS:{
+            const newCustomer = action.payload;
+
+            console.log("trying to create customer2");
+            console.log(newCustomer);
+            return Object.assign({}, state, {
+                customers: [ ...state.customers, newCustomer ]
+            });
+        }
 
         default: {
             return state;
@@ -53,11 +60,9 @@ export function reducer(state = initialState, action: customer.Actions ): State 
  * use-case.
  */
 
-export const getEntities = (state: State) => state.entities;
+export const getCustomers = (state: State) => state.customers;
 
-export const getIds = (state: State) => state.ids;
-
-export const getSelectedId = (state: State) => state.selectedCustomerId;
+export const getSelectedCustomer = (state: State) => state.selectedCustomer;
 
 /*
 export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {

@@ -4,16 +4,17 @@
 import { Action } from '@ngrx/store';
 import {Customer} from "../pages/customer/user.model";
 
-export const SEARCH =           '[Customer] Search';
-export const SEARCH_COMPLETE =  '[Customer] Search Complete';
-export const LOAD =             '[Customer] Load';
-export const LOAD_SUCCESS =     '[Customer] Load was successful';
-export const LOAD_ERROR =       '[Customer] Load had an error';
-export const SELECT =           '[Customer] Select';
-export const CREATE =           '[Customer] Create';
-export const CREATE_SUCCESS =   '[Customer] Create success';
-export const CREATE_FAIL =      '[Customer] Create failure';
-
+export const SEARCH =                       '[Customer] Search';
+export const SEARCH_COMPLETE =              '[Customer] Search Complete';
+export const LOAD =                         '[Customer] Load';
+export const LOAD_SUCCESS =                 '[Customer] Load was successful';
+export const LOAD_ERROR =                   '[Customer] Load had an error';
+export const SELECT =                       '[Customer] Select';
+export const ADD_CUSTOMER =                 '[Customer] Add customer';
+export const CREATE_SUCCESS =               '[Customer] Create success';
+export const CREATE_FAIL =                  '[Customer] Create failure';
+export const GET_ALL_CUSTOMERS =            '[Customer] Get all customers';
+export const ADD_ALL_CUSTOMERS_TO_TABLE =   '[Customer] Add all customers to table'
 /**
  * Every action is comprised of at least a type and an optional
  * payload. Expressing actions as classes enables powerful
@@ -21,22 +22,35 @@ export const CREATE_FAIL =      '[Customer] Create failure';
  *
  * See Discriminated Unions: https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
-export class SearchAction implements Action {
-    readonly type = SEARCH;
 
-    constructor(public payload: string) { }
+export class GetAllCustomersAction implements Action {
+    readonly type = GET_ALL_CUSTOMERS;
+
+    constructor(){}
+}
+
+export class AddAllCustomersToTable implements Action {
+    readonly type = ADD_ALL_CUSTOMERS_TO_TABLE;
+
+    constructor(public payload: Customer[]){ }
+}
+
+export class SearchAction implements Action {
+readonly type = SEARCH;
+
+constructor(public payload: string) { }
 }
 
 export class SearchCompleteAction implements Action {
-    readonly type = SEARCH_COMPLETE;
+readonly type = SEARCH_COMPLETE;
 
-    constructor(public payload: Customer[]) { }
+constructor(public payload: Customer[]) { }
 }
 
-export class LoadAction implements Action {
+export class LoadAction implements Action{
     readonly type = LOAD;
 
-    constructor(public payload : Customer[]){}
+    constructor(){}
 }
 
 export class LoadSuccessAction implements Action {
@@ -57,8 +71,8 @@ export class SelectAction implements Action {
     constructor(public payload: Customer) { }
 }
 
-export class CreateAction implements Action {
-    readonly type = CREATE;
+export class AddCustomerAction implements Action {
+    readonly type = ADD_CUSTOMER;
 
     constructor(public payload: Customer) { }
 }
@@ -81,10 +95,12 @@ export class CreateFailureAction implements Action {
 export type Actions
     = SearchAction
     | SearchCompleteAction
+    | GetAllCustomersAction
+    | AddAllCustomersToTable
     | LoadAction
     | LoadFailedAction
     | LoadSuccessAction
     | SelectAction
-    | CreateAction
+    | AddCustomerAction
     | CreateSuccessAction
     | CreateFailureAction;

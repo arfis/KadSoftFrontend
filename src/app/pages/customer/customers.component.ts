@@ -1,30 +1,34 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
-import {CustomerService} from "../customer/user.service";
-import {Customer} from "../customer/user.model";
+import {CustomerService} from "./user.service";
+import {Customer} from "./user.model";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
+import {Store} from "@ngrx/store";
+import * as fromRoot from '../../reducers/app.reducer';
+import * as customerActions from '../../actions/customer';
 
 @Component({
-  selector: 'app-page-num',
-  styleUrls: ['./page-num.component.css'],
-  templateUrl: './page-num.component.html'
+  selector: 'customers',
+  styleUrls: ['./customers.component.css'],
+  templateUrl: './customers.component.html'
 })
-export class PageNumComponent implements OnInit, OnDestroy {
+export class CustomersComponent implements OnInit, OnDestroy {
   private id: number = 0;
   private sub: any;
 
-  private customers : Customer[];
+  public customers : Customer[];
 
   constructor(
     private route: ActivatedRoute,
     private breadServ: BreadcrumbService,
     private customerServ : CustomerService,
     private notificationServ : NotificationService,
-    private userServ : UserService
+    private userServ : UserService,
+    private _store: Store<fromRoot.State>
   ) {
-    // TODO
+    _store.dispatch(new customerActions.GetAllCustomersAction());
   }
 
   public ngOnInit() {
@@ -51,9 +55,17 @@ export class PageNumComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.customerServ.getCustomers().subscribe(
-        customers => { this.customers = customers }
+    this._store.select(fromRoot.getAllCustomers).subscribe(
+        result => {
+          console.log("customers from store");
+          console.log(result);
+          this.customers = result;
+        },
+        error => {
+          console.log(error);
+        }
     )
+
   }
 
   public remove(customer : Customer){
