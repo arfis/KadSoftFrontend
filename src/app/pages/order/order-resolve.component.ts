@@ -3,8 +3,6 @@
  */
 import {ActivatedRouteSnapshot, Resolve} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {Invoice} from "./invoice.model";
-import {InvoiceService} from "./invoice.service";
 import {OrderService} from "./order.service";
 import {Order} from "./order.model";
 /**
@@ -18,13 +16,16 @@ export class OrderResolve implements Resolve<Order> {
 
     resolve(route: ActivatedRouteSnapshot) {
 
-        let orderId : number = route.params['orderId'];
-        console.log("order id: ");
-        console.log(orderId);
+        let orderId : number = route.params['orderNumber'];
+
+        console.log('orderId is: ' + orderId);
 
         if (!orderId)
             return null;
 
-        return this.orderSrv.getOrder(orderId);
+        let foundOrder = this.orderSrv.getOrder(orderId);
+        console.log(foundOrder);
+
+        return foundOrder;
     }
 }

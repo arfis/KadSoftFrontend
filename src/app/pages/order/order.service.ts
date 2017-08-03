@@ -29,38 +29,46 @@ export class OrderService {
         return this.orders;
     }
 
-    getOrdersByClientId(clientId : number) : Observable<Order[]>{
+    getOrdersByClientId(clientId : number): Order[] {
+        console.log('clientId: ' + clientId);
+        let orders = this.orders.filter(order=> {
 
-        let orders = this.orders.filter(order=> order.invoices[0].customer.id == clientId);
-        return Observable.of(orders);
+            console.log(order.mainContact.id);
+            if (order.mainContact ) {
+                return (order.mainContact.id == clientId);
+            }
+            else return false;
+        });
+
+        return orders;
     }
 
     getOrders() : Observable<Order[]>{
 
         return this.restSrv.getOrders();
-        // if (this.orders.length < 1){
-        //     this.fakeData();
-        // }
-        // return this.restSrv.getOrders().subscribe(
-        //     result=>{
-        //         this.orders = result;
-        //     }
-        // )
-        //return Observable.of(this.orders);
     }
 
-    getOrder(orderId : number) : Order{
-        return this.orders.find(order=> order.id == orderId);
+    getOrder(orderId : number) : Order {
+        let foundOrder = this.orders.find(order=> order.id == orderId);
+
+        console.log('found order: ');
+        console.log(foundOrder);
+        if (!foundOrder) {
+            foundOrder = new Order();
+            foundOrder.id = orderId;
+        }
+        return foundOrder;
     }
 
     createOrder(order : Order) : Observable<Order>{
         console.log("saving invoice");
         return this.restSrv.createOrder(order);
-        // return this.invoiceSrv.createInvoice(order.invoice);
     }
 
 
-    public getCustomersByEmail(email: string, users : Customer[]) : Customer[] {
-        return users.filter(user => user.mainContact.email.indexOf(email) > -1);
+    public getCustomersByEmail(searchString: string, users : Customer[]) : Customer[] {
+        return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||
+                                    (user.mainContact.surname.indexOf(searchString) > -1) ||
+                                    (user.mainContact.name.indexOf(searchString) > -1));
     }
 }

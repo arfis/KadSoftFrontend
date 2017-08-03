@@ -19,6 +19,9 @@ export class UserResolve implements Resolve<Customer> {
 
         console.log("getting user by id " + userId);
 
-        return this.userSrv.getUserById(userId);
+        let foundUser = new Customer();
+        foundUser.id = userId;
+
+        return foundUser;
     }
 }

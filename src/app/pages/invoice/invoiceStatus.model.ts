@@ -11,7 +11,8 @@ export enum InvoiceStatus {
 
 export function getTranslation(status : string){
 
-  switch(status){
+  switch(status) {
+      case "payed":
       case "paid" : return {text : "Zaplatená", label:"label-success"};
       case "created" : return {text : "Vystavená", label:"label-info"};
       case "expired" : return {text : "Expirovaná", label:"label-danger"};

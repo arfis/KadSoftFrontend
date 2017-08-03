@@ -11,10 +11,5 @@ export class Company extends RecordObject{
     name : string;
     ico : string;
     dic : string;
-    // street : string;
-    // city: string;
-    // email : string;
-    // accountNumber : string;
-    // SWIFT : string;
-    // IBAN : string;
+
 }

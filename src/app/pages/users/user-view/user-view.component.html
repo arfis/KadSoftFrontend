@@ -1,21 +1,21 @@
-<div>
-    <h4>{{userInformation.mainContact.name}} {{userInformation.mainContact.surname}}</h4>
+<ng-container *ngIf="wasUserLoaded">
+    <h4>{{userInformation?.mainContact.name}} {{userInformation?.mainContact.surname}}</h4>
     <div class="row">
         <div class="col-lg-4">
-            Meno: <i>{{userInformation.mainContact.name}}</i>
+            Meno: <i>{{userInformation?.mainContact.name}}</i>
         </div>
         <div class="col-lg-4">
-            Priezvisko: <i>{{userInformation.mainContact.surname}}</i>
+            Priezvisko: <i>{{userInformation?.mainContact.surname}}</i>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-4">
-            Email: <i><a [href]="'mailto:'+ userInformation.mainContact.email">
-            {{userInformation.mainContact.email}}</a></i>
+            Email: <i><a [href]="'mailto:'+ userInformation?.mainContact.email">
+            {{userInformation?.mainContact.email}}</a></i>
         </div>
         <div class="col-lg-4">
-            Telefón: <i>{{userInformation.mainContact.telephone}}</i>
+            Telefón: <i>{{userInformation?.mainContact.telephone}}</i>
         </div>
     </div>
 
@@ -38,4 +38,8 @@
     <div class="order-section">
         <order [filteredOrders]="orders"></order>
     </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="!wasUserLoaded">
+    <h4>User was still not loaded, or doesnt exist</h4>
+</ng-container>

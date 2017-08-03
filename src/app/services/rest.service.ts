@@ -210,8 +210,7 @@ export class RestService {
     }
 
     public createOrder(order : Order){
-        console.log("trying to create an order:");
-        console.log(order);
+
         return this.http.post(this.config.server + this.config.ordersApi, order, {headers: this.headers})
             .map((response) =>
                     <Order>response.json(),
@@ -223,9 +222,6 @@ export class RestService {
 
     public addInvoice(invoice : Invoice) : Observable<Invoice>{
 
-
-        console.log("trying to save:");
-        console.log(invoice);
         return this.http.post(this.config.server + this.config.invoicesApi, invoice, {headers: this.headers})
             .map((response) =>
                     response.json(),
@@ -250,6 +246,14 @@ export class RestService {
             );
     }
 
+    public updateCustomer(customer : Customer) {
+        return this.http.put(this.config.server + this.config.customerApi + "/" + customer.id, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
     public setCustomerInformation(customerId: number, information: string) {
         return this.http.put(this.config.server + this.config.customerApi + "/" + customerId, information, {headers: this.headers})
             .map((response) =>

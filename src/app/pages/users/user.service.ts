@@ -3,6 +3,8 @@ import {Customer} from "./user.model";
 import {Observable} from "rxjs/Observable";
 import {RestService} from "../../services/rest.service";
 import {Contact} from "../../models/contact.model";
+import {InvoiceService} from "../invoice/invoice.service";
+import {Invoice} from "../invoice/invoice.model";
 /**
  * Created by a619678 on 23. 5. 2017.
  */
@@ -11,6 +13,7 @@ export class CustomerService{
 
     private customers : Customer[] = new Array();
 
+    // TODO : invoice service wont inject
     constructor(private restServ : RestService){
 
     }
@@ -43,16 +46,21 @@ export class CustomerService{
     //     }
     // }
 
-    getUserByMail(email : string) : Observable<Customer>{
+    getUserByMail(email : string) : Observable<Customer> {
         let usr = this.customers.find(user => user.mainContact.email == email);
         return Observable.of(usr);
     }
 
-    getUserById(userId : number) : Customer{
+    getUserById(userId : number) : Customer {
         console.log("getting user");
         console.log(this.customers);
         let usr = this.customers.find(user => user.id == userId);
-        console.log(usr);
+
+        if (!usr) {
+           usr = new Customer();
+           usr.id = userId;
+        }
+
         return usr;
     }
 

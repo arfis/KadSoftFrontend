@@ -2,14 +2,18 @@ tr a{
     cursor:pointer;
 }
 
-.sortable{
+.sortable {
     cursor:pointer;
 }
 
-.sortable:hover{
+.sortable:hover {
     color:lightgray;
 }
 
-.glyphicon{
+.glyphicon {
     z-index:100;
+}
+
+.glyphicon.glyphicon-save {
+    float:right;
 }

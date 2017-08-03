@@ -36,7 +36,7 @@ export class OrderCreationComponent implements OnInit {
 
     private prices: any[] = new Array();
     private companies: Company[];
-    private activeOrder : Order = null;
+    private activeOrder: Order = null;
 
     private lockChange: boolean = false;
 
@@ -44,7 +44,7 @@ export class OrderCreationComponent implements OnInit {
 
     private type: string = "person";
     private foundByMail: boolean = false;
-    private foundCustomers : Customer[];
+    private foundCustomers: Customer[];
     private units: string[] = ["ks", "liter"];
 
     private showModal = false;
@@ -96,60 +96,54 @@ export class OrderCreationComponent implements OnInit {
                     this.disableCustomerInputs();
                     return true;
                 }
-                else{
+                else {
                     this.foundByMail = false;
                     return false;
                 }
             })
-            .debounceTime(600)
+            .debounceTime(200)
             .subscribe(
                 value => {
-                    console.log("finding user");
                     this.restServ.getCustomers().subscribe(
                         users => {
 
                             this.foundCustomers = this.orderSrv.getCustomersByEmail(value, users);
-                            console.log(this.foundCustomers);
                             if (this.foundCustomers.length > 0) {
                                 this.foundByMail = true;
                                 this.userFoundByMail = null;
-                                // this.enableCustomerInputs();
-                                //this.resetClientInfo();
+
                             }
                             else {
-                                // this.enableCustomerInputs();
                                 this.foundByMail = false;
 
                             }
                         })
                 }
             );
-
-        // this.invoiceForm.get('invoice').get('type')
-        //     .valueChanges
-        //     .subscribe(
-        //         value => {
-        //             console.log("change type");
-        //             this.invoiceForm.get('invoice').get('customerContact').reset();
-        //     })
     }
 
-    selectCustomer(customer : Customer){
-        console.log(customer);
+    selectCustomer(customer: Customer) {
         this.userFoundByMail = customer;
         this.lockChange = true;
         this.setClientInfo();
         this.lockChange = false;
     }
+
     createForm() {
 
         let disabledEmpty = {value: '', disabled: false};
         this.invoiceForm = this.fb.group({
 
             'text': ['simple desc', Validators.required],
-            'assignedTo': [{value:this.loggedUserService.getLoggedInUser().getName(),disabled:true}, Validators.required],
-            'name': [{value:'name',disabled:true}, Validators.required],
-            'createdBy': [{value:this.loggedUserService.getLoggedInUser().getName(),disabled:true}, Validators.required],
+            'assignedTo': [{
+                value: this.loggedUserService.getLoggedInUser().getName(),
+                disabled: true
+            }, Validators.required],
+            'name': [{value: 'name', disabled: true}, Validators.required],
+            'createdBy': [{
+                value: this.loggedUserService.getLoggedInUser().getName(),
+                disabled: true
+            }, Validators.required],
             // 'status': [InvoiceStatus.created, Validators.required],
             'invoice': this.fb.group({
                 'company': [''],
@@ -167,8 +161,8 @@ export class OrderCreationComponent implements OnInit {
                     'iban': [disabledEmpty],
                     'swift': [disabledEmpty]
                 }),
-                "invoiceNumber": [{value:this.invoiceSrv.generateInvoiceId()}, Validators.required],
-                'customerId' : [],
+                "invoiceNumber": [{value: this.invoiceSrv.generateInvoiceId()}, Validators.required],
+                'customerId': [],
                 'customer': this.fb.group({
                     'ico': [],
                     'dic': [],
@@ -242,10 +236,10 @@ export class OrderCreationComponent implements OnInit {
 
     addProduct() {
         let product = this.fb.group({
-            'newItem': ['',Validators.required],
-            'price': ['',Validators.required],
-            'unit': ['ks',Validators.required],
-            'count': ['',Validators.required],
+            'newItem': ['', Validators.required],
+            'price': ['', Validators.required],
+            'unit': ['ks', Validators.required],
+            'count': ['', Validators.required],
             'contractor': [''],
             'parcel': ['']
         });
@@ -315,13 +309,13 @@ export class OrderCreationComponent implements OnInit {
 
     }
 
-    continueRequest(order : Order){
+    continueRequest(order: Order) {
 
         this.showModal = false;
 
         console.log("trying to continue req");
         console.log(order);
-        if(order !== null) {
+        if (order !== null) {
             console.log("saving order");
             console.log(order);
 
@@ -339,26 +333,33 @@ export class OrderCreationComponent implements OnInit {
                     this.notificationSrv.success("Nova objednavka bola vytvorena", "Objednavka");
 
                     this.invoiceSrv.createInvoice(invoice).subscribe(
-                        result=>{
-                            order.invoice = result;
+                        result => {
+                            order.invoices = new Array();
+                            order.invoices.push(result);
+
                             this.invoiceForm.reset();
                             this.notificationSrv.success("Nova faktura bola vytvorena", "Faktura");
                             this.createForm();
+
                             this.createEmitter.next(order);
                         },
-                        error=>{
-                            this.notificationSrv.error("Nova faktura nebola vytvorena", "Faktura");
-                            console.log(error);
+                        error => {
+                            if (error.status === 401) {
+                                this.loginServ.logout();
+                            }
+                            else {
+                                this.notificationSrv.error("Nova faktura nebola vytvorena", "Faktura");
+                                console.log(error);
+                            }
                         }
                     )
-                    //order.invoice = result;
 
                 },
                 error => {
                     if (error.status === 401) {
                         this.loginServ.logout();
                     }
-                    else{
+                    else {
                         console.log(error);
                         this.notificationSrv.error("Nova objednávka nebola vytvorena", "Objednávka");
                     }
@@ -366,6 +367,7 @@ export class OrderCreationComponent implements OnInit {
             )
         }
     }
+
     switchInvoiceContact() {
         this.invoiceContact = !this.invoiceContact;
         console.log(this.invoiceContact);

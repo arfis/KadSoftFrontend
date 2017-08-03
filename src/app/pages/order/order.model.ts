@@ -16,8 +16,30 @@ export class Order{
     createdBy : User;
     assignedTo : User;
     created : Date;
+    state : number;
     modified : Date;
     files : string[];
     customerId : number;
+
+}
+
+export enum OrderStatus {
+    notAssigned = 0,
+    assigned = 1,
+    waiting = 2,
+    inProgress = 3,
+    done = 4
+}
+
+export function getOrderTranslation(status : string){
+
+    switch(status) {
+        case "notAssigned" : return {text : "Nepriradena", label:"label-danger"};
+        case "assigned" : return {text : "Priradena", label:"label-info"};
+        case "waiting" : return {text : "Caka na schvalenie", label:"label-warning"};
+        case "inProgress" : return {text : "Pracuje sa", label:"label-default"};
+        case "done" : return {text : "Dokoncena", label:"label-success"};
+        default: return {text:"Undefined: " + status, label:"label-danger"};
+    }
 
 }

@@ -22,7 +22,8 @@ export class InvoiceDetailComponent {
     private invoices : Invoice[];
     private invoice: Invoice;
     public permissions: CompanyPermissions = new CompanyPermissions();
-    public dataLoaded: boolean = false;
+    public invoiceLoaded: boolean = false;
+    public permissionLoaded: boolean = false;
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
@@ -41,7 +42,7 @@ export class InvoiceDetailComponent {
             console.log("invoice:");
             console.log(this.invoice);
 
-            if (!this.invoice.company){
+            if (!this.invoice.company) {
 
                 console.log("company is undefined");
 
@@ -49,7 +50,7 @@ export class InvoiceDetailComponent {
                     result => {
                         this.invoiceSrv.setInvoices(result);
                         this.invoice = this.invoiceSrv.getInvoice(this.invoice.id);
-                        this.dataLoaded = true;
+                        this.invoiceLoaded = true;
                     },
                     error => {
                         if (error.status === 401){
@@ -58,14 +59,19 @@ export class InvoiceDetailComponent {
                     }
                 )
             }
+            else {
+                this.invoiceLoaded = true;
+            }
 
             this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
                 result => {
                     this.permissions = result;
-                    this.dataLoaded = true;
+                    this.permissionLoaded = true;
                 },
                 error => {
-                    console.log(error);
+                    if (error.status === 401){
+                        this.loginServ.logout();
+                    }
                 }
             );
         });

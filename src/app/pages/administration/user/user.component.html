@@ -1,0 +1,10 @@
+<form (ngSubmit)="registerUser(userCreationForm)" [formGroup]="userCreationForm">
+    <h3>Vytvorenie uzivatela</h3>
+    <div class="create-form form-group">
+        <i>Zadajte emailovu adresu: </i>
+        <input type="email" class="form-control" formControlName="email"/>
+        <button [disabled]="!userCreationForm.valid"
+                class="btn btn-info" type="submit">Zaregistruj email
+        </button>
+    </div>
+</form>

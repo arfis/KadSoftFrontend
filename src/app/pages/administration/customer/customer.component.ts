@@ -19,6 +19,7 @@ import {Customer} from "../../users/user.model";
 export class CustomerComponent implements OnInit,OnDestroy {
 
     customers : Customer[];
+    public selectedCustomer : Customer;
 
     constructor(
         private configurationServ : ConfigurationService,
@@ -50,12 +51,20 @@ export class CustomerComponent implements OnInit,OnDestroy {
         console.log("destroying the component");
     }
 
-    public removeCompany(customer : Customer){
+    public removeCustomer(customer : Customer) {
         this.restServ.removeCompany(customer.id).subscribe(
             result => {
                 this.notificationServ.success("Company " + customer.mainContact.name + " was removed");
                 this.customers.splice(this.customers.indexOf(customer),1);
             }
         );
+    }
+
+    public updateCustomer(customer : Customer) {
+        this.selectedCustomer = customer;
+    }
+
+    public newClient(){
+        this.selectedCustomer = undefined;
     }
 }

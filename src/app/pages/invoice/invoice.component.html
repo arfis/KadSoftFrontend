@@ -10,8 +10,8 @@
     <tr>
         <th style="width: 10px">#</th>
         <th class="sortable" (click)="orderBy('invoiceNumber')">Číslo</th>
-        <th class="sortable" (click)="orderBy('createdBy')">Zadal</th>
-        <th class="sortable" (click)="orderBy('client','surname')">Klient</th>
+        <th class="sortable" (click)="orderBy('company','name')">Zadal</th>
+        <th class="sortable" (click)="orderBy('companyContact','surname')">Klient</th>
         <th class="sortable" (click)="orderBy('totalPrice')">Suma</th>
         <th>položky</th>
         <th class="sortable" (click)="orderBy('type')">Typ</th>
@@ -30,7 +30,7 @@
         </td>
         <td>{{invoice.totalPrice | currency:'eur':true}}</td>
         <td>{{invoice?.invoiceItems?.length}}</td>
-        <td>{{invoice?.type}}</td>
+        <td>{{invoiceTypes[invoice?.type-1]}}</td>
         <td><span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
                 {{getStatusMessage(invoice?.status).text}}
                 </span>

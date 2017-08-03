@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div *ngFor="let invoice of activeInvoices; let i = index">
                         <a [routerLink]="[ '/invoice/'+invoice.id ]">
-                            <i>{{invoiceTypes[i]}}</i></a>
+                            <i>{{invoiceTypes[invoice.type-1]}}</i></a>
                     </div>
                 </div>
             </div>
@@ -27,36 +27,34 @@
     </div>
 </ng-container>
 
-<table class="table table-bordered table-responsive">
+<table class="table table-bordered table-responsive table-hover">
     <caption>Objednávky</caption>
     <tbody>
     <tr>
         <th style="width: 10px">#</th>
         <th>Vytvoril</th>
         <th>Popis</th>
-        <th class="sortable" (click)="orderBy('invoice','status')">Stav</th>
+        <th class="sortable" (click)="orderBy('state')">Stav</th>
         <th>Klient</th>
         <th>Faktúry</th>
-        <th class="sortable" (click)="orderBy('invoice','totalPrice')">Cena</th>
+        <th class="sortable" (click)="orderBy('invoices','totalPrice')">Cena</th>
         <th>Priradené</th>
         <th>Stiahnuť</th>
     </tr>
 
-    <tr *ngFor="let order of orders">
+    <tr *ngFor="let order of orders" [routerLink]="[ '/order/', order.id ]">
         <td>{{order?.id}}</td>
         <td><a [routerLink]="[ '/user/' ]">{{order?.createdBy?.getName()}}</a></td>
         <!--// TODO: resolver and make a user type in the invoice -->
         <td>{{order?.text}}</td>
         <td>
-            <ng-container *ngIf="order.invoices.length > 0">
-                <span class="label" [ngClass]="getStatusMessage(order?.invoices[0]?.status).label">
-                {{getStatusMessage(order?.invoices[0]?.status).text}}
+                <span class="label" [ngClass]="getStatusMessage(order?.state).label">
+                {{getStatusMessage(order?.state).text}}
                 </span>
-            </ng-container>
         </td>
         <td>
             <ng-container *ngIf="order.invoices.length > 0">
-                <a [routerLink]="[ '/user/' ]">
+                <a [routerLink]="[ '/user/'+order.mainContact.id ]">
                     {{order?.mainContact?.name}}
                     {{order?.mainContact?.surname}}
                 </a>

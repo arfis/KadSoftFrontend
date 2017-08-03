@@ -36,6 +36,8 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
     @Input()
     showList: boolean = true;
 
+    public invoiceTypes = ["Proforma","Evidenčná","Zálohová faktúra"];
+
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
                 private invoiceServ: InvoiceService,
@@ -98,10 +100,6 @@ export class InvoiceComponent extends SortableTable<Invoice> implements OnInit, 
         console.log(this.maxSize);
         this.invoices = this.totalRecords.slice(startingIndex,
             this.bigTotalItems < this.maxSize ? this.bigTotalItems : startingIndex+this.maxSize);
-
-        console.log("invoices");
-        console.log(this.invoices);
-        console.log(this.totalRecords);
 
         for (let invoice of this.invoices){
             invoice.totalPrice = 0;

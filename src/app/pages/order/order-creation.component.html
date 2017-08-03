@@ -149,7 +149,8 @@ wtf:
                     <h3>Klient</h3>
 
                     <div class="form-group">
-                        <label for="customerEmail">Email:</label>
+                        <label for="customerEmail">Email<span tooltip="Vyhľadávanie podľa mena, priezviska, emailu.">
+                            (Vyhľadávanie)</span>:</label>
                         <input type="text" id="customerEmail" class="form-control" formControlName="email" email/>
 
                     <ng-container *ngIf="foundByMail">
@@ -157,7 +158,8 @@ wtf:
                             <ul class="dropdown-menu">
                                 <li class="dropdown-item" *ngFor="let customerEmail of foundCustomers"
                                     (click)="selectCustomer(customerEmail)">
-                                    <a>{{customerEmail.mainContact.email}}</a>
+                                    <a>{{customerEmail.mainContact.name}} {{customerEmail.mainContact.surname}}
+                                        [{{customerEmail.mainContact.email}}]</a>
                                 </li>
                             </ul>
                         </div>

@@ -1,1 +1,12 @@
-OrderDetail
+<ng-container *ngIf="orderLoaded">
+    <h2>Objednavka</h2>
+    <p>{{order.mainContact.name}} {{order.mainContact.surname}}</p>
+
+    <div *ngFor="let invoice of order.invoices">
+        <a [routerLink]="[ '/invoice/', invoice.id ]">{{invoiceTypes[invoice.type - 1]}}</a>
+    </div>
+
+    <ng-container *ngIf="order.invoices.length > 0">
+        <p>SUMA: <i>{{order.invoices[0].totalPrice}}</i></p>
+    </ng-container>
+</ng-container>

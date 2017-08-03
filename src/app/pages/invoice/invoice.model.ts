@@ -20,7 +20,6 @@ export class Invoice{
     totalPrice : number = 0;
     invoiceItems : Product[];
     value : number;
-    invoicePath : string;
     variableSymbol : number;
     emailText?: string;
 

@@ -15,6 +15,7 @@ import {NotificationService} from "../../services/notification.service";
 import {CompanyCreation} from "./companies/company-create.component";
 import {CustomerComponent} from "./customer/customer.component";
 import {CustomerCreation} from "./customer/customer-create.component";
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {CustomerCreation} from "./customer/customer-create.component";
         AdministrationComponent,
         CompanyCreation,
         CustomerComponent,
-        CustomerCreation
+        CustomerCreation,
+        UserComponent
     ],
     providers: [
         CustomerService,

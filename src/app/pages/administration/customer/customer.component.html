@@ -1,6 +1,7 @@
 <h3>Administrácia klientov</h3>
 
-<customer-creation (onAdd)="onAdd($event)"></customer-creation>
+<button *ngIf="!!selectedCustomer" class="btn btn-info btn-group-justified" (click)="newClient()">Novy klient</button>
+<customer-creation [updateCustomer]="selectedCustomer" (onAdd)="onAdd($event)"></customer-creation>
 <table class="table table-bordered table-hover">
     <tbody>
     <tr>
@@ -11,6 +12,7 @@
         <th>ICO</th>
         <th>DIC</th>
         <th>Odstrániť</th>
+        <th>Upraviť</th>
     </tr>
 
     <tr *ngFor="let customer of customers">
@@ -20,7 +22,8 @@
         <td>{{customer?.mainContact?.city}}</td>
         <td><a>{{customer?.ico || '-'}}</a></td>
         <td>{{customer?.dic || '-'}}</td>
-        <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCompany(customer)"></span></td>
+        <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCustomer(customer)"></span></td>
+        <td><span class="remove glyphicon glyphicon-wrench" (click)="updateCustomer(customer)"></span></td>
     </tr>
     </tbody>
 </table>

@@ -72,6 +72,7 @@ import { AdminLTETranslateService } from './services/translate.service';
 import { LoggerService } from './services/logger.service';
 
 let services = [
+    InvoiceService,
     UserService,
     BreadcrumbService,
     MessagesService,
@@ -124,6 +125,8 @@ import {AdministrationComponent} from "./pages/administration/administration.com
 import {AdministrationModule} from "./pages/administration/administration.module";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {HttpCacheModule} from "ng-http-cache";
+import {InvoiceService} from "./pages/invoice/invoice.service";
+import {RequiredDirective} from "./widgets/required.directive";
 
 @NgModule( {
     bootstrap: [AppComponent],

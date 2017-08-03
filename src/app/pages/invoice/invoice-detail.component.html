@@ -1,12 +1,12 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
-<ng-container *ngIf="dataLoaded">
-    <h2>Faktúra {{invoice.id}}</h2>
+<ng-container *ngIf="invoiceLoaded && permissionLoaded">
+    <h2>Faktúra {{invoice.invoiceNumber}}</h2>
 
-    <a href="{{getHtmlLink()}}"><h4>Zobraz</h4></a>
+    <a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a>
+    <a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-save"></span></a>
     <div>Zhotovil: <i><a [routerLink]="[ '/user/' ]">
         {{invoice?.createdBy}}</a></i>
     </div>
-    <!--({{invoice?.created | date}})</i>-->
 
     <h4>
         <span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
@@ -17,28 +17,28 @@
     <div class="container">
         <div class="row">
             <button *ngIf="permissions.cancel"
-                    (click)="stornoInvoice()" class="col-lg-4 btn btn-danger">
+                    (click)="stornoInvoice()" class="col-lg-2 btn btn-danger">
                 Storno faktúry
             </button>
 
             <button *ngIf="permissions.pay"
-                    (click)="payInvoice()" class="col-lg-4 btn btn-success">
+                    (click)="payInvoice()" class="col-lg-2 btn btn-success">
                 Faktura bola zaplatena
             </button>
 
             <button *ngIf="permissions.generatePdf" (click)="generatePdf()"
-                    class="col-lg-4 btn btn-warning">
+                    class="col-lg-2 btn btn-warning">
                 Vygeneruj znova pdf
             </button>
 
             <button *ngIf="permissions.sendEmail" (click)="sentNotificationEmail()"
-                    class="col-lg-4 btn btn-warning">
+                    class="col-lg-2 btn btn-warning">
                 Odošli notifikačný mail
             </button>
         </div>
     </div>
 
-    <h3>Client:</h3>
+    <h3>Klient:</h3>
     <div class="row">
         <div class="col-lg-6">
             <div class="col-lg-6">
