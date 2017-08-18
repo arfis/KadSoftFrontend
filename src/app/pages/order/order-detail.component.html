@@ -1,12 +1,122 @@
 <ng-container *ngIf="orderLoaded">
-    <h2>Objednavka</h2>
-    <p>{{order.mainContact.name}} {{order.mainContact.surname}}</p>
+    <h2>Objednavka [{{orderId}}]</h2>
 
-    <div *ngFor="let invoice of order.invoices">
-        <a [routerLink]="[ '/invoice/', invoice.id ]">{{invoiceTypes[invoice.type - 1]}}</a>
+    <p><span class="attribute">Klient</span>{{client}}</p>
+
+    <ng-container *ngIf="!assignee">
+        <button class="btn btn-block btn-success" (click)="assign()">Prirad</button>
+    </ng-container>
+
+    <div class="invoices">
+        <h4>Faktury</h4>
+        <div [routerLink]="[ '/invoice/', invoice.id ]" class="invoice-item" *ngFor="let invoice of invoices">
+            <span>{{invoiceTypes[invoice.type - 1]}}</span>
+        </div>
     </div>
 
+    <ng-container *ngIf="assignee">
+        <div class="files section">
+            <h4>Subory:</h4>
+            <div class="file-upload row">
+
+                <div class="col-lg-12 col-md-12 widget">
+                    <p-fileUpload name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
+                                  multiple="multiple" accept="image/*" maxFileSize="1000000">
+                        <template pTemplate type="content">
+                            <div *ngIf="orderFiles.length > 0" class="already-uploaded">
+                                <ul>
+                                    <li *ngFor="let orderFile of orderFiles">
+                                        <a href="orderFile.link">
+                                            <span class="glyphicon glyphicon-save">orderFile.name</span>
+                                        </a>
+                                        <span class="remove glyphicon glyphicon-remove-sign"
+                                              (click)="remove(orderFile)"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div *ngIf="orderFiles.length === 0">
+                                <i>Ziadne subory neboli doposial nahrate</i>
+                            </div>
+                            <ul *ngIf="uploadedFiles?.length">
+                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                            </ul>
+
+                        </template>
+                    </p-fileUpload>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="profession section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>Profesie:</h4>
+                    <p-selectButton [options]="professions" [(ngModel)]="selectedProfessions"
+                                    multiple="multiple"></p-selectButton>
+                    <div *ngIf="isAreaShown" >
+                        <h4>Rozloha:</h4>
+                        <input type="number" min="1" class="form-control" [(ngModel)]="area">
+                    </div>
+                </div>
+
+
+                <div class="product-type">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h4>Typ produktu:</h4>
+                            <p-selectButton [options]="productTypes"
+                                            [(ngModel)]="selectedProductType"></p-selectButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="building-type section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h4>Typ stavby:</h4>
+                    <p-selectButton [options]="buildingTypes"
+                                    [(ngModel)]="selectedBuildingType"></p-selectButton>
+                </div>
+                <div *ngIf="selectedBuildingType > -1" class="col-lg-6">
+                    {{buildingInfo}}
+                </div>
+            </div>
+        </div>
+
+
+        <button class="btn btn-success btn-block">Uloz</button>
+        <p>Priradene: <i>{{order.assignedTo.getName()}}</i></p>
+    </ng-container>
+    <ng-container *ngIf="isAdministrator">
+        <h4>Administrativne nastroje</h4>
+        <div class="section">
+            <h4>Preradenie pouzivatela:</h4>
+            <div class="btn-group" dropdown>
+                <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                    {{selectedUser}} <span class="caret"></span>
+                </button>
+                <button class="btn btn-success">Prirad</button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li role="menuitem">
+                        <a class="dropdown-item">
+                            Stanislav Kadlecik</a>
+                    </li>
+                    <li role="menuitem"><a class="dropdown-item">Adam Kadlecik</a></li>
+                    <li role="menuitem"><a class="dropdown-item">Martin Spal</a></li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem"><a class="dropdown-item">Nepriradene</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ng-container>
+    <p> Stav: {{state.text}}</p>
     <ng-container *ngIf="order.invoices.length > 0">
         <p>SUMA: <i>{{order.invoices[0].totalPrice}}</i></p>
     </ng-container>
+
+
 </ng-container>

@@ -1,8 +1,8 @@
 import {Component, OnInit, OnDestroy, Input, OnChanges} from '@angular/core';
-import { BreadcrumbService } from '../../services/breadcrumb.service';
-import { Message } from '../../models/message';
-import { MessagesService } from '../../services/messages.service';
-import { User } from '../../models/user';
+import {BreadcrumbService} from '../../services/breadcrumb.service';
+import {Message} from '../../models/message';
+import {MessagesService} from '../../services/messages.service';
+import {User} from '../../models/user';
 import {ActivatedRoute, Router} from "@angular/router";
 import {getOrderTranslation, Order, OrderStatus} from "./order.model";
 import {OrderService} from "./order.service";
@@ -20,64 +20,62 @@ import {Subject} from "rxjs/Subject";
     styleUrls: ['./order.component.css'],
     templateUrl: './order.component.html'
 })
-export class OrderComponent extends SortableTable<Order> implements OnChanges,OnInit, OnDestroy {
+export class OrderComponent extends SortableTable<Order> implements OnChanges, OnInit, OnDestroy {
 
     public date: Date = new Date();
-    public orders : Order[] = new Array();
+    public orders: Order[] = new Array();
     public isFormCollapsed = true;
 
 
-    public maxSize:number = 10;
-    public bigTotalItems:number = 0;
-    public bigCurrentPage:number = 1;
-    public numPages:number = 0;
+    public maxSize: number = 10;
+    public bigTotalItems: number = 0;
+    public bigCurrentPage: number = 1;
+    public numPages: number = 0;
 
-    public currentPage : number = 1;
+    public currentPage: number = 1;
 
     public showModal = false;
-    public activeInvoices : Invoice[];
+    public activeInvoices: Invoice[];
 
-    public invoiceTypes = ["Proforma","Evidenčná","Zálohová faktúra"];
+    public invoiceTypes = ["Proforma", "Evidenčná", "Zálohová faktúra"];
 
     public stopChanel = new Subject<number>();
     @Input()
-    filteredOrders : Order[];
+    filteredOrders: Order[];
 
-    constructor(
-        private msgServ: MessagesService,
-        private breadServ: BreadcrumbService,
-        private invoiceServ : InvoiceService,
-        private orderServ : OrderService,
-        public router: Router,
-        private loadingBar : SlimLoadingBarService
-    ) {
+    constructor(private msgServ: MessagesService,
+                private breadServ: BreadcrumbService,
+                private invoiceServ: InvoiceService,
+                private orderServ: OrderService,
+                public router: Router,
+                private loadingBar: SlimLoadingBarService) {
         super();
 
         console.log("filtered orders");
         console.log(this.filteredOrders);
 
         if (!this.filteredOrders) {
-            this.loadingBar.start(()=>{
+            this.loadingBar.start(() => {
                 console.log("complete");
             });
-            Observable.forkJoin(orderServ.getOrders(),this.invoiceServ.getInvoices())
+            Observable.forkJoin(orderServ.getOrders(), this.invoiceServ.getInvoices())
                 .takeUntil(this.stopChanel)
                 .subscribe(
-                result => {
-                    this.setOrders(result[0]);
-                    this.orderServ.setOrders(result[0]);
-                    this.invoiceServ.setInvoices(result[1]);
-                    this.getFirstRecords();
+                    result => {
+                        this.setOrders(result[0]);
+                        this.orderServ.setOrders(result[0]);
+                        this.invoiceServ.setInvoices(result[1]);
+                        this.getFirstRecords();
 
-                    this.loadingBar.complete();
-                },
-                error =>{
-                    console.log(error);
-                },
-                () =>{
-                    this.loadingBar.complete();
-                }
-            );
+                        this.loadingBar.complete();
+                    },
+                    error => {
+                        console.log(error);
+                    },
+                    () => {
+                        this.loadingBar.complete();
+                    }
+                );
         }
         else {
 
@@ -88,17 +86,17 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
 
     }
 
-    public setActiveOrderForModal(order : Order){
+    public setActiveOrderForModal(order: Order) {
         this.activeInvoices = order.invoices;
     }
 
-    public setOrders(orders : Order[]) {
+    public setOrders(orders: Order[]) {
         this.totalRecords = orders;
         this.bigTotalItems = orders.length;
         this.getFirstRecords();
     }
 
-    public ngOnChanges(changes : any) {
+    public ngOnChanges(changes: any) {
         if (changes.filteredOrders) {
             this.stopChanel.next(1);
             this.totalRecords = this.filteredOrders;
@@ -140,19 +138,28 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges,On
         this.isFormCollapsed = !this.isFormCollapsed;
     }
 
-    public updateOrderList(order : Order) {
+    public updateOrderList(order: Order) {
         this.isFormCollapsed = true;
         this.totalRecords.push(order);
         this.setActiveRecords();
     }
 
     getStatusMessage(status) {
-        if(!status) status = "notAssigned";
+        if (!status) status = "notAssigned";
         return getOrderTranslation(status);
+    }
+
+    getInvoiceStatusMessage(status) {
+
+        if (!status) status = "created";
+        return getTranslation(status);
+
     }
 
     setActiveRecords() {
         let startingIndex = ((this.currentPage) * this.maxSize);
-        this.orders = this.totalRecords.slice(startingIndex, startingIndex+this.maxSize);
+        this.orders = this.totalRecords.slice(startingIndex, startingIndex + this.maxSize);
     }
+
+    totalPrice(orderId: number){ this.invoiceServ.getInvoice(orderId).totalPrice}
 }

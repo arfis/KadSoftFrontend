@@ -54,4 +54,11 @@ export class ConfigurationService {
         this.currentCompany.next(company);
     }
 
+    isMobile() {
+        if (navigator.userAgent.match(/Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

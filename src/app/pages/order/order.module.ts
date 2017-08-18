@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {
-    AccordionModule, BsDropdownModule, CollapseModule, ModalModule, PaginationModule,
+    BsDropdownModule, CollapseModule, ModalModule, PaginationModule,
     TooltipModule
 } from "ng2-bootstrap";
 import {RouterModule} from "@angular/router";
@@ -19,15 +19,18 @@ import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar"
 import {RequiredDirective} from "../../widgets/required.directive";
 import {OrderDetailComponent} from "./order-detail.component";
 import {OrderResolve} from "./order-resolve.component";
+import {AccordionModule, FileUploadModule, SelectButtonModule} from 'primeng/primeng';
 
 @NgModule({
     imports: [
+        AccordionModule,
+        SelectButtonModule,
+        FileUploadModule,
         RouterModule,
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         CollapseModule.forRoot(),
-        AccordionModule.forRoot(),
         BsDropdownModule.forRoot(),
         PaginationModule.forRoot(),
         ModalModule.forRoot(),

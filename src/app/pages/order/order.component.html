@@ -33,11 +33,12 @@
     <tr>
         <th style="width: 10px">#</th>
         <th>Vytvoril</th>
-        <th>Popis</th>
+        <th>Nazov</th>
         <th class="sortable" (click)="orderBy('state')">Stav</th>
+        <th class="sortable" (click)="orderBy('invoice','state')">Faktura</th>
         <th>Klient</th>
-        <th>Faktúry</th>
         <th class="sortable" (click)="orderBy('invoices','totalPrice')">Cena</th>
+        <th class="sortable" (click)="orderBy('created')">Datum</th>
         <th>Priradené</th>
         <th>Stiahnuť</th>
     </tr>
@@ -52,6 +53,10 @@
                 {{getStatusMessage(order?.state).text}}
                 </span>
         </td>
+        <td><span class="label" [ngClass]="getInvoiceStatusMessage(order.invoices[0]?.status).label">
+                {{getInvoiceStatusMessage(order.invoices[0]?.status).text}}
+                </span>
+        </td>
         <td>
             <ng-container *ngIf="order.invoices.length > 0">
                 <a [routerLink]="[ '/user/'+order.mainContact.id ]">
@@ -62,14 +67,10 @@
         </td>
         <td>
             <ng-container *ngIf="order.invoices.length > 0">
-                <a (click)="setActiveOrderForModal(order);staticModal.show()">Zobraz</a>
+                {{totalPrice(order.id)}}
             </ng-container>
         </td>
-        <td>
-            <ng-container *ngIf="order.invoices.length > 0">
-                {{order?.invoices[0]?.totalPrice}}
-            </ng-container>
-        </td>
+        <td>{{order?.created}}</td>
         <td>{{order?.assignedTo}}</td>
         <td><a [href]="order?.invoices?.invoicePath">Download</a></td>
     </tr>

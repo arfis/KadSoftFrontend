@@ -8,7 +8,7 @@ export class User {
     public avatarUrl: string;
     public creationDate: string;
     public preferredLang: string;
-    public role : UserRole;
+    public role : Array<string>;
     public connected: boolean = false;
 
     public constructor( data: any = {}) {

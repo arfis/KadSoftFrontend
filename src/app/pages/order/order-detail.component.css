@@ -1,0 +1,74 @@
+
+.section {
+    padding: 10px;
+    margin-top : 20px;
+    margin-bottom : 10px;
+    border-radius: 5px;
+    border: 1px solid darkgray;
+    /*background-color: #222d32;
+    color: whitesmoke;*/
+}
+
+.attribute {
+    text-decoration: underline;
+    font-size: 1em;
+}
+
+.attribute:after {
+    content:": ";
+    text-decoration: none !important;
+}
+
+.invoices {
+    display:inline-block;
+}
+
+.invoice-item {
+    position: relative;
+    background: #fff;
+    border: 1px solid #f4f4f4;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 5px 5px;
+    float: left;
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.invoice-item:hover{
+    background-color:#00a65a;
+}
+
+.invoice-item span {
+    cursor:pointer;
+}
+
+.file-upload {
+    margin-top : 10px;
+}
+.already-uploaded {
+    border: 0.2px solid darkgrey;
+    border-radius : 3px;
+    background-color: lightgray;
+}
+.already-uploaded ul {
+    margin: 0;
+    padding: 10px;
+    list-style-type: none;
+}
+
+.already-uploaded li {
+    font-size: 1.2em;
+}
+
+.already-uploaded span:hover {
+    color:#00a65a;
+}
+
+.already-uploaded .remove {
+    cursor: pointer;
+}
+
+.already-uploaded .remove:hover {
+    color: red;
+}

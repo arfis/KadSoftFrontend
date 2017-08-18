@@ -21,6 +21,12 @@ export class OrderService {
 
     }
 
+    assignOrderToCurrentUser(orderId: number) {
+        const order = this.orders.find(order => order.id === orderId);
+        order.assignedTo = this.usrService.getLoggedInUser();
+        order.state = 1;
+    }
+
     setOrders(orders : Order[]){
         this.orders = orders;
     }
