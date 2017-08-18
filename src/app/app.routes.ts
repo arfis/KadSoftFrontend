@@ -18,6 +18,7 @@ import {InvoiceDetailComponent} from "./pages/invoice/invoice-detail.component";
 import {AdministrationComponent} from "./pages/administration/administration.component";
 import {OrderResolve} from "./pages/order/order-resolve.component";
 import {OrderDetailComponent} from "./pages/order/order-detail.component";
+import {StatisticsComponent} from "./pages/statistics/statistics.component";
 
 const routes: Routes = [
     // logged routes
@@ -59,6 +60,11 @@ const routes: Routes = [
                 canActivate: [CanActivateGuard],
                 component: OrderComponent,
                 path: 'orders'
+            },
+            {
+                canActivate: [CanActivateGuard],
+                component: StatisticsComponent,
+                path: 'stats'
             },
             {
                 canActivate: [CanActivateGuard],

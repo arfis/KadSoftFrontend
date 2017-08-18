@@ -25,7 +25,7 @@ import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar"
     ],
     declarations: [
         InvoiceComponent,
-        InvoiceCreation
+        InvoiceCreation,
     ],
     providers: [
         InvoiceService,

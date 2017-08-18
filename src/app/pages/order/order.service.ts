@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Order} from "./order.model";
+import {Order, OrderStats, OrderStatus} from "./order.model";
 import {Observable} from "rxjs/Observable";
 import {InvoiceService} from "../invoice/invoice.service";
 import {UserService} from "../../services/user.service";
@@ -24,7 +24,7 @@ export class OrderService {
     assignOrderToCurrentUser(orderId: number) {
         const order = this.orders.find(order => order.id === orderId);
         order.assignedTo = this.usrService.getLoggedInUser();
-        order.state = 1;
+        order.state = OrderStats.assigned;
     }
 
     setOrders(orders : Order[]){

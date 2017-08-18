@@ -11,5 +11,5 @@ export class Company extends RecordObject{
     name : string;
     ico : string;
     dic : string;
-
+    taxPayer: boolean;
 }

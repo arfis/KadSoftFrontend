@@ -11,6 +11,8 @@ import {CompanyPermissions} from "../../models/company-permisions.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
+import {MenuItem} from "primeng/primeng";
+
 @Component({
     selector: 'invoice-detail',
     styleUrls: ['./invoice-detail.component.css'],
@@ -19,32 +21,47 @@ import {UserService} from "../../services/user.service";
 
 export class InvoiceDetailComponent {
 
-    private invoices : Invoice[];
+    private invoices: Invoice[];
     private invoice: Invoice;
     public permissions: CompanyPermissions = new CompanyPermissions();
     public invoiceLoaded: boolean = false;
     public permissionLoaded: boolean = false;
+    public invoiceActions: MenuItem[] = new Array();
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
                 private invoiceSrv: InvoiceService,
                 private loadingBar: SlimLoadingBarService,
                 private notificationSrv: NotificationService,
-                private loginServ : UserService) {
+                private loginServ: UserService) {
 
     }
 
+// <button *ngIf="permissions.cancel"
+//     (click)="stornoInvoice()" class="col-lg-2 btn btn-danger">
+//         Storno faktúry
+//     </button>
+//
+// <button *ngIf="permissions.pay"
+//     (click)="payInvoice()" class="col-lg-2 btn btn-success">
+//         Faktura bola zaplatena
+//     </button>
+//
+// <button *ngIf="permissions.generatePdf" (click)="generatePdf()"
+//     class="col-lg-2 btn btn-warning">
+//         Vygeneruj znova pdf
+//     </button>
+//
+// <button *ngIf="permissions.sendEmail" (click)="sentNotificationEmail()"
+//     class="col-lg-2 btn btn-warning">
+//         Odošli notifikačný mail
+//     </button>
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
 
             this.invoice = data['invoice'];
 
-            console.log("invoice:");
-            console.log(this.invoice);
-
             if (!this.invoice.company) {
-
-                console.log("company is undefined");
 
                 this.invoiceSrv.getInvoices().subscribe(
                     result => {
@@ -53,7 +70,7 @@ export class InvoiceDetailComponent {
                         this.invoiceLoaded = true;
                     },
                     error => {
-                        if (error.status === 401){
+                        if (error.status === 401) {
                             this.loginServ.logout();
                         }
                     }
@@ -67,9 +84,40 @@ export class InvoiceDetailComponent {
                 result => {
                     this.permissions = result;
                     this.permissionLoaded = true;
+                    this.invoiceActions = new Array();
+
+                    if (this.permissions.generatePdf) {
+                        this.invoiceActions.push({
+                            label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
+                                this.generatePdf();
+                            }
+                        });
+                    }
+
+                    if (this.permissions.cancel) {
+                        this.invoiceActions.push({
+                            label: 'Storno', icon: 'fa-close', command: () => {
+                                this.stornoInvoice();
+                            }
+                        });
+                    }
+                    if (this.permissions.sendEmail) {
+                        this.invoiceActions.push({
+                            label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
+                                this.sentNotificationEmail();
+                            }
+                        });
+                    }
+                    if (this.permissions.pay) {
+                        this.invoiceActions.push({
+                            label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
+                                this.payInvoice()
+                            }
+                        });
+                    }
                 },
                 error => {
-                    if (error.status === 401){
+                    if (error.status === 401) {
                         this.loginServ.logout();
                     }
                 }
@@ -82,7 +130,7 @@ export class InvoiceDetailComponent {
         return getTranslation(status);
     }
 
-    getHtmlLink(){
+    getHtmlLink() {
         return this.invoiceSrv.generateHtmlLink(this.invoice);
     }
 

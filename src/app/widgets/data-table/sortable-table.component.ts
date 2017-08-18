@@ -2,6 +2,7 @@
  * Created by a619678 on 22. 6. 2017.
  */
 import {isUndefined} from "util";
+import {Input} from "@angular/core";
 
 export abstract class SortableTable<T> {
 
@@ -9,6 +10,9 @@ export abstract class SortableTable<T> {
     public desc;
     public totalRecords: T[];
     public currentPage: number = 0;
+
+    @Input()
+    filter: string;
 
     abstract setActiveRecords();
 

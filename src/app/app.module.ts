@@ -16,6 +16,9 @@ export function createTranslateLoader( http: Http ) {
 }
 
 let modules = [
+    InputTextareaModule,
+    SplitButtonModule,
+    ChartModule,
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
     BrowserModule,
@@ -127,12 +130,15 @@ import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar"
 import {HttpCacheModule} from "ng-http-cache";
 import {InvoiceService} from "./pages/invoice/invoice.service";
 import {RequiredDirective} from "./widgets/required.directive";
+import { StatisticsComponent } from './pages/statistics/statistics.component';
+import {ChartModule, InputTextareaModule, SplitButtonModule} from "primeng/primeng";
 
 @NgModule( {
     bootstrap: [AppComponent],
     declarations: [
         ...widgets,
-        ...pages
+        ...pages,
+        StatisticsComponent
     ],
     imports: [
         ...modules,

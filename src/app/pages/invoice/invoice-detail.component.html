@@ -14,29 +14,7 @@
         </span>
     </h4>
 
-    <div class="container">
-        <div class="row">
-            <button *ngIf="permissions.cancel"
-                    (click)="stornoInvoice()" class="col-lg-2 btn btn-danger">
-                Storno faktúry
-            </button>
-
-            <button *ngIf="permissions.pay"
-                    (click)="payInvoice()" class="col-lg-2 btn btn-success">
-                Faktura bola zaplatena
-            </button>
-
-            <button *ngIf="permissions.generatePdf" (click)="generatePdf()"
-                    class="col-lg-2 btn btn-warning">
-                Vygeneruj znova pdf
-            </button>
-
-            <button *ngIf="permissions.sendEmail" (click)="sentNotificationEmail()"
-                    class="col-lg-2 btn btn-warning">
-                Odošli notifikačný mail
-            </button>
-        </div>
-    </div>
+    <p-splitButton label="Vyber akciu" icon="fa-check" [model]="invoiceActions"></p-splitButton>
 
     <h3>Klient:</h3>
     <div class="row">

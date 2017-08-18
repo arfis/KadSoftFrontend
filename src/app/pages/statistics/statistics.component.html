@@ -1,0 +1,17 @@
+<h2>Statistiky</h2>
+<ng-container *ngIf="showChart && showOrderChart">
+
+<div class="statistics">
+    <div class="col-lg-6">
+        <h3>Faktury</h3>
+        <p-chart type="pie" [data]="invoiceData"></p-chart>
+    </div>
+    <div class="col-lg-6">
+        <h3>Objednavky</h3>
+        <p-chart type="pie" [data]="orderData"></p-chart>
+    </div>
+    <div class="col-lg-4">
+        <p-chart type="pie" [data]="data"></p-chart>
+    </div>
+</div>
+</ng-container>

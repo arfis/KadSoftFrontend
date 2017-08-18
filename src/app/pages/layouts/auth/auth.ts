@@ -78,6 +78,11 @@ export class LayoutsAuthComponent implements OnInit {
                         'link': ['/page/3'],
                     }
                 ]
+            },
+            {
+                'title': 'Statistiky',
+                'icon': 'stats',
+                'link': ['/stats']
             }
             // {
             //     'title': 'External Link',

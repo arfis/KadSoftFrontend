@@ -5,12 +5,23 @@ export enum InvoiceStatus {
     created = 0,
     payed = 1,
     expired = 2,
-    latePay = 3,
-    canceled = 4
+    canceled = 3,
+    latePay = 4,
+    wrongPay = 5
 }
 
 export const invoiceTypes = ["Proforma","Evidenčná","Zálohová faktúra"];
+export const invoiceStatuses = ["created","paid","expired","canceled","latePay","wrong_paid"];
 
+export class InvoiceStats {
+
+    public paid = "paid";
+    public created = "created";
+    public expired = "expired";
+    public canceled = "canceled";
+    public latePay = "latePay";
+    public wrongPay = "wrong_paid";
+}
 export function getTranslation(status : string){
 
   switch(status) {
@@ -23,5 +34,15 @@ export function getTranslation(status : string){
       case "wrong_paid" : return {text : "Zlá suma uhradená", label:"label-danger"};
       default: return {text:"Undefined: " + status, label:"label-danger"};
   }
+}
 
+export function getInvoiceStatusFromEnum(status: InvoiceStatus): String{
+    switch(status) {
+        case InvoiceStatus.created : return "Vystavená";
+        case InvoiceStatus.expired : return "Po splatnosti";
+        case InvoiceStatus.canceled : return "Stornovaná";
+        case InvoiceStatus.latePay : return "Zaplatená po splatnosti";
+        case InvoiceStatus.wrongPay : return "Zlá suma uhradená";
+        case InvoiceStatus.payed : return "Zaplatená";
+    }
 }

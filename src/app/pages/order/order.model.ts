@@ -16,7 +16,7 @@ export class Order{
     createdBy : User;
     assignedTo : User;
     created : Date;
-    state : number;
+    state : string;
     modified : Date;
     files : string[];
     customerId : number;
@@ -28,9 +28,17 @@ export enum OrderStatus {
     assigned = 1,
     waiting = 2,
     inProgress = 3,
-    done = 4
+    done = 4,
+    createdByAnonymous = 5
 }
 
+export class OrderStats {
+    public static notAssigned = "Nepriradena";
+    public static assigned = "Priradena";
+    public static done = "Dokoncena";
+    public static expeded = "Vyexpedovana";
+    public static createdByAnonymous = "Vytvoreny vonkajsim uzivatelom";
+}
 
 export const heating = '0';
 export const vzt = '1';

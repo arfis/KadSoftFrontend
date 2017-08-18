@@ -10,6 +10,7 @@
         <th>Mesto</th>
         <th style="width: 40px">Ucet</th>
         <th>IBAN</th>
+        <th>Platca DPH</th>
         <th>Odstrániť</th>
     </tr>
 
@@ -20,6 +21,9 @@
         <td>{{company?.mainContact?.city}}</td>
         <td><a>{{company?.mainContact?.accountNumber}}</a></td>
         <td>{{company?.mainContact?.iban}}</td>
+        <td>
+            <p-toggleButton onLabel="Ano" offLabel="Nie" [(ngModel)]="company.taxPayer"></p-toggleButton>
+        </td>
         <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCompany(company)"></span></td>
     </tr>
     </tbody>

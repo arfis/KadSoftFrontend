@@ -14,6 +14,8 @@
         </div>
     </div>
 
+
+
     <ng-container *ngIf="assignee">
         <div class="files section">
             <h4>Subory:</h4>
@@ -54,7 +56,7 @@
                     <h4>Profesie:</h4>
                     <p-selectButton [options]="professions" [(ngModel)]="selectedProfessions"
                                     multiple="multiple"></p-selectButton>
-                    <div *ngIf="isAreaShown" >
+                    <div *ngIf="isAreaShown">
                         <h4>Rozloha:</h4>
                         <input type="number" min="1" class="form-control" [(ngModel)]="area">
                     </div>
