@@ -11,6 +11,7 @@ export class Configuration {
     public customerApi : string = "api/customers";
     public invoicesApi : string = "api/invoices";
     public ordersApi : string = "api/orders";
+    public rolesApi: string = "api/allowed/roles";
 
     public serverWithApiUrl = this.server + this.apiUrl;
 }

@@ -27,6 +27,8 @@
     </div>
 </ng-container>
 
+<app-filter [items]="allOrders" (onUpdate)="update($event)"></app-filter>
+
 <table class="table table-bordered table-responsive table-hover">
     <caption>Objednávky</caption>
     <tbody>

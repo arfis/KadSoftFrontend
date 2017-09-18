@@ -5,24 +5,25 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AlertModule, CollapseModule, DatepickerModule, TabsModule} from 'ng2-bootstrap';
-import { AngularFireModule, FirebaseAppConfig } from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate';
-import { AccordionModule } from 'ng2-bootstrap/accordion';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 export function createTranslateLoader( http: Http ) {
     return new TranslateStaticLoader( http, '../public/assets/i18n', '.json' );
 }
 
 let modules = [
+    BsDatepickerModule.forRoot(),
     InputTextareaModule,
     SplitButtonModule,
     ChartModule,
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
     BrowserModule,
-    CollapseModule.forRoot(),CollapseModule.forRoot(),
+    CollapseModule.forRoot(),
     FormsModule,
     HttpModule,
     TabsModule.forRoot(),
@@ -115,21 +116,15 @@ import { routing } from './app.routes';
 import {InvoiceModule} from "./pages/invoice/invoice.module";
 import {UserViewComponent} from "./pages/users/user-view/user-view.component";
 import {UserResolve} from "./pages/users/user-view/user-resolver.component";
-import {OrderComponent} from "./pages/order/order.component";
 import {OrderService} from "./pages/order/order.service";
-import {InvoiceCreation} from "./pages/invoice/invoice-create.component";
-import {OrderCreationComponent} from "./pages/order/order-creation.component";
 import {OrderModule} from "./pages/order/order.module";
 import {InvoiceResolve} from "./pages/invoice/invoice-resolve.component";
 import {InvoiceDetailComponent} from "./pages/invoice/invoice-detail.component";
 import {RestService} from "./services/rest.service";
 import {Configuration} from "./app.constants";
-import {AdministrationComponent} from "./pages/administration/administration.component";
 import {AdministrationModule} from "./pages/administration/administration.module";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {HttpCacheModule} from "ng-http-cache";
 import {InvoiceService} from "./pages/invoice/invoice.service";
-import {RequiredDirective} from "./widgets/required.directive";
 import { StatisticsComponent } from './pages/statistics/statistics.component';
 import {ChartModule, InputTextareaModule, SplitButtonModule} from "primeng/primeng";
 

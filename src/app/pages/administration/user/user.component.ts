@@ -29,6 +29,7 @@ export class UserComponent implements OnInit {
 
     public registerUser({value}: { value: any }) {
         console.log('trying to send mail to: ' + value.email);
+        this.userServ.registerUser(value);
     }
 
     ngOnInit() {

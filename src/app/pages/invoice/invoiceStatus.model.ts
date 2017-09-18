@@ -10,18 +10,25 @@ export enum InvoiceStatus {
     wrongPay = 5
 }
 
-export const invoiceTypes = ["Proforma","Evidenčná","Zálohová faktúra"];
-export const invoiceStatuses = ["created","paid","expired","canceled","latePay","wrong_paid"];
-
 export class InvoiceStats {
 
-    public paid = "paid";
-    public created = "created";
-    public expired = "expired";
-    public canceled = "canceled";
-    public latePay = "latePay";
-    public wrongPay = "wrong_paid";
+    public static paid = "zaplatena";
+    public static created = "vytvorena";
+    public static expired = "po splatnosti";
+    public static canceled = "zrusena";
+    public static latePay = "zaplatena po splatnosti";
+    public static wrongPay = "zla suma uhradena";
 }
+
+export const invoiceTypes = ["Proforma","Evidenčná","Zálohová faktúra"];
+export const invoiceStatuses = ["created","paid","expired","canceled","latePay","wrong_paid"];
+export const invoiceStatesConst = [{label:InvoiceStats.created, value:InvoiceStatus.created},
+                                    {label:InvoiceStats.paid, value:InvoiceStatus.payed},
+                                    {label:InvoiceStats.expired, value:InvoiceStatus.expired},
+                                    {label:InvoiceStats.canceled, value:InvoiceStatus.canceled},
+                                    {label:InvoiceStats.latePay, value:InvoiceStatus.latePay},
+                                    {label:InvoiceStats.wrongPay, value:InvoiceStatus.wrongPay}];
+
 export function getTranslation(status : string){
 
   switch(status) {

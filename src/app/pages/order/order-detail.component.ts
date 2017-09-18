@@ -12,7 +12,7 @@ import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {
     _buildingTypes, _buildingTypesInfo, _productTypes,
-    _professions, getOrderTranslation, heating, lighting, Order, OrderStatus
+    _professions, getOrderTranslation, heating, lighting, vzt, Order, OrderStatus
 } from "./order.model";
 import {OrderService} from "./order.service";
 import {Message, SelectItem} from "primeng/primeng";
@@ -40,7 +40,11 @@ export class OrderDetailComponent {
     selectedProfessions: string[] = [];
     selectedProductType: string;
     msgs: Message[];
-    area: number;
+
+    heatingPrice: number = 0;
+    lightingPrice: number = 0;
+    vztPrice: number = 0;
+    area: number = 0;
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
@@ -115,5 +119,13 @@ export class OrderDetailComponent {
 
     get isAreaShown() { return this.selectedProfessions.find(selected =>
                                         (selected === heating) || (selected === lighting))}
+
+    get isHeatingSelected() { return this.selectedProfessions.find(selected => selected === heating)}
+    get isVztSelected() { return this.selectedProfessions.find(selected => selected === vzt)}
+    get isLightingSelected() { return this.selectedProfessions.find(selected => selected === lighting)}
+
+    get totalCost() {
+        return this.area * (this.lightingPrice + this.heatingPrice) + this.vztPrice;
+    }
     get isAdministrator() { return this._loginServ.getLoggedInUser().role.indexOf("ROLE_ADMIN") > -1}
 }

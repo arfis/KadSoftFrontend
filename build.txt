@@ -1,0 +1,678 @@
+Your global Angular CLI version (1.2.0) is greater than your local
+version (1.0.0-beta.32). The local Angular CLI version is used.
+
+To disable this warning use "ng set --global warnings.versionMismatch=false".
+Hash: [1m5948047ebf9915da2896[39m[22m
+Version: webpack [1m2.2.1[39m[22m
+Time: [1m48163[39m[22mms
+                                                  [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+  [1m[32mglyphicons-halflings-regular.89889688147bd7575d63.svg[39m[22m   109 kB        [1m[39m[22m  [1m[32m[39m[22m
+           [1m[32mfontawesome-webfont.674f50d287a8c48dc19b.eot[39m[22m   166 kB        [1m[39m[22m  [1m[32m[39m[22m
+           [1m[32mfontawesome-webfont.b06871f281fee6b241d6.ttf[39m[22m   166 kB        [1m[39m[22m  [1m[32m[39m[22m
+         [1m[32mfontawesome-webfont.af7ae505a9eed503f8b8.woff2[39m[22m  77.2 kB        [1m[39m[22m  [1m[32m[39m[22m
+          [1m[32mfontawesome-webfont.fee66e712a8a08eef580.woff[39m[22m    98 kB        [1m[39m[22m  [1m[32m[39m[22m
+                          [1m[32mline.567f57385ea3dde2c9ae.gif[39m[22m  13.1 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mroboto-v15-latin-regular.9f916e330c478bbfa2a0.eot[39m[22m  16.2 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mroboto-v15-latin-regular.3d3a53586bd78d1069ae.svg[39m[22m    49 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mroboto-v15-latin-regular.38861cba61c66739c145.ttf[39m[22m  32.7 kB        [1m[39m[22m  [1m[32m[39m[22m
+     [1m[32mroboto-v15-latin-regular.16e1d930cf13fb7a9563.woff[39m[22m  18.5 kB        [1m[39m[22m  [1m[32m[39m[22m
+    [1m[32mroboto-v15-latin-regular.7e367be02cd17a96d513.woff2[39m[22m  14.6 kB        [1m[39m[22m  [1m[32m[39m[22m
+  [1m[32mglyphicons-halflings-regular.f4769f9bdb7466be6508.eot[39m[22m  20.1 kB        [1m[39m[22m  [1m[32m[39m[22m
+                      [1m[32mionicons.bdf1d30681cf87986c38.eot[39m[22m   144 kB        [1m[39m[22m  [1m[32m[39m[22m
+           [1m[32mfontawesome-webfont.912ec66d7572ff821749.svg[39m[22m   444 kB        [1m[39m[22m  [1m[32m[39m[22m
+                      [1m[32mionicons.d9496a234c81179afbca.svg[39m[22m   400 kB        [1m[39m[22m  [1m[32m[39m[22m
+                      [1m[32mboxed-bg.7799dece2c79854f63f0.jpg[39m[22m   124 kB        [1m[39m[22m  [1m[32m[39m[22m
+  [1m[32mglyphicons-halflings-regular.e18bbf611f2a2e43afc0.ttf[39m[22m  45.4 kB        [1m[39m[22m  [1m[32m[39m[22m
+ [1m[32mglyphicons-halflings-regular.fa2772327f55d8198301.woff[39m[22m  23.4 kB        [1m[39m[22m  [1m[32m[39m[22m
+[1m[32mglyphicons-halflings-regular.448c34a56d699c29117a.woff2[39m[22m    18 kB        [1m[39m[22m  [1m[32m[39m[22m
+                      [1m[32mionicons.74c652671225d6ded874.ttf[39m[22m   144 kB        [1m[39m[22m  [1m[32m[39m[22m
+                    [1m[32mionicons.311d81961c5880647fec.woff2[39m[22m    61 kB        [1m[39m[22m  [1m[32m[39m[22m
+                     [1m[32mionicons.81414686e99c00d2921e.woff[39m[22m  80.4 kB        [1m[39m[22m  [1m[32m[39m[22m
+                 [1m[32mscripts.9610ca5f12e738439252.bundle.js[39m[22m   807 kB    [1m0, 4[39m[22m  [1m[32m[39m[22mscripts
+                    [1m[32mmain.f5220ce30282aa317449.bundle.js[39m[22m  1.09 kB    [1m2, 4[39m[22m  [1m[32m[39m[22mmain
+                  [1m[32mvendor.1c5c990c1694b2fca047.bundle.js[39m[22m   339 kB    [1m3, 4[39m[22m  [1m[32m[39m[22mvendor
+                  [1m[32minline.f96e14d37b689afe95d8.bundle.js[39m[22m  1.46 kB       [1m4[39m[22m  [1m[32m[39m[22minline
+                 [1m[32mstyles.9abde02576eeb621907b.bundle.css[39m[22m   433 kB    [1m1, 4[39m[22m  [1m[32m[39m[22mstyles
+chunk    {[1m[33m0[39m[22m} [1m[32mscripts.9610ca5f12e738439252.bundle.js[39m[22m (scripts) 810 kB {[1m[33m4[39m[22m}[1m[33m [initial][39m[22m[1m[32m [rendered][39m[22m
+chunk    {[1m[33m1[39m[22m} [1m[32mstyles.9abde02576eeb621907b.bundle.css[39m[22m (styles) 281 bytes {[1m[33m4[39m[22m}[1m[33m [initial][39m[22m[1m[32m [rendered][39m[22m
+chunk    {[1m[33m2[39m[22m} [1m[32mmain.f5220ce30282aa317449.bundle.js[39m[22m (main) 1.99 kB {[1m[33m3[39m[22m}[1m[33m [initial][39m[22m[1m[32m [rendered][39m[22m
+chunk    {[1m[33m3[39m[22m} [1m[32mvendor.1c5c990c1694b2fca047.bundle.js[39m[22m (vendor) 1.07 MB[1m[33m [initial][39m[22m[1m[32m [rendered][39m[22m
+chunk    {[1m[33m4[39m[22m} [1m[32minline.f96e14d37b689afe95d8.bundle.js[39m[22m (inline) 0 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+
+[1m[33mWARNING in main.f5220ce30282aa317449.bundle.js from UglifyJs
+Dropping unreachable code [main.f5220ce30282aa317449.bundle.js:32,0]
+Dropping unreachable code [main.f5220ce30282aa317449.bundle.js:35,0]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0__polyfills_ts__ [main.f5220ce30282aa317449.bundle.js:22,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__angular_core__ [main.f5220ce30282aa317449.bundle.js:23,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2__environments_environment__ [main.f5220ce30282aa317449.bundle.js:24,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ [main.f5220ce30282aa317449.bundle.js:25,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0_core_js_es6_symbol___default [main.f5220ce30282aa317449.bundle.js:72,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1_core_js_es6_object___default [main.f5220ce30282aa317449.bundle.js:74,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2_core_js_es6_function___default [main.f5220ce30282aa317449.bundle.js:76,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_3_core_js_es6_parse_int___default [main.f5220ce30282aa317449.bundle.js:78,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_4_core_js_es6_parse_float___default [main.f5220ce30282aa317449.bundle.js:80,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_5_core_js_es6_number___default [main.f5220ce30282aa317449.bundle.js:82,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_6_core_js_es6_math___default [main.f5220ce30282aa317449.bundle.js:84,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_7_core_js_es6_string___default [main.f5220ce30282aa317449.bundle.js:86,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_8_core_js_es6_date___default [main.f5220ce30282aa317449.bundle.js:88,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_9_core_js_es6_array___default [main.f5220ce30282aa317449.bundle.js:90,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_10_core_js_es6_regexp___default [main.f5220ce30282aa317449.bundle.js:92,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_11_core_js_es6_map___default [main.f5220ce30282aa317449.bundle.js:94,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_12_core_js_es6_set___default [main.f5220ce30282aa317449.bundle.js:96,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect___default [main.f5220ce30282aa317449.bundle.js:98,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect___default [main.f5220ce30282aa317449.bundle.js:100,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone___default [main.f5220ce30282aa317449.bundle.js:102,25][39m[22m
+
+[1m[33mWARNING in vendor.1c5c990c1694b2fca047.bundle.js from UglifyJs
+Dropping unused function isStrictStringMap [vendor.1c5c990c1694b2fca047.bundle.js:291,9]
+Dropping unused function setValueOnPath [vendor.1c5c990c1694b2fca047.bundle.js:372,9]
+Dropping unused function escapeRegExp [vendor.1c5c990c1694b2fca047.bundle.js:423,9]
+Side effects in initialization of unused variable STRING_MAP_PROTO [vendor.1c5c990c1694b2fca047.bundle.js:286,21]
+Side effects in initialization of unused variable NumberWrapper [vendor.1c5c990c1694b2fca047.bundle.js:315,4]
+Dropping unused function setDOM [vendor.1c5c990c1694b2fca047.bundle.js:526,9]
+Dropping unused function DomAdapter_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:1312,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__di_forward_ref__ [vendor.1c5c990c1694b2fca047.bundle.js:1451,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_4__di_reflective_provider__ [vendor.1c5c990c1694b2fca047.bundle.js:1458,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_5__di_reflective_key__ [vendor.1c5c990c1694b2fca047.bundle.js:1460,25]
+Dropping unused function scheduleMicroTask [vendor.1c5c990c1694b2fca047.bundle.js:1569,9]
+Dropping unused function isStrictStringMap [vendor.1c5c990c1694b2fca047.bundle.js:1608,9]
+Dropping unused function looseIdentical [vendor.1c5c990c1694b2fca047.bundle.js:1658,9]
+Dropping unused function print [vendor.1c5c990c1694b2fca047.bundle.js:1672,9]
+Dropping unused function warn [vendor.1c5c990c1694b2fca047.bundle.js:1680,9]
+Dropping unused function setValueOnPath [vendor.1c5c990c1694b2fca047.bundle.js:1689,9]
+Dropping unused function isPrimitive [vendor.1c5c990c1694b2fca047.bundle.js:1733,9]
+Dropping unused function escapeRegExp [vendor.1c5c990c1694b2fca047.bundle.js:1740,9]
+Side effects in initialization of unused variable STRING_MAP_PROTO [vendor.1c5c990c1694b2fca047.bundle.js:1603,21]
+Dropping unused function scheduleMicroTask [vendor.1c5c990c1694b2fca047.bundle.js:1791,9]
+Dropping unused function getTypeNameForDebugging [vendor.1c5c990c1694b2fca047.bundle.js:1802,9]
+Dropping unused function isStrictStringMap [vendor.1c5c990c1694b2fca047.bundle.js:1830,9]
+Dropping unused function looseIdentical [vendor.1c5c990c1694b2fca047.bundle.js:1880,9]
+Dropping unused function print [vendor.1c5c990c1694b2fca047.bundle.js:1894,9]
+Dropping unused function warn [vendor.1c5c990c1694b2fca047.bundle.js:1902,9]
+Dropping unused function isPrimitive [vendor.1c5c990c1694b2fca047.bundle.js:1955,9]
+Dropping unused function escapeRegExp [vendor.1c5c990c1694b2fca047.bundle.js:1962,9]
+Side effects in initialization of unused variable STRING_MAP_PROTO [vendor.1c5c990c1694b2fca047.bundle.js:1825,21]
+Side effects in initialization of unused variable NumberWrapper [vendor.1c5c990c1694b2fca047.bundle.js:1854,4]
+Dropping unreachable code [vendor.1c5c990c1694b2fca047.bundle.js:2665,8]
+Declarations in unreachable code! [vendor.1c5c990c1694b2fca047.bundle.js:2665,8]
+Dropping unreachable code [vendor.1c5c990c1694b2fca047.bundle.js:2702,8]
+Declarations in unreachable code! [vendor.1c5c990c1694b2fca047.bundle.js:2702,8]
+Dropping unused function EventManager_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:2805,9]
+Dropping unused function EventManagerPlugin_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:2856,9]
+Dropping unused function Injector_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:3036,9]
+Dropping unused function ComponentStillLoadingError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:3271,9]
+Dropping unused function ModuleWithComponentFactories_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:3291,9]
+Dropping unused function Compiler_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:3373,9]
+Side effects in initialization of unused variable ModuleWithComponentFactories [vendor.1c5c990c1694b2fca047.bundle.js:3280,4]
+Side effects in initialization of unused variable COMPILER_OPTIONS [vendor.1c5c990c1694b2fca047.bundle.js:3387,21]
+Dropping unused function NgLocaleLocalization_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:3622,9]
+Side effects in initialization of unused variable PACKAGE_ROOT_URL [vendor.1c5c990c1694b2fca047.bundle.js:4242,21]
+Dropping unused function WrappedValue_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4384,9]
+Dropping unused function ValueUnwrapper_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4412,9]
+Dropping unused function SimpleChange_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4436,9]
+Side effects in initialization of unused variable SimpleChange [vendor.1c5c990c1694b2fca047.bundle.js:4420,4]
+Dropping unused function unimplemented [vendor.1c5c990c1694b2fca047.bundle.js:4506,9]
+Dropping unused function BaseError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4566,9]
+Dropping unused function WrappedError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4599,9]
+Dropping unused function NoComponentFactoryError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4643,9]
+Dropping unused function ComponentFactoryResolver_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4675,9]
+Dropping unused function CodegenComponentFactoryResolver_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4705,9]
+Dropping unused function ElementRef_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4728,9]
+Dropping unused function ViewUtils_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:4861,9]
+Dropping unused function InlineArray0_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:5369,9]
+Dropping unused function InlineArray2_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:5415,9]
+Dropping unused function InlineArray4_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:5479,9]
+Dropping unused function InlineArray8_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:5575,9]
+Dropping unused function InlineArray16_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:5735,9]
+Dropping unused function InlineArrayDynamic_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:5797,9]
+Side effects in initialization of unused variable wtfStartTimeRange [vendor.1c5c990c1694b2fca047.bundle.js:5891,21]
+Side effects in initialization of unused variable wtfEndTimeRange [vendor.1c5c990c1694b2fca047.bundle.js:5898,21]
+Dropping unused function NgZone_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:6243,9]
+Dropping unused function Location_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:6670,9]
+Side effects in initialization of unused variable LOCATION_INITIALIZED [vendor.1c5c990c1694b2fca047.bundle.js:6830,21]
+Dropping unused function NoOpAnimationPlayer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:7010,9]
+Dropping unused function ApplicationInitStatus_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:7096,9]
+Dropping unused function NgProbeToken_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:7217,9]
+Dropping unused function destroyPlatform [vendor.1c5c990c1694b2fca047.bundle.js:7290,9]
+Dropping unused function PlatformRef__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:7561,9]
+Dropping unused function ApplicationRef__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:7825,9]
+Dropping unused function DefaultIterableDiffer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:8541,9]
+Dropping unused function CollectionChangeRecord_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:8619,9]
+Dropping unused function _DuplicateItemRecordList_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:8758,9]
+Dropping unused function _DuplicateMap_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:8837,9]
+Dropping unused function Console_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:8896,9]
+Dropping unused function OpaqueToken_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9002,9]
+Dropping unused function ReflectiveKey_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9089,9]
+Dropping unused function KeyRegistry_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9126,9]
+Dropping unused function ReflectiveDependency_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9187,9]
+Dropping unused function ResolvedReflectiveProvider__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9217,9]
+Dropping unused function ResolvedReflectiveFactory_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9241,9]
+Dropping unused function EventEmitter_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9571,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default [vendor.1c5c990c1694b2fca047.bundle.js:9447,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default [vendor.1c5c990c1694b2fca047.bundle.js:9449,25]
+Dropping unused function ComponentRef__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9741,9]
+Dropping unused function ComponentFactory_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9792,9]
+Dropping unused function RenderComponentType_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:9920,9]
+Dropping unused function Testability_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:10314,9]
+Dropping unused function TestabilityRegistry_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:10395,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable___default [vendor.1c5c990c1694b2fca047.bundle.js:10480,25]
+Dropping unused function AnimationDriver_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:10571,9]
+Dropping unused function NgProbeToken_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:10634,9]
+Dropping unused function DomRootRenderer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:10765,9]
+Dropping unused function DomRootRenderer__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:10804,9]
+Dropping unused function DomRenderer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:11141,9]
+Dropping unused function HammerGestureConfig_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:11353,9]
+Dropping unused function HammerGesturesPlugin_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:11422,9]
+Dropping unused function SharedStylesHost_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:11496,9]
+Dropping unused function DomSharedStylesHost_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:11569,9]
+Side effects in initialization of unused variable RenderDebugInfo [vendor.1c5c990c1694b2fca047.bundle.js:11614,21]
+Side effects in initialization of unused variable ReflectionCapabilities [vendor.1c5c990c1694b2fca047.bundle.js:11615,21]
+Side effects in initialization of unused variable reflector [vendor.1c5c990c1694b2fca047.bundle.js:11617,21]
+Side effects in initialization of unused variable AnimationPlayer [vendor.1c5c990c1694b2fca047.bundle.js:11619,21]
+Side effects in initialization of unused variable AnimationSequencePlayer [vendor.1c5c990c1694b2fca047.bundle.js:11620,21]
+Side effects in initialization of unused variable AnimationGroupPlayer [vendor.1c5c990c1694b2fca047.bundle.js:11621,21]
+Side effects in initialization of unused variable AnimationKeyframe [vendor.1c5c990c1694b2fca047.bundle.js:11622,21]
+Side effects in initialization of unused variable AnimationStyles [vendor.1c5c990c1694b2fca047.bundle.js:11623,21]
+Side effects in initialization of unused variable prepareFinalAnimationStyles [vendor.1c5c990c1694b2fca047.bundle.js:11624,21]
+Side effects in initialization of unused variable balanceAnimationKeyframes [vendor.1c5c990c1694b2fca047.bundle.js:11625,21]
+Side effects in initialization of unused variable clearStyles [vendor.1c5c990c1694b2fca047.bundle.js:11626,21]
+Side effects in initialization of unused variable collectAndResolveStyles [vendor.1c5c990c1694b2fca047.bundle.js:11627,21]
+Dropping unused variable SAFE_SRCSET_PATTERN [vendor.1c5c990c1694b2fca047.bundle.js:11676,21]
+Dropping unused function SwitchView_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:12505,9]
+Dropping unused function NgSwitch_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:12630,9]
+Dropping unused function NgSwitchCase_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:12706,9]
+Dropping unused function NgSwitchDefault_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:12766,9]
+Dropping unreachable code [vendor.1c5c990c1694b2fca047.bundle.js:13033,4]
+Declarations in unreachable code! [vendor.1c5c990c1694b2fca047.bundle.js:13033,4]
+Dropping unused function AnimationGroupPlayer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13270,9]
+Dropping unused function AnimationKeyframe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13322,9]
+Dropping unused function AnimationQueue_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13398,9]
+Dropping unused function AnimationSequencePlayer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13573,9]
+Dropping unused function AnimationStyles_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13627,9]
+Dropping unused function AnimationTransitionEvent_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13683,9]
+Dropping unused function AnimationEntryMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13756,9]
+Dropping unused function AnimationStateDeclarationMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13791,9]
+Dropping unused function AnimationStateTransitionMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13817,9]
+Dropping unused function AnimationKeyframesSequenceMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13850,9]
+Dropping unused function AnimationStyleMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13875,9]
+Dropping unused function AnimationAnimateMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13901,9]
+Dropping unused function AnimationSequenceMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13952,9]
+Dropping unused function AnimationGroupMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:13982,9]
+Dropping unused function animate [vendor.1c5c990c1694b2fca047.bundle.js:14041,9]
+Dropping unused function group [vendor.1c5c990c1694b2fca047.bundle.js:14090,9]
+Dropping unused function sequence [vendor.1c5c990c1694b2fca047.bundle.js:14134,9]
+Dropping unused function style [vendor.1c5c990c1694b2fca047.bundle.js:14186,9]
+Dropping unused function state [vendor.1c5c990c1694b2fca047.bundle.js:14265,9]
+Dropping unused function keyframes [vendor.1c5c990c1694b2fca047.bundle.js:14319,9]
+Dropping unused function transition [vendor.1c5c990c1694b2fca047.bundle.js:14429,9]
+Dropping unused function trigger [vendor.1c5c990c1694b2fca047.bundle.js:14492,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0__facade_lang__ [vendor.1c5c990c1694b2fca047.bundle.js:13700,25]
+Side effects in initialization of unused variable AnimationEntryMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13745,4]
+Side effects in initialization of unused variable AnimationStateDeclarationMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13778,4]
+Side effects in initialization of unused variable AnimationStateTransitionMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13804,4]
+Side effects in initialization of unused variable AnimationKeyframesSequenceMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13839,4]
+Side effects in initialization of unused variable AnimationStyleMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13861,4]
+Side effects in initialization of unused variable AnimationAnimateMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13888,4]
+Side effects in initialization of unused variable AnimationSequenceMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13933,4]
+Side effects in initialization of unused variable AnimationGroupMetadata [vendor.1c5c990c1694b2fca047.bundle.js:13963,4]
+Dropping unused function DefaultKeyValueDiffer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15071,9]
+Dropping unused function KeyValueChangeRecord_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15126,9]
+Dropping unused function IterableDiffers_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15261,9]
+Dropping unused function KeyValueDiffers_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15362,9]
+Dropping unused function EventListener_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15405,9]
+Dropping unused function DebugNode_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15483,9]
+Dropping unused function DebugElement_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15603,9]
+Dropping unused function asNativeElements [vendor.1c5c990c1694b2fca047.bundle.js:15624,9]
+Dropping unused function getAllDebugNodes [vendor.1c5c990c1694b2fca047.bundle.js:15674,9]
+Dropping unused function AbstractProviderError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15779,9]
+Dropping unused function InstantiationError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:15929,9]
+Dropping unused function ErrorHandler_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16201,9]
+Side effects in initialization of unused variable TRANSLATIONS [vendor.1c5c990c1694b2fca047.bundle.js:16239,21]
+Side effects in initialization of unused variable TRANSLATIONS_FORMAT [vendor.1c5c990c1694b2fca047.bundle.js:16243,21]
+Dropping unused function StaticNodeDebugInfo_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16277,9]
+Dropping unused function DebugContext_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16417,9]
+Dropping unused function ViewWrappedError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16520,9]
+Dropping unused function NgModuleFactory_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16653,9]
+Dropping unused function NgModuleInjector_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16745,9]
+Side effects in initialization of unused variable NgModuleRef [vendor.1c5c990c1694b2fca047.bundle.js:16582,4]
+Side effects in initialization of unused variable NgModuleFactory [vendor.1c5c990c1694b2fca047.bundle.js:16622,4]
+Dropping unused function clearModulesForTest [vendor.1c5c990c1694b2fca047.bundle.js:16809,9]
+Dropping unused function getModuleFactory [vendor.1c5c990c1694b2fca047.bundle.js:16820,9]
+Side effects in initialization of unused variable NgModuleFactoryLoader [vendor.1c5c990c1694b2fca047.bundle.js:16780,4]
+Dropping unused function TemplateRef__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:16911,9]
+Dropping unused function ViewContainerRef__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:17237,9]
+Dropping unused function ViewRef__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:17472,9]
+Side effects in initialization of unused variable EmbeddedViewRef [vendor.1c5c990c1694b2fca047.bundle.js:17370,4]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2__metadata_lifecycle_hooks__ [vendor.1c5c990c1694b2fca047.bundle.js:17506,25]
+Side effects in initialization of unused variable OnChanges [vendor.1c5c990c1694b2fca047.bundle.js:17594,4]
+Side effects in initialization of unused variable OnInit [vendor.1c5c990c1694b2fca047.bundle.js:17621,4]
+Side effects in initialization of unused variable DoCheck [vendor.1c5c990c1694b2fca047.bundle.js:17653,4]
+Side effects in initialization of unused variable OnDestroy [vendor.1c5c990c1694b2fca047.bundle.js:17677,4]
+Side effects in initialization of unused variable AfterContentInit [vendor.1c5c990c1694b2fca047.bundle.js:17700,4]
+Side effects in initialization of unused variable AfterContentChecked [vendor.1c5c990c1694b2fca047.bundle.js:17721,4]
+Side effects in initialization of unused variable AfterViewInit [vendor.1c5c990c1694b2fca047.bundle.js:17743,4]
+Side effects in initialization of unused variable AfterViewChecked [vendor.1c5c990c1694b2fca047.bundle.js:17764,4]
+Dropping unused function ViewMetadata_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:17838,9]
+Dropping unused function ReflectionCapabilities_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:18167,9]
+Dropping unused function Reflector_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:18310,9]
+Dropping unused function Version_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:18401,9]
+Dropping unused function BrowserModule_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:18551,9]
+Side effects in initialization of unused variable BrowserModule [vendor.1c5c990c1694b2fca047.bundle.js:18518,4]
+Dropping unused function BrowserPlatformLocation_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:19632,9]
+Dropping unused function DomEventsPlugin_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:19826,9]
+Dropping unused function KeyEventsPlugin_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:19982,9]
+Dropping unused function DomSanitizerImpl_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:20316,9]
+Dropping unused function SafeValueImpl_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:20350,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__localization__ [vendor.1c5c990c1694b2fca047.bundle.js:22383,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_3__directives_index__ [vendor.1c5c990c1694b2fca047.bundle.js:22387,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_4__pipes_index__ [vendor.1c5c990c1694b2fca047.bundle.js:22398,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_5__version__ [vendor.1c5c990c1694b2fca047.bundle.js:22410,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_6__angular_core__ [vendor.1c5c990c1694b2fca047.bundle.js:22412,25]
+Dropping unused function CommonModule_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:22477,9]
+Dropping unused function NgClass_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:22695,9]
+Dropping unused function NgForRow_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:22787,9]
+Dropping unused function NgFor_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:22997,9]
+Dropping unused function RecordViewTuple_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23033,9]
+Dropping unused function NgIf_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23121,9]
+Dropping unused function NgPlural_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23255,9]
+Dropping unused function NgPluralCase_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23316,9]
+Dropping unused function NgStyle_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23436,9]
+Dropping unused function NgTemplateOutlet_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23546,9]
+Dropping unused function areIterablesEqual [vendor.1c5c990c1694b2fca047.bundle.js:23715,9]
+Dropping unused function iterateListLike [vendor.1c5c990c1694b2fca047.bundle.js:23734,9]
+Side effects in initialization of unused variable StringMapWrapper [vendor.1c5c990c1694b2fca047.bundle.js:23589,4]
+Side effects in initialization of unused variable ListWrapper [vendor.1c5c990c1694b2fca047.bundle.js:23630,4]
+Dropping unused function unimplemented [vendor.1c5c990c1694b2fca047.bundle.js:23767,9]
+Dropping unused function BaseError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23827,9]
+Dropping unused function WrappedError_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:23860,9]
+Side effects in initialization of unused variable WrappedError [vendor.1c5c990c1694b2fca047.bundle.js:23837,4]
+Dropping unused function HashLocationStrategy_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24004,9]
+Side effects in initialization of unused variable HashLocationStrategy [vendor.1c5c990c1694b2fca047.bundle.js:23911,4]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__location_strategy__ [vendor.1c5c990c1694b2fca047.bundle.js:24027,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2__hash_location_strategy__ [vendor.1c5c990c1694b2fca047.bundle.js:24030,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_3__path_location_strategy__ [vendor.1c5c990c1694b2fca047.bundle.js:24032,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_4__location__ [vendor.1c5c990c1694b2fca047.bundle.js:24034,25]
+Dropping unused function PathLocationStrategy_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24191,9]
+Side effects in initialization of unused variable PathLocationStrategy [vendor.1c5c990c1694b2fca047.bundle.js:24104,4]
+Dropping unused function AsyncPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24393,9]
+Dropping unused function DatePipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24580,9]
+Dropping unused function I18nPluralPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24708,9]
+Dropping unused function I18nSelectPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24784,9]
+Dropping unused function JsonPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24838,9]
+Dropping unused function LowerCasePipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:24904,9]
+Dropping unused function DecimalPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25043,9]
+Dropping unused function PercentPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25099,9]
+Dropping unused function CurrencyPipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25163,9]
+Dropping unused function SlicePipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25266,9]
+Dropping unused function UpperCasePipe_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25332,9]
+Side effects in initialization of unused variable VERSION [vendor.1c5c990c1694b2fca047.bundle.js:25381,21]
+Dropping unused function AnimationTransition_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25587,9]
+Dropping unused function ViewAnimationMap_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25684,9]
+Dropping unused function ApplicationModule_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:25780,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2__util__ [vendor.1c5c990c1694b2fca047.bundle.js:25856,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_6__application_init__ [vendor.1c5c990c1694b2fca047.bundle.js:25888,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_16__profile_profile__ [vendor.1c5c990c1694b2fca047.bundle.js:25944,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_17__type__ [vendor.1c5c990c1694b2fca047.bundle.js:25949,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_22__animation_animation_transition_event__ [vendor.1c5c990c1694b2fca047.bundle.js:25978,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_23__animation_animation_player__ [vendor.1c5c990c1694b2fca047.bundle.js:25980,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_24__animation_animation_styles__ [vendor.1c5c990c1694b2fca047.bundle.js:25982,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_25__animation_animation_keyframe__ [vendor.1c5c990c1694b2fca047.bundle.js:25984,25]
+Dropping unused function DebugDomRootRenderer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:26197,9]
+Dropping unused function DebugDomRenderer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:26427,9]
+Dropping unused function ReflectiveInjector__tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:26989,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0__linker_compiler__ [vendor.1c5c990c1694b2fca047.bundle.js:27030,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__linker_component_factory__ [vendor.1c5c990c1694b2fca047.bundle.js:27035,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2__linker_component_factory_resolver__ [vendor.1c5c990c1694b2fca047.bundle.js:27038,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_4__linker_ng_module_factory__ [vendor.1c5c990c1694b2fca047.bundle.js:27042,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_5__linker_ng_module_factory_loader__ [vendor.1c5c990c1694b2fca047.bundle.js:27045,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_6__linker_query_list__ [vendor.1c5c990c1694b2fca047.bundle.js:27048,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_7__linker_system_js_ng_module_factory_loader__ [vendor.1c5c990c1694b2fca047.bundle.js:27050,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_10__linker_view_ref__ [vendor.1c5c990c1694b2fca047.bundle.js:27057,25]
+Dropping unused function AnimationViewContext_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:27149,9]
+Dropping unused function ElementInjector_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:27212,9]
+Dropping unused function QueryList_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:27389,9]
+Side effects in initialization of unused variable QueryList [vendor.1c5c990c1694b2fca047.bundle.js:27262,4]
+Dropping unused function SystemJsNgModuleLoaderConfig_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:27431,9]
+Dropping unused function SystemJsNgModuleLoader_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:27508,9]
+Side effects in initialization of unused variable SystemJsNgModuleLoader [vendor.1c5c990c1694b2fca047.bundle.js:27451,4]
+Dropping unused function AppView_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:28024,9]
+Dropping unused function DebugAppView_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:28226,9]
+Dropping unused function ViewContainer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:28425,9]
+Side effects in initialization of unused variable ANALYZE_FOR_ENTRY_COMPONENTS [vendor.1c5c990c1694b2fca047.bundle.js:28498,21]
+Side effects in initialization of unused variable ContentChildren [vendor.1c5c990c1694b2fca047.bundle.js:28526,21]
+Side effects in initialization of unused variable ContentChild [vendor.1c5c990c1694b2fca047.bundle.js:28540,21]
+Side effects in initialization of unused variable ViewChildren [vendor.1c5c990c1694b2fca047.bundle.js:28554,21]
+Side effects in initialization of unused variable ViewChild [vendor.1c5c990c1694b2fca047.bundle.js:28568,21]
+Side effects in initialization of unused variable Component [vendor.1c5c990c1694b2fca047.bundle.js:28622,21]
+Side effects in initialization of unused variable Output [vendor.1c5c990c1694b2fca047.bundle.js:28665,21]
+Side effects in initialization of unused variable HostBinding [vendor.1c5c990c1694b2fca047.bundle.js:28672,21]
+Side effects in initialization of unused variable HostListener [vendor.1c5c990c1694b2fca047.bundle.js:28679,21]
+Dropping unused variable CUSTOM_ELEMENTS_SCHEMA [vendor.1c5c990c1694b2fca047.bundle.js:28707,21]
+Dropping unused variable NO_ERRORS_SCHEMA [vendor.1c5c990c1694b2fca047.bundle.js:28715,21]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0__util_decorators__ [vendor.1c5c990c1694b2fca047.bundle.js:28876,25]
+Dropping unused function GenericBrowserDomAdapter_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:29051,9]
+Dropping unused function ChangeDetectionPerfRecord_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:29112,9]
+Dropping unused function AngularTools_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:29131,9]
+Dropping unused function AngularProfiler_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:29193,9]
+Dropping unused function enableDebugTools [vendor.1c5c990c1694b2fca047.bundle.js:29233,9]
+Dropping unused function disableDebugTools [vendor.1c5c990c1694b2fca047.bundle.js:29243,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__common_tools__ [vendor.1c5c990c1694b2fca047.bundle.js:29205,25]
+Side effects in initialization of unused variable context [vendor.1c5c990c1694b2fca047.bundle.js:29217,21]
+Side effects in initialization of unused variable By [vendor.1c5c990c1694b2fca047.bundle.js:29272,4]
+Dropping unused function WebAnimationsPlayer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:29549,9]
+Side effects in initialization of unused variable document [vendor.1c5c990c1694b2fca047.bundle.js:29631,21]
+Side effects in initialization of unused variable location [vendor.1c5c990c1694b2fca047.bundle.js:29632,21]
+Side effects in initialization of unused variable gc [vendor.1c5c990c1694b2fca047.bundle.js:29633,21]
+Side effects in initialization of unused variable performance [vendor.1c5c990c1694b2fca047.bundle.js:29634,21]
+Side effects in initialization of unused variable Event [vendor.1c5c990c1694b2fca047.bundle.js:29635,21]
+Side effects in initialization of unused variable MouseEvent [vendor.1c5c990c1694b2fca047.bundle.js:29636,21]
+Side effects in initialization of unused variable KeyboardEvent [vendor.1c5c990c1694b2fca047.bundle.js:29637,21]
+Side effects in initialization of unused variable EventTarget [vendor.1c5c990c1694b2fca047.bundle.js:29638,21]
+Side effects in initialization of unused variable History [vendor.1c5c990c1694b2fca047.bundle.js:29639,21]
+Side effects in initialization of unused variable Location [vendor.1c5c990c1694b2fca047.bundle.js:29640,21]
+Side effects in initialization of unused variable EventListener [vendor.1c5c990c1694b2fca047.bundle.js:29641,21]
+Dropping unused function isListLikeIterable [vendor.1c5c990c1694b2fca047.bundle.js:29779,9]
+Dropping unused function areIterablesEqual [vendor.1c5c990c1694b2fca047.bundle.js:29792,9]
+Dropping unused function iterateListLike [vendor.1c5c990c1694b2fca047.bundle.js:29811,9]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_0__lang__ [vendor.1c5c990c1694b2fca047.bundle.js:29649,25]
+Side effects in initialization of unused variable ListWrapper [vendor.1c5c990c1694b2fca047.bundle.js:29707,4]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_1__browser_title__ [vendor.1c5c990c1694b2fca047.bundle.js:29835,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_2__browser_tools_tools__ [vendor.1c5c990c1694b2fca047.bundle.js:29837,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_3__dom_animation_driver__ [vendor.1c5c990c1694b2fca047.bundle.js:29840,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_4__dom_debug_by__ [vendor.1c5c990c1694b2fca047.bundle.js:29842,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_5__dom_debug_ng_probe__ [vendor.1c5c990c1694b2fca047.bundle.js:29844,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_6__dom_dom_tokens__ [vendor.1c5c990c1694b2fca047.bundle.js:29846,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_7__dom_events_event_manager__ [vendor.1c5c990c1694b2fca047.bundle.js:29848,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_8__dom_events_hammer_gestures__ [vendor.1c5c990c1694b2fca047.bundle.js:29851,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_9__security_dom_sanitization_service__ [vendor.1c5c990c1694b2fca047.bundle.js:29854,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_10__private_export__ [vendor.1c5c990c1694b2fca047.bundle.js:29856,25]
+Side effects in initialization of unused variable __WEBPACK_IMPORTED_MODULE_11__version__ [vendor.1c5c990c1694b2fca047.bundle.js:29858,25]
+Side effects in initialization of unused variable __platform_browser_private__ [vendor.1c5c990c1694b2fca047.bundle.js:29918,21]
+Dropping unused function SanitizingHtmlSerializer_tsickle_Closure_declarations [vendor.1c5c990c1694b2fca047.bundle.js:30158,9]
+Side effects in initialization of unused variable VERSION [vendor.1c5c990c1694b2fca047.bundle.js:30383,21]
+Condition always true [vendor.1c5c990c1694b2fca047.bundle.js:33755,2]
+Non-strict equality against boolean: == false [vendor.1c5c990c1694b2fca047.bundle.js:35778,25]
+Condition left of || always false [vendor.1c5c990c1694b2fca047.bundle.js:34498,38]
+Condition left of || always false [vendor.1c5c990c1694b2fca047.bundle.js:34501,38]
+Dropping unused variable frameParserStrategy [vendor.1c5c990c1694b2fca047.bundle.js:34619,8]
+Side effects in initialization of unused variable Zone$1 [vendor.1c5c990c1694b2fca047.bundle.js:33768,4]
+Side effects in initialization of unused variable zoneAwareAddEventListener [vendor.1c5c990c1694b2fca047.bundle.js:35182,4]
+Side effects in initialization of unused variable zoneAwareRemoveEventListener [vendor.1c5c990c1694b2fca047.bundle.js:35183,4][39m[22m
+
+[1m[31mERROR in ./src/main.ts
+Module not found: Error: Can't resolve './$$_gendir/app/app.module.ngfactory' in '/Users/sevcik/IdeaProjects/KadSoftFrontend/src'
+ @ ./src/main.ts 5:0-74
+ @ multi ./src/main.ts[39m[22m
+Child [1msrc/app/app.component.html[39m[22m:
+                                                                    [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/app.component.html[39m[22m  2.68 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/app.component.html[39m[22m 52 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/invoice/invoice.component.html[39m[22m:
+                                                                                      [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice.component.html[39m[22m  5.54 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice.component.html[39m[22m 2.91 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/invoice/invoice-create.component.html[39m[22m:
+                                                                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-create.component.html[39m[22m  8.47 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-create.component.html[39m[22m 5.84 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/invoice/invoice-detail.component.html[39m[22m:
+                                                                                             [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-detail.component.html[39m[22m  4.7 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-detail.component.html[39m[22m 2.07 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/order/order.component.html[39m[22m:
+                                                                                  [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order.component.html[39m[22m  6.34 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order.component.html[39m[22m 3.72 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/order/order-creation.component.html[39m[22m:
+                                                                                           [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-creation.component.html[39m[22m  20.5 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-creation.component.html[39m[22m 17.9 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/order/order-detail.component.html[39m[22m:
+                                                                                         [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-detail.component.html[39m[22m  8.98 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-detail.component.html[39m[22m 6.36 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/administration.component.html[39m[22m:
+                                                                                                    [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/administration.component.html[39m[22m  2.93 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/administration.component.html[39m[22m 297 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/companies/company.component.html[39m[22m:
+                                                                                                       [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company.component.html[39m[22m  3.7 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company.component.html[39m[22m 1.07 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/customer/customer.component.html[39m[22m:
+                                                                                                       [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer.component.html[39m[22m  3.89 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer.component.html[39m[22m 1.26 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/companies/company-create.component.html[39m[22m:
+                                                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company-create.component.html[39m[22m  9.84 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company-create.component.html[39m[22m 7.21 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/client/client.component.html[39m[22m:
+                                                                                    [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/client/client.component.html[39m[22m  4.01 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/client/client.component.html[39m[22m 1.38 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/user/user.component.html[39m[22m:
+                                                                                               [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/user/user.component.html[39m[22m  3.11 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/user/user.component.html[39m[22m 477 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/home/home.component.html[39m[22m:
+                                                                                [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/home/home.component.html[39m[22m  2.85 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/home/home.component.html[39m[22m 220 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/customer/customer-create.component.html[39m[22m:
+                                                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer-create.component.html[39m[22m  11.7 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer-create.component.html[39m[22m 9.12 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/page-num/page-num.component.html[39m[22m:
+                                                                                        [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/page-num/page-num.component.html[39m[22m  3.31 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/page-num/page-num.component.html[39m[22m 678 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/login/login.component.html[39m[22m:
+                                                                                  [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/login/login.component.html[39m[22m  5.44 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/login/login.component.html[39m[22m 2.81 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/register/register.component.html[39m[22m:
+                                                                                        [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/register/register.component.html[39m[22m  4.91 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/register/register.component.html[39m[22m 2.28 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/statistics/statistics.component.html[39m[22m:
+                                                                                            [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/statistics/statistics.component.html[39m[22m  3.2 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/statistics/statistics.component.html[39m[22m 568 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/breadcrumb/breadcrumb.component.html[39m[22m:
+                                                                                              [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/breadcrumb/breadcrumb.component.html[39m[22m  3.1 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/breadcrumb/breadcrumb.component.html[39m[22m 468 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/filter/filter.component.html[39m[22m:
+                                                                                      [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/filter/filter.component.html[39m[22m  3.43 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/filter/filter.component.html[39m[22m 801 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/app-header/app-header.component.html[39m[22m:
+                                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-header/app-header.component.html[39m[22m  4.04 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-header/app-header.component.html[39m[22m 1.41 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/app-footer/app-footer.component.html[39m[22m:
+                                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-footer/app-footer.component.html[39m[22m  2.94 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-footer/app-footer.component.html[39m[22m 312 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/menu-aside/menu-aside.component.html[39m[22m:
+                                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/menu-aside/menu-aside.component.html[39m[22m  5.63 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/menu-aside/menu-aside.component.html[39m[22m 3.01 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/control-sidebar/control-sidebar.component.html[39m[22m:
+                                                                                                        [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/control-sidebar/control-sidebar.component.html[39m[22m  5.24 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/control-sidebar/control-sidebar.component.html[39m[22m 2.61 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/messages-box/messages-box.component.html[39m[22m:
+                                                                                                  [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/messages-box/messages-box.component.html[39m[22m  3.78 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/messages-box/messages-box.component.html[39m[22m 1.15 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/notification-box/notification-box.component.html[39m[22m:
+                                                                                                          [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/notification-box/notification-box.component.html[39m[22m  3.34 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/notification-box/notification-box.component.html[39m[22m 710 bytes[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/tasks-box/tasks-box.component.html[39m[22m:
+                                                                                            [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/tasks-box/tasks-box.component.html[39m[22m  4.05 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/tasks-box/tasks-box.component.html[39m[22m 1.43 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/user-box/user-box.component.html[39m[22m:
+                                                                                          [1mAsset[39m[22m  [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/user-box/user-box.component.html[39m[22m  4 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/user-box/user-box.component.html[39m[22m 1.37 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/layouts/auth/auth.html[39m[22m:
+                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/layouts/auth/auth.html[39m[22m  3.75 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/layouts/auth/auth.html[39m[22m 1.12 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/users/user-view/user-view.component.html[39m[22m:
+                                                                                                [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/users/user-view/user-view.component.html[39m[22m  4.34 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/users/user-view/user-view.component.html[39m[22m 1.71 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+         [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32mindex.html[39m[22m  3.88 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32mindex.html[39m[22m 1.22 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/invoice/invoice-create.component.css[39m[22m:
+                                                                                            [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-create.component.css[39m[22m  4.5 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-create.component.css[39m[22m 1.83 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/invoice/invoice.component.css[39m[22m:
+                                                                                     [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice.component.css[39m[22m  4.49 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice.component.css[39m[22m 1.82 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/invoice/invoice-detail.component.css[39m[22m:
+                                                                                            [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-detail.component.css[39m[22m  4.4 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/invoice/invoice-detail.component.css[39m[22m 1.74 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/order/order.component.css[39m[22m:
+                                                                                 [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order.component.css[39m[22m  4.45 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order.component.css[39m[22m 1.78 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/order/order-creation.component.css[39m[22m:
+                                                                                          [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-creation.component.css[39m[22m  4.51 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-creation.component.css[39m[22m 1.84 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/order/order-detail.component.css[39m[22m:
+                                                                                        [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-detail.component.css[39m[22m  5.25 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/order/order-detail.component.css[39m[22m 2.58 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/administration.component.css[39m[22m:
+                                                                                                   [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/administration.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/administration.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/companies/company.component.css[39m[22m:
+                                                                                                      [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company.component.css[39m[22m 1.71 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/customer/customer.component.css[39m[22m:
+                                                                                                      [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer.component.css[39m[22m 1.71 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/companies/company-create.component.css[39m[22m:
+                                                                                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company-create.component.css[39m[22m  4.52 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/companies/company-create.component.css[39m[22m 1.86 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/client/client.component.css[39m[22m:
+                                                                                   [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/client/client.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/client/client.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/user/user.component.css[39m[22m:
+                                                                                              [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/user/user.component.css[39m[22m  4.43 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/user/user.component.css[39m[22m 1.77 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/home/home.component.css[39m[22m:
+                                                                               [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/home/home.component.css[39m[22m  4.43 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/home/home.component.css[39m[22m 1.77 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/administration/customer/customer-create.component.css[39m[22m:
+                                                                                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer-create.component.css[39m[22m  4.52 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/administration/customer/customer-create.component.css[39m[22m 1.86 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/page-num/page-num.component.css[39m[22m:
+                                                                                       [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/page-num/page-num.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/page-num/page-num.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/statistics/statistics.component.css[39m[22m:
+                                                                                           [1mAsset[39m[22m    [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/statistics/statistics.component.css[39m[22m  4.4 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/statistics/statistics.component.css[39m[22m 1.73 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/filter/filter.component.css[39m[22m:
+                                                                                     [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/filter/filter.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/filter/filter.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/app-header/app-header.component.css[39m[22m:
+                                                                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-header/app-header.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-header/app-header.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/app-footer/app-footer.component.css[39m[22m:
+                                                                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-footer/app-footer.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/app-footer/app-footer.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/menu-aside/menu-aside.component.css[39m[22m:
+                                                                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/menu-aside/menu-aside.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/menu-aside/menu-aside.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/control-sidebar/control-sidebar.component.css[39m[22m:
+                                                                                                       [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/control-sidebar/control-sidebar.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/control-sidebar/control-sidebar.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/messages-box/messages-box.component.css[39m[22m:
+                                                                                                 [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/messages-box/messages-box.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/messages-box/messages-box.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/notification-box/notification-box.component.css[39m[22m:
+                                                                                                         [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/notification-box/notification-box.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/notification-box/notification-box.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/tasks-box/tasks-box.component.css[39m[22m:
+                                                                                           [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/tasks-box/tasks-box.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/tasks-box/tasks-box.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/widgets/user-box/user-box.component.css[39m[22m:
+                                                                                         [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/user-box/user-box.component.css[39m[22m  4.37 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/widgets/user-box/user-box.component.css[39m[22m 1.7 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1msrc/app/pages/users/user-view/user-view.component.css[39m[22m:
+                                                                                               [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/users/user-view/user-view.component.css[39m[22m  4.47 kB       [1m0[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32m/Users/sevcik/IdeaProjects/KadSoftFrontend/src/app/pages/users/user-view/user-view.component.css[39m[22m 1.81 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1mextract-text-webpack-plugin[39m[22m:
+    chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 2.02 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1mextract-text-webpack-plugin[39m[22m:
+                                             [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+      [1m[32mfontawesome-webfont.674f50d287a8c48dc19b.eot[39m[22m   166 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mfontawesome-webfont.912ec66d7572ff821749.svg[39m[22m   444 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mfontawesome-webfont.b06871f281fee6b241d6.ttf[39m[22m   166 kB        [1m[39m[22m  [1m[32m[39m[22m
+    [1m[32mfontawesome-webfont.af7ae505a9eed503f8b8.woff2[39m[22m  77.2 kB        [1m[39m[22m  [1m[32m[39m[22m
+     [1m[32mfontawesome-webfont.fee66e712a8a08eef580.woff[39m[22m    98 kB        [1m[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 35.2 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1mextract-text-webpack-plugin[39m[22m:
+                            [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+    [1m[32mline.567f57385ea3dde2c9ae.gif[39m[22m  13.1 kB        [1m[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 73.3 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1mextract-text-webpack-plugin[39m[22m:
+                                                  [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+      [1m[32mroboto-v15-latin-regular.9f916e330c478bbfa2a0.eot[39m[22m  16.2 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mroboto-v15-latin-regular.3d3a53586bd78d1069ae.svg[39m[22m    49 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mroboto-v15-latin-regular.38861cba61c66739c145.ttf[39m[22m  32.7 kB        [1m[39m[22m  [1m[32m[39m[22m
+     [1m[32mroboto-v15-latin-regular.16e1d930cf13fb7a9563.woff[39m[22m  18.5 kB        [1m[39m[22m  [1m[32m[39m[22m
+    [1m[32mroboto-v15-latin-regular.7e367be02cd17a96d513.woff2[39m[22m  14.6 kB        [1m[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 25.3 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+Child [1mextract-text-webpack-plugin[39m[22m:
+                                                      [1mAsset[39m[22m     [1mSize[39m[22m  [1mChunks[39m[22m  [1m[39m[22m[1m[39m[22m[1mChunk Names[39m[22m
+     [1m[32mglyphicons-halflings-regular.fa2772327f55d8198301.woff[39m[22m  23.4 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mglyphicons-halflings-regular.f4769f9bdb7466be6508.eot[39m[22m  20.1 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mglyphicons-halflings-regular.89889688147bd7575d63.svg[39m[22m   109 kB        [1m[39m[22m  [1m[32m[39m[22m
+               [1m[32mfontawesome-webfont.674f50d287a8c48dc19b.eot[39m[22m   166 kB        [1m[39m[22m  [1m[32m[39m[22m
+               [1m[32mfontawesome-webfont.912ec66d7572ff821749.svg[39m[22m   444 kB        [1m[39m[22m  [1m[32m[39m[22m
+                          [1m[32mionicons.d9496a234c81179afbca.svg[39m[22m   400 kB        [1m[39m[22m  [1m[32m[39m[22m
+                          [1m[32mboxed-bg.7799dece2c79854f63f0.jpg[39m[22m   124 kB        [1m[39m[22m  [1m[32m[39m[22m
+      [1m[32mglyphicons-halflings-regular.e18bbf611f2a2e43afc0.ttf[39m[22m  45.4 kB        [1m[39m[22m  [1m[32m[39m[22m
+                          [1m[32mionicons.bdf1d30681cf87986c38.eot[39m[22m   144 kB        [1m[39m[22m  [1m[32m[39m[22m
+    [1m[32mglyphicons-halflings-regular.448c34a56d699c29117a.woff2[39m[22m    18 kB        [1m[39m[22m  [1m[32m[39m[22m
+               [1m[32mfontawesome-webfont.b06871f281fee6b241d6.ttf[39m[22m   166 kB        [1m[39m[22m  [1m[32m[39m[22m
+             [1m[32mfontawesome-webfont.af7ae505a9eed503f8b8.woff2[39m[22m  77.2 kB        [1m[39m[22m  [1m[32m[39m[22m
+              [1m[32mfontawesome-webfont.fee66e712a8a08eef580.woff[39m[22m    98 kB        [1m[39m[22m  [1m[32m[39m[22m
+                          [1m[32mionicons.74c652671225d6ded874.ttf[39m[22m   144 kB        [1m[39m[22m  [1m[32m[39m[22m
+                        [1m[32mionicons.311d81961c5880647fec.woff2[39m[22m    61 kB        [1m[39m[22m  [1m[32m[39m[22m
+                         [1m[32mionicons.81414686e99c00d2921e.woff[39m[22m  80.4 kB        [1m[39m[22m  [1m[32m[39m[22m
+    chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 318 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m

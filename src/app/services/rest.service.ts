@@ -74,6 +74,25 @@ export class RestService {
             );
     }
 
+    getUserRoles(): Observable<any> {
+        return this.http.get(this.config.server + this.config.rolesApi, {headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
+
+    registerUser(user): Observable<any> {
+
+        return this.http.post(this.config.server + this.config.userApi+'s',
+            user,{headers: this.headers})
+            .map((response) =>
+                    response.json(),
+                error =>
+                    console.log("an error was thrown")
+            );
+    }
     // ACTIONS
     public payInvoice(invoice: Invoice): Observable<Invoice> {
         console.log("trying to change state of invoice to payed");

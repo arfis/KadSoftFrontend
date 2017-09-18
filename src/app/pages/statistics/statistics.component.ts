@@ -47,7 +47,18 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     ];
     invoices$ : Subscription;
     orders$ : Subscription;
+    minDate = new Date(2017, 5, 10);
+    maxDate = new Date(2018, 9, 15);
+    _bsValue: Date;
 
+    get bsValue(): Date {
+        return this._bsValue;
+    }
+
+    set bsValue(v: Date) {
+        console.log(v);
+        this._bsValue = v;
+    }
     constructor(private _orderSrv: OrderService,
                 private _invoiceSrv: InvoiceService) {
 

@@ -52,7 +52,7 @@
 
         <div class="profession section">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 vertical-divider">
                     <h4>Profesie:</h4>
                     <p-selectButton [options]="professions" [(ngModel)]="selectedProfessions"
                                     multiple="multiple"></p-selectButton>
@@ -60,6 +60,25 @@
                         <h4>Rozloha:</h4>
                         <input type="number" min="1" class="form-control" [(ngModel)]="area">
                     </div>
+
+                    <ng-container *ngIf="isHeatingSelected">
+                        <h4>Jednotkova cena kurenie:</h4>
+                        <input type="number" min="1" class="form-control" [(ngModel)]="heatingPrice">
+                    </ng-container>
+
+
+                    <ng-container *ngIf="isVztSelected">
+                        <h4>Jednotkova cena vzduchotechnika:</h4>
+                        <input type="number" min="1" class="form-control" [(ngModel)]="vztPrice">
+                    </ng-container>
+
+
+                    <ng-container *ngIf="isLightingSelected">
+                        <h4>Jednotkova cena osvetlenie:</h4>
+                        <input type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
+                    </ng-container>
+
+                    <p>Celkove naklady: {{totalCost}}</p>
                 </div>
 
 

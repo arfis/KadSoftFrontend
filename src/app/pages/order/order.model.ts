@@ -24,15 +24,17 @@ export class Order{
 }
 
 export enum OrderStatus {
-    notAssigned = 0,
-    assigned = 1,
-    waiting = 2,
-    inProgress = 3,
-    done = 4,
-    createdByAnonymous = 5
+    notPrepared = 0,
+    notAssigned = 1,
+    assigned = 2,
+    done = 3,
+    waiting = 4,
+    expeded = 5,
+    createdByAnonymous = 6
 }
 
 export class OrderStats {
+    public static notPrepared = "Nepripravena";
     public static notAssigned = "Nepriradena";
     public static assigned = "Priradena";
     public static done = "Dokoncena";
@@ -40,6 +42,10 @@ export class OrderStats {
     public static createdByAnonymous = "Vytvoreny vonkajsim uzivatelom";
 }
 
+export const orderStatesConst = [{label:OrderStats.notPrepared, value:0},
+    {label:OrderStats.notAssigned, value:1},{label:OrderStats.assigned, value:2},
+    {label:OrderStats.done, value:3},{label:OrderStats.expeded, value:4},
+    {label:OrderStats.createdByAnonymous, value:5}]
 export const heating = '0';
 export const vzt = '1';
 export const lighting = '2';
@@ -65,6 +71,7 @@ export const _buildingTypesInfo = ["Duis malesuada neque elit, sit amet semper m
 export function getOrderTranslation(status : string){
 
     switch(status) {
+        case "notPrepared" : return {text : "Nepripravena", label:"label-warning"};
         case "notAssigned" : return {text : "Nepriradena", label:"label-danger"};
         case "assigned" : return {text : "Priradena", label:"label-info"};
         case "waiting" : return {text : "Caka na schvalenie", label:"label-warning"};

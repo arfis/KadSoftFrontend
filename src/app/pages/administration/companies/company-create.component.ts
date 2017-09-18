@@ -24,6 +24,9 @@ export class CompanyCreation implements OnInit {
 
     private prices: any[] = new Array();
 
+    public stampFile;
+    public logoFile;
+
     @Output()
     private onAdd = new EventEmitter<Company>();
 

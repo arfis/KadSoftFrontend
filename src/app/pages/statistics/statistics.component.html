@@ -1,17 +1,28 @@
 <h2>Statistiky</h2>
+<input type="text"
+       [minDate]="minDate"
+       [maxDate]="maxDate"
+       #dp="bsDatepicker"
+       bsDatepicker [(bsValue)]="bsValue">
+<input type="text"
+       [minDate]="minDate"
+       [maxDate]="maxDate"
+       [(ngModel)]="bsValue"
+       bsDatepicker>
+<button class="btn btn-success" (click)="dp.toggle()">Date Picker popup</button>
 <ng-container *ngIf="showChart && showOrderChart">
 
-<div class="statistics">
-    <div class="col-lg-6">
-        <h3>Faktury</h3>
-        <p-chart type="pie" [data]="invoiceData"></p-chart>
+    <div class="statistics">
+        <div class="col-lg-6">
+            <h3>Faktury</h3>
+            <p-chart type="pie" [data]="invoiceData"></p-chart>
+        </div>
+        <div class="col-lg-6">
+            <h3>Objednavky</h3>
+            <p-chart type="pie" [data]="orderData"></p-chart>
+        </div>
+        <div class="col-lg-4">
+            <p-chart type="pie" [data]="data"></p-chart>
+        </div>
     </div>
-    <div class="col-lg-6">
-        <h3>Objednavky</h3>
-        <p-chart type="pie" [data]="orderData"></p-chart>
-    </div>
-    <div class="col-lg-4">
-        <p-chart type="pie" [data]="data"></p-chart>
-    </div>
-</div>
 </ng-container>

@@ -4,26 +4,30 @@ import {Message} from '../../models/message';
 import {MessagesService} from '../../services/messages.service';
 import {User} from '../../models/user';
 import {ActivatedRoute, Router} from "@angular/router";
-import {getOrderTranslation, Order, OrderStatus} from "./order.model";
+import {getOrderTranslation, Order, orderStatesConst, OrderStatus} from "./order.model";
 import {OrderService} from "./order.service";
 import {InvoiceService} from "../invoice/invoice.service";
 import {InvoiceCreation} from "../invoice/invoice-create.component";
-import {getTranslation, InvoiceStatus} from "../invoice/invoiceStatus.model";
+import {getTranslation, invoiceStatesConst, InvoiceStatus, invoiceStatuses} from "../invoice/invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 import {Observable} from "rxjs/Observable";
 import {Invoice} from "../invoice/invoice.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Subject} from "rxjs/Subject";
+import {SelectItem} from "primeng/primeng";
+import {isUndefined} from "util";
 
 @Component({
     selector: 'order',
     styleUrls: ['./order.component.css'],
     templateUrl: './order.component.html'
 })
+
 export class OrderComponent extends SortableTable<Order> implements OnChanges, OnInit, OnDestroy {
 
     public date: Date = new Date();
     public orders: Order[] = new Array();
+    private allOrders: Order[];
     public isFormCollapsed = true;
 
 
@@ -40,31 +44,29 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
     public invoiceTypes = ["Proforma", "Evidenčná", "Zálohová faktúra"];
 
     public stopChanel = new Subject<number>();
+
     @Input()
     filteredOrders: Order[];
 
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
-                private invoiceServ: InvoiceService,
-                private orderServ: OrderService,
+                private _invoiceServ: InvoiceService,
+                private _orderServ: OrderService,
                 public router: Router,
                 private loadingBar: SlimLoadingBarService) {
         super();
-
-        console.log("filtered orders");
-        console.log(this.filteredOrders);
 
         if (!this.filteredOrders) {
             this.loadingBar.start(() => {
                 console.log("complete");
             });
-            Observable.forkJoin(orderServ.getOrders(), this.invoiceServ.getInvoices())
+            Observable.forkJoin(_orderServ.getOrders(), this._invoiceServ.getInvoices())
                 .takeUntil(this.stopChanel)
                 .subscribe(
                     result => {
                         this.setOrders(result[0]);
-                        this.orderServ.setOrders(result[0]);
-                        this.invoiceServ.setInvoices(result[1]);
+                        this._orderServ.setOrders(result[0]);
+                        this._invoiceServ.setInvoices(result[1]);
                         this.getFirstRecords();
 
                         this.loadingBar.complete();
@@ -91,6 +93,7 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
     }
 
     public setOrders(orders: Order[]) {
+        this.allOrders = orders;
         this.totalRecords = orders;
         this.bigTotalItems = orders.length;
         this.getFirstRecords();
@@ -105,10 +108,18 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
         }
     }
 
+    update(event) {
+        this.totalRecords = event;
+        this.getFirstRecords();
+    }
+
     private getFirstRecords() {
 
         if (this.totalRecords.length > 0) {
             this.orders = this.totalRecords.slice(0, this.maxSize);
+        }
+        else {
+            this.orders = this.totalRecords;
         }
     }
 
@@ -161,5 +172,6 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
         this.orders = this.totalRecords.slice(startingIndex, startingIndex + this.maxSize);
     }
 
-    totalPrice(orderId: number){ this.invoiceServ.getInvoice(orderId).totalPrice}
+    totalPrice(orderId: number){ this._invoiceServ.getInvoice(orderId).totalPrice}
+
 }

@@ -72,3 +72,7 @@
 .already-uploaded .remove:hover {
     color: red;
 }
+
+.vertical-divider {
+    border-right: 1px solid darkgray;
+}
