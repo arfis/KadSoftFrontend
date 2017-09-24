@@ -16,6 +16,8 @@ export function createTranslateLoader( http: Http ) {
 }
 
 let modules = [
+    SelectButtonModule,
+    MultiSelectModule,
     BsDatepickerModule.forRoot(),
     InputTextareaModule,
     SplitButtonModule,
@@ -126,7 +128,10 @@ import {AdministrationModule} from "./pages/administration/administration.module
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {InvoiceService} from "./pages/invoice/invoice.service";
 import { StatisticsComponent } from './pages/statistics/statistics.component';
-import {ChartModule, InputTextareaModule, SplitButtonModule} from "primeng/primeng";
+import {
+    ChartModule, InputTextareaModule, MultiSelectModule, SelectButtonModule,
+    SplitButtonModule
+} from "primeng/primeng";
 
 @NgModule( {
     bootstrap: [AppComponent],

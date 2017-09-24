@@ -5,3 +5,11 @@
 .create-form button {
     margin-top: 10px;
 }
+
+.role-selection {
+    padding-top : 10px;
+}
+
+.role-selection i {
+    display: block;
+}

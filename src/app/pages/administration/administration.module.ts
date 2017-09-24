@@ -16,11 +16,13 @@ import {CompanyCreation} from "./companies/company-create.component";
 import {CustomerComponent} from "./customer/customer.component";
 import {CustomerCreation} from "./customer/customer-create.component";
 import { UserComponent } from './user/user.component';
-import {FileUploadModule, ToggleButtonModule} from "primeng/primeng";
+import {FileUploadModule, MultiSelectModule, SelectButtonModule, ToggleButtonModule} from "primeng/primeng";
 
 
 @NgModule({
     imports: [
+        SelectButtonModule,
+        MultiSelectModule,
         FileUploadModule,
         ToggleButtonModule,
         RouterModule,

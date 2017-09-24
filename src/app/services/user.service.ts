@@ -7,7 +7,7 @@ import {RestService} from "./rest.service";
 @Injectable()
 export class UserService {
     public currentUser: ReplaySubject<User> = new ReplaySubject<User>( 1 );
-    public roles;
+    public roles = [];
 
     constructor(
       private router: Router,
@@ -19,6 +19,8 @@ export class UserService {
     public getUserRoles() {
         this.restService.getUserRoles().subscribe(
             result => {
+                console.log('got roles: ');
+                console.log(result);
                 this.roles = result;
             },
             error => {
@@ -27,10 +29,7 @@ export class UserService {
         )
     }
     public registerUser(user) {
-        this.restService.registerUser(user).subscribe(
-            result => console.log('user was registered'),
-            error => console.log('error')
-        )
+        return this.restService.registerUser(user);
     }
 
     public getLoggedInUser() : User{
