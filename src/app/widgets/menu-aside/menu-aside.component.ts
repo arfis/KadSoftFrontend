@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user';
-import { Router } from '@angular/router';
+import {RouteConfigLoadStart, Router} from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {UserRole} from "../../models/user-roles.model";
 
@@ -17,7 +17,7 @@ export class MenuAsideComponent implements OnInit {
 
   constructor(private userServ: UserService, public router: Router) {
     // getting the current url
-    this.router.events.subscribe((evt) => this.currentUrl = evt.url);
+    // this.router.events.subscribe((evt: RouteConfigLoadStart) => this.currentUrl = evt.route.path);
     this.userServ.currentUser.subscribe((user) => this.currentUser = user);
   }
 

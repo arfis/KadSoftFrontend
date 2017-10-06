@@ -2,9 +2,9 @@ import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {
-    BsDropdownModule, CollapseModule, DatepickerModule, ModalModule, PaginationModule,
+    BsDropdownModule, CollapseModule, ModalModule, PaginationModule,
     TooltipModule
-} from "ng2-bootstrap";
+} from "ngx-bootstrap";
 import {RouterModule} from "@angular/router";
 import {CustomerService} from "../users/user.service";
 import {ConfigurationService} from "../../services/configuration.service";

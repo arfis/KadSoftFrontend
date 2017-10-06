@@ -32,7 +32,7 @@ export class CustomerCreation implements OnInit, OnChanges {
     private type = 'company';
 
     @Output()
-    private onAdd = new EventEmitter<Company>();
+    private onAdd = new EventEmitter<Customer>();
 
     @Input()
     updateCustomer: Customer;
@@ -126,7 +126,6 @@ export class CustomerCreation implements OnInit, OnChanges {
         } else {
             this.restServ.updateCustomer(value).subscribe(
                 result => {
-                    console.log(result);
                     this.notificationSrv.success("Klient " + value.mainContact.name + " bola vytvoreny", "Klient");
                     this.onAdd.next(result);
                     // window.alert("Nova faktura bola vytvorena!");

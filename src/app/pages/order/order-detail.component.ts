@@ -97,6 +97,10 @@ export class OrderDetailComponent {
         this._orderSrv.assignOrderToCurrentUser(this.orderId);
     }
 
+    pictureUpload(file) {
+        console.log(file);
+    }
+
     onUpload(event) {
         for(let file of event.files) {
             this.uploadedFiles.push(file);

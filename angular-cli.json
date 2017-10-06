@@ -1,6 +1,6 @@
 {
   "project": {
-    "version": "1.0.0-beta.32",
+    "version": "1.4.3",
     "name": "ng2-admin-lte"
   },
   "apps": [
@@ -18,14 +18,14 @@
         "styles.less",
         "../node_modules/ng2-slim-loading-bar/style.css",
         "../node_modules/font-awesome/css/font-awesome.min.css",
-        "../node_modules/primeng/resources/primeng.min.css",
-        "../node_modules/primeng/resources/themes/omega/theme.css"
+        "../node_modules/primeng/resources/primeng.css",
+        "../node_modules/primeng/resources/themes/omega/theme.scss"
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.js",
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/bootstrap/dist/js/bootstrap.js",
-        "../node_modules/admin-lte/dist/js/app.js"
+        "../node_modules/admin-lte/dist/js/adminlte.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

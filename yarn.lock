@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@angular/cli@1.0.0-beta.32":
+"@angular/cli@1.4.3":
   version "1.0.0-beta.32"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.0.0-beta.32.tgz#3db6cc803a63ea9e5156b8b41e968423243f8076"
   dependencies:
@@ -239,7 +239,6 @@ angularfire2@^2.0.0-beta.6:
     "@angular/core" "^2.0.0"
     "@angular/platform-browser" "^2.0.0"
     "@angular/platform-browser-dynamic" "^2.0.0"
-    firebase "^3.0.0"
     rxjs "^5.0.1"
 
 ansi-escapes@^1.1.0:
@@ -1732,15 +1731,6 @@ findup@0.1.5:
     colors "~0.6.0-1"
     commander "~2.1.0"
 
-firebase@^3.0.0, firebase@^3.6.6:
-  version "3.7.3"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-3.7.3.tgz#5f143638a84874095a7faf411589e059ac419ccc"
-  dependencies:
-    dom-storage "2.0.2"
-    faye-websocket "0.9.3"
-    jsonwebtoken "7.1.9"
-    rsvp "3.2.1"
-    xmlhttprequest "1.8.0"
 
 flatten@^1.0.2:
   version "1.0.2"

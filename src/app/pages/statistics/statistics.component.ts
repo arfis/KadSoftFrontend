@@ -6,6 +6,7 @@ import {Invoice} from "../invoice/invoice.model";
 import {Observable} from "rxjs/Observable";
 import {Subscription} from "rxjs/Subscription";
 import {Order, OrderStats, OrderStatus} from "../order/order.model";
+import {DateAdapter, NativeDateAdapter} from "@angular/material";
 
 @Component({
     selector: 'app-statistics',
@@ -51,14 +52,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     maxDate = new Date(2018, 9, 15);
     _bsValue: Date;
 
-    get bsValue(): Date {
-        return this._bsValue;
-    }
-
-    set bsValue(v: Date) {
-        console.log(v);
-        this._bsValue = v;
-    }
     constructor(private _orderSrv: OrderService,
                 private _invoiceSrv: InvoiceService) {
 
@@ -76,9 +69,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
     }
 
+
     setupOrderStats(orders: Order[]) {
 
-        console.log(orders);
         this.orderData = {
             labels: [   OrderStats.notAssigned,
                         OrderStats.assigned,

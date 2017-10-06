@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Http } from '@angular/http';
-import { TranslateService } from 'ng2-translate';
 import { MessagesService } from '../../services/messages.service';
 import { LoggerService } from '../../services/logger.service';
 import { Message } from '../../models/message';

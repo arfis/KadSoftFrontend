@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {BsDropdownModule, CollapseModule, PaginationModule} from "ng2-bootstrap";
+import {BsDropdownModule, CollapseModule, PaginationModule} from "ngx-bootstrap";
 import {InvoiceService} from "./invoice.service";
 import {InvoiceComponent} from "./invoice.component";
 import {InvoiceCreation} from "./invoice-create.component";

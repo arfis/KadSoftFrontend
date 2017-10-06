@@ -1,5 +1,3 @@
-import { GuidHelper } from '../helpers/guid.helper';
-
 export class Client {
   public name: string;
   public clientId: string;
@@ -7,7 +5,7 @@ export class Client {
 
   constructor(name?: string, clientId?: string, adress?: string) {
     this.name = name || '';
-    this.clientId = clientId || GuidHelper.generateGUID();
+    this.clientId = clientId || '';
     this.address = adress || '';
   }
 }

@@ -4,7 +4,7 @@
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {AccordionModule, BsDropdownModule, CollapseModule, TabsModule} from "ng2-bootstrap";
+import {AccordionModule, BsDropdownModule, CollapseModule, TabsModule} from "ngx-bootstrap";
 import {RouterModule} from "@angular/router";
 import {CustomerService} from "../users/user.service";
 import {ConfigurationService} from "../../services/configuration.service";

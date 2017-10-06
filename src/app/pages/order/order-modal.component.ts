@@ -2,11 +2,11 @@
  * Created by sevcik on 7/6/17.
  */
 import {
-    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+    Component, EventEmitter, Input, OnChanges, OnInit, Output,
     ViewChild
 } from '@angular/core';
 import {Order} from "./order.model";
-import {ModalDirective} from "ng2-bootstrap";
+import {ModalDirective} from "ngx-bootstrap";
 import {RestService} from "../../services/rest.service";
 
 @Component({
@@ -26,8 +26,8 @@ import {RestService} from "../../services/rest.service";
                                     {{selectedMailTemplate || 'Vyberte sablonu'}}
                                     <span class="caret"></span></button>
                                 <ul class="dropdown-menu animated-dropdown-menu">
-                                    <li *ngFor="let template of templates">
-                                        <a (click)="selectTemplate(template.text)">{{template.text}}</a>
+                                    <li *ngFor="let currentTemplate of templates">
+                                        <a (click)="selectTemplate(currentTemplate)">{{currentTemplate}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -62,9 +62,9 @@ export class OrderModal implements OnInit, OnChanges {
     @Output()
     proceedRequest = new EventEmitter<Order>();
 
-    private isModalShown: boolean = false;
-    private templates: string[] = ["Dakujeme za zkupenie produktu", "Nedakujeme za zakupenie produktu"];
-    private selectedMailTemplate : string = this.templates[0];
+    isModalShown: boolean = false;
+    templates: string[] = ["Dakujeme za zkupenie produktu", "Nedakujeme za zakupenie produktu"];
+    selectedMailTemplate : string = this.templates[0];
 
     @ViewChild('staticModal') public autoShownModal: ModalDirective;
 
