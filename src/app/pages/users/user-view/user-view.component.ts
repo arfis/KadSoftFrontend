@@ -46,7 +46,7 @@ export class UserViewComponent implements OnInit {
                 }
 
 
-                Observable.forkJoin(this.userSrv.getCustomers(), this.orderServ.getOrders())
+                Observable.forkJoin(this.userSrv.getCustomers(), this.orderServ.getOrders(1,10))
                     .subscribe(
                         result => {
 
@@ -54,7 +54,7 @@ export class UserViewComponent implements OnInit {
                             console.log(result);
 
                             this.userSrv.setCustomers(result[0]);
-                            this.orderServ.setOrders(result[1]);
+                            this.orderServ.setOrders(result[1].data);
                             this.userInformation = this.userSrv.getUserById(this.userInformation.id);
                             this.orders = this.orderServ.getOrdersByClientId(this.userInformation.id)
 

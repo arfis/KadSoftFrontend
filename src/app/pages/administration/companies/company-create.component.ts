@@ -71,6 +71,11 @@ export class CompanyCreation implements OnInit {
         return this.invoiceForm.get('products') as FormArray;
     }
 
+    onUpload(event) {
+        console.log('trying to do own upload');
+        console.log(event);
+        console.log(event.files[0].objectURL.changingThisBreaksApplicationSecurity);
+    }
 
     selectCompany(company) {
         this.configurationService.setCurrentCompany(company);

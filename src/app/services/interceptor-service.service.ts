@@ -12,13 +12,13 @@ export class InterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    this.accessToken = localStorage.getItem('accessToken');
     req = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${ this.accessToken}`
+        Authorization: `Bearer ${this.accessToken}`
       }
     });
 
-    console.log('interceptor');
     return next.handle(req);
   }
 }

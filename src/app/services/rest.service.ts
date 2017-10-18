@@ -13,6 +13,7 @@ import {ReplaySubject} from "rxjs/ReplaySubject";
 import {Order} from "../pages/order/order.model";
 import {CompanyPermissions} from "../models/company-permisions.model";
 import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
+import {Type} from "../models/type";
 
 @Injectable()
 export class RestService {
@@ -37,14 +38,6 @@ export class RestService {
 
     }
 
-
-    interceptResponse(res: HttpResponse<any>, next: HttpHandler): any {
-        res = res.clone({
-        });
-
-        console.log('intercepting response');
-
-    }
     public authenticate(email, password): Observable<LoginResponse> {
         const data = {
             grant_type: "password",
@@ -60,9 +53,7 @@ export class RestService {
 
     public setAccessToken(accessToken: string) {
         localStorage.setItem('accessToken', accessToken);
-        console.log("set accessToken " + accessToken);
-        this.accessToken = accessToken;
-        this.headers.set("Authorization", "Bearer " + this.accessToken);
+        console.log("set accessToken " + localStorage.getItem('accessToken'));
     }
 
     public getUser(): Observable<LoginUser> {
@@ -114,8 +105,9 @@ export class RestService {
     }
 
 
-    public updateCompany(company: Company): Observable<Company> {
-        return this.http.put<Company>(this.config.server + this.config.companiesApi, company);
+    public updateCompany(company: Company, id): Observable<Company> {
+        console.log(JSON.stringify(company));
+        return this.http.put<Company>(this.config.server + this.config.companiesApi+`/${id}`, company);
     }
 
 
@@ -137,8 +129,12 @@ export class RestService {
     }
 
 
-    public getOrders(): Observable<Order[]> {
-        return this.http.get<Order[]>(this.config.server + this.config.ordersApi);
+    public getOrders(page, pageSize): Observable<any> {
+        return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize='+pageSize+'}');
+    }
+
+    public getOrder(orderId): Observable<any> {
+        return this.http.get<any>(this.config.server + this.config.ordersApi + `/${orderId}`);
     }
 
     public createOrder(order : Order): Observable<Order>{
@@ -161,6 +157,7 @@ export class RestService {
     public updateCustomer(customer : Customer): Observable<Customer> {
         return this.http.put<Customer>(this.config.server + this.config.customerApi + "/" + customer.id, {headers: this.headers});
     }
+
     public setCustomerInformation(customerId: number, information: string) {
         return this.http.put(this.config.server + this.config.customerApi + "/" + customerId, information);
     }
@@ -173,6 +170,26 @@ export class RestService {
         return this.http.post<Customer>(this.config.server + this.config.customerApi, customer);
     }
 
+    public getConstructionTypes(): Observable<Type[]> {
+        return this.http.get<Type[]>(this.config.server + 'api/construction-type/');
+    }
+
+    public getProductTypes(): Observable<Type[]> {
+        return this.http.get<Type[]>(this.config.server + 'api/product-type/');
+    }
+
+    public getProfesionTypes(): Observable<Type[]> {
+        return this.http.get<Type[]>(this.config.server + 'api/profession-type/');
+    }
+
+    public addFilesToOrder(orderId, files) {
+        return this.http.patch(this.config.server + 'api/orders/' + orderId, files, {});
+    }
+
+    public removeFile(fileId) {
+        console.log('TODO: removing: ' + fileId);
+        return this.http.delete(this.config.server + 'api/items/' + `${fileId}`);
+    }
 
     private handleError(error: Response) {
         console.error(error);

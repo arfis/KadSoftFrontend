@@ -14,17 +14,44 @@ import {RestService} from "../../services/rest.service";
 export class OrderService {
 
     orders : Order[] = new Array();
+    constructionTypes = [];
+    productTypes = [];
+    professionTypes = [];
 
     constructor(private invoiceSrv : InvoiceService,
                 private usrService : UserService,
-                private restSrv : RestService){
+                private restSrv : RestService) {
+           
+        Observable.forkJoin(this.restSrv.getConstructionTypes(),
+                            this.restSrv.getProductTypes(),
+                            this.restSrv.getProfesionTypes())
+            .subscribe(
+                results => {
+                    console.log(results);
+                    this.constructionTypes = results[0].map(this.mapToLabelValue);
+                    this.productTypes = results[1].map(this.mapToLabelValue);
+                    this.professionTypes = results[2].map(this.mapToLabelValue);
+                    
+                    console.log(this.constructionTypes);
+                },
+                error => {
+                    console.log(error);
+                }
+            )
 
     }
 
+    mapToLabelValue(item) {
+        item.value = item.id;
+        item.label = item.name;
+
+        return item;
+    }
+
     assignOrderToCurrentUser(orderId: number) {
-        const order = this.orders.find(order => order.id === orderId);
-        order.assignedTo = this.usrService.getLoggedInUser();
-        order.state = OrderStats.assigned;
+        //TODO
+
+        console.log('todo, patch or smthing');
     }
 
     setOrders(orders : Order[]){
@@ -36,7 +63,7 @@ export class OrderService {
     }
 
     getOrdersByClientId(clientId : number): Order[] {
-        console.log('clientId: ' + clientId);
+
         let orders = this.orders.filter(order=> {
 
             console.log(order.mainContact.id);
@@ -49,28 +76,26 @@ export class OrderService {
         return orders;
     }
 
-    getOrders() : Observable<Order[]>{
+    getOrders(page: number, pageSize: number) : Observable<any>{
 
-        return this.restSrv.getOrders();
+        return this.restSrv.getOrders(page, pageSize);
     }
 
-    getOrder(orderId : number) : Order {
-        let foundOrder = this.orders.find(order=> order.id == orderId);
-
-        console.log('found order: ');
-        console.log(foundOrder);
-        if (!foundOrder) {
-            foundOrder = new Order();
-            foundOrder.id = orderId;
-        }
-        return foundOrder;
+    getOrder(orderId : number) : Observable<Order> {
+        return this.restSrv.getOrder(orderId);
     }
 
     createOrder(order : Order) : Observable<Order>{
-        console.log("saving invoice");
         return this.restSrv.createOrder(order);
     }
 
+    addFilesToOrder(orderId, files) {
+        return this.restSrv.addFilesToOrder(orderId, files);
+    }
+
+    removeFile(fileId) {
+        return this.restSrv.removeFile(fileId);
+    }
 
     public getCustomersByEmail(searchString: string, users : Customer[]) : Customer[] {
         return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||

@@ -282,7 +282,6 @@ export class OrderCreationComponent implements OnInit {
     }
 
     selectCompany(company) {
-        console.log("selecting company");
         this.configurationService.setCurrentCompany(company);
 
         this.restServ.getNextInvoiceNumber(company.id).subscribe(

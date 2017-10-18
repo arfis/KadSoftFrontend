@@ -1,4 +1,5 @@
-<ng-container *ngIf="orderLoaded">
+<ng-container *ngIf="isLoaded">
+
     <h2>Objednavka [{{orderId}}]</h2>
 
     <p><span class="attribute">Klient</span>{{client}}</p>
@@ -22,28 +23,20 @@
             <div class="file-upload row">
 
                 <div class="col-lg-12 col-md-12 widget">
-                    <p-fileUpload name="files[]" customUpload="true" (uploadHandler)="pictureUpload($event)">
-                        <ng-template pTemplate type="content">
-                            <div *ngIf="orderFiles.length > 0" class="already-uploaded">
-                                <ul>
-                                    <li *ngFor="let orderFile of orderFiles">
-                                        <a href="orderFile.link">
-                                            <span class="glyphicon glyphicon-save">orderFile.name</span>
-                                        </a>
-                                        <span class="remove glyphicon glyphicon-remove-sign"
-                                              (click)="remove(orderFile)"></span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div *ngIf="orderFiles.length === 0">
-                                <i>Ziadne subory neboli doposial nahrate</i>
-                            </div>
-                            <ul *ngIf="uploadedFiles?.length">
-                                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-                            </ul>
-
-                        </ng-template>
+                    <p-fileUpload name="files[]" multiple="multiple"
+                                  (onUpload)="onUpload($event)" customUpload="true"
+                                  (uploadHandler)="pictureUpload($event)">
                     </p-fileUpload>
+
+                    <div *ngIf="files.length > 0" class="already-uploaded">
+                        <div class="item" *ngFor="let orderFile of files">
+                                <a [href]="orderFile.downloadUrl">
+                                    {{orderFile.fileName}}
+                                </a>
+                                <span class="remove glyphicon glyphicon-remove-sign"
+                                      (click)="remove(orderFile)"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -137,6 +130,5 @@
     <ng-container *ngIf="order.invoices.length > 0">
         <p>SUMA: <i>{{order.invoices[0].totalPrice}}</i></p>
     </ng-container>
-
 
 </ng-container>

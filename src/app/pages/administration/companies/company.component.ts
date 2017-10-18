@@ -9,6 +9,8 @@ import {Company} from "../../../models/company-model";
 import {Observable} from "rxjs/Observable";
 import {NotificationService} from "../../../services/notification.service";
 import {RestService} from "../../../services/rest.service";
+import {DownloadedFileInfo} from "../../../models/FileInfo";
+import {UploadFileInfo} from "../../../models/file";
 
 @Component({
     selector: 'company',
@@ -24,14 +26,14 @@ export class CompanyComponent implements OnInit,OnDestroy {
         private msgServ: MessagesService,
         public router: Router,
         private notificationServ : NotificationService,
-        private restServ : RestService
+        private _restServ : RestService
     ) {
         // TODO
 
     }
 
     public ngOnInit(){
-        this.restServ.getCompanies().subscribe(
+        this._restServ.getCompanies().subscribe(
             companies => {
                 this.companies = companies;
                 console.log(this.companies);
@@ -49,11 +51,36 @@ export class CompanyComponent implements OnInit,OnDestroy {
     }
 
     public removeCompany(company : Company){
-        this.restServ.removeCompany(company.id).subscribe(
+        this._restServ.removeCompany(company.id).subscribe(
             result => {
                 this.notificationServ.success("Company " + company.name + " was removed");
                 this.companies.splice(this.companies.indexOf(company),1);
             }
         );
+    }
+
+    public toggleVatPayer(company: Company, event) {
+        company.vatPayer = event.checked;
+
+        let id = company.id;
+
+        delete company.id;
+        delete company.signature;
+        delete company.stamp;
+        delete company.mainContact.id;
+
+
+        this._restServ.updateCompany(company, id).subscribe(
+            result => {
+                console.log(result);
+            },
+            error => {
+                console.error('error updating company');
+            }
+        );
+    }
+
+    public mapDownloadDataToUpload(downloadedFileInfo: DownloadedFileInfo) {
+        let uploadFileInfo: UploadFileInfo;
     }
 }

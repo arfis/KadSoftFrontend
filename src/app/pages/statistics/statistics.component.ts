@@ -55,7 +55,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     constructor(private _orderSrv: OrderService,
                 private _invoiceSrv: InvoiceService) {
 
-        this.orders$ = _orderSrv.getOrders().subscribe(
+        this.orders$ = _orderSrv.getOrders(1, 10).subscribe(
             result => {
                 this.setupOrderStats(result);
             }
@@ -128,6 +128,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
     }
+
 
     ngOnDestroy() {
         this.invoices$.unsubscribe();

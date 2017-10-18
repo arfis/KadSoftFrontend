@@ -82,7 +82,9 @@
             <input type="password" id="token" class="form-control" formControlName="bankApiToken"/>
         </div>
         <div class="col-lg-6 form-group">
-jkk
+            Volaco:
+            <p-fileUpload name="myfile[]" customUpload="true" (uploadHandler)="onUpload($event)"></p-fileUpload>
+
         </div>
 
         <div class="row">
@@ -90,22 +92,6 @@ jkk
                 <label for="logo">Logo: </label>
                 <p-fileUpload id="logo" name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
                               accept="image/*" maxFileSize="1000000">
-                    <ng-template pTemplate type="content">
-                        <div *ngIf="logoFile" class="already-uploaded">
-                            <a href="orderFile.link">
-                                <span class="glyphicon glyphicon-save">orderFile.name</span>
-                            </a>
-                            <span class="remove glyphicon glyphicon-remove-sign"
-                                  (click)="remove(logoFile)"></span>
-                        </div>
-                        <div *ngIf="!logoFile">
-                            <i>Ziadne subory neboli doposial nahrate</i>
-                        </div>
-                        <div *ngIf="logoFile">
-                            <i>{{logoFile.name}} - {{logoFile.size}} bytes</i>
-                        </div>
-
-                    </ng-template>
                 </p-fileUpload>
             </div>
 
@@ -113,22 +99,8 @@ jkk
                 <label for="stamp">Peciatka: </label>
                 <p-fileUpload id="stamp" name="demo[]" url="./upload.php" (onUpload)="onUpload($event)"
                               accept="image/*" maxFileSize="1000000">
-                    <ng-template pTemplate type="content">
-                        <div *ngIf="stampFile" class="already-uploaded">
-                                    <a href="stampData.link">
-                                        <span class="glyphicon glyphicon-save">orderFile.name</span>
-                                    </a>
-                                    <span class="remove glyphicon glyphicon-remove-sign"
-                                          (click)="remove(orderFile)"></span>
-
-                        </div>
-                        <div *ngIf="!stampFile">
-                            <i>Ziadne subory neboli doposial nahrate</i>
-                        </div>
-                        <div *ngIf="stampFile">
-                            <li>{{stampFile.name}} - {{stampFile.size}} bytes</li>
-                        </div>
-
+                    <ng-template let-file pTemplate="file">
+                        <div>Custom UI to display a file</div>
                     </ng-template>
                 </p-fileUpload>
             </div>

@@ -22,7 +22,8 @@
         <td><a>{{company?.mainContact?.accountNumber}}</a></td>
         <td>{{company?.mainContact?.iban}}</td>
         <td>
-            <p-toggleButton onLabel="Ano" offLabel="Nie" [(ngModel)]="company.taxPayer"></p-toggleButton>
+            <p-toggleButton onLabel="Ano" offLabel="Nie" (onChange)="toggleVatPayer(company, $event)"
+                            [(ngModel)]="company.vatPayer"></p-toggleButton>
         </td>
         <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCompany(company)"></span></td>
     </tr>

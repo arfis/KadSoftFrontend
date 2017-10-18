@@ -1,21 +1,17 @@
 import {Component, OnInit, OnDestroy, Input, OnChanges} from '@angular/core';
 import {BreadcrumbService} from '../../services/breadcrumb.service';
-import {Message} from '../../models/message';
 import {MessagesService} from '../../services/messages.service';
-import {User} from '../../models/user';
 import {ActivatedRoute, Router} from "@angular/router";
 import {getOrderTranslation, Order, orderStatesConst, OrderStatus} from "./order.model";
 import {OrderService} from "./order.service";
 import {InvoiceService} from "../invoice/invoice.service";
-import {InvoiceCreation} from "../invoice/invoice-create.component";
 import {getTranslation, invoiceStatesConst, InvoiceStatus, invoiceStatuses} from "../invoice/invoiceStatus.model";
 import {SortableTable} from "../../widgets/data-table/sortable-table.component";
 import {Observable} from "rxjs/Observable";
 import {Invoice} from "../invoice/invoice.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Subject} from "rxjs/Subject";
-import {SelectItem} from "primeng/primeng";
-import {isUndefined} from "util";
+import {PaginationMetadata} from "../../models/paginationMetadata";
 
 @Component({
     selector: 'order',
@@ -29,14 +25,15 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
     public orders: Order[] = new Array();
     private allOrders: Order[];
     public isFormCollapsed = true;
-
+    private paginationMeta: PaginationMetadata;
 
     public maxSize: number = 10;
     public bigTotalItems: number = 0;
     public bigCurrentPage: number = 1;
     public numPages: number = 0;
 
-    public currentPage: number = 1;
+    public currentPage = 1;
+    public pageSize = 10;
 
     public showModal = false;
     public activeInvoices: Invoice[];
@@ -58,21 +55,23 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
 
         if (!this.filteredOrders) {
             this.loadingBar.start(() => {
-                console.log("complete");
+
             });
-            Observable.forkJoin(_orderServ.getOrders(), this._invoiceServ.getInvoices())
+            
+            Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize), this._invoiceServ.getInvoices())
                 .takeUntil(this.stopChanel)
                 .subscribe(
                     result => {
-                        this.setOrders(result[0]);
-                        this._orderServ.setOrders(result[0]);
+                        this.paginationMeta = result[0].meta;
+                        this.orders = result[0].data;
+                        this._orderServ.setOrders(result[0].data);
                         this._invoiceServ.setInvoices(result[1]);
-                        this.getFirstRecords();
+                        this.bigTotalItems = this.paginationMeta.totalItems;
 
                         this.loadingBar.complete();
                     },
                     error => {
-                        console.log(error);
+
                     },
                     () => {
                         this.loadingBar.complete();
@@ -82,8 +81,8 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
         else {
 
             this.totalRecords = this.filteredOrders;
-            this.bigTotalItems = this.filteredOrders.length;
-            this.getFirstRecords();
+            this.bigTotalItems = this.paginationMeta.totalItems;
+
         }
 
     }
@@ -92,36 +91,26 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
         this.activeInvoices = order.invoices;
     }
 
-    public setOrders(orders: Order[]) {
-        this.allOrders = orders;
-        this.totalRecords = orders;
-        this.bigTotalItems = orders.length;
-        this.getFirstRecords();
-    }
+    // public setOrders(orders: Order[]) {
+    //     this.allOrders = orders;
+    //     this.totalRecords = orders;
+    //     this.bigTotalItems = this.paginationMeta.totalItems;
+    //
+    // }
 
     public ngOnChanges(changes: any) {
+        console.log('changes');
         if (changes.filteredOrders) {
             this.stopChanel.next(1);
             this.totalRecords = this.filteredOrders;
-            this.bigTotalItems = this.filteredOrders.length;
-            this.getFirstRecords();
+            this.bigTotalItems = this.paginationMeta.totalItems;
         }
     }
 
     update(event) {
         this.totalRecords = event;
-        this.getFirstRecords();
     }
 
-    private getFirstRecords() {
-
-        if (this.totalRecords.length > 0) {
-            this.orders = this.totalRecords.slice(0, this.maxSize);
-        }
-        else {
-            this.orders = this.totalRecords;
-        }
-    }
 
     public ngOnInit() {
         // setttings the header for the home
@@ -168,8 +157,15 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
     }
 
     setActiveRecords() {
-        let startingIndex = ((this.currentPage) * this.maxSize);
-        this.orders = this.totalRecords.slice(startingIndex, startingIndex + this.maxSize);
+        console.log('set active records');
+        this._orderServ.getOrders(this.currentPage + 1, this.pageSize).subscribe(
+            result => {
+                this.allOrders = result.data;
+                this.orders = result.data;
+                this._orderServ.setOrders(result.data);
+                this.bigTotalItems = this.paginationMeta.totalItems;
+            }
+        )
     }
 
     totalPrice(orderId: number){ this._invoiceServ.getInvoice(orderId).totalPrice}

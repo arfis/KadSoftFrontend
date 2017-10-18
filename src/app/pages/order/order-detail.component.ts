@@ -12,11 +12,14 @@ import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {
     _buildingTypes, _buildingTypesInfo, _productTypes,
-    _professions, getOrderTranslation, heating, lighting, vzt, Order, OrderStatus
+    _professions, getOrderTranslation, heating, lighting, vzt, Order, OrderStatus, OrderStats
 } from "./order.model";
 import {OrderService} from "./order.service";
 import {Message, SelectItem} from "primeng/primeng";
 import {invoiceTypes} from "../invoice/invoiceStatus.model";
+import {UploadFileInfo} from "../../models/file";
+import {OrderFiles} from "../../models/orderFiles";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'order-detail',
@@ -26,11 +29,11 @@ import {invoiceTypes} from "../invoice/invoiceStatus.model";
 
 export class OrderDetailComponent {
 
-    private orders: Order[];
     private order: Order;
-    public orderLoaded: boolean = false;
+
+    public isLoaded = false;
     public selectedUser = "Vyber uzivatela";
-    public orderFiles = [{name:'Certifikat1.pdf', link:'certifikat1'}, {name:'Certifikat2.pdf', link:'certifikat2'}]
+    public orderFiles = [];
     uploadedFiles: any[] = [];
     professions: SelectItem[];
     buildingTypes: SelectItem[];
@@ -49,60 +52,45 @@ export class OrderDetailComponent {
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
                 private _orderSrv: OrderService,
+                private _usrService: UserService,
                 private loadingBar: SlimLoadingBarService,
                 private notificationSrv: NotificationService,
                 private _loginServ: UserService) {
 
-        this.professions = _professions;
-        this.buildingTypes = _buildingTypes;
-        this.productTypes = _productTypes;
+        this.professions = _orderSrv.professionTypes;
+        this.buildingTypes = _orderSrv.constructionTypes;
+        this.productTypes = _orderSrv.productTypes;
     }
 
     ngOnInit() {
-        console.log(this._loginServ.getLoggedInUser().role);
         this.activatedRoute.data.subscribe(data => {
-
+            console.log('activated route');
+            console.log(data);
             this.order = data['order'];
+            this.isLoaded = true;
             console.log(this.order);
-
-            if (this.order != null && !this.order.invoices) {
-
-                console.log("company is undefined");
-
-                this._orderSrv.getOrders().subscribe(
-                    result => {
-                        this._orderSrv.setOrders(result);
-                        this.order = this._orderSrv.getOrder(this.order.id);
-
-                        this.orderLoaded = true;
-                    },
-                    error => {
-                        if (error.status === 401) {
-                            this._loginServ.logout();
-                        }
-                    });
-            }else {
-                this.orderLoaded = true;
-            }
         });
     }
 
     remove(uploadedFile) {
         if (window.confirm("Naozaj chcete vymazat danu polozku?")) {
-            this.orderFiles.splice(this.orderFiles.indexOf(uploadedFile), 1);
+            this._orderSrv.removeFile(uploadedFile.id).subscribe(
+                result => {
+                    this.orderFiles.splice(this.orderFiles.indexOf(uploadedFile), 1);
+                }
+            );
         }
     }
 
     assign() {
+        this.order.assignedTo = this._usrService.getLoggedInUser();
+        this.order.state = OrderStats.assigned;
         this._orderSrv.assignOrderToCurrentUser(this.orderId);
-    }
-
-    pictureUpload(file) {
-        console.log(file);
+        console.log(this.order);
     }
 
     onUpload(event) {
-        for(let file of event.files) {
+        for (let file of event.files) {
             this.uploadedFiles.push(file);
         }
 
@@ -110,26 +98,139 @@ export class OrderDetailComponent {
         this.msgs.push({severity: 'info', summary: 'File Uploaded', detail: ''});
     }
 
-    get orderId() { return this.order.id }
-    get creator() { return this.order.createdBy }
-    get createdDate() { return this.order.created }
-    get assignee() { return this.order.assignedTo }
-    get client() { return this.order.mainContact.name + this.order.mainContact.surname}
-    get invoices() { return this.order.invoices }
-    get state() { return getOrderTranslation(OrderStatus[this.order.state])};
-    get invoiceTypes() { return invoiceTypes }
+    pictureUpload(filesToUpload) {
+        this.parseFiles(filesToUpload,
+            parsedFiles => {
+                let orderFiles = new OrderFiles();
+                orderFiles.text = 'test';
+                orderFiles.files = parsedFiles;
 
-    get buildingInfo() { return _buildingTypesInfo[this.selectedBuildingType] }
+                console.log('got files: ');
+                console.log(orderFiles);
+                this._orderSrv.addFilesToOrder(this.order.id, orderFiles).subscribe(
+                    result => {
+                        console.log('upload success');
+                        console.log(result);
+                    },
+                    (err: HttpErrorResponse) => {
+                        if (err.error instanceof Error) {
+                            // A client-side or network error occurred. Handle it accordingly.
+                            console.log('An error occurred:', err.error.message);
+                        } else {
+                            // The backend returned an unsuccessful response code.
+                            // The response body may contain clues as to what went wrong,
+                            console.log(`Backend returned code ${err.status}, body was:`);
+                            console.log(err.error);
+                        }
+                    }
+                );
+            }
+        )
+    }
 
-    get isAreaShown() { return this.selectedProfessions.find(selected =>
-                                        (selected === heating) || (selected === lighting))}
 
-    get isHeatingSelected() { return this.selectedProfessions.find(selected => selected === heating)}
-    get isVztSelected() { return this.selectedProfessions.find(selected => selected === vzt)}
-    get isLightingSelected() { return this.selectedProfessions.find(selected => selected === lighting)}
+    parseFiles(filesToUpload, onFinish) {
+
+        let parsedFiles = 0;
+        let totalFiles = filesToUpload.files.length;
+
+        let arrayOfFiles = new Array<UploadFileInfo>();
+
+        for (let file of filesToUpload.files) {
+            let customFile = new UploadFileInfo();
+            customFile.filename = 'test';
+
+            this.getBase64fromFile(file,
+                data => {
+                    parsedFiles++;
+                    customFile.base64File = data;
+                    arrayOfFiles.push(customFile);
+                    if (parsedFiles == totalFiles) {
+                        onFinish(arrayOfFiles);
+                    }
+                }
+            )
+
+        }
+    }
+
+    getBase64fromFile(file, callback) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function () {
+            console.log(reader.result);
+            callback(reader.result);
+        };
+
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+
+    get orderId() {
+        return this.order.id
+    }
+
+    get creator() {
+        return this.order.createdBy
+    }
+
+    get createdDate() {
+        return this.order.created
+    }
+
+    get assignee() {
+        return this.order.assignedTo
+    }
+
+    get client() {
+        return this.order.mainContact.name + this.order.mainContact.surname
+    }
+
+    get invoices() {
+        return this.order.invoices
+    }
+
+    get state() {
+        return getOrderTranslation(OrderStatus[this.order.state])
+    }
+
+
+    get invoiceTypes() {
+        return invoiceTypes
+    }
+
+    get buildingInfo() {
+        return _buildingTypesInfo[this.selectedBuildingType]
+    }
+
+    get isAreaShown() {
+        return this.selectedProfessions.find(selected =>
+        (selected === heating) || (selected === lighting))
+    }
+
+    get isHeatingSelected() {
+        return this.selectedProfessions.find(selected => selected === heating)
+    }
+
+    get isVztSelected() {
+        return this.selectedProfessions.find(selected => selected === vzt)
+    }
+
+    get isLightingSelected() {
+        return this.selectedProfessions.find(selected => selected === lighting)
+    }
 
     get totalCost() {
         return this.area * (this.lightingPrice + this.heatingPrice) + this.vztPrice;
     }
-    get isAdministrator() { return this._loginServ.getLoggedInUser().role.indexOf("ROLE_ADMIN") > -1}
+
+    get isAdministrator() {
+        return this._loginServ.getLoggedInUser().role.indexOf("ROLE_ADMIN") > -1
+    }
+
+    get files() {
+        return this.order.files;
+    }
 }

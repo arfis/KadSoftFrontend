@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['orders']);
                     },
                     error => {
+                        console.log(error);
                         this.notificationServ.error(error);
                         this.router.navigate(['login']);
                     }

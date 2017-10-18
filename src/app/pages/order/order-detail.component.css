@@ -50,16 +50,13 @@
     border: 0.2px solid darkgrey;
     border-radius : 3px;
     background-color: lightgray;
+    display:flex;
+    flex-wrap: wrap;
 }
-.already-uploaded ul {
-    margin: 0;
-    padding: 10px;
-    list-style-type: none;
+.item {
+    padding: 1px;
 }
 
-.already-uploaded li {
-    font-size: 1.2em;
-}
 
 .already-uploaded span:hover {
     color:#00a65a;
