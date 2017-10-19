@@ -46,20 +46,13 @@ export class InvoiceService {
     }
 
 
-    public getInvoice(id: number): Invoice {
-        if (this.invoices.length > 0) {
-            return this.invoices.find(invoice => invoice.id == id);
-        }
-        else{
-            let newInvoice = new Invoice();
-            newInvoice.id = id;
-            return newInvoice;
-        }
+    public getInvoice(id: number): Observable<Invoice> {
+        return this.restServ.getInvoice(id);
     }
 
-    public getInvoices(): Observable<Invoice[]> {
+    public getInvoices(page, pageSize): Observable<any> {
 
-        return this.restServ.getInvoices();
+        return this.restServ.getInvoices(page, pageSize);
     }
 
     public generatePdfLink(invoice : Invoice){

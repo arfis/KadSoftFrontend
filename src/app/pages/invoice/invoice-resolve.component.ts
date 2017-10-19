@@ -5,19 +5,16 @@ import {ActivatedRouteSnapshot, Resolve} from "@angular/router";
 import {Injectable} from "@angular/core";
 import {Invoice} from "./invoice.model";
 import {InvoiceService} from "./invoice.service";
+import {Observable} from "rxjs/Observable";
 /**
  * Created by a619678 on 23. 5. 2017.
  */
 @Injectable()
 export class InvoiceResolve implements Resolve<Invoice> {
 
-    constructor(private invoiceSrv: InvoiceService) {
-        this.invoiceSrv.getInvoices().subscribe(result=>{
-            this.invoiceSrv.setInvoices(result);
-        });
-    }
+    constructor(private invoiceSrv: InvoiceService) {}
 
-    resolve(route: ActivatedRouteSnapshot) {
+    resolve(route: ActivatedRouteSnapshot): Observable<Invoice> {
 
         let invoiceId : number = route.params['invoiceNumber'];
 

@@ -4,5 +4,5 @@
 export class PaginationMetadata {
     page: number;
     pageSize: number;
-    totalItems: number;
+    totalItems: number = 0;
 }

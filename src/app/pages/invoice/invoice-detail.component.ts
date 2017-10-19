@@ -12,6 +12,7 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {MenuItem} from "primeng/primeng";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'invoice-detail',
@@ -21,10 +22,8 @@ import {MenuItem} from "primeng/primeng";
 
 export class InvoiceDetailComponent {
 
-    private invoices: Invoice[];
     private invoice: Invoice;
     public permissions: CompanyPermissions = new CompanyPermissions();
-    public invoiceLoaded: boolean = false;
     public permissionLoaded: boolean = false;
     public invoiceActions: MenuItem[] = new Array();
 
@@ -37,91 +36,55 @@ export class InvoiceDetailComponent {
 
     }
 
-// <button *ngIf="permissions.cancel"
-//     (click)="stornoInvoice()" class="col-lg-2 btn btn-danger">
-//         Storno faktúry
-//     </button>
-//
-// <button *ngIf="permissions.pay"
-//     (click)="payInvoice()" class="col-lg-2 btn btn-success">
-//         Faktura bola zaplatena
-//     </button>
-//
-// <button *ngIf="permissions.generatePdf" (click)="generatePdf()"
-//     class="col-lg-2 btn btn-warning">
-//         Vygeneruj znova pdf
-//     </button>
-//
-// <button *ngIf="permissions.sendEmail" (click)="sentNotificationEmail()"
-//     class="col-lg-2 btn btn-warning">
-//         Odošli notifikačný mail
-//     </button>
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
 
-            this.invoice = data['invoice'];
+           this.invoice = data['invoice'];
+            
+                    this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
+                        result => {
+                            this.permissions = result;
+                            this.permissionLoaded = true;
+                            this.invoiceActions = new Array();
 
-            if (!this.invoice.company) {
+                            if (this.permissions.generatePdf) {
+                                this.invoiceActions.push({
+                                    label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
+                                        this.generatePdf();
+                                    }
+                                });
+                            }
 
-                this.invoiceSrv.getInvoices().subscribe(
-                    result => {
-                        this.invoiceSrv.setInvoices(result);
-                        this.invoice = this.invoiceSrv.getInvoice(this.invoice.id);
-                        this.invoiceLoaded = true;
-                    },
-                    error => {
-                        if (error.status === 401) {
-                            this.loginServ.logout();
+                            if (this.permissions.cancel) {
+                                this.invoiceActions.push({
+                                    label: 'Storno', icon: 'fa-close', command: () => {
+                                        this.stornoInvoice();
+                                    }
+                                });
+                            }
+                            if (this.permissions.sendEmail) {
+                                this.invoiceActions.push({
+                                    label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
+                                        this.sentNotificationEmail();
+                                    }
+                                });
+                            }
+                            if (this.permissions.pay) {
+                                this.invoiceActions.push({
+                                    label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
+                                        this.payInvoice()
+                                    }
+                                });
+                            }
+                        },
+                        error => {
+                            if (error.status === 401) {
+                                this.loginServ.logout();
+                            }
                         }
-                    }
-                )
-            }
-            else {
-                this.invoiceLoaded = true;
-            }
+                    );
+            
 
-            this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
-                result => {
-                    this.permissions = result;
-                    this.permissionLoaded = true;
-                    this.invoiceActions = new Array();
-
-                    if (this.permissions.generatePdf) {
-                        this.invoiceActions.push({
-                            label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
-                                this.generatePdf();
-                            }
-                        });
-                    }
-
-                    if (this.permissions.cancel) {
-                        this.invoiceActions.push({
-                            label: 'Storno', icon: 'fa-close', command: () => {
-                                this.stornoInvoice();
-                            }
-                        });
-                    }
-                    if (this.permissions.sendEmail) {
-                        this.invoiceActions.push({
-                            label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
-                                this.sentNotificationEmail();
-                            }
-                        });
-                    }
-                    if (this.permissions.pay) {
-                        this.invoiceActions.push({
-                            label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
-                                this.payInvoice()
-                            }
-                        });
-                    }
-                },
-                error => {
-                    if (error.status === 401) {
-                        this.loginServ.logout();
-                    }
-                }
-            );
         });
     }
 

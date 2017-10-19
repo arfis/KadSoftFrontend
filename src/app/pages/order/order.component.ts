@@ -58,14 +58,13 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
 
             });
             
-            Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize), this._invoiceServ.getInvoices())
+            Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize))
                 .takeUntil(this.stopChanel)
                 .subscribe(
                     result => {
                         this.paginationMeta = result[0].meta;
                         this.orders = result[0].data;
                         this._orderServ.setOrders(result[0].data);
-                        this._invoiceServ.setInvoices(result[1]);
                         this.bigTotalItems = this.paginationMeta.totalItems;
 
                         this.loadingBar.complete();
@@ -167,7 +166,5 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
             }
         )
     }
-
-    totalPrice(orderId: number){ this._invoiceServ.getInvoice(orderId).totalPrice}
 
 }

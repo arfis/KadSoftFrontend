@@ -64,11 +64,8 @@ export class OrderDetailComponent {
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
-            console.log('activated route');
-            console.log(data);
             this.order = data['order'];
             this.isLoaded = true;
-            console.log(this.order);
         });
     }
 

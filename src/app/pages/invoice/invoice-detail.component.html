@@ -1,5 +1,5 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
-<ng-container *ngIf="invoiceLoaded && permissionLoaded">
+<ng-container *ngIf="permissionLoaded">
     <h2>Faktúra {{invoice.invoiceNumber}}</h2>
 
     <a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a>
