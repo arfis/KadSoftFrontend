@@ -60,26 +60,7 @@ export class InvoiceDetailComponent {
         this.activatedRoute.data.subscribe(data => {
 
             this.invoice = data['invoice'];
-
-            if (!this.invoice.company) {
-
-                this.invoiceSrv.getInvoices().subscribe(
-                    result => {
-                        this.invoiceSrv.setInvoices(result);
-                        this.invoice = this.invoiceSrv.getInvoice(this.invoice.id);
-                        this.invoiceLoaded = true;
-                    },
-                    error => {
-                        if (error.status === 401) {
-                            this.loginServ.logout();
-                        }
-                    }
-                )
-            }
-            else {
-                this.invoiceLoaded = true;
-            }
-
+            
             this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
                 result => {
                     this.permissions = result;

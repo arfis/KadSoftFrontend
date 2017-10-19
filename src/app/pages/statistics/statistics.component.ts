@@ -61,7 +61,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
             }
         )
 
-        this.invoices$ = _invoiceSrv.getInvoices().subscribe(
+        this.invoices$ = _invoiceSrv.getInvoices(1, 10).subscribe(
             result => {
                 this.setupInvoiceStats(result);
             }

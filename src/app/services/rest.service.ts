@@ -124,10 +124,13 @@ export class RestService {
         return this.http.get<any>(this.config.server + "api/nexts/" + companyId + "/invoice/number");
     }
 
-    public getInvoices() : Observable<Invoice[]> {
-        return this.http.get<Invoice[]>(this.config.server + this.config.invoicesApi)
+    public getInvoices(page, pageSize) : Observable<Invoice[]> {
+        return this.http.get<any>(this.config.server + this.config.invoicesApi+ '?page=' + page + '&pageSize='+pageSize+'}');
     }
 
+    public getInvoice(id): Observable<any> {
+        return this.http.get<any>(this.config.server + this.config.invoicesApi + `/${id}`);
+    }
 
     public getOrders(page, pageSize): Observable<any> {
         return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize='+pageSize+'}');
