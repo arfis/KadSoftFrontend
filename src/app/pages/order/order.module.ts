@@ -21,6 +21,9 @@ import {OrderDetailComponent} from "./order-detail.component";
 import {OrderResolve} from "./order-resolve.component";
 import {AccordionModule, FileUploadModule, MultiSelectModule, SelectButtonModule} from 'primeng/primeng';
 import {FilterComponent} from "../../widgets/filter/filter.component";
+import {MdInputModule, MdStepperModule} from "@angular/material";
+import {StepperComponent} from "../../container/stepper/stepper.component";
+import {StepComponent} from "../../component/step/step.component";
 
 @NgModule({
     imports: [
@@ -37,7 +40,10 @@ import {FilterComponent} from "../../widgets/filter/filter.component";
         PaginationModule.forRoot(),
         ModalModule.forRoot(),
         SlimLoadingBarModule.forRoot(),
-        TooltipModule.forRoot()
+        TooltipModule.forRoot(),
+        MdInputModule,
+        MdStepperModule,
+
     ],
     declarations: [
         OrderComponent,
@@ -45,7 +51,9 @@ import {FilterComponent} from "../../widgets/filter/filter.component";
         OrderModal,
         OrderDetailComponent,
         RequiredDirective,
-        FilterComponent
+        FilterComponent,
+        StepperComponent,
+        StepComponent
     ],
     providers: [
         InvoiceService,

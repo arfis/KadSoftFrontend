@@ -34,7 +34,7 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {
     DateAdapter,
-    MdButtonModule, MdCheckboxModule, MdDatepickerModule, MdIconModule, MdInputModule,
+    MdButtonModule, MdCheckboxModule, MdDatepickerModule, MdIconModule, MdInputModule, MdStepperModule,
     MdTableModule
 } from "@angular/material";
 
@@ -68,7 +68,8 @@ let material = [
     MdInputModule,
     MdIconModule,
     MdTableModule,
-    MdDatepickerModule
+    MdDatepickerModule,
+    MdStepperModule,
 ];
 
 let modules = [
@@ -127,6 +128,8 @@ import { BreadcrumbService } from './services/breadcrumb.service';
 import { AdminLTETranslateService } from './services/translate.service';
 import { LoggerService } from './services/logger.service';
 import {InterceptorService} from "./services/interceptor-service.service";
+import { StepComponent } from './component/step/step.component';
+import { StepperComponent } from './container/stepper/stepper.component';
 
 let services = [
     InvoiceService,
@@ -167,7 +170,7 @@ let pages = [
     declarations: [
         ...widgets,
         ...pages,
-        StatisticsComponent
+        StatisticsComponent,
     ],
     imports: [
         ...modules,

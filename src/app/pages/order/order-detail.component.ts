@@ -5,7 +5,7 @@
  * Created by a619678 on 7. 6. 2017.
  */
 
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {NotificationService} from "../../services/notification.service";
@@ -20,6 +20,9 @@ import {invoiceTypes} from "../invoice/invoiceStatus.model";
 import {UploadFileInfo} from "../../models/file";
 import {OrderFiles} from "../../models/orderFiles";
 import {HttpErrorResponse} from "@angular/common/http";
+import {OrderConstants} from "./order.constants";
+import {RestService} from "../../services/rest.service";
+import {MdStep} from "@angular/material";
 
 @Component({
     selector: 'order-detail',
@@ -44,10 +47,11 @@ export class OrderDetailComponent {
     selectedProductType: string;
     msgs: Message[];
 
-    heatingPrice: number = 0;
-    lightingPrice: number = 0;
-    vztPrice: number = 0;
+    heatingPrice: number = OrderConstants.heatingPrice;
+    lightingPrice: number = OrderConstants.lightingPrice;
+    vztPrice: number = OrderConstants.vztPrice;
     area: number = 0;
+    note = '';
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
@@ -55,18 +59,29 @@ export class OrderDetailComponent {
                 private _usrService: UserService,
                 private loadingBar: SlimLoadingBarService,
                 private notificationSrv: NotificationService,
-                private _loginServ: UserService) {
+                private _loginServ: UserService,
+                private _restSrv: RestService,
+                private _notificationSrv: NotificationService) {
 
         this.professions = _orderSrv.professionTypes;
         this.buildingTypes = _orderSrv.constructionTypes;
         this.productTypes = _orderSrv.productTypes;
+
     }
 
     ngOnInit() {
+
         this.activatedRoute.data.subscribe(data => {
             this.order = data['order'];
+
+            this.selectedBuildingType = (this.order.constructionType) ? this.order.constructionType.id : null;
+            this.selectedProductType = (this.order.productType) ? this.order.productType.id : null;
+            this.selectedProfessions = (this.order.professions) ? this.order.professions.map(profession => profession.id) : null;
+            this.note = this.order.note;
+            this.area = this.order.area;
             this.isLoaded = true;
         });
+
     }
 
     remove(uploadedFile) {
@@ -79,11 +94,34 @@ export class OrderDetailComponent {
         }
     }
 
-    assign() {
-        this.order.assignedTo = this._usrService.getLoggedInUser();
-        this.order.state = OrderStats.assigned;
-        this._orderSrv.assignOrderToCurrentUser(this.orderId);
-        console.log(this.order);
+    updateStatus(action) {
+        this._restSrv.post<Order>(action).subscribe(
+            result => {
+                this._orderSrv.getOrder(this.order.id).subscribe(
+                    order => this.order = order
+                )
+            }
+        );
+    }
+
+    toPreparing() {
+        this.updateStatus(this.order.actions.toPreparing);
+    }
+
+    toAssigned() {
+        this.updateStatus(this.order.actions.toAssigned);
+    }
+
+    toFinished() {
+        this.updateStatus(this.order.actions.toFinished);
+    }
+
+    toDispatched() {
+        this.updateStatus(this.order.actions.toDispatched);
+    }
+
+    unassign() {
+        this.updateStatus(this.order.actions.toUnassigned);
     }
 
     onUpload(event) {
@@ -102,12 +140,9 @@ export class OrderDetailComponent {
                 orderFiles.text = 'test';
                 orderFiles.files = parsedFiles;
 
-                console.log('got files: ');
-                console.log(orderFiles);
                 this._orderSrv.addFilesToOrder(this.order.id, orderFiles).subscribe(
                     result => {
-                        console.log('upload success');
-                        console.log(result);
+                        this.order.files = this.files;
                     },
                     (err: HttpErrorResponse) => {
                         if (err.error instanceof Error) {
@@ -124,7 +159,6 @@ export class OrderDetailComponent {
             }
         )
     }
-
 
     parseFiles(filesToUpload, onFinish) {
 
@@ -165,6 +199,55 @@ export class OrderDetailComponent {
         };
     }
 
+    onValueChange(event) {
+        console.log(event);
+        console.log(this.selectedProductType);
+    }
+
+    updateOrder() {
+        let updatedOrder = new Order;
+        updatedOrder.professions = this.selectedProfessions;
+        updatedOrder.productType = this.selectedProductType;
+        updatedOrder.constructionType = this.selectedBuildingType;
+        updatedOrder.note = this.note;
+        updatedOrder.area = this.area;
+        updatedOrder.price = this.totalCost;
+
+        this._orderSrv.patchOrder(updatedOrder, this.order.id).subscribe(
+            result => {
+                this._notificationSrv.success('Objednavka', 'bola uspesne upravena');
+            },
+            error => {
+                this._notificationSrv.error('Objednavka', 'nebola uspesne upravena');
+            });
+    }
+
+
+    changeState(newState) {
+        switch(newState) {
+            case 'assigned' : {
+                this.toAssigned();
+                break;
+            }
+            case 'unassigned' : {
+                this.unassign();
+                break;
+            }
+            case 'finished' : {
+                this.toFinished();
+                break;
+            }
+            case 'preparing' : {
+                this.toPreparing();
+                break;
+            }
+            case 'dispatched' : {
+                this.toDispatched();
+                break;
+            }
+        }
+    }
+
     get orderId() {
         return this.order.id
     }
@@ -177,8 +260,8 @@ export class OrderDetailComponent {
         return this.order.created
     }
 
-    get assignee() {
-        return this.order.assignedTo
+    get isAssigned() {
+        return !(this.order.state === 'draft' || this.order.state === 'unassigned');
     }
 
     get client() {
@@ -187,6 +270,10 @@ export class OrderDetailComponent {
 
     get invoices() {
         return this.order.invoices
+    }
+
+    get isDealer() {
+        return this._usrService.isDealer();
     }
 
     get state() {
@@ -204,19 +291,19 @@ export class OrderDetailComponent {
 
     get isAreaShown() {
         return this.selectedProfessions.find(selected =>
-        (selected === heating) || (selected === lighting))
+        (selected === this.professions[0].value) || (selected === this.professions[2].value))
     }
 
     get isHeatingSelected() {
-        return this.selectedProfessions.find(selected => selected === heating)
+        return this.selectedProfessions.find(selected => selected === this.professions[0].value)
     }
 
     get isVztSelected() {
-        return this.selectedProfessions.find(selected => selected === vzt)
+        return this.selectedProfessions.find(selected => selected === this.professions[1].value)
     }
 
     get isLightingSelected() {
-        return this.selectedProfessions.find(selected => selected === lighting)
+        return this.selectedProfessions.find(selected => selected === this.professions[2].value)
     }
 
     get totalCost() {
@@ -227,7 +314,39 @@ export class OrderDetailComponent {
         return this._loginServ.getLoggedInUser().role.indexOf("ROLE_ADMIN") > -1
     }
 
+    get canBeUnassigned() {
+        return !!this.order.actions.toUnassigned;
+    }
+
+    get canBeAssigned() {
+        return !!this.order.actions.toAssigned;
+    }
+
+    get canBeFinished() {
+        return !!this.order.actions.toFinished;
+    }
+
+    get canBeDispatched() {
+        return !!this.order.actions.toDispatched;
+    }
+
+    get canBePreparing() {
+        return !!this.order.actions.toPreparing;
+    }
+
+    get actions() {
+        return this.order.actions;
+    }
+
+    get currentState() {
+        return this.order.state
+    }
+
     get files() {
         return this.order.files;
+    }
+
+    get states() {
+        return this._orderSrv.states;
     }
 }

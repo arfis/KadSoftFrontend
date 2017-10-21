@@ -7,6 +7,10 @@ import {RestService} from "./rest.service";
 @Injectable()
 export class UserService {
     public currentUser: ReplaySubject<User> = new ReplaySubject<User>( 1 );
+    public adminRole = "ROLE_ADMIN";
+    public technician = "ROLE_TECHNICIAN";
+    public dealerRole = "ROLE_DEALER";
+
     public roles = [];
 
     constructor(
@@ -19,8 +23,6 @@ export class UserService {
     public getUserRoles() {
         this.restService.getUserRoles().subscribe(
             result => {
-                console.log('got roles: ');
-                console.log(result);
                 this.roles = result;
             },
             error => {
@@ -28,6 +30,13 @@ export class UserService {
             }
         )
     }
+
+    public isDealer() {
+        let dealer = (!!this.roles.find(role => role === this.dealerRole));
+        console.log(dealer);
+        return dealer;
+    }
+
     public registerUser(user) {
         return this.restService.registerUser(user);
     }

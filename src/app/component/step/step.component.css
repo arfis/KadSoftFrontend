@@ -1,0 +1,25 @@
+.active {
+    background-color: #00a65a !important;
+}
+
+.current {
+    background-color: orange !important;
+}
+
+.step-number {
+    background-color:gray;
+    border-radius: 50%;
+    display:flex;
+    height:25px;
+    justify-content: center;
+    color: white;
+    text-align:center;
+    width:25px;
+}
+
+.step-wrapper {
+    align-items: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}

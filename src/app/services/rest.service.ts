@@ -14,6 +14,7 @@ import {Order} from "../pages/order/order.model";
 import {CompanyPermissions} from "../models/company-permisions.model";
 import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Type} from "../models/type";
+import {UserService} from "./user.service";
 
 @Injectable()
 export class RestService {
@@ -27,7 +28,8 @@ export class RestService {
     public lastGetAll: Array<any>;
     public lastGet: any;
 
-    constructor(private http: HttpClient, private config: Configuration) {
+    constructor(private http: HttpClient,
+                private config: Configuration) {
         this.modelName = 'to-configure';
         this.accessToken = localStorage.getItem('accessToken');
 
@@ -49,6 +51,10 @@ export class RestService {
 
         return this.http.post(this.config.server + this.config.authUrl, data);
 
+    }
+
+    public post<T>(link): Observable<T> {
+       return this.http.post<T>(link, {});
     }
 
     public setAccessToken(accessToken: string) {
@@ -132,8 +138,14 @@ export class RestService {
         return this.http.get<any>(this.config.server + this.config.invoicesApi + `/${id}`);
     }
 
-    public getOrders(page, pageSize): Observable<any> {
-        return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize='+pageSize+'}');
+    public getOrders(page, pageSize, isDealer): Observable<any> {
+
+        if (isDealer) {
+            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + '}');
+        }
+        else {
+            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + '}');
+        }
     }
 
     public getOrder(orderId): Observable<any> {
@@ -144,6 +156,13 @@ export class RestService {
         return this.http.post<Order>(this.config.server + this.config.ordersApi, order);
     }
 
+    public updateOrder(order): Observable<Order> {
+        return this.http.put<Order>(this.config.server + this.config.ordersApi + `/${order.id}`, order);
+    }
+
+    public patchOrder(order, id) {
+        return this.http.patch<Order>(this.config.server + this.config.ordersApi + `/${id}`, order);
+    }
 
     public addInvoice(invoice : Invoice) : Observable<Invoice>{
         return this.http.post<Invoice>(this.config.server + this.config.invoicesApi, invoice);
@@ -192,6 +211,10 @@ export class RestService {
     public removeFile(fileId) {
         console.log('TODO: removing: ' + fileId);
         return this.http.delete(this.config.server + 'api/items/' + `${fileId}`);
+    }
+
+    public getOrderStates(): Observable<any[]> {
+        return this.http.get<any[]>(this.config.server + 'api/orders/states');
     }
 
     private handleError(error: Response) {

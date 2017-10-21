@@ -4,9 +4,7 @@
 
     <p><span class="attribute">Klient</span>{{client}}</p>
 
-    <ng-container *ngIf="!assignee">
-        <button class="btn btn-block btn-success" (click)="assign()">Prirad</button>
-    </ng-container>
+    <app-stepper (onChange)="changeState($event)" [steps]="states" [activeSteps]="actions" [currentStep]="currentState"></app-stepper>
 
     <div class="invoices">
         <h4>Faktury</h4>
@@ -15,9 +13,12 @@
         </div>
     </div>
 
+        <div class="section">
+            <md-form-field class="full-width">
+                <textarea mdInput [(ngModel)]='note' placeholder="Popis"></textarea>
+            </md-form-field>
+        </div>
 
-
-    <ng-container *ngIf="assignee">
         <div class="files section">
             <h4>Subory:</h4>
             <div class="file-upload row">
@@ -30,11 +31,11 @@
 
                     <div *ngIf="files.length > 0" class="already-uploaded">
                         <div class="item" *ngFor="let orderFile of files">
-                                <a [href]="orderFile.downloadUrl">
-                                    {{orderFile.fileName}}
-                                </a>
-                                <span class="remove glyphicon glyphicon-remove-sign"
-                                      (click)="remove(orderFile)"></span>
+                            <a [href]="orderFile.downloadUrl">
+                                {{orderFile.fileName}}
+                            </a>
+                            <span class="remove glyphicon glyphicon-remove-sign"
+                                  (click)="remove(orderFile)"></span>
                         </div>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <h4>Typ produktu:</h4>
-                            <p-selectButton [options]="productTypes"
+                            <p-selectButton (onChange)="onValueChange(event)" [options]="productTypes"
                                             [(ngModel)]="selectedProductType"></p-selectButton>
                         </div>
                     </div>
@@ -99,10 +100,9 @@
             </div>
         </div>
 
+        <button (click)="updateOrder()" class="btn btn-success btn-block">Uloz</button>
+        <p>Priradene: <i>Todo</i></p>
 
-        <button class="btn btn-success btn-block">Uloz</button>
-        <p>Priradene: <i>{{order.assignedTo.getName()}}</i></p>
-    </ng-container>
     <ng-container *ngIf="isAdministrator">
         <h4>Administrativne nastroje</h4>
         <div class="section">

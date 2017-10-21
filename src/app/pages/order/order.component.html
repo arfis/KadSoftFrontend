@@ -42,6 +42,7 @@
         <th class="sortable" (click)="orderBy('invoices','totalPrice')">Cena</th>
         <th class="sortable" (click)="orderBy('created')">Datum</th>
         <th>Priradené</th>
+        <th>Aktualizovane</th>
         <th>Stiahnuť</th>
     </tr>
 
@@ -73,7 +74,8 @@
             </ng-container>
         </td>
         <td>{{order?.created}}</td>
-        <td>{{order?.assignedTo}}</td>
+        <td>{{order?.assignedTo?.email || '-'}}</td>
+        <td>{{order?.updated}}</td>
         <td><a [href]="order?.invoices?.invoicePath">Download</a></td>
     </tr>
     </tbody>

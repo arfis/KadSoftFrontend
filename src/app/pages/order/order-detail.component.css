@@ -73,3 +73,7 @@
 .vertical-divider {
     border-right: 1px solid darkgray;
 }
+
+.full-width {
+    width: 100%;
+}

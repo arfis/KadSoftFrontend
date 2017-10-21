@@ -20,7 +20,15 @@ export class Order{
     modified : Date;
     files : string[];
     customerId : number;
-
+    constructionType: any;
+    productType: any;
+    professions: any[];
+    note: string;
+    area: number;
+    price: number;
+    actions: Actions;
+    energyCertificatesCount: number;
+    energyAuditsCount: number;
 }
 
 export enum OrderStatus {
@@ -31,6 +39,15 @@ export enum OrderStatus {
     waiting = 4,
     expeded = 5,
     createdByAnonymous = 6
+}
+
+export class Actions {
+    toPreparing: string;
+    toUnassigned: string;
+    toAssigned: string;
+    toFinished: string;
+    toDispatched: string;
+
 }
 
 export class OrderStats {
@@ -71,13 +88,13 @@ export const _buildingTypesInfo = ["Duis malesuada neque elit, sit amet semper m
 export function getOrderTranslation(status : string){
 
     switch(status) {
-        case "notPrepared" : return {text : "Nepripravena", label:"label-warning"};
-        case "notAssigned" : return {text : "Nepriradena", label:"label-danger"};
+        case "draft" : return {text : "Nepripravena", label:"label-warning"};
+        case "unassigned" : return {text : "Nepriradena", label:"label-danger"};
         case "assigned" : return {text : "Priradena", label:"label-info"};
-        case "waiting" : return {text : "Caka na schvalenie", label:"label-warning"};
-        case "inProgress" : return {text : "Pracuje sa", label:"label-default"};
-        case "done" : return {text : "Dokoncena", label:"label-success"};
-        default: return {text:"Undefined: " + status, label:"label-danger"};
+        case "preparing" : return {text : "Pripravovana", label:"label-warning"};
+        case "dispatched" : return {text : "Odoslana", label:"label-default"};
+        case "finished" : return {text : "Dokoncena", label:"label-success"};
+        default: return {text:"unassigned" + status, label:"label-danger"};
     }
 
 }

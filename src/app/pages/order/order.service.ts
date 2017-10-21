@@ -17,6 +17,7 @@ export class OrderService {
     constructionTypes = [];
     productTypes = [];
     professionTypes = [];
+    states = [];
 
     constructor(private invoiceSrv : InvoiceService,
                 private usrService : UserService,
@@ -24,15 +25,15 @@ export class OrderService {
            
         Observable.forkJoin(this.restSrv.getConstructionTypes(),
                             this.restSrv.getProductTypes(),
-                            this.restSrv.getProfesionTypes())
+                            this.restSrv.getProfesionTypes(),
+                            this.restSrv.getOrderStates())
             .subscribe(
                 results => {
                     console.log(results);
                     this.constructionTypes = results[0].map(this.mapToLabelValue);
                     this.productTypes = results[1].map(this.mapToLabelValue);
                     this.professionTypes = results[2].map(this.mapToLabelValue);
-                    
-                    console.log(this.constructionTypes);
+                    this.states = results[3];
                 },
                 error => {
                     console.log(error);
@@ -78,7 +79,7 @@ export class OrderService {
 
     getOrders(page: number, pageSize: number) : Observable<any>{
 
-        return this.restSrv.getOrders(page, pageSize);
+        return this.restSrv.getOrders(page, pageSize, this.usrService.isDealer());
     }
 
     getOrder(orderId : number) : Observable<Order> {
@@ -97,9 +98,18 @@ export class OrderService {
         return this.restSrv.removeFile(fileId);
     }
 
+    public patchOrder(order, id) {
+        return this.restSrv.patchOrder(order, id);
+    }
+
     public getCustomersByEmail(searchString: string, users : Customer[]) : Customer[] {
         return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||
                                     (user.mainContact.surname.indexOf(searchString) > -1) ||
                                     (user.mainContact.name.indexOf(searchString) > -1));
+    }
+
+
+    public updateOrder(order) {
+        return this.restSrv.updateOrder(order);
     }
 }
