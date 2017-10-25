@@ -4,27 +4,48 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "
 import {GlobalValidator} from "../../../helpers/GlobalValidator";
 import {SelectItem} from "primeng/primeng";
 import {NotificationService} from "../../../services/notification.service";
+import {LoginUser} from "../../login/login-user.model";
 
 @Component({
     selector: 'app-user',
     templateUrl: './user.component.html',
     styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
 
     public email;
     public emailControl : AbstractControl;
     public userCreationForm: FormGroup;
+    public userDetailForm: FormGroup;
+
+    public users;
+
+    public activeUserId;
 
     constructor(private userServ: UserService,
                 private notificationSrv: NotificationService,
                 private fb: FormBuilder) {
 
+        this.userServ.getAllUsers().subscribe(
+            users => {
+                this.users = users;
+            },
+            error => {
+                this.notificationSrv.error('Uzivatelia','chyba pri ziskavani dat');
+            }
+        )
 
         this.userCreationForm = this.fb.group({
             'email': ["",Validators.compose([Validators.required, GlobalValidator.mailFormat])],
             'roles':[[]]
         });
+
+        this.userDetailForm = this.fb.group({
+            'name':["", Validators.required],
+            'surname' :[ "", Validators.required],
+            'email' : ["", Validators.required],
+            'roles': ["", Validators.required]
+        })
 
         this.emailControl = this.userCreationForm.get('email');
 
@@ -46,7 +67,22 @@ export class UserComponent implements OnInit {
         this.notificationSrv.error('Registracia neuspesna', 'Nastal problem pri registracii: ' + error);
     }
 
-    ngOnInit() {
+    removeUser(user) {
+        window.confirm('Naozaj chcete odstranit pouzivatela? ')
+        {
+            this.userServ.deleteUser(user).subscribe(
+                () => {
+                    this.notificationSrv.success(`Pouzivatel ${user.username}`, 'bol uspesne odstraneny');
+                }
+            )
+        }
+    }
+
+    openUser(user) {
+        console.log(`opening user`);
+        console.log(user);
+        this.activeUserId = user.id;
+        this.userDetailForm.patchValue(user);
     }
 
     get optionRoles() {
@@ -64,5 +100,19 @@ export class UserComponent implements OnInit {
             case "ROLE_TECHNICIAN" : 'Technik'
             case "ROLE_DEALER" : return 'Obchodnik'
         }
+    }
+
+    onSubmit({value}: { value: LoginUser }) {
+
+        delete value.email;
+
+        this.userServ.updateUser(value, this.activeUserId).subscribe(
+            result => {
+                this.notificationSrv.success(`Uzivatel ${value.name} ${value.surname}`, 'Bol uspesne modifikovany');
+            },
+            error => {
+                this.notificationSrv.error(`Uzivatel ${value.name} ${value.surname}`, 'Nebol uspesne modifikovany');
+            }
+        )
     }
 }

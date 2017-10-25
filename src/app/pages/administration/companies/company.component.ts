@@ -20,6 +20,7 @@ import {UploadFileInfo} from "../../../models/file";
 export class CompanyComponent implements OnInit,OnDestroy {
 
     companies : Company[];
+    public companyToUpdate;
 
     constructor(
         private configurationServ : ConfigurationService,
@@ -33,10 +34,14 @@ export class CompanyComponent implements OnInit,OnDestroy {
     }
 
     public ngOnInit(){
+        this.loadCompanies();
+    }
+
+    private loadCompanies() {
         this._restServ.getCompanies().subscribe(
             companies => {
+                console.log(companies);
                 this.companies = companies;
-                console.log(this.companies);
             }
         );
     }
@@ -82,5 +87,13 @@ export class CompanyComponent implements OnInit,OnDestroy {
 
     public mapDownloadDataToUpload(downloadedFileInfo: DownloadedFileInfo) {
         let uploadFileInfo: UploadFileInfo;
+    }
+
+    setUpdateCompany(company) {
+        this.companyToUpdate = company;
+    }
+
+    companyChange() {
+        this.loadCompanies();
     }
 }

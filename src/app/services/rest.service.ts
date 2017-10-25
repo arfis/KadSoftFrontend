@@ -54,7 +54,7 @@ export class RestService {
     }
 
     public post<T>(link): Observable<T> {
-       return this.http.post<T>(link, {});
+        return this.http.post<T>(link, {});
     }
 
     public setAccessToken(accessToken: string) {
@@ -67,44 +67,64 @@ export class RestService {
         return this.http.get<LoginUser>(this.config.server + this.config.userApi);
     }
 
+    public updateActualUser(user): Observable<any> {
+        return this.http.put<any>(this.config.server + this.config.userApi, user);
+    }
+
+    public updateUser(user, userId): Observable<any> {
+        return this.http.put<any>(this.config.server + this.config.userApi + `/${userId}`, user);
+    }
+
+    public deleteUser(userId) {
+        return this.http.delete<any>(this.config.server + this.config.userApi + `/${userId}`);
+    }
+
+    public getAllUsers(): Observable<LoginUser[]>  {
+        return this.http.get<LoginUser[]>(this.config.server + this.config.userApi + '/list');
+    }
+
     getUserRoles(): Observable<any> {
         return this.http.get(this.config.server + this.config.rolesApi);
     }
 
     registerUser(user): Observable<any> {
 
-        return this.http.post(this.config.server + this.config.userApi+'s',
-            user)
-        
+        return this.http.post(this.config.server + this.config.userApi, user)
+
     }
+
     // ACTIONS
     public payInvoice(invoice: Invoice): Observable<Invoice> {
-        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/pay",
+        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id + "/actions/pay",
             null);
     }
 
     public cancelInvoice(invoice: Invoice): Observable<Invoice> {
-        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/cancel",
+        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id + "/actions/cancel",
             null);
     }
 
     public generatePdfOfInvoice(invoice: Invoice): Observable<Invoice> {
-        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/generatePdf",
+        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id + "/actions/generatePdf",
             null);
     }
 
     public sendEmailForInvoice(invoice: Invoice): Observable<Invoice> {
-        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id +"/actions/sendEmail",
+        return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id + "/actions/sendEmail",
             null);
     }
+    public resetPassword(email) {
+        return this.http.post<any>(this.config.server + `api/users/${email}/reset`, {});
+    }
     // END OF ACTIONS
-    public getCompanyPermissions(companyId) : Observable<CompanyPermissions>{
-        return this.http.get<CompanyPermissions>(this.config.server + "api/invoices/"+companyId+"/action");
+    public getCompanyPermissions(companyId): Observable<CompanyPermissions> {
+        return this.http.get<CompanyPermissions>(this.config.server + "api/invoices/" + companyId + "/action");
     }
 
-    public getEmails(): Observable<string[]>{
+    public getEmails(): Observable<string[]> {
         return this.http.get<string[]>(this.config.server + "api/email/text");
     }
+
     /*Companies API*/
     public getCompanies(): Observable<Company[]> {
         return this.http.get(this.config.server + this.config.companiesApi);
@@ -113,7 +133,8 @@ export class RestService {
 
     public updateCompany(company: Company, id): Observable<Company> {
         console.log(JSON.stringify(company));
-        return this.http.put<Company>(this.config.server + this.config.companiesApi+`/${id}`, company);
+        delete company.id;
+        return this.http.put<Company>(this.config.server + this.config.companiesApi + `/${id}`, company);
     }
 
 
@@ -126,12 +147,12 @@ export class RestService {
     }
 
     /*Invoice API*/
-    public getNextInvoiceNumber(companyId: number):Observable<any> {
-        return this.http.get<any>(this.config.server + "api/nexts/" + companyId + "/invoice/number");
+    public getNextInvoiceNumber(companyId: number): Observable<any> {
+        return this.http.get<any>(this.config.server + `api/invoices/${companyId}/next-number`);
     }
 
-    public getInvoices(page, pageSize) : Observable<Invoice[]> {
-        return this.http.get<any>(this.config.server + this.config.invoicesApi+ '?page=' + page + '&pageSize='+pageSize+'}');
+    public getInvoices(page, pageSize): Observable<Invoice[]> {
+        return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize + '}');
     }
 
     public getInvoice(id): Observable<any> {
@@ -148,11 +169,20 @@ export class RestService {
         }
     }
 
+    public getFilteredOrders(page, pageSize, isDealer, filter): Observable<any> {
+        if (isDealer) {
+            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + '}' + filter );
+        }
+        else {
+            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + '}' + filter);
+        }
+    }
+
     public getOrder(orderId): Observable<any> {
         return this.http.get<any>(this.config.server + this.config.ordersApi + `/${orderId}`);
     }
 
-    public createOrder(order : Order): Observable<Order>{
+    public createOrder(order: Order): Observable<Order> {
         return this.http.post<Order>(this.config.server + this.config.ordersApi, order);
     }
 
@@ -164,7 +194,7 @@ export class RestService {
         return this.http.patch<Order>(this.config.server + this.config.ordersApi + `/${id}`, order);
     }
 
-    public addInvoice(invoice : Invoice) : Observable<Invoice>{
+    public addInvoice(invoice: Invoice): Observable<Invoice> {
         return this.http.post<Invoice>(this.config.server + this.config.invoicesApi, invoice);
     }
 
@@ -176,7 +206,7 @@ export class RestService {
         return this.http.delete(this.config.server + this.config.customerApi + "/" + customerId);
     }
 
-    public updateCustomer(customer : Customer): Observable<Customer> {
+    public updateCustomer(customer: Customer): Observable<Customer> {
         return this.http.put<Customer>(this.config.server + this.config.customerApi + "/" + customer.id, {headers: this.headers});
     }
 

@@ -1,6 +1,6 @@
 <h3>Administrácia firiem</h3>
 
-<company-creation (onAdd)="onAdd($event)"></company-creation>
+<company-creation [company]="companyToUpdate" (onChange)="companyChange()" (onAdd)="onAdd($event)"></company-creation>
 <table class="table table-bordered table-hover">
     <tbody>
     <tr>
@@ -26,6 +26,7 @@
                             [(ngModel)]="company.vatPayer"></p-toggleButton>
         </td>
         <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeCompany(company)"></span></td>
+        <td><span class="remove glyphicon glyphicon-wrench" (click)="setUpdateCompany(company)"></span></td>
     </tr>
     </tbody>
 </table>

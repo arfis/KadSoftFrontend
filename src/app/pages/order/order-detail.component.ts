@@ -1,10 +1,3 @@
-/**
- * Created by a619678 on 16. 6. 2017.
- */
-/**
- * Created by a619678 on 7. 6. 2017.
- */
-
 import {Component, ViewChild} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
@@ -53,6 +46,8 @@ export class OrderDetailComponent {
     area: number = 0;
     note = '';
 
+    @ViewChild('uploader') uploader;
+
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
                 private _orderSrv: OrderService,
@@ -74,11 +69,17 @@ export class OrderDetailComponent {
         this.activatedRoute.data.subscribe(data => {
             this.order = data['order'];
 
+            console.log('order');
+            console.log(this.order);
             this.selectedBuildingType = (this.order.constructionType) ? this.order.constructionType.id : null;
             this.selectedProductType = (this.order.productType) ? this.order.productType.id : null;
             this.selectedProfessions = (this.order.professions) ? this.order.professions.map(profession => profession.id) : null;
             this.note = this.order.note;
             this.area = this.order.area;
+            this.vztPrice = this.order.vztPrice;
+            this.lightingPrice = this.order.lightingPrice;
+            this.heatingPrice = this.order.heatingPrice;
+
             this.isLoaded = true;
         });
 
@@ -133,7 +134,7 @@ export class OrderDetailComponent {
         this.msgs.push({severity: 'info', summary: 'File Uploaded', detail: ''});
     }
 
-    pictureUpload(filesToUpload) {
+    fileUpload(filesToUpload) {
         this.parseFiles(filesToUpload,
             parsedFiles => {
                 let orderFiles = new OrderFiles();
@@ -142,9 +143,12 @@ export class OrderDetailComponent {
 
                 this._orderSrv.addFilesToOrder(this.order.id, orderFiles).subscribe(
                     result => {
-                        this.order.files = this.files;
+                        this.order = result;
+                        this.notificationSrv.success('Subory', 'boli uspesne nahrate');
+                        this.uploader.clear();
                     },
                     (err: HttpErrorResponse) => {
+                        this.notificationSrv.error('Subory', 'neboli uspesne nahrate');
                         if (err.error instanceof Error) {
                             // A client-side or network error occurred. Handle it accordingly.
                             console.log('An error occurred:', err.error.message);
@@ -174,6 +178,13 @@ export class OrderDetailComponent {
             this.getBase64fromFile(file,
                 data => {
                     parsedFiles++;
+                    let bannedString = "vnd.openxmlformats-officedocument.wordprocessingml.document";
+                    if (data.indexOf(bannedString) > -1) {
+                        console.log('bannedString is there');
+                        data = data.replace(bannedString, 'docx');
+                    }
+
+
                     customFile.base64File = data;
                     arrayOfFiles.push(customFile);
                     if (parsedFiles == totalFiles) {
@@ -212,6 +223,9 @@ export class OrderDetailComponent {
         updatedOrder.note = this.note;
         updatedOrder.area = this.area;
         updatedOrder.price = this.totalCost;
+        updatedOrder.vztPrice = this.vztPrice;
+        updatedOrder.heatingPrice = this.heatingPrice;
+        updatedOrder.lightingPrice = this.lightingPrice;
 
         this._orderSrv.patchOrder(updatedOrder, this.order.id).subscribe(
             result => {
@@ -311,7 +325,7 @@ export class OrderDetailComponent {
     }
 
     get isAdministrator() {
-        return this._loginServ.getLoggedInUser().role.indexOf("ROLE_ADMIN") > -1
+        return this._loginServ.getLoggedInUser().roles.indexOf("ROLE_ADMIN") > -1
     }
 
     get canBeUnassigned() {

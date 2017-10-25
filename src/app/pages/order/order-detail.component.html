@@ -24,9 +24,9 @@
             <div class="file-upload row">
 
                 <div class="col-lg-12 col-md-12 widget">
-                    <p-fileUpload name="files[]" multiple="multiple"
+                    <p-fileUpload #uploader name="files[]" multiple="multiple"
                                   (onUpload)="onUpload($event)" customUpload="true"
-                                  (uploadHandler)="pictureUpload($event)">
+                                  (uploadHandler)="fileUpload($event)">
                     </p-fileUpload>
 
                     <div *ngIf="files.length > 0" class="already-uploaded">

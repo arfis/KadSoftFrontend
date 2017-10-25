@@ -27,7 +27,7 @@
     </div>
 </ng-container>
 
-<app-filter [items]="allOrders" (onUpdate)="update($event)"></app-filter>
+<app-filter [page]="currentPage" [pageSize]="pageSize" (onUpdate)="update($event)"></app-filter>
 
 <table class="table table-bordered table-responsive table-hover">
     <caption>Objednávky</caption>
@@ -36,19 +36,19 @@
         <th style="width: 10px">#</th>
         <th>Vytvoril</th>
         <th>Nazov</th>
-        <th class="sortable" (click)="orderBy('state')">Stav</th>
+        <th class="sortable">Stav</th>
         <th class="sortable" (click)="orderBy('invoice','state')">Faktura</th>
         <th>Klient</th>
         <th class="sortable" (click)="orderBy('invoices','totalPrice')">Cena</th>
-        <th class="sortable" (click)="orderBy('created')">Datum</th>
         <th>Priradené</th>
+        <th class="sortable" (click)="orderBy('created')">Vytvorene</th>
         <th>Aktualizovane</th>
         <th>Stiahnuť</th>
     </tr>
 
     <tr *ngFor="let order of orders" [routerLink]="[ '/order/', order.id ]">
         <td>{{order?.id}}</td>
-        <td><a [routerLink]="[ '/user/' ]">{{order?.createdBy?.getName()}}</a></td>
+        <td><a [routerLink]="[ '/user/'+order?.orderedBy?.id ]">{{order?.orderedBy?.name+' '+order?.orderedBy?.surname}}</a></td>
         <!--// TODO: resolver and make a user type in the invoice -->
         <td>{{order?.text}}</td>
         <td>
@@ -70,12 +70,12 @@
         </td>
         <td>
             <ng-container *ngIf="order.invoices.length > 0">
-                TODO
+                {{order?.price}}
             </ng-container>
         </td>
-        <td>{{order?.created}}</td>
         <td>{{order?.assignedTo?.email || '-'}}</td>
-        <td>{{order?.updated}}</td>
+        <td>{{order?.createdAt}}</td>
+        <td>{{order?.updatedAt | date:'medium'}}</td>
         <td><a [href]="order?.invoices?.invoicePath">Download</a></td>
     </tr>
     </tbody>

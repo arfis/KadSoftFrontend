@@ -3,6 +3,7 @@ import { User } from '../../models/user';
 import {RouteConfigLoadStart, Router} from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {UserRole} from "../../models/user-roles.model";
+import {LoginUser} from "../../pages/login/login-user.model";
 
 @Component({
   selector: 'app-menu-aside',
@@ -11,7 +12,7 @@ import {UserRole} from "../../models/user-roles.model";
 })
 export class MenuAsideComponent implements OnInit {
   private currentUrl: string;
-  private currentUser: User = new User();
+  public currentUser: LoginUser = new LoginUser();
 
   @Input() private links: Array<any> = [];
 

@@ -6,15 +6,15 @@
 		<div class="user-panel">
 			<div class="pull-left image">
 				<img [src]="currentUser?.avatarUrl" class="img-circle"
-					[alt]="currentUser?.getName()">
+					[alt]="currentUser?.name">
 			</div>
 			<div class="pull-left info">
-				<b>{{currentUser.username}}</b>
+				<b>{{currentUser.name}} {{currentUser.surname}}</b>
 				<br>
-				<i>({{currentUser?.username}})</i>
-				<p>Role:{{currentUser?.role}}</p>
+				<i>({{currentUser?.email}})</i>
+				<p>Role:{{currentUser?.roles}}</p>
 
-				<div *ngIf="checkPermission(currentUser?.role)">
+				<div *ngIf="checkPermission(currentUser?.roles)">
 					<i>Administrator role is active!</i>
 				</div>
 				<!-- Status -->

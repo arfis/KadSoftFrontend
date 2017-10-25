@@ -1,9 +1,14 @@
-/**
- * Created by a619678 on 6. 6. 2017.
- */
-export class LoginUser{
+export class LoginUser {
     id : number;
+    connected: boolean;
     email : string;
-    username : string;
+    name : string;
+    surname: string;
     roles : string[];
+    avatarUrl: string = 'public/assets/img/stano.jpg';
+    
+    
+    get userName() {
+        return this.name + ' ' + this.surname;
+    }
 }

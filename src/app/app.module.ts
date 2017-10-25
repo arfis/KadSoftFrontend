@@ -4,13 +4,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Http, HttpModule} from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { AlertModule, CollapseModule, DatepickerModule, TabsModule} from 'ngx-bootstrap';
+import {
+    AlertModule, BsDropdownModule, CollapseModule, DatepickerModule, ModalModule, PaginationModule,
+    TabsModule, TooltipModule
+} from 'ngx-bootstrap';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {
-    ChartModule,
+    AccordionModule,
+    ChartModule, FileUploadModule,
     InputTextareaModule, MultiSelectModule, SelectButtonModule,
     SplitButtonModule
 } from "primeng/primeng";
@@ -21,7 +25,6 @@ import {InvoiceModule} from "./pages/invoice/invoice.module";
 import {UserViewComponent} from "./pages/users/user-view/user-view.component";
 import {UserResolve} from "./pages/users/user-view/user-resolver.component";
 import {OrderService} from "./pages/order/order.service";
-import {OrderModule} from "./pages/order/order.module";
 import {InvoiceResolve} from "./pages/invoice/invoice-resolve.component";
 import {InvoiceDetailComponent} from "./pages/invoice/invoice-detail.component";
 import {RestService} from "./services/rest.service";
@@ -33,7 +36,6 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {
-    DateAdapter,
     MdButtonModule, MdCheckboxModule, MdDatepickerModule, MdIconModule, MdInputModule, MdStepperModule,
     MdTableModule
 } from "@angular/material";
@@ -50,6 +52,28 @@ import { TasksBoxComponent } from './widgets/tasks-box';
 import { UserBoxComponent } from './widgets/user-box';
 import { BreadcrumbComponent } from './widgets/breadcrumb';
 
+
+import { UserService } from './services/user.service';
+import { MessagesService } from './services/messages.service';
+import { CanActivateGuard } from './services/guard.service';
+import { NotificationService } from './services/notification.service';
+import { BreadcrumbService } from './services/breadcrumb.service';
+import { AdminLTETranslateService } from './services/translate.service';
+import { LoggerService } from './services/logger.service';
+import {InterceptorService} from "./services/interceptor-service.service";
+import { StepComponent } from './component/step/step.component';
+import { StepperComponent } from './container/stepper/stepper.component';
+import {CommonModule} from "@angular/common";
+import {FilterComponent} from "./widgets/filter/filter.component";
+import {RequiredDirective} from "./widgets/required.directive";
+import {OrderDetailComponent} from "./pages/order/order-detail.component";
+import {OrderModal} from "./pages/order/order-modal.component";
+import {OrderCreationComponent} from "./pages/order/order-creation.component";
+import {OrderComponent} from "./pages/order/order.component";
+import {OrderResolve} from "./pages/order/order-resolve.component";
+import {ConfigurationService} from "./services/configuration.service";
+import {CustomerService} from "./pages/users/user.service";
+
 // les pages
 import { HomeComponent } from './pages/home/home.component';
 import { PageNumComponent } from './pages/page-num/page-num.component';
@@ -57,6 +81,8 @@ import { LayoutsAuthComponent } from './pages/layouts/auth/auth';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { OrderSortDirective } from './pages/order/order-sort.directive';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http);
@@ -74,6 +100,20 @@ let material = [
 
 let modules = [
     material,
+    MultiSelectModule,
+    AccordionModule,
+    SelectButtonModule,
+    FileUploadModule,
+    RouterModule,
+    CommonModule,
+    ReactiveFormsModule,
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    PaginationModule.forRoot(),
+    ModalModule.forRoot(),
+    SlimLoadingBarModule.forRoot(),
+    TooltipModule.forRoot(),
+    MdInputModule,
     BrowserModule,
     BrowserAnimationsModule,
     MultiSelectModule,
@@ -100,7 +140,6 @@ let modules = [
     }),
     ToasterModule,
     InvoiceModule,
-    OrderModule,
     AdministrationModule,
     SlimLoadingBarModule.forRoot()
 ];
@@ -117,22 +156,24 @@ let widgets = [
     MessagesBoxComponent,
     NotificationBoxComponent,
     TasksBoxComponent,
-    UserBoxComponent
+    UserBoxComponent,
+    OrderComponent,
+    OrderCreationComponent,
+    OrderModal,
+    OrderDetailComponent,
+    RequiredDirective,
+    FilterComponent,
+    StepperComponent,
+    StepComponent
 ];
-
-import { UserService } from './services/user.service';
-import { MessagesService } from './services/messages.service';
-import { CanActivateGuard } from './services/guard.service';
-import { NotificationService } from './services/notification.service';
-import { BreadcrumbService } from './services/breadcrumb.service';
-import { AdminLTETranslateService } from './services/translate.service';
-import { LoggerService } from './services/logger.service';
-import {InterceptorService} from "./services/interceptor-service.service";
-import { StepComponent } from './component/step/step.component';
-import { StepperComponent } from './container/stepper/stepper.component';
 
 let services = [
     InvoiceService,
+    CustomerService,
+    ConfigurationService,
+    OrderService,
+    RestService,
+    OrderResolve,
     UserService,
     BreadcrumbService,
     MessagesService,
@@ -140,10 +181,8 @@ let services = [
     NotificationService,
     AdminLTETranslateService,
     LoggerService,
-    OrderService,
     UserResolve,
     InvoiceResolve,
-    RestService,
     Configuration,
     InterceptorService,
     SlimLoadingBarService,
@@ -171,6 +210,8 @@ let pages = [
         ...widgets,
         ...pages,
         StatisticsComponent,
+        OrderSortDirective,
+        ProfileComponent,
     ],
     imports: [
         ...modules,

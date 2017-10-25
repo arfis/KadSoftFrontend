@@ -82,6 +82,13 @@ export class OrderService {
         return this.restSrv.getOrders(page, pageSize, this.usrService.isDealer());
     }
 
+    getOrdersByStateFilter(page: number, pageSize: number, filter) {
+
+        let filterString = '&filters[]=state=' + this.states[filter];
+        console.log(filterString);
+        return this.restSrv.getFilteredOrders(page, pageSize, this.usrService.isDealer(), filterString)
+    }
+
     getOrder(orderId : number) : Observable<Order> {
         return this.restSrv.getOrder(orderId);
     }
@@ -90,7 +97,7 @@ export class OrderService {
         return this.restSrv.createOrder(order);
     }
 
-    addFilesToOrder(orderId, files) {
+    addFilesToOrder(orderId, files): Observable<Order> {
         return this.restSrv.addFilesToOrder(orderId, files);
     }
 

@@ -107,7 +107,7 @@ export class InvoiceCreation implements OnInit {
             }),
             'name': ['name', Validators.required],
             'invoiceNumber': [this.invoiceSrv.generateInvoiceId(), Validators.required],
-            'createdBy': [this.loggedUserService.getLoggedInUser().getName(), Validators.required],
+            'createdBy': [this.loggedUserService.getLoggedInUser().name, Validators.required],
             'status': [InvoiceStatus.created, Validators.required],
             'client': this.fb.group({
                 'name':['',Validators.required],

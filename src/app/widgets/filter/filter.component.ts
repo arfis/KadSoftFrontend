@@ -3,6 +3,8 @@ import {SelectItem} from "primeng/primeng";
 import {isUndefined} from "util";
 import {invoiceStatesConst, invoiceStatuses} from "../../pages/invoice/invoiceStatus.model";
 import {orderStatesConst} from "../../pages/order/order.model";
+import {OrderService} from "../../pages/order/order.service";
+import {UserService} from "../../services/user.service";
 
 enum filterComponents {
     OrderStates,
@@ -24,15 +26,16 @@ export class FilterComponent implements OnInit {
     invoiceStates: SelectItem[];
     selectedInvoiceStates: string[] = new Array();
 
-    @Input()
-    items: any;
+    @Input() page: number;
+    @Input() pageSize: number;
 
     filteredRecords: any;
 
     @Output()
     onUpdate = new EventEmitter<any>();
 
-    constructor() {
+    constructor(private _orderSrv: OrderService,
+                private _userSrv: UserService) {
         this.orderStates = orderStatesConst;
         this.invoiceStates = invoiceStatesConst;
     }
@@ -45,37 +48,28 @@ export class FilterComponent implements OnInit {
             case filterComponents.OrderStates: {
                 if (this.selectedOrderStates.length > 0) {
                     console.log(this.selectedOrderStates[0]);
+                    this._orderSrv.getOrdersByStateFilter(this.page, this.pageSize,
+                        this.selectedOrderStates[0]).subscribe(
 
+                        result => {
+                            this.onUpdate.emit(result.data);
+                        })
+                }
+                else {
+                    this._orderSrv.getOrders(this.page, this.pageSize).subscribe(
+
+                        result => {
+                            this.onUpdate.emit(result.data);
+                        })
                 }
             }
 
             case filterComponents.InvoiceStates: {
-                if (this.selectedInvoiceStates.length > 0) {
-                    this.filteredRecords = new Array(...this.items.filter(order => {
-                            if (!isUndefined(order.invoices[0])) {
-                                const isStateInFiltered = this.selectedInvoiceStates.find(status => {
-                                    if (status == String(invoiceStatuses.indexOf(order.invoices[0].status))) {
-                                        return true;
-                                    }
-                                    else {
-                                        return false;
-                                    }
-                                });
-                                console.log('after find: ' + isStateInFiltered);
-                                if (isStateInFiltered) {
-                                    return order;
-                                }
-                            }
-                        }
-                    ));
-                //     this.bigTotalItems = this.totalRecords.length;
-                //     console.log('totalRecords');
-                //     console.log(this.totalRecords);
-                //     this.getFirstRecords();
-                }
-                else {
-                    this.filteredRecords = this.items;
-                }
+
+                    //     this.bigTotalItems = this.totalRecords.length;
+                    //     console.log('totalRecords');
+                    //     console.log(this.totalRecords);
+                    //     this.getFirstRecords();
 
                 this.onUpdate.next(this.filteredRecords);
             }

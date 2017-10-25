@@ -2,6 +2,7 @@ import {Invoice} from "../invoice/invoice.model";
 import {InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {User} from "../../models/user";
 import {Contact} from "../../models/contact.model";
+import {OrderPerson} from "../../models/OrderPerson";
 
 /**
  * Created by a619678 on 23. 5. 2017.
@@ -29,6 +30,13 @@ export class Order{
     actions: Actions;
     energyCertificatesCount: number;
     energyAuditsCount: number;
+    createdAt: Date;
+    updatedAt: Date;
+    vztPrice: number;
+    lightingPrice: number;
+    heatingPrice: number;
+    orderedBy: OrderPerson;
+
 }
 
 export enum OrderStatus {
@@ -94,7 +102,7 @@ export function getOrderTranslation(status : string){
         case "preparing" : return {text : "Pripravovana", label:"label-warning"};
         case "dispatched" : return {text : "Odoslana", label:"label-default"};
         case "finished" : return {text : "Dokoncena", label:"label-success"};
-        default: return {text:"unassigned" + status, label:"label-danger"};
+        default: return {text:"???", label:"label-danger"};
     }
 
 }

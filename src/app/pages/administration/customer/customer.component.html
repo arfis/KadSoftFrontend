@@ -17,7 +17,7 @@
 
     <tr *ngFor="let customer of customers">
         <td>{{customer.mainContact?.email}}</td>
-        <td>{{customer.mainContact.name + " " + customer.mainContact?.surname}}</td>
+        <td>{{customer.mainContact?.name + " " + customer.mainContact?.surname}}</td>
         <td><a>{{customer?.mainContact?.city + "," + customer?.mainContact?.country}}</a></td>
         <td>{{customer?.mainContact?.city}}</td>
         <td><a>{{customer?.ico || '-'}}</a></td>

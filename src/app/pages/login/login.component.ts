@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Http} from "@angular/http";
 import {RestService} from "../../services/rest.service";
 import {NotificationService} from "../../services/notification.service";
+import {LoginUser} from "./login-user.model";
 
 @Component({
     selector: 'app-login',
@@ -35,15 +36,8 @@ export class LoginComponent implements OnInit {
                 this.restService.getUser().subscribe(
                     response => {
 
-                        let user1 = new User({
-                            id : response.id,
-                            avatarUrl: 'public/assets/img/stano.jpg',
-                            email: response.email,
-                            username: response.email,
-                            firstname: 'Stani',
-                            lastname: 'Kadlecik',
-                            role: response.roles
-                        });
+                        let user1 = response;
+                        user1.avatarUrl = 'public/assets/img/stano.jpg';
 
                         user1.connected = true;
 

@@ -31,11 +31,9 @@ export class CustomerCreation implements OnInit, OnChanges {
 
     private type = 'company';
 
-    @Output()
-    private onAdd = new EventEmitter<Customer>();
+    @Output() onAdd = new EventEmitter<Customer>();
 
-    @Input()
-    updateCustomer: Customer;
+    @Input() updateCustomer: Customer;
 
     private edit = false;
 

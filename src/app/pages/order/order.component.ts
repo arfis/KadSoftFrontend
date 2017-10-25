@@ -12,6 +12,7 @@ import {Invoice} from "../invoice/invoice.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Subject} from "rxjs/Subject";
 import {PaginationMetadata} from "../../models/paginationMetadata";
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'order',
@@ -19,7 +20,7 @@ import {PaginationMetadata} from "../../models/paginationMetadata";
     templateUrl: './order.component.html'
 })
 
-export class OrderComponent extends SortableTable<Order> implements OnChanges, OnInit, OnDestroy {
+export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     public date: Date = new Date();
     public orders: Order[] = new Array();
@@ -51,13 +52,12 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
                 private _orderServ: OrderService,
                 public router: Router,
                 private loadingBar: SlimLoadingBarService) {
-        super();
 
         if (!this.filteredOrders) {
             this.loadingBar.start(() => {
 
             });
-            
+            // TODO: check dates
             Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize))
                 .takeUntil(this.stopChanel)
                 .subscribe(
@@ -79,7 +79,7 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
         }
         else {
 
-            this.totalRecords = this.filteredOrders;
+            this.orders = this.filteredOrders;
             this.bigTotalItems = this.paginationMeta.totalItems;
 
         }
@@ -90,24 +90,20 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
         this.activeInvoices = order.invoices;
     }
 
-    // public setOrders(orders: Order[]) {
-    //     this.allOrders = orders;
-    //     this.totalRecords = orders;
-    //     this.bigTotalItems = this.paginationMeta.totalItems;
-    //
-    // }
 
     public ngOnChanges(changes: any) {
         console.log('changes');
         if (changes.filteredOrders) {
             this.stopChanel.next(1);
-            this.totalRecords = this.filteredOrders;
+            this.orders = this.filteredOrders;
             this.bigTotalItems = this.paginationMeta.totalItems;
         }
     }
 
-    update(event) {
-        this.totalRecords = event;
+    update(filteredOrders) {
+        console.log(filteredOrders);
+        this.orders = filteredOrders;
+        this.allOrders = filteredOrders;
     }
 
 
@@ -139,10 +135,15 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
 
     public updateOrderList(order: Order) {
         this.isFormCollapsed = true;
-        this.totalRecords.push(order);
+        this.orders.push(order);
         this.setActiveRecords();
     }
 
+    pageChanged(event) {
+        this.currentPage = event.page;
+
+        this.setActiveRecords();
+    }
     getStatusMessage(status) {
         if (!status) status = "notAssigned";
         return getOrderTranslation(status);
@@ -156,8 +157,7 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
     }
 
     setActiveRecords() {
-        console.log('set active records');
-        this._orderServ.getOrders(this.currentPage + 1, this.pageSize).subscribe(
+        this._orderServ.getOrders(this.currentPage, this.pageSize).subscribe(
             result => {
                 this.allOrders = result.data;
                 this.orders = result.data;
@@ -165,6 +165,10 @@ export class OrderComponent extends SortableTable<Order> implements OnChanges, O
                 this.bigTotalItems = this.paginationMeta.totalItems;
             }
         )
+    }
+
+    getDate(dateString) {
+
     }
 
 }

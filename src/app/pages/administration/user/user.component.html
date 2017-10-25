@@ -14,3 +14,60 @@
         </button>
     </div>
 </form>
+
+<form (ngSubmit)="onSubmit(userDetailForm)" [formGroup]="userDetailForm">
+
+    <div class="form-group">
+        <div>
+
+            <div class="col-lg-6 form-group">
+                <label for="name">Meno:</label>
+                <input type="text" id="name" class="form-control" formControlName="name"/>
+            </div>
+
+            <div class="col-lg-6 form-group">
+                <label for="surname">Priezvisko:</label>
+                <input type="text" id="surname" class="form-control" formControlName="surname"/>
+            </div>
+
+            <div class="col-lg-6 form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" class="form-control" formControlName="email"/>
+            </div>
+
+            <div class="col-lg-6 form-group">
+                <label for="role">Role:</label>
+                <p-selectButton id="role" [options]="optionRoles" formControlName="roles"
+                                multiple="multiple"></p-selectButton>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-warning">Uprav udaje</button>
+</form>
+
+    <div class="list">
+        <table class="table table-bordered table-hover">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Meno</th>
+                <th>Surname</th>
+                <th>Role</th>
+                <th>Odstran</th>
+                <th>Uprav</th>
+            </tr>
+
+            <tr *ngFor="let user of users">
+                <td>{{user?.id}}</td>
+                <td><a>{{user?.email}}</a></td>
+                <td>{{user?.name}}</td>
+                <td><a>{{user?.surname}}</a></td>
+                <td>{{user?.roles}}</td>
+                <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeUser(user)"></span></td>
+                <td><span class="open glyphicon glyphicon-wrench" (click)="openUser(user)"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>

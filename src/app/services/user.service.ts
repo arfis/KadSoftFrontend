@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs/Rx';
 import { Router } from '@angular/router';
 import {RestService} from "./rest.service";
+import {LoginUser} from "../pages/login/login-user.model";
 
 @Injectable()
 export class UserService {
-    public currentUser: ReplaySubject<User> = new ReplaySubject<User>( 1 );
+
+    public currentUser: ReplaySubject<LoginUser> = new ReplaySubject<LoginUser>( 1 );
     public adminRole = "ROLE_ADMIN";
     public technician = "ROLE_TECHNICIAN";
     public dealerRole = "ROLE_DEALER";
@@ -31,9 +33,15 @@ export class UserService {
         )
     }
 
+    public resetPassword(email) {
+        return this.restService.resetPassword(email);
+    }
+    
+    public deleteUser(user) {
+        return this.restService.deleteUser(user);
+    }
     public isDealer() {
-        let dealer = (!!this.roles.find(role => role === this.dealerRole));
-        console.log(dealer);
+        let dealer = (!!this.getLoggedInUser().roles.find(role => role === this.dealerRole));
         return dealer;
     }
 
@@ -41,30 +49,35 @@ export class UserService {
         return this.restService.registerUser(user);
     }
 
-    public getLoggedInUser() : User{
-        let user = new User();
+    public getLoggedInUser() : LoginUser{
+        let user = new LoginUser();
         let userData = JSON.parse(localStorage.getItem('user'));
         Object.assign(user, userData);
         return user;
     }
 
-    public setCurrentUser( user: User ) {
+    public setCurrentUser( user: LoginUser ) {
         localStorage.setItem('user', JSON.stringify(user));
         this.currentUser.next( user );
     }
 
     public logout() {
-      let user = new User();
+      let user = new LoginUser();
       user.connected = false;
       localStorage.removeItem('user');
       this.setCurrentUser( user );
       this.router.navigate(['login']);
     }
 
-    public checkCredentials(email, password){
-        if(email === "test@test.com" && password === "test"){
-            return true;
-        }
-        else return false;
+    public getAllUsers(): Observable<LoginUser[]> {
+        return this.restService.getAllUsers();
+    }
+
+    public updateCurrentUser(user): Observable<any> {
+        return this.restService.updateActualUser(user);
+    }
+
+    public updateUser(user, id): Observable<any> {
+        return this.restService.updateUser(user, id);
     }
 }

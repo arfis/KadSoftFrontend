@@ -9,3 +9,8 @@
 .modal-body{
     margin-top:20px;
 }
+
+td {
+    padding: 2px !important;
+    text-align: center;
+}

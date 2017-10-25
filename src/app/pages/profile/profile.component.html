@@ -1,0 +1,14 @@
+<form (ngSubmit)="updateUser(userUpdateForm)" [formGroup]="userUpdateForm">
+  <h3>Profil</h3>
+  <div class="create-form form-group">
+    <i>Meno: </i>
+    <input type="email" class="form-control" formControlName="name"/>
+    <i>Priezvisko: </i>
+    <input type="email" class="form-control" formControlName="surname"/>
+    <i>Email: </i>
+    <input type="email" class="form-control" formControlName="email"/>
+
+    <button type="submit" class="btn btn-warning">Uprav</button>
+    <button class="btn btn-danger" (click)="resetPassword()">Reset hesla</button>
+  </div>
+</form>

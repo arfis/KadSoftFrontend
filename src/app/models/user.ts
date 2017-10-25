@@ -2,6 +2,8 @@ import {UserRole} from "./user-roles.model";
 export class User {
     public id : number;
     public username : string;
+    public name: string;
+    public surname: string;
     public firstname: string;
     public lastname: string;
     public email: string;
@@ -21,7 +23,9 @@ export class User {
         this.creationDate = data.creation_date || Date.now();
         this.preferredLang = data.preferredLang || null;
         this.connected = data.connected || false;
-        this.role = data.role || '';
+        this.role = data.roles || '';
+        this.name = data.name || '';
+        this.surname = data.surname || '';
     }
 
     public getName() {

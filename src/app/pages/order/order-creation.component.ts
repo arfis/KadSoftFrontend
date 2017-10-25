@@ -136,12 +136,12 @@ export class OrderCreationComponent implements OnInit {
 
             'text': ['simple desc', Validators.required],
             'assignedTo': [{
-                value: this.loggedUserService.getLoggedInUser().getName(),
+                value: this.loggedUserService.getLoggedInUser().userName,
                 disabled: true
             }, Validators.required],
             'name': [{value: 'name', disabled: true}, Validators.required],
             'createdBy': [{
-                value: this.loggedUserService.getLoggedInUser().getName(),
+                value: this.loggedUserService.getLoggedInUser().userName,
                 disabled: true
             }, Validators.required],
             // 'status': [InvoiceStatus.created, Validators.required],
@@ -283,9 +283,11 @@ export class OrderCreationComponent implements OnInit {
 
     selectCompany(company) {
         this.configurationService.setCurrentCompany(company);
-
+        console.log(company.id);
         this.restServ.getNextInvoiceNumber(company.id).subscribe(
             result => {
+                console.log('result: ');
+                console.log(result);
                 this.invoiceForm.get('invoice').get('invoiceNumber').setValue(result.nextInvoiceNumber);
                 this.invoiceForm.get('invoice').get('variableSymbol').setValue(result.nextInvoiceNumber);
             },

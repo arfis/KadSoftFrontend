@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {User} from '../../models/user';
 import {UserService} from '../../services/user.service';
 import { Router } from '@angular/router';
+import {LoginUser} from "../../pages/login/login-user.model";
 
 @Component({
   /* tslint:disable */
@@ -11,12 +12,12 @@ import { Router } from '@angular/router';
   templateUrl: './user-box.component.html'
 })
 export class UserBoxComponent implements OnInit {
-  private currentUser: User = new User();
+  private currentUser: LoginUser = new LoginUser();
 
   constructor(private userServ: UserService, private router: Router) {
     // se connecter au modif du user courant
 
-      this.userServ.currentUser.subscribe((user: User) =>{
+      this.userServ.currentUser.subscribe((user: LoginUser) =>{
         console.log("user-box");
         console.log(user);
         this.currentUser = user;
