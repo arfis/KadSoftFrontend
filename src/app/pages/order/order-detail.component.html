@@ -109,18 +109,13 @@
             <h4>Preradenie pouzivatela:</h4>
             <div class="btn-group" dropdown>
                 <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                    {{selectedUser}} <span class="caret"></span>
+                    {{selectedUser?.name}} {{selectedUser?.surname}}<span class="caret"></span>
                 </button>
-                <button class="btn btn-success">Prirad</button>
+                <button class="btn btn-success" (click)="reassing()">Prirad</button>
                 <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li role="menuitem">
-                        <a class="dropdown-item">
-                            Stanislav Kadlecik</a>
-                    </li>
-                    <li role="menuitem"><a class="dropdown-item">Adam Kadlecik</a></li>
-                    <li role="menuitem"><a class="dropdown-item">Martin Spal</a></li>
+                    <li *ngFor="let user of users" (click)="selectUser(user)" role="menuitem"><a class="dropdown-item">{{user.name}} {{user.surname}}</a></li>
                     <li class="divider dropdown-divider"></li>
-                    <li role="menuitem"><a class="dropdown-item">Nepriradene</a>
+                    <li role="menuitem" (click)="selectUser(null)"><a class="dropdown-item">Nepriradene</a>
                     </li>
                 </ul>
             </div>

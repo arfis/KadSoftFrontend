@@ -14,7 +14,6 @@ export class CanActivateGuard implements CanActivate {
 
         if (user.getLoggedInUser()) {
             this.user.currentUser.subscribe((user) => {
-                console.log(user);
                 this.connected = user.connected;
             });
         }

@@ -3,6 +3,7 @@ import {InvoiceStatus} from "../invoice/invoiceStatus.model";
 import {User} from "../../models/user";
 import {Contact} from "../../models/contact.model";
 import {OrderPerson} from "../../models/OrderPerson";
+import {LoginUser} from "../login/login-user.model";
 
 /**
  * Created by a619678 on 23. 5. 2017.
@@ -15,7 +16,7 @@ export class Order{
     invoice: Invoice;
     invoices : Invoice[];
     createdBy : User;
-    assignedTo : User;
+    assignedTo : LoginUser;
     created : Date;
     state : string;
     modified : Date;
@@ -60,11 +61,11 @@ export class Actions {
 
 export class OrderStats {
     public static notPrepared = "Nepripravena";
-    public static notAssigned = "Nepriradena";
-    public static assigned = "Priradena";
-    public static done = "Dokoncena";
-    public static expeded = "Vyexpedovana";
-    public static createdByAnonymous = "Vytvoreny vonkajsim uzivatelom";
+    public static notAssigned = "Pripravovana";
+    public static assigned = "Nepriradena";
+    public static done = "Priradena";
+    public static expeded = "Dokoncena";
+    public static createdByAnonymous = "Odoslana";
 }
 
 export const orderStatesConst = [{label:OrderStats.notPrepared, value:0},

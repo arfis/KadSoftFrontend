@@ -57,6 +57,10 @@ export class RestService {
         return this.http.post<T>(link, {});
     }
 
+    public get<T>(link): Observable<T> {
+        return this.http.get<T>(link);
+    }
+
     public setAccessToken(accessToken: string) {
         localStorage.setItem('accessToken', accessToken);
         console.log("set accessToken " + localStorage.getItem('accessToken'));
@@ -159,22 +163,25 @@ export class RestService {
         return this.http.get<any>(this.config.server + this.config.invoicesApi + `/${id}`);
     }
 
-    public getOrders(page, pageSize, isDealer): Observable<any> {
+    public getOrders(page, pageSize, sort, sortDirection, filterType, filter, isDealer): Observable<any> {
+
+        let query = (!!sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
+        query += (!!filter) ? `&filters[]=${filterType}=${filter}` : '';
 
         if (isDealer) {
-            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + '}');
+            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + query);
         }
         else {
-            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + '}');
+            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + query);
         }
     }
 
     public getFilteredOrders(page, pageSize, isDealer, filter): Observable<any> {
         if (isDealer) {
-            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + '}' + filter );
+            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + '&' + filter );
         }
         else {
-            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + '}' + filter);
+            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + '&' + filter);
         }
     }
 

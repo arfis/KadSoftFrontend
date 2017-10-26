@@ -12,9 +12,9 @@ export class AdminLTETranslateService implements OnInit {
     private currentUser: User;
 
     constructor( private userServ: UserService, private translate: TranslateService ) {
-        translate.addLangs( langs );
-        // this language will be used as a fallback when a translation isn't found in the current language
-        translate.setDefaultLang( 'en' );
+        // translate.addLangs( langs );
+        // // this language will be used as a fallback when a translation isn't found in the current language
+        // translate.setDefaultLang( 'en' );
 
         // this.userServ.currentUser.subscribe(( user: User ) => {
         //     this.currentUser = user;

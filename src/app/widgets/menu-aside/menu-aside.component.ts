@@ -26,9 +26,11 @@ export class MenuAsideComponent implements OnInit {
     // TODO
   }
 
-  checkPermission(role : UserRole){
-    if(role === UserRole.admin){
+  get isAdmin() {
+    if(this.userServ.getLoggedInUser().roles.indexOf('ROLE_ADMIN') > -1){
       return true;
+    } else {
+      return false;
     }
   }
 }

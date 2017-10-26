@@ -44,44 +44,31 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Objednávky',
                 'icon': 'dashboard',
-                'link': ['/orders']
+                'admin' : false,
+                'link': ['']
             },
             {
                 'title': 'Faktúry',
                 'icon': 'dashboard',
+                'admin' : false,
                 'link': ['/invoices']
             },
             {
                 'title': 'Administrácia',
                 'icon': 'wrench',
+                'admin' : true,
                 'link': ['/administration']
             },
-            // {
-            //     'title': 'Client',
-            //     'icon': 'usd',
-            //     'link': ['/client']
-            // },
             {
-                'title': 'Zoznam',
+                'title': 'Zoznam Klientov',
                 'icon': 'link',
-                'sublinks': [
-                    {
-                        'title': 'Zoznam Klientov',
-                        'link': ['/page/2'],
-                    },
-                    {
-                        'title': 'Zoznam Objednávok',
-                        'link': ['/page/3'],
-                    },
-                    {
-                        'title': 'Zoznam Faktúr',
-                        'link': ['/page/3'],
-                    }
-                ]
+                'admin' : true,
+                'link': ['/page/2'],
             },
             {
                 'title': 'Statistiky',
                 'icon': 'stats',
+                'admin' : true,
                 'link': ['/stats']
             }
             // {

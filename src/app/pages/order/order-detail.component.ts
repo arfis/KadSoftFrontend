@@ -16,6 +16,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {OrderConstants} from "./order.constants";
 import {RestService} from "../../services/rest.service";
 import {MdStep} from "@angular/material";
+import {LoginUser} from "../login/login-user.model";
 
 @Component({
     selector: 'order-detail',
@@ -28,12 +29,13 @@ export class OrderDetailComponent {
     private order: Order;
 
     public isLoaded = false;
-    public selectedUser = "Vyber uzivatela";
+    public selectedUser: LoginUser;
     public orderFiles = [];
     uploadedFiles: any[] = [];
-    professions: SelectItem[];
-    buildingTypes: SelectItem[];
-    productTypes: SelectItem[];
+    professions: SelectItem[] = [];
+    buildingTypes: SelectItem[] = [];
+    productTypes: SelectItem[] = [];
+
 
     selectedBuildingType: string;
     selectedProfessions: string[] = [];
@@ -45,6 +47,8 @@ export class OrderDetailComponent {
     vztPrice: number = OrderConstants.vztPrice;
     area: number = 0;
     note = '';
+
+    users;
 
     @ViewChild('uploader') uploader;
 
@@ -79,10 +83,19 @@ export class OrderDetailComponent {
             this.vztPrice = this.order.vztPrice;
             this.lightingPrice = this.order.lightingPrice;
             this.heatingPrice = this.order.heatingPrice;
+            this.selectedUser = this.order.assignedTo;
 
             this.isLoaded = true;
         });
 
+        if (this._usrService.isAdmin()) {
+            this._usrService.getAllUsers().subscribe(
+                result => {
+                    this.users = result;
+                    console.log(this.users);
+                }
+            );
+        }
     }
 
     remove(uploadedFile) {
@@ -262,6 +275,22 @@ export class OrderDetailComponent {
         }
     }
 
+    selectUser(user) {
+        this.selectedUser = user;
+    }
+
+    reassing() {
+        let updatedOrder = new Order();
+        updatedOrder.assignedTo = this.selectedUser;
+        this._orderSrv.setAsignedTo(updatedOrder, this.order.id).subscribe(
+            result => {
+                console.log(result);
+            },
+            error => {
+                console.log('error');
+            }
+        );
+    }
     get orderId() {
         return this.order.id
     }

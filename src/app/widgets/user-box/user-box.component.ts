@@ -18,8 +18,6 @@ export class UserBoxComponent implements OnInit {
     // se connecter au modif du user courant
 
       this.userServ.currentUser.subscribe((user: LoginUser) =>{
-        console.log("user-box");
-        console.log(user);
         this.currentUser = user;
       } );
   }

@@ -27,7 +27,7 @@ const routes: Routes = [
         children: [
             {
                 canActivate: [CanActivateGuard],
-                component: AdministrationComponent,
+                loadChildren: './pages/administration/administration.module#AdministrationModule',
                 path: 'administration'
             },
             {
@@ -59,7 +59,7 @@ const routes: Routes = [
             {
                 canActivate: [CanActivateGuard],
                 component: OrderComponent,
-                path: 'orders'
+                path: ''
             },
             {
                 canActivate: [CanActivateGuard],

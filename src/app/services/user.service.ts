@@ -41,8 +41,13 @@ export class UserService {
         return this.restService.deleteUser(user);
     }
     public isDealer() {
-        let dealer = (!!this.getLoggedInUser().roles.find(role => role === this.dealerRole));
+        let dealer = (!!this.getLoggedInUser().roles.find(role => role === this.dealerRole) && this.getLoggedInUser().roles.length === 1);
         return dealer;
+    }
+
+    public isAdmin() {
+        let admin = (!!this.getLoggedInUser().roles.find(role => role === this.adminRole));
+        return admin;
     }
 
     public registerUser(user) {

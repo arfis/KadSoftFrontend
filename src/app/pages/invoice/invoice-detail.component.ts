@@ -13,6 +13,7 @@ import {NotificationService} from "../../services/notification.service";
 import {UserService} from "../../services/user.service";
 import {MenuItem} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
+import {RestService} from "../../services/rest.service";
 
 @Component({
     selector: 'invoice-detail',
@@ -32,7 +33,8 @@ export class InvoiceDetailComponent {
                 private invoiceSrv: InvoiceService,
                 private loadingBar: SlimLoadingBarService,
                 private notificationSrv: NotificationService,
-                private loginServ: UserService) {
+                private loginServ: UserService,
+                private _restServ: RestService) {
 
     }
 
@@ -47,35 +49,49 @@ export class InvoiceDetailComponent {
                             this.permissionLoaded = true;
                             this.invoiceActions = new Array();
 
-                            if (this.permissions.generatePdf) {
-                                this.invoiceActions.push({
-                                    label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
-                                        this.generatePdf();
-                                    }
-                                });
-                            }
+                                if (this.invoice.actions.generatePdf) {
+                                    this.invoiceActions.push({
+                                        label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
+                                            this.callMethod(this.invoice.actions.generatePdf.href,
+                                                this.invoice.actions.generatePdf.methods[0]);
+                                        }
+                                    });
+                                }
 
-                            if (this.permissions.cancel) {
-                                this.invoiceActions.push({
-                                    label: 'Storno', icon: 'fa-close', command: () => {
-                                        this.stornoInvoice();
-                                    }
-                                });
-                            }
-                            if (this.permissions.sendEmail) {
-                                this.invoiceActions.push({
-                                    label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
-                                        this.sentNotificationEmail();
-                                    }
-                                });
-                            }
-                            if (this.permissions.pay) {
-                                this.invoiceActions.push({
-                                    label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
-                                        this.payInvoice()
-                                    }
-                                });
-                            }
+                                if (this.invoice.actions.cancelInvoice) {
+                                    this.invoiceActions.push({
+                                        label: 'Storno', icon: 'fa-close', command: () => {
+                                            this.callMethod(this.invoice.actions.cancelInvoice.href,
+                                                this.invoice.actions.cancelInvoice.methods[0]);
+                                        }
+                                    });
+                                }
+                                if (this.invoice.actions.sendEmail) {
+                                    this.invoiceActions.push({
+                                        label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
+                                            this.callMethod(this.invoice.actions.sendEmail.href,
+                                                this.invoice.actions.sendEmail.methods[0]);
+                                        }
+                                    });
+                                }
+                                if (this.invoice.actions.payInvoice) {
+                                    this.invoiceActions.push({
+                                        label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
+                                            this.callMethod(this.invoice.actions.payInvoice.href,
+                                                this.invoice.actions.sendEmail.methods[0]);
+                                        }
+                                    });
+                                }
+
+                                if (this.invoice.actions.downloadFile) {
+                                    this.invoiceActions.push({
+                                        label: 'Stiahnut pdf', icon: 'fa-download', command: () => {
+                                            this.callMethod(this.invoice.actions.downloadFile.href,
+                                                this.invoice.actions.downloadFile.methods[0])
+                                        }
+                                    })
+                                }
+
                         },
                         error => {
                             if (error.status === 401) {
@@ -88,6 +104,29 @@ export class InvoiceDetailComponent {
         });
     }
 
+    callMethod(link, method) {
+        if (method === "GET") {
+            this._restServ.get<any>(link).subscribe(
+                result => {
+                    console.log(result);
+                    this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
+                },
+                error => {
+                    this.notificationSrv.error('akcia nebola uspesne ukoncena', 'akcia');
+                }
+            )
+        }
+        else {
+            this._restServ.post<any>(link).subscribe(
+                result => {
+                    this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
+                },
+                error => {
+                    this.notificationSrv.error('akcia nebola uspesne ukoncena', 'akcia');
+                }
+            )
+        }
+    }
     getStatusMessage(status) {
         if (!status) status = "created";
         return getTranslation(status);

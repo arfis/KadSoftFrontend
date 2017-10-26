@@ -5,8 +5,8 @@
 		<!-- Sidebar user panel (optional) -->
 		<div class="user-panel">
 			<div class="pull-left image">
-				<img [src]="currentUser?.avatarUrl" class="img-circle"
-					[alt]="currentUser?.name">
+				<!--<img [src]="currentUser?.avatarUrl" class="img-circle"-->
+					<!--[alt]="currentUser?.name">-->
 			</div>
 			<div class="pull-left info">
 				<b>{{currentUser.name}} {{currentUser.surname}}</b>
@@ -14,7 +14,8 @@
 				<i>({{currentUser?.email}})</i>
 				<p>Role:{{currentUser?.roles}}</p>
 
-				<div *ngIf="checkPermission(currentUser?.roles)">
+
+				<div *ngIf="isAdmin">
 					<i>Administrator role is active!</i>
 				</div>
 				<!-- Status -->
@@ -39,7 +40,7 @@
 			<li class="header">NAVIGATION</li>
 
 			<ng-template ngFor let-item [ngForOf]="links"> <ng-template
-				[ngIf]="!item.sublinks">
+				[ngIf]="!item.sublinks && !item.admin || (isAdmin && item.admin)">
 			<li [class.active]="item.link[0] === current_url"><a
 				*ngIf="!item.external" [routerLink]="item.link"> <i
 					class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span>

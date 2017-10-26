@@ -43,6 +43,8 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     public stopChanel = new Subject<number>();
 
+    public sort = "";
+    public sortOrientation = "asc";
     @Input()
     filteredOrders: Order[];
 
@@ -101,9 +103,11 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     update(filteredOrders) {
-        console.log(filteredOrders);
-        this.orders = filteredOrders;
-        this.allOrders = filteredOrders;
+        if (filteredOrders) {
+            this.orders = filteredOrders.data;
+            this.allOrders = filteredOrders.data;
+            this.bigTotalItems = filteredOrders.meta.totalItems;
+        }
     }
 
 
@@ -156,19 +160,22 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     }
 
-    setActiveRecords() {
-        this._orderServ.getOrders(this.currentPage, this.pageSize).subscribe(
+    setActiveRecords(type = null) {
+        this._orderServ.getOrders(this.currentPage, this.pageSize, type).subscribe(
             result => {
                 this.allOrders = result.data;
                 this.orders = result.data;
-                this._orderServ.setOrders(result.data);
                 this.bigTotalItems = this.paginationMeta.totalItems;
             }
         )
     }
 
-    getDate(dateString) {
-
+    orderBy(type) {
+        if (this.sort === type) {
+            this.sortOrientation = (this.sortOrientation === 'asc') ? 'desc' : 'asc';
+        } else {
+            this.sort = type;
+            this.sortOrientation = 'asc';
+        }
     }
-
 }

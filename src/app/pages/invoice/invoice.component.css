@@ -17,3 +17,8 @@ tr a{
 .glyphicon.glyphicon-save {
     float:right;
 }
+
+td {
+    padding: 2px !important;
+    text-align: center;
+}

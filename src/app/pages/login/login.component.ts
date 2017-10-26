@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
 
                         this.userServ.setCurrentUser(user1);
 
-                        this.router.navigate(['orders']);
+                        this.router.navigate(['']);
                     },
                     error => {
                         console.log(error);

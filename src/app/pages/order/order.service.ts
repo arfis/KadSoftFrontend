@@ -19,6 +19,11 @@ export class OrderService {
     professionTypes = [];
     states = [];
 
+    directions = ['asc', 'desc'];
+
+    activeSort = '';
+    activeDirection = this.directions[0];
+
     constructor(private invoiceSrv : InvoiceService,
                 private usrService : UserService,
                 private restSrv : RestService) {
@@ -59,6 +64,10 @@ export class OrderService {
         this.orders = orders;
     }
 
+    setAsignedTo(order, id) {
+        return this.restSrv.patchOrder(order, id);
+    }
+
     getCachedOrders(){
         return this.orders;
     }
@@ -77,9 +86,17 @@ export class OrderService {
         return orders;
     }
 
-    getOrders(page: number, pageSize: number) : Observable<any>{
+    getOrders(page: number, pageSize: number, sort=null, filterType=null, filter=null) : Observable<any>{
 
-        return this.restSrv.getOrders(page, pageSize, this.usrService.isDealer());
+        if (sort === this.activeSort) {
+            this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
+        }
+
+        this.activeSort = sort;
+
+
+        return this.restSrv.getOrders(page, pageSize, sort, this.activeDirection, filterType, filter,
+            this.usrService.isDealer());
     }
 
     getOrdersByStateFilter(page: number, pageSize: number, filter) {

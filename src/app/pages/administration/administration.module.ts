@@ -17,6 +17,7 @@ import {CustomerComponent} from "./customer/customer.component";
 import {CustomerCreation} from "./customer/customer-create.component";
 import { UserComponent } from './user/user.component';
 import {FileUploadModule, MultiSelectModule, SelectButtonModule, ToggleButtonModule} from "primeng/primeng";
+import {routing} from "./administrator.routing";
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {FileUploadModule, MultiSelectModule, SelectButtonModule, ToggleButtonMod
         ToggleButtonModule,
         RouterModule,
         CommonModule,
+        routing,
         FormsModule,
         ReactiveFormsModule,
         CollapseModule.forRoot(),

@@ -10,7 +10,6 @@ import {
 } from 'ngx-bootstrap';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {
     AccordionModule,
@@ -117,7 +116,6 @@ let modules = [
     BrowserModule,
     BrowserAnimationsModule,
     MultiSelectModule,
-    BsDatepickerModule.forRoot(),
     InputTextareaModule,
     SplitButtonModule,
     ChartModule,
@@ -140,7 +138,6 @@ let modules = [
     }),
     ToasterModule,
     InvoiceModule,
-    AdministrationModule,
     SlimLoadingBarModule.forRoot()
 ];
 
