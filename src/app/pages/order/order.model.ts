@@ -13,6 +13,8 @@ export class Order{
     id : number;
     text : string;
     mainContact : Contact;
+    invoiceContact: Contact;
+
     invoice: Invoice;
     invoices : Invoice[];
     createdBy : User;
@@ -29,14 +31,16 @@ export class Order{
     area: number;
     price: number;
     actions: Actions;
-    energyCertificatesCount: number;
-    energyAuditsCount: number;
+
     createdAt: Date;
     updatedAt: Date;
     vztPrice: number;
     lightingPrice: number;
     heatingPrice: number;
     orderedBy: OrderPerson;
+
+    energyCertificatesCount: number; //ECB
+    energyAuditsCount: number; //TT
 
 }
 
@@ -71,7 +75,7 @@ export class OrderStats {
 export const orderStatesConst = [{label:OrderStats.notPrepared, value:0},
     {label:OrderStats.notAssigned, value:1},{label:OrderStats.assigned, value:2},
     {label:OrderStats.done, value:3},{label:OrderStats.expeded, value:4},
-    {label:OrderStats.createdByAnonymous, value:5}]
+    {label:OrderStats.createdByAnonymous, value:5}, {label:"Vypnut", value:-1}]
 export const heating = '0';
 export const vzt = '1';
 export const lighting = '2';
@@ -97,7 +101,7 @@ export const _buildingTypesInfo = ["Duis malesuada neque elit, sit amet semper m
 export function getOrderTranslation(status : string){
 
     switch(status) {
-        case "draft" : return {text : "Nepripravena", label:"label-warning"};
+        case "draft" : return {text : "Nepripravena", label:"label-danger"};
         case "unassigned" : return {text : "Nepriradena", label:"label-danger"};
         case "assigned" : return {text : "Priradena", label:"label-info"};
         case "preparing" : return {text : "Pripravovana", label:"label-warning"};

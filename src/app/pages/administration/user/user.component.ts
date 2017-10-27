@@ -97,7 +97,7 @@ export class UserComponent {
     getRoleLabel(name) {
         switch(name){
             case "ROLE_ADMIN" : return 'Administrator'
-            case "ROLE_TECHNICIAN" : 'Technik'
+            case "ROLE_TECHNICIAN" : return 'Technik'
             case "ROLE_DEALER" : return 'Obchodnik'
         }
     }

@@ -14,12 +14,12 @@ export class Invoice{
     createdBy : string;
     order : number;
     created : Date;
-    company : Company;
-    companyContact : Contact;
+    company : Company = new Company();
+    companyContact : Contact = new Contact();
     status : string;
-    customer : Customer;
+    customer : Customer = new Customer();
     totalPrice : number = 0;
-    invoiceItems : Product[];
+    invoiceItems : Product[] = new Array<Product>();
     value : number;
     variableSymbol : number;
     emailText?: string;

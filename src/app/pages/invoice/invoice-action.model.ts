@@ -5,6 +5,7 @@ export class InvoiceAction {
     generatePdf: HttpMethod;
     cancelInvoice: HttpMethod;
     payInvoice: HttpMethod;
+    base64File: HttpMethod;
 }
 
 export class HttpMethod {

@@ -17,6 +17,8 @@ import {OrderConstants} from "./order.constants";
 import {RestService} from "../../services/rest.service";
 import {MdStep} from "@angular/material";
 import {LoginUser} from "../login/login-user.model";
+import {Invoice} from "../invoice/invoice.model";
+import {Product} from "../../models/Product";
 
 @Component({
     selector: 'order-detail',
@@ -49,6 +51,7 @@ export class OrderDetailComponent {
     note = '';
 
     users;
+    invoiceToBeCreated: Invoice;
 
     @ViewChild('uploader') uploader;
 
@@ -73,8 +76,6 @@ export class OrderDetailComponent {
         this.activatedRoute.data.subscribe(data => {
             this.order = data['order'];
 
-            console.log('order');
-            console.log(this.order);
             this.selectedBuildingType = (this.order.constructionType) ? this.order.constructionType.id : null;
             this.selectedProductType = (this.order.productType) ? this.order.productType.id : null;
             this.selectedProfessions = (this.order.professions) ? this.order.professions.map(profession => profession.id) : null;
@@ -85,6 +86,9 @@ export class OrderDetailComponent {
             this.heatingPrice = this.order.heatingPrice;
             this.selectedUser = this.order.assignedTo;
 
+            if (this.order.state === 'draft') {
+                this.setUpInvoiceData();
+            }
             this.isLoaded = true;
         });
 
@@ -96,6 +100,37 @@ export class OrderDetailComponent {
                 }
             );
         }
+    }
+
+    setUpInvoiceData() {
+        this.invoiceToBeCreated = new Invoice();
+
+        console.log(this.order);
+        if (this.order.mainContact) {
+            this.invoiceToBeCreated.customer.mainContact = this.order.mainContact;
+        }
+        if (this.order.invoiceContact) {
+            this.invoiceToBeCreated.customer.invoiceContact = this.order.invoiceContact;
+        }
+        let item1 = 'ECB pre RD v PDF + tlačenej forme - do 6 dní u Vás - 98 EUR';
+        let item2 = 'epelnotechnické, resp. energetické posúdenie pre RD (od 1.1.2016 musí byť v ener. triede A) - 109 EUR';
+
+        if (this.order.energyCertificatesCount) {
+            let product1 = new Product();
+            product1.count = this.order.energyCertificatesCount;
+            product1.newItem = item1;
+            product1.price = 98;
+            this.invoiceToBeCreated.invoiceItems.push(product1);
+        }
+        if (this.order.energyAuditsCount) {
+            let product2 = new Product();
+            product2.count = this.order.energyAuditsCount;
+            product2.newItem = item2;
+            product2.price = 109;
+            this.invoiceToBeCreated.invoiceItems.push(product2);
+        }
+
+        this.invoiceToBeCreated.order = this.order.id;
     }
 
     remove(uploadedFile) {
@@ -251,7 +286,7 @@ export class OrderDetailComponent {
 
 
     changeState(newState) {
-        switch(newState) {
+        switch (newState) {
             case 'assigned' : {
                 this.toAssigned();
                 break;
@@ -291,6 +326,11 @@ export class OrderDetailComponent {
             }
         );
     }
+
+    onInvoiceCreated() {
+        this.toPreparing();
+    }
+
     get orderId() {
         return this.order.id
     }

@@ -6,6 +6,10 @@
 
     <app-stepper (onChange)="changeState($event)" [steps]="states" [activeSteps]="actions" [currentStep]="currentState"></app-stepper>
 
+    <ng-container *ngIf="currentState === 'draft'">
+        <invoice-creation (createEmitter)="onInvoiceCreated($event)" [invoice]="invoiceToBeCreated"></invoice-creation>
+    </ng-container>
+
     <div class="invoices">
         <h4>Faktury</h4>
         <div [routerLink]="[ '/invoice/', invoice.id ]" class="invoice-item" *ngFor="let invoice of invoices">

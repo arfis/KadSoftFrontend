@@ -48,7 +48,8 @@
 
     <tr *ngFor="let order of orders" [routerLink]="[ '/order/', order.id ]">
         <td>{{order?.id}}</td>
-        <td><a [routerLink]="[ '/user/'+order?.orderedBy?.id ]">{{order?.orderedBy?.name+' '+order?.orderedBy?.surname}}</a></td>
+        <td><a *ngIf="order?.orderedBy?.email; else web" [routerLink]="[ '/user/'+order?.orderedBy?.id ]">{{order?.orderedBy?.email}}</a></td>
+        <ng-template #web><td>Web</td></ng-template>
         <!--// TODO: resolver and make a user type in the invoice -->
         <td>{{order?.text}}</td>
         <td>

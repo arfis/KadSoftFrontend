@@ -190,7 +190,7 @@ export class RestService {
     }
 
     public createOrder(order: Order): Observable<Order> {
-        return this.http.post<Order>(this.config.server + this.config.ordersApi, order);
+        return this.http.post<Order>(this.config.server + this.config.ordersApi+'-dealer', order);
     }
 
     public updateOrder(order): Observable<Order> {
@@ -252,6 +252,12 @@ export class RestService {
 
     public getOrderStates(): Observable<any[]> {
         return this.http.get<any[]>(this.config.server + 'api/orders/states');
+    }
+
+    public getCustomersByEmail(searchString: string, users : Customer[]) : Customer[] {
+        return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||
+        (user.mainContact.surname.indexOf(searchString) > -1) ||
+        (user.mainContact.name.indexOf(searchString) > -1));
     }
 
     private handleError(error: Response) {

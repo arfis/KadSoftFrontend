@@ -27,6 +27,7 @@ export class InvoiceDetailComponent {
     public permissions: CompanyPermissions = new CompanyPermissions();
     public permissionLoaded: boolean = false;
     public invoiceActions: MenuItem[] = new Array();
+    public base64image;
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
@@ -43,12 +44,16 @@ export class InvoiceDetailComponent {
 
            this.invoice = data['invoice'];
             
-                    this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
-                        result => {
+                    Observable.forkJoin(this.invoiceSrv.getPermissions(this.invoice.id),
+                                        this.callMethod$(this.invoice.actions.base64File.href,
+                                           this.invoice.actions.base64File.methods[0])).subscribe(
+                        results => {
+                            const [result, base64image] = results;
                             this.permissions = result;
                             this.permissionLoaded = true;
                             this.invoiceActions = new Array();
-
+                            this.base64image = base64image;
+                            console.log(base64image);
                                 if (this.invoice.actions.generatePdf) {
                                     this.invoiceActions.push({
                                         label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
@@ -104,9 +109,18 @@ export class InvoiceDetailComponent {
         });
     }
 
-    callMethod(link, method) {
+    callMethod$(link, method) {
         if (method === "GET") {
-            this._restServ.get<any>(link).subscribe(
+            return this._restServ.get<any>(link);
+        }
+        else {
+            return this._restServ.post<any>(link);
+        }
+    }
+
+    callMethod(link, method) {
+
+           this.callMethod$(link, method).subscribe(
                 result => {
                     console.log(result);
                     this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
@@ -115,17 +129,7 @@ export class InvoiceDetailComponent {
                     this.notificationSrv.error('akcia nebola uspesne ukoncena', 'akcia');
                 }
             )
-        }
-        else {
-            this._restServ.post<any>(link).subscribe(
-                result => {
-                    this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
-                },
-                error => {
-                    this.notificationSrv.error('akcia nebola uspesne ukoncena', 'akcia');
-                }
-            )
-        }
+
     }
     getStatusMessage(status) {
         if (!status) status = "created";

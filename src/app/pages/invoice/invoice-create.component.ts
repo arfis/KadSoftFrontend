@@ -1,11 +1,9 @@
 /**
  * Created by a619678 on 23. 5. 2017.
  */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {InvoiceService} from "./invoice.service";
-import {InvoiceStatus} from "./invoiceStatus.model";
-import {Invoice} from "./invoice.model";
+import {InvoiceService} from "../invoice/invoice.service";
 import {CustomerService} from "../users/user.service";
 import {Customer} from "../users/user.model";
 import {NotificationService} from "../../services/notification.service";
@@ -13,6 +11,7 @@ import {UserService} from "../../services/user.service";
 import {Company} from "../../models/company-model";
 import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
+import {Invoice} from "./invoice.model";
 
 @Component({
     selector: 'invoice-creation',
@@ -20,194 +19,316 @@ import {RestService} from "../../services/rest.service";
     templateUrl: './invoice-create.component.html'
 })
 
-export class InvoiceCreation implements OnInit {
+export class InvoiceCreation implements OnInit, OnChanges {
 
-    @Output()
-    createEmitter = new EventEmitter<Invoice>();
-    currentCompany : Company;
+    @Output() createEmitter = new EventEmitter<Invoice>();
+    @Input() invoice: Invoice;
+
+    currentCompany: Company;
 
     private invoiceForm: FormGroup;
-    private userFoundByMail : Customer;
-    private clientFormControlls : any[] = new Array();
-    private fixedInputs : any[] = new Array();
+    private userFoundByMail: Customer;
+    private clientFormControlls: any[] = new Array();
+    private fixedInputs: any[] = new Array();
 
-    private prices : any[] = new Array();
-    private companies : Company[];
+    private prices: any[] = new Array();
+    private companies: Company[];
+
+    private lockChange: boolean = false;
+
+    private invoiceContact: boolean = false;
+
+    private type: string = "person";
+    private foundByMail: boolean = false;
+    private foundCustomers: Customer[];
+    private units: string[] = ["ks", "liter"];
+
+    public showModal = false;
 
     constructor(private fb: FormBuilder,
                 private invoiceSrv: InvoiceService,
-                private userSrv : CustomerService,
-                private notificationSrv : NotificationService,
-                private loggedUserService : UserService,
-                private configurationService : ConfigurationService,
-                private restServ : RestService,
-                private loginServ : UserService) {
+                private userSrv: CustomerService,
+                private notificationSrv: NotificationService,
+                private loggedUserService: UserService,
+                private configurationService: ConfigurationService,
+                private restServ: RestService,
+                private loginServ: UserService) {
 
         this.createForm();
 
+        //if the company is changed in the service, it is emmited here
         configurationService.currentCompany.subscribe(
-            currentCompany=> {
+            currentCompany => {
                 this.currentCompany = currentCompany;
-                this.invoiceForm.get('company').patchValue(currentCompany);
+
+                if (currentCompany.mainContact) {
+                    this.invoiceForm.get('companyContact')
+                        .patchValue(currentCompany.mainContact);
+                }
+                this.invoiceForm.get('company').setValue(currentCompany.id);
             }
         )
 
+
         restServ.getCompanies().subscribe(
-            companies => this.companies = companies,
-            error=>{
-                if (error.status === 401){
+            companies => {
+                this.companies = companies;
+            },
+            error => {
+                if (error.status === 401) {
                     this.loginServ.logout();
                 }
             }
         );
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes.invoice);
+
+        this.setFormValues();
+    }
+
     ngOnInit() {
 
-
-        this.invoiceForm.get('client').get('email')
+        this.invoiceForm.get('customer').get('mainContact').get('email')
             .valueChanges
             .filter((value: string) => {
-
-                if (value && value.length > 1) {
-                    this.disableClientInputs();
+                if (value && value.length > 1 && this.type == 'person' && !this.lockChange) {
+                    this.disableCustomerInputs();
                     return true;
                 }
-                return false;
+                else {
+                    this.foundByMail = false;
+                    return false;
+                }
             })
-            .debounceTime(100)
+            .debounceTime(200)
             .subscribe(
+                value => {
+                    this.restServ.getCustomers().subscribe(
+                        users => {
 
-                value => this.userSrv.getUserByMail(value).subscribe(
-                    user => {
-                    this.userFoundByMail = user;
-                        if(!user){
-                            this.userFoundByMail = null;
-                            this.enableClientInputs();
-                            this.resetClientInfo();
-                        }
-                        else{
-                            this.enableClientInputs();
-                            this.setClientInfo();
-                        }
-                    })
+                            this.foundCustomers = this.restServ.getCustomersByEmail(value, users);
+                            if (this.foundCustomers.length > 0) {
+                                this.foundByMail = true;
+                                this.userFoundByMail = null;
+
+                            }
+                            else {
+                                this.foundByMail = false;
+
+                            }
+                        })
+                }
             );
     }
 
-    createForm() {
-        this.invoiceForm = this.fb.group({
+    selectCustomer(customer: Customer) {
+        this.userFoundByMail = customer;
+        this.lockChange = true;
+        this.setClientInfo();
+        this.lockChange = false;
+    }
 
-            'company': this.fb.group({
-                'name':['',Validators.required],
-                'accountNumber':['',Validators.required],
-                'email':['',Validators.required],
-                'address':['',Validators.required],
-                'city':['',Validators.required],
-                'IBAN':['',Validators.required]
-            }),
-            'name': ['name', Validators.required],
-            'invoiceNumber': [this.invoiceSrv.generateInvoiceId(), Validators.required],
-            'createdBy': [this.loggedUserService.getLoggedInUser().name, Validators.required],
-            'status': [InvoiceStatus.created, Validators.required],
-            'client': this.fb.group({
-                'name':['',Validators.required],
-                'surname':['',Validators.required],
-                'email':['',Validators.required],
-                'phone':['',Validators.required],
-            }),
-            'products' : this.fb.array([]),
-            'variableSymbol' : [this.invoiceSrv.generateInvoiceId(),Validators.required]
+    createForm() {
+
+        let disabledEmpty = {value: '', disabled: false};
+        this.invoiceForm = this.fb.group({
+                'company': [''],
+                'companyContact': this.fb.group({
+
+                    'name': [disabledEmpty, Validators.required],
+                    'surname': [disabledEmpty, Validators.required],
+                    'postcode': [disabledEmpty, Validators.required],
+                    'telephone': [disabledEmpty, Validators.required],
+                    'country': [disabledEmpty, Validators.required],
+                    'accountNumber': [disabledEmpty],
+                    'email': [disabledEmpty, Validators.required],
+                    'street': [disabledEmpty, Validators.required],
+                    'city': [disabledEmpty, Validators.required],
+                    'iban': [disabledEmpty],
+                    'swift': [disabledEmpty]
+                }),
+                "invoiceNumber": [{value: this.invoiceSrv.generateInvoiceId()}, Validators.required],
+                'customerId': [disabledEmpty],
+                'customer': this.fb.group({
+                    'ico': [disabledEmpty],
+                    'dic': [disabledEmpty],
+                    'mainContact': this.fb.group({
+                        'name': ['', Validators.required],
+                        'surname': ['', Validators.required],
+                        'postcode': ['', Validators.required],
+                        'telephone': ['', Validators.required],
+                        'country': ['', Validators.required],
+                        'accountNumber': [''],
+                        'email': ['', Validators.required],
+                        'street': ['', Validators.required],
+                        'city': ['', Validators.required],
+                        'iban': [''],
+                        'swift': ['']
+                    }),
+                    'invoiceContact': this.fb.group({
+                        'name': [disabledEmpty],
+                        'surname': [disabledEmpty],
+                        'postcode': [disabledEmpty],
+                        'telephone': [disabledEmpty],
+                        'country': [disabledEmpty],
+                        'accountNumber': [disabledEmpty],
+                        'email': [disabledEmpty],
+                        'street': [disabledEmpty],
+                        'city': [disabledEmpty],
+                        'iban': [disabledEmpty],
+                        'swift': [disabledEmpty]
+                    }),
+                }),
+                'invoiceItems': this.fb.array([]),
+                'variableSymbol': [{value: this.invoiceSrv.generateInvoiceId(), disabled: true},
+                    Validators.required]
         })
 
-        this.clientFormControlls.push(this.invoiceForm.get('client').get('name'));
-        this.clientFormControlls.push(this.invoiceForm.get('client').get('surname'));
-        this.clientFormControlls.push(this.invoiceForm.get('client').get('phone'));
-        //this.fixedInputs.push(this.invoiceForm.get('variableSymbol'));
-        //this.fixedInputs.push(this.invoiceForm.get('company'));
-
-        //this.disableFixedInputs();
+        this.clientFormControlls.push(this.invoiceForm.get('customer')
+            .get('mainContact').get('name'));
+        this.clientFormControlls.push(this.invoiceForm.get('customer')
+            .get('mainContact').get('surname'));
+        this.clientFormControlls.push(this.invoiceForm.get('customer')
+            .get('mainContact').get('telephone'));
     }
 
-    get products(){
-        return this.invoiceForm.get('products') as FormArray;
+    get invoiceItems() {
+        return this.invoiceForm.get('invoiceItems') as FormArray;
     }
 
-    getPrice(){
-        let sum : number = 0;
+    disableFixedInputs() {
+        console.log(this.fixedInputs);
+        for (let input of this.fixedInputs) {
+            input.disable();
+        }
+    }
 
-        for(let price of this.prices){
-            console.log(price);
+    enableFixedInputs() {
+        for (let input of this.fixedInputs) {
+            input.enable();
+        }
+    }
+
+    getPrice() {
+        let sum: number = 0;
+
+        for (let price of this.prices) {
             sum += price.value;
         }
 
         return sum;
     }
 
-    addProduct(){
+    addProduct() {
         let product = this.fb.group({
-            'product' : '',
-            'value' : '',
-            'investor' : '',
-            'parcell' : ''
+            'newItem': ['', Validators.required],
+            'price': ['', Validators.required],
+            'unit': ['ks', Validators.required],
+            'count': ['', Validators.required],
+            'contractor': [''],
+            'parcel': ['']
         });
-
-        this.products.push(
+        this.invoiceItems.push(
             product
         )
 
-        this.prices.push(product.get('value'));
+        this.prices.push(product.get('price'));
     }
 
-    disableClientInputs(){
-        for (let clientFormControll of this.clientFormControlls){
-            clientFormControll.disable();
+    disableCustomerInputs() {
+        for (let clientFormControll of this.clientFormControlls) {
+            // clientFormControll.disable();
         }
     }
 
-    enableClientInputs(){
-        for (let clientFormControll of this.clientFormControlls){
-            clientFormControll.enable();
+    enableCustomerInputs() {
+        for (let clientFormControll of this.clientFormControlls) {
+            // clientFormControll.enable();
         }
     }
 
-    setClientInfo(){
-        this.invoiceForm.get('client').get('name').setValue(this.userFoundByMail.mainContact.name);
-        this.invoiceForm.get('client').get('surname').setValue(this.userFoundByMail.mainContact.surname);
-        this.invoiceForm.get('client').get('phone').setValue(this.userFoundByMail.mainContact.telephone);
+    setClientInfo() {
+        this.invoiceForm.get('customer').get('mainContact')
+            .patchValue(this.userFoundByMail.mainContact);
     }
 
-    resetClientInfo(){
-        this.invoiceForm.get('client').get('name').setValue("");
-        this.invoiceForm.get('client').get('surname').setValue("");
-        this.invoiceForm.get('client').get('phone').setValue("");
+    resetClientInfo() {
+        this.invoiceForm.get('customer').get('mainContact')
+            .reset();
     }
 
-    removeProduct(index : number){
-        this.products.removeAt(index);
-        this.prices.splice(index,1);
+    removeProduct(index: number) {
+        this.invoiceItems.removeAt(index);
+        this.prices.splice(index, 1);
     }
 
-    selectCompany(company){
+    setType(type: string) {
+        this.type = type;
+    }
+
+    selectCompany(company) {
         this.configurationService.setCurrentCompany(company);
+        this.restServ.getNextInvoiceNumber(company.id).subscribe(
+            result => {
+                console.log('result: ');
+                console.log(result);
+                this.invoiceForm.get('invoiceNumber').setValue(result.nextInvoiceNumber);
+                this.invoiceForm.get('variableSymbol').setValue(result.nextInvoiceNumber);
+            },
+            error => console.log(error)
+        )
     }
 
     onSubmit({value}: { value: Invoice }) {
+        value.order = this.invoice.order;
+        this.invoice = value;
+        this.showModal = true;
+    }
 
-        // this.enableFixedInputs();
+    continueRequest(value: Invoice) {
 
-        console.log(value);
-        value.variableSymbol = this.invoiceForm.get("variableSymbol").value;
-        value.companyContact = this.invoiceForm.get("companyContact").value;
-        value.totalPrice = this.getPrice();
-
+        this.showModal = false;
 
         this.invoiceSrv.createInvoice(value).subscribe(
             result => {
-                this.createEmitter.next(result);
-                this.notificationSrv.success("Nova faktura bola vytvorena","Faktura");
+                // order.invoices = new Array();
+                // order.invoices.push(result);
 
-                // window.alert("Nova faktura bola vytvorena!");
-                //this.invoiceForm.reset();
+                this.invoiceForm.reset();
+                this.notificationSrv.success("Nova faktura bola vytvorena", "Faktura");
+                this.createForm();
+
+                this.createEmitter.next(result);
+            },
+            error => {
+                if (error.status === 401) {
+                    this.loginServ.logout();
+                }
+                else {
+                    this.notificationSrv.error("Nova faktura nebola vytvorena", "Faktura");
+                    console.log(error);
+                }
             }
-    )}
+        )
+
+
+        this.showModal = true;
+
+    }
+
+    setFormValues() {
+        this.invoice;
+
+        for (let item of this.invoice.invoiceItems) {
+            this.addProduct()
+        }
+
+        this.invoiceForm.patchValue(this.invoice);
+    }
+    switchInvoiceContact() {
+        this.invoiceContact = !this.invoiceContact;
+        console.log(this.invoiceContact);
+    }
 }

@@ -21,7 +21,7 @@ enum filterComponents {
 export class FilterComponent implements OnChanges {
 
     orderStates: SelectItem[];
-    selectedOrderStates: string[] = new Array();
+    selectedOrderState: string;
 
     invoiceStates: SelectItem[];
     selectedInvoiceStates: string[] = new Array();
@@ -53,11 +53,12 @@ export class FilterComponent implements OnChanges {
     }
 
     filter() {
-        if (this.activeFilter) {
+        if (this.activeFilter && this.activeFilter !== '-1') {
 
             this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.activeFilterType,
                 this.activeFilter).subscribe(
                 result => {
+                    console.log(result);
                     this.onUpdate.emit(result);
                 })
         }
@@ -71,26 +72,17 @@ export class FilterComponent implements OnChanges {
 
     public stateFilterChange(filterType: filterComponents) {
 
+
         switch (filterType) {
             case filterComponents.FilterStates: {
-                console.log(this.selectedOrderStates);
-                this.activeFilter = this._orderSrv.states[this.selectedOrderStates[0]];
+                console.log(this.selectedOrderState);
+                this.activeFilter = this._orderSrv.states[this.selectedOrderState];
                 this.activeFilterType = "state";
                 this.filter();
             }
 
-            case filterComponents.InvoiceStates: {
-
-                //     this.bigTotalItems = this.totalRecords.length;
-                //     console.log('totalRecords');
-                //     console.log(this.totalRecords);
-                //     this.getFirstRecords();
-
-                this.onUpdate.next(this.filteredRecords);
-            }
         }
 
-        console.log('state filter has changed');
     }
 
     get invoiceStateComponent() {
