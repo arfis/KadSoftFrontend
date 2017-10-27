@@ -19,6 +19,7 @@ import {OrderResolve} from "./pages/order/order-resolve.component";
 import {OrderDetailComponent} from "./pages/order/order-detail.component";
 import {StatisticsComponent} from "./pages/statistics/statistics.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
+import {ProductListComponent} from "./component/product-list/product-list.component";
 
 const routes: Routes = [
     // logged routes
@@ -83,6 +84,11 @@ const routes: Routes = [
                 canActivate: [CanActivateGuard],
                 component: PageNumComponent,
                 path: 'page/:id'
+            },
+            {
+                canActivate: [CanActivateGuard],
+                component: ProductListComponent,
+                path: 'products'
             }
         ],
         component: LayoutsAuthComponent,

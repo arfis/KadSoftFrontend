@@ -70,6 +70,12 @@ export class LayoutsAuthComponent implements OnInit {
                 'icon': 'stats',
                 'admin' : true,
                 'link': ['/stats']
+            },
+            {
+                'title': 'Produkty',
+                'icon': 'product',
+                'admin' : true,
+                'link': ['/products']
             }
             // {
             //     'title': 'External Link',

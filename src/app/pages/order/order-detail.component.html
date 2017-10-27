@@ -107,7 +107,7 @@
         <button (click)="updateOrder()" class="btn btn-success btn-block">Uloz</button>
         <p>Priradene: <i>Todo</i></p>
 
-    <ng-container *ngIf="isAdministrator">
+    <ng-container *ngIf="false">
         <h4>Administrativne nastroje</h4>
         <div class="section">
             <h4>Preradenie pouzivatela:</h4>
@@ -124,10 +124,6 @@
                 </ul>
             </div>
         </div>
-    </ng-container>
-    <p> Stav: {{state.text}}</p>
-    <ng-container *ngIf="order.invoices.length > 0">
-        <p>SUMA: <i>{{order.invoices[0].totalPrice}}</i></p>
     </ng-container>
 
 </ng-container>

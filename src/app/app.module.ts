@@ -82,6 +82,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { OrderSortDirective } from './pages/order/order-sort.directive';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { TranslatePipe } from './component/step/translate.pipe';
+import { ProductListComponent } from './component/product-list/product-list.component';
 
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http);
@@ -209,6 +211,8 @@ let pages = [
         StatisticsComponent,
         OrderSortDirective,
         ProfileComponent,
+        TranslatePipe,
+        ProductListComponent,
     ],
     imports: [
         ...modules,

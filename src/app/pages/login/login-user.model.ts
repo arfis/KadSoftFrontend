@@ -1,6 +1,7 @@
 export class LoginUser {
     id : number;
     connected: boolean;
+    tmpPass: string;
     email : string;
     name : string;
     surname: string;

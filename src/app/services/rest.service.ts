@@ -15,6 +15,7 @@ import {CompanyPermissions} from "../models/company-permisions.model";
 import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {Type} from "../models/type";
 import {UserService} from "./user.service";
+import {Item} from "../component/product-list/item.model";
 
 @Injectable()
 export class RestService {
@@ -136,9 +137,13 @@ export class RestService {
 
 
     public updateCompany(company: Company, id): Observable<Company> {
-        console.log(JSON.stringify(company));
-        delete company.id;
-        return this.http.put<Company>(this.config.server + this.config.companiesApi + `/${id}`, company);
+        console.log(company);
+        let companyWithoutId = new Company();
+            Object.assign(companyWithoutId, company);
+        console.log(companyWithoutId);
+        delete companyWithoutId.id;
+
+        return this.http.put<Company>(this.config.server + this.config.companiesApi + `/${id}`, companyWithoutId);
     }
 
 
@@ -254,6 +259,19 @@ export class RestService {
         return this.http.get<any[]>(this.config.server + 'api/orders/states');
     }
 
+    public addItem(item): Observable<any> {
+        return this.http.post<any>(this.config.server + 'api/items', item);
+    }
+
+    public deleteItem(id): Observable<any> {
+        return this.http.delete<any>(this.config.server + `api/items/${id}`);
+    }
+    public updateItem(item, id): Observable<Item> {
+        return this.http.put<Item>(this.config.server + `api/items/${id}`, item);
+    }
+    public getItems(): Observable<any> {
+        return this.http.get<Item[]>(this.config.server + `api/items`);
+    }
     public getCustomersByEmail(searchString: string, users : Customer[]) : Customer[] {
         return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||
         (user.mainContact.surname.indexOf(searchString) > -1) ||

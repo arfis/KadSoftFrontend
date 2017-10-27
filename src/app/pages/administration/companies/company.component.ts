@@ -67,9 +67,10 @@ export class CompanyComponent implements OnInit,OnDestroy {
     public toggleVatPayer(company: Company, event) {
         company.vatPayer = event.checked;
 
+        console.log(company);
+
         let id = company.id;
 
-        delete company.id;
         delete company.signature;
         delete company.stamp;
         delete company.mainContact.id;

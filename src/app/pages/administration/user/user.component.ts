@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../../services/user.service";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {GlobalValidator} from "../../../helpers/GlobalValidator";
 import {SelectItem} from "primeng/primeng";
 import {NotificationService} from "../../../services/notification.service";
 import {LoginUser} from "../../login/login-user.model";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-user',
@@ -21,6 +22,7 @@ export class UserComponent {
     public users;
 
     public activeUserId;
+
 
     constructor(private userServ: UserService,
                 private notificationSrv: NotificationService,
@@ -44,7 +46,8 @@ export class UserComponent {
             'name':["", Validators.required],
             'surname' :[ "", Validators.required],
             'email' : ["", Validators.required],
-            'roles': ["", Validators.required]
+            'roles': ["", Validators.required],
+            'tmpPass':[""]
         })
 
         this.emailControl = this.userCreationForm.get('email');
@@ -79,8 +82,6 @@ export class UserComponent {
     }
 
     openUser(user) {
-        console.log(`opening user`);
-        console.log(user);
         this.activeUserId = user.id;
         this.userDetailForm.patchValue(user);
     }
@@ -105,6 +106,11 @@ export class UserComponent {
     onSubmit({value}: { value: LoginUser }) {
 
         delete value.email;
+
+        if (value.tmpPass.length < 1) {
+            delete value.tmpPass;
+            console.log('removing password');
+        }
 
         this.userServ.updateUser(value, this.activeUserId).subscribe(
             result => {

@@ -1,0 +1,155 @@
+<form #orderForm action="https://digitalwalk.sk/api/orders" method="post">
+    <p>
+        Nazov* <br/>
+        <input type="text" name="text" pattern="[a-zA-Z0-9 ]+" size="40"/>
+    </p>
+    <fieldset>
+        <legend>Kontaktne udaje:</legend>
+        <p>
+            Meno* <br/>
+            <input type="text" name="mainContact[name]" size="40"/>
+        </p>
+        <p>
+            Priezvisko* <br/>
+            <input type="text" name="mainContact[surname]" pattern="[a-zA-Z ]+" size="40"/>
+        <p>
+            Ulica* <br/>
+            <input type="text" name="mainContact[street]" size="40"/>
+        </p>
+        <p>
+            Mesto* <br/>
+            <input type="text" name="mainContact[city]" size="40"/>
+        </p>
+        <p>
+            PSC* <br/>
+            <input type="text" name="mainContact[postcode]" size="40"/>
+        </p>
+        <p>
+            Stat* <br/>
+            <input type="text" name="mainContact[country]" size="40"/>
+        </p>
+        <p>
+            Firma <br/>
+            <!--            TODO: enter name attribute-->
+            <input name="companyString" type="text" size="40"/>
+        </p>
+        <p>
+            Email* <br/>
+            <input type="text" name="mainContact[email]" size="40"/>
+        </p>
+        <p>
+            Telefon* <br/>
+            <input type="text" name="mainContact[telephone]" size="40"/>
+        </p>
+        <i>
+            Ak ste živnostník, zadajte názov podľa svojho ŽL. Ak nepodnikáte, nechajte pole prázdne.
+        </i>
+        <!-- TODO: enter name attribute-->
+        <p>
+            Poznamka <br/>
+            <!--            TODO: name-->
+            <textarea name="note" rows="10" cols="35" type="text"></textarea>
+        </p>
+
+        <fieldset>
+            <legend>Dorucovacia adresa</legend>
+            <input id="showInvoiceForm" type="checkbox" onclick="toggleInvoiceForm()"> Moja doručovacia adresa je iná ako
+            fakturačná
+
+            <div class="invoice_adress">
+                <p>
+                    Meno* <br/>
+                    <input type="text" name="invoiceContact[name]" size="40"/>
+                </p>
+                <p>
+                    Priezvisko* <br/>
+                    <input type="text" name="invoiceContact[surname]" pattern="[a-zA-Z ]+" size="40"/>
+                <p>
+                    Ulica* <br/>
+                    <input type="text" name="invoiceContact[street]" size="40"/>
+                </p>
+                <p>
+                    Mesto* <br/>
+                    <input type="text" name="invoiceContact[city]" size="40"/>
+                </p>
+                <p>
+                    PSC* <br/>
+                    <input type="text" name="invoiceContact[postcode]" size="40"/>
+                </p>
+                <p>
+                    Stat* <br/>
+                    <input type="text" name="invoiceContact[country]" size="40"/>
+                </p>
+                <p>
+                    Email* <br/>
+                    <input type="text" name="invoiceContact[email]" size="40"/>
+                </p>
+                <p>
+                    Telefon* <br/>
+                    <input type="text" name="invoiceContact[telephone]" size="40"/>
+                </p>
+            </div>
+        </fieldset>
+        <h4>Polozky a ceny</h4>
+        <div>
+            <input id="ECB_checkBox" onclick="calc()" type="checkbox">
+            <input id="ECB_count" name="energyCertificatesCount" oninput="calc()" value=0 type="number">
+            ks ECB pre RD v PDF + tlačenej forme - do 6 dní u Vás - 98 EUR
+        </div>
+        <div>
+            <input id="TT_checkBox" onclick="calc()" type="checkbox">
+            <input id="TT_count" name="energyAuditsCount" oninput="calc()" value=0 type="number">
+            ks Tepelnotechnické, resp. energetické posúdenie pre RD (od 1.1.2016 musí byť v ener. triede A) - 109 EUR
+        </div>
+        <br>
+        <div>
+            Cena: <i id="price_result"></i>
+        </div>
+        <p>
+            <button type="submit">Posli ziadost</button>
+        </p>
+</form>
+
+<style>
+    .invoice_adress {
+        display: none;
+    }
+</style>
+
+<script type="text/javascript">
+    const ECB_price = 98;
+    const TT_price = 109;
+
+    const ECB_check = document.getElementById('ECB_checkBox');
+    const TT_check = document.getElementById('TT_checkBox');
+
+    const ECB_value = document.getElementById('ECB_count');
+    const TT_value = document.getElementById('TT_count');
+
+    const priceElement = document.getElementById("price_result");
+
+    const invoiceAdressForm = document.getElementsByClassName('invoice_adress')[0];
+
+    calc = function () {
+        var sum = (0);
+
+        sum += ECB_price * (ECB_check.checked ? parseInt(ECB_value.value) : 0);
+        sum += TT_price * (TT_check.checked ? parseInt(TT_value.value) : 0);
+        priceElement.innerHTML = sum;
+    }
+
+    toggleInvoiceForm = function () {
+        const showInvoiceForm = document.getElementById('showInvoiceForm');
+
+        if (!showInvoiceForm.checked) {
+            invoiceAdressForm.style.display = "none";
+        }
+        else {
+            invoiceAdressForm.style.display = "block";
+        }
+    }
+
+    submit = function(form) {
+        console.log(form);
+    }
+</script>
