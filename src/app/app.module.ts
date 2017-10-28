@@ -84,6 +84,8 @@ import { OrderSortDirective } from './pages/order/order-sort.directive';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TranslatePipe } from './component/step/translate.pipe';
 import { ProductListComponent } from './component/product-list/product-list.component';
+import { OrderStepperComponent } from './component/order-stepper/order-stepper.component';
+import { MailSelectorComponent } from './component/mail-selector/mail-selector.component';
 
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http);
@@ -213,6 +215,8 @@ let pages = [
         ProfileComponent,
         TranslatePipe,
         ProductListComponent,
+        OrderStepperComponent,
+        MailSelectorComponent,
     ],
     imports: [
         ...modules,

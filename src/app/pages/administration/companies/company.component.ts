@@ -75,7 +75,6 @@ export class CompanyComponent implements OnInit,OnDestroy {
         delete company.stamp;
         delete company.mainContact.id;
 
-
         this._restServ.updateCompany(company, id).subscribe(
             result => {
                 console.log(result);

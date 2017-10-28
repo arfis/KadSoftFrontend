@@ -28,11 +28,12 @@ export class ProductListComponent implements OnInit {
   }
 
   saveItem() {
+      console.log(this.item);
     let tempItem = new Item();
     tempItem.name = this.item;
     this._restSrv.addItem(tempItem).subscribe(
         result => {
-          console.log('was saved');
+          this.products.push(result);
         }
     )
   }
@@ -40,7 +41,7 @@ export class ProductListComponent implements OnInit {
   updateItem(item) {
     this._restSrv.updateItem(item, item.id).subscribe(
         result => {
-          item = result;
+          console.log(result);
         },
         error => {
           console.log('problem');
@@ -51,7 +52,7 @@ export class ProductListComponent implements OnInit {
   removeItem(item) {
     this._restSrv.deleteItem(item.id).subscribe(
         result => {
-          console.log('success');
+          this.products.splice(this.item.indexOf(item,1));
         },
         error => {
           console.log('problem');

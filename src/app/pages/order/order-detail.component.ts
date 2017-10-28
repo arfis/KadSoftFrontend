@@ -113,7 +113,7 @@ export class OrderDetailComponent {
             this.invoiceToBeCreated.customer.invoiceContact = this.order.invoiceContact;
         }
         let item1 = 'ECB pre RD v PDF + tlačenej forme - do 6 dní u Vás - 98 EUR';
-        let item2 = 'epelnotechnické, resp. energetické posúdenie pre RD (od 1.1.2016 musí byť v ener. triede A) - 109 EUR';
+        let item2 = 'tepelnotechnické, resp. energetické posúdenie pre RD (od 1.1.2016 musí byť v ener. triede A) - 109 EUR';
 
         if (this.order.energyCertificatesCount) {
             let product1 = new Product();
@@ -135,11 +135,7 @@ export class OrderDetailComponent {
 
     remove(uploadedFile) {
         if (window.confirm("Naozaj chcete vymazat danu polozku?")) {
-            this._orderSrv.removeFile(uploadedFile.id).subscribe(
-                result => {
-                    this.orderFiles.splice(this.orderFiles.indexOf(uploadedFile), 1);
-                }
-            );
+            console.log('todo');
         }
     }
 
@@ -226,12 +222,13 @@ export class OrderDetailComponent {
             this.getBase64fromFile(file,
                 data => {
                     parsedFiles++;
-                    let bannedString = "vnd.openxmlformats-officedocument.wordprocessingml.document";
-                    if (data.indexOf(bannedString) > -1) {
-                        console.log('bannedString is there');
-                        data = data.replace(bannedString, 'docx');
+                    let bannedStrings = ["vnd.openxmlformats-officedocument.wordprocessingml.document","msword"];
+                    for (let bannedString of bannedStrings) {
+                        if (data.indexOf(bannedString) > -1) {
+                            console.log('bannedString is there');
+                            data = data.replace(bannedString, 'docx');
+                        }
                     }
-
 
                     customFile.base64File = data;
                     arrayOfFiles.push(customFile);

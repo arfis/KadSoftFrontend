@@ -41,8 +41,8 @@
         <th>Klient</th>
         <th class="sortable" (click)="orderBy('price')">Cena</th>
         <th>Priradené</th>
-        <th>Vytvorene</th>
-        <th>Aktualizovane</th>
+        <th class="sortable" (click)="orderBy('createdAt')">Vytvorene</th>
+        <th class="sortable" (click)="orderBy('updatedAt')">Aktualizovane</th>
         <th>Stiahnuť</th>
     </tr>
 
@@ -76,7 +76,7 @@
         </td>
         <td>{{order?.assignedTo?.email || '-'}}</td>
         <td>{{order?.createdAt}}</td>
-        <td>{{order?.updatedAt | date:'medium'}}</td>
+        <td>{{order?.updatedAt | date:'dd.mm.yyyy HH:mm'}}</td>
         <td><a [href]="order?.invoices?.invoicePath">Download</a></td>
     </tr>
     </tbody>

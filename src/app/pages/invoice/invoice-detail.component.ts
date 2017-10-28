@@ -212,4 +212,13 @@ export class InvoiceDetailComponent {
         }
 
     }
+
+    get price() {
+        let sum = 0;
+        for (let item of this.invoice.invoiceItems) {
+            sum += item.price * item.count;
+        }
+
+        return sum;
+    }
 }

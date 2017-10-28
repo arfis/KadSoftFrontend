@@ -11,9 +11,9 @@ import {AdminLTETranslateService} from '../../../services/translate.service';
     templateUrl: './auth.html'
 })
 export class LayoutsAuthComponent implements OnInit {
-    private toastrConfig: ToasterConfig;
-    private logger: LoggerService;
-    private mylinks: Array<any> = [];
+    public toastrConfig: ToasterConfig;
+    public logger: LoggerService;
+    public mylinks: Array<any> = [];
 
     constructor(private userServ: UserService,
                 private toastr: ToasterService,

@@ -19,7 +19,7 @@
 
         <div class="section">
             <md-form-field class="full-width">
-                <textarea mdInput [(ngModel)]='note' placeholder="Popis"></textarea>
+                <textarea mdInput [(ngModel)]='note' placeholder="Poznamka"></textarea>
             </md-form-field>
         </div>
 
@@ -105,7 +105,7 @@
         </div>
 
         <button (click)="updateOrder()" class="btn btn-success btn-block">Uloz</button>
-        <p>Priradene: <i>Todo</i></p>
+        <p>Priradene: <i>{{order?.assignedTo?.email || '-'}}</i></p>
 
     <ng-container *ngIf="false">
         <h4>Administrativne nastroje</h4>

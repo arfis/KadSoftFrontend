@@ -26,22 +26,22 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     currentCompany: Company;
 
-    private invoiceForm: FormGroup;
-    private userFoundByMail: Customer;
-    private clientFormControlls: any[] = new Array();
-    private fixedInputs: any[] = new Array();
+    public invoiceForm: FormGroup;
+    public userFoundByMail: Customer;
+    public clientFormControlls: any[] = new Array();
+    public fixedInputs: any[] = new Array();
 
-    private prices: any[] = new Array();
-    private companies: Company[];
+    public prices: any[] = new Array();
+    public companies: Company[];
 
-    private lockChange: boolean = false;
+    public lockChange: boolean = false;
 
-    private invoiceContact: boolean = false;
+    public invoiceContact: boolean = false;
 
-    private type: string = "person";
-    private foundByMail: boolean = false;
-    private foundCustomers: Customer[];
-    private units: string[] = ["ks", "liter"];
+    public type: string = "person";
+    public foundByMail: boolean = false;
+    public foundCustomers: Customer[];
+    public units: string[] = ["ks", "liter"];
 
     public showModal = false;
 

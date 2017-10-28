@@ -12,7 +12,7 @@ import {LoginUser} from "../../pages/login/login-user.model";
   templateUrl: './user-box.component.html'
 })
 export class UserBoxComponent implements OnInit {
-  private currentUser: LoginUser = new LoginUser();
+  public currentUser: LoginUser = new LoginUser();
 
   constructor(private userServ: UserService, private router: Router) {
     // se connecter au modif du user courant

@@ -16,6 +16,7 @@ import {Order} from "./order.model";
 import {OrderService} from "./order.service";
 import {RestService} from "../../services/rest.service";
 import {Contact} from "../../models/contact.model";
+import {Product} from "../../models/Product";
 
 @Component({
     selector: 'order-creation',
@@ -46,6 +47,8 @@ export class OrderCreationComponent implements OnInit {
     private foundByMail: boolean = false;
     private foundCustomers: Customer[];
     private units: string[] = ["ks", "liter"];
+
+    public foundProducts: Product[];
 
     private showModal = false;
 
@@ -129,6 +132,10 @@ export class OrderCreationComponent implements OnInit {
         this.lockChange = false;
     }
 
+    selectProduct(product: Product){
+        console.log('todo');
+    }
+
     createForm() {
 
         let disabledEmpty = {value: '', disabled: false};
@@ -162,8 +169,8 @@ export class OrderCreationComponent implements OnInit {
                     'swift': [disabledEmpty]
                 }),
                 "invoiceNumber": [{value: this.invoiceSrv.generateInvoiceId()}, Validators.required],
-                'customerId': [],
                 'customer': this.fb.group({
+                    'customerId': [],
                     'ico': [],
                     'dic': [],
                     'mainContact': this.fb.group({
@@ -324,7 +331,9 @@ export class OrderCreationComponent implements OnInit {
 
             delete order.invoice;
 
-            invoice.customerId = this.userFoundByMail.id;
+                invoice.customerId = this.userFoundByMail.id;
+                console.log('emails are identical ' + this.userFoundByMail.id);
+
             // there is no data about the main contact in the form yet
             order.mainContact = invoice.customer.mainContact;
             this.orderSrv.createOrder(order).subscribe(

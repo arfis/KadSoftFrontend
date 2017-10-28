@@ -313,6 +313,16 @@
                         <div class="col-lg-6 form-group">
                             <label for="product">Produkt:</label>
                             <input type="text" id="product" class="form-control" formControlName="newItem"/>
+                            <ng-container *ngIf="foundProducts">
+                                <div class="dropdown open">
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item" *ngFor="let product of foundProducts"
+                                            (click)="selectProduct(product)">
+                                            <a>{{product.name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-container>
                         </div>
 
                         <div class="col-lg-6 form-group">

@@ -17,4 +17,5 @@ export class Company extends RecordObject{
     icDph: string;
     signature: UploadFileInfo;
     stamp: UploadFileInfo;
+    bankApiToken: string;
 }

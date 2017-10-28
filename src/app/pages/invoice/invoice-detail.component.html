@@ -1,12 +1,13 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 <ng-container *ngIf="permissionLoaded">
-    <h2>Faktúra {{invoice.invoiceNumber}}</h2>
+    <h2>Faktúra {{invoice.invoiceNumber}} <a href="{{getHtmlLink()}}" target="_blank">
+        <span class="glyphicon glyphicon-eye-open"></span></a></h2>
 
-    <a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-eye-open"></span></a>
-    <a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-save"></span></a>
-    <div>Zhotovil: <i><a [routerLink]="[ '/user/' ]">
-        {{invoice?.createdBy}}</a></i>
-    </div>
+
+    <!--<a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-save"></span></a>-->
+    <!--<div>Zhotovil: <i><a [routerLink]="[ '/user/' ]">-->
+        <!--{{invoice?.createdBy || "WEB"}}</a></i>-->
+    <!--</div>-->
 
     <h4>
         <span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
@@ -42,6 +43,9 @@
             <i>Cena: </i><span>{{product.price}}</span>
         </div>
         <div>
+            <i>Pocet: </i><span>{{product.count}}</span>
+        </div>
+        <div>
             <i>Investor: </i><span>{{product.contractor}}</span>
         </div>
         <div>
@@ -50,7 +54,7 @@
     </div>
 
     <h4>Cena:</h4>
-    <i>{{invoice.totalPrice | currency:'EUR':false}}</i>
+    <i>{{price | currency:'EUR':false}}</i>
 
     <div>
     </div>

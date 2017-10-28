@@ -137,7 +137,7 @@ export class RestService {
 
 
     public updateCompany(company: Company, id): Observable<Company> {
-        console.log(company);
+
         let companyWithoutId = new Company();
             Object.assign(companyWithoutId, company);
         console.log(companyWithoutId);

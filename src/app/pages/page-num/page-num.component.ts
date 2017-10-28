@@ -12,10 +12,10 @@ import {UserService} from "../../services/user.service";
   templateUrl: './page-num.component.html'
 })
 export class PageNumComponent implements OnInit, OnDestroy {
-  private id: number = 0;
-  private sub: any;
+  public id: number = 0;
+  public sub: any;
 
-  private customers : Customer[];
+  public customers : Customer[];
 
   constructor(
     private route: ActivatedRoute,

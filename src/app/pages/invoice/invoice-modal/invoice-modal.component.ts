@@ -7,45 +7,6 @@ import {RestService} from "../../../services/rest.service";
   selector: 'app-invoice-modal',
   templateUrl: './invoice-modal.component.html',
   styleUrls: ['./invoice-modal.component.css'],
-  template: `
-      <div *ngIf="showModal" [config]="{ show: true }" class="modal fade" bsModal
-           #staticModal="bs-modal"
-           tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h4 class="modal-title pull-left">Notifikačný mail</h4>
-
-                      <div class="modal-body">
-                          <div class="dropdown center-block">
-                              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                  {{selectedMailTemplate || 'Vyberte sablonu'}}
-                                  <span class="caret"></span></button>
-                              <ul class="dropdown-menu animated-dropdown-menu">
-                                  <li *ngFor="let currentTemplate of templates">
-                                      <a (click)="selectTemplate(currentTemplate)">{{currentTemplate}}</a>
-                                  </li>
-                              </ul>
-                          </div>
-                          <div class="form-group">
-                              <label for="mailText">Text Notifikačného mailu:</label>
-                              <input #mailText [(ngModel)]="selectedMailTemplate" type="text" id="mailText"
-                                     class="form-control"/>
-                          </div>
-
-                          <button class="btn btn-default" (click)="returnOrderToParent(staticModal, mailText)">
-                              Create
-                          </button>
-                          <button class="btn btn-danger" type="button" aria-label="Close"
-                                  (click)="returnOrderToParent(staticModal, null)">
-                              Zrusit
-                          </button>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>`
-
 })
 
 export class InvoiceModalComponent implements OnInit, OnChanges {

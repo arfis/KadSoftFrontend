@@ -1,5 +1,5 @@
 <i>Zadajte produkt</i>
-<input type="text" id="name" [ngModel]="item"/> <button class="btn btn-success" (click)="saveItem()">Uloz produkt</button>
+<input type="text" id="name" [(ngModel)]="item"/> <button class="btn btn-success" (click)="saveItem()">Uloz produkt</button>
 <table class="table table-bordered table-hover">
   <tbody>
   <tr>
@@ -9,7 +9,7 @@
   </tr>
 
   <tr *ngFor="let product of products">
-    <td>{{product.name</td>
+    <td>{{product.name}}</td>
     <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeItem(product)"></span></td>
     <td><span class="remove glyphicon glyphicon-wrench" (click)="updateItem(product)"></span></td>
   </tr>

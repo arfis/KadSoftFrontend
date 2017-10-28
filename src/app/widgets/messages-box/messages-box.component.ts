@@ -11,21 +11,6 @@ import { Message } from '../../models/message';
     styleUrls: ['./messages-box.component.css'],
     templateUrl: './messages-box.component.html'
 })
-export class MessagesBoxComponent implements OnInit {
-    // Declaring the variable for binding with initial value
-    private messages: Message[];
-    private msgLength: {};
+export class MessagesBoxComponent {
 
-    constructor( private msgServ: MessagesService, private logger: LoggerService ) {
-        this.messages = [];
-    }
-
-    public ngOnInit() {
-        // Every incoming message changes entire local message Array.
-        this.msgServ.messages.subscribe(( msg: Message[] ) => {
-            this.logger.log( 'MsgBox', null, 'RECIEVED.MESSAGE', null );
-            this.messages = msg;
-            this.msgLength = { 0: this.messages.length };
-        });
-    }
 }
