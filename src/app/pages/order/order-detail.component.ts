@@ -108,9 +108,15 @@ export class OrderDetailComponent {
     updateStatus(action) {
         this._restSrv.post<Order>(action).subscribe(
             result => {
+                this.notificationSrv.success('bol uspesne aktualizovany', 'Stav');
                 this._orderSrv.getOrder(this.order.id).subscribe(
-                    order => this.order = order
+                    order => {
+                        this.order = order;
+                    }
                 )
+            },
+            error => {
+                this.notificationSrv.error('nebol uspesne aktualizovany', 'Stav');
             }
         );
     }
@@ -381,7 +387,11 @@ export class OrderDetailComponent {
     }
 
     get actions() {
-        return this.order.actions;
+        if (this.order.state === 'draft') {
+            return [];
+        } else {
+            return this.order.actions;
+        }
     }
 
     get currentState() {

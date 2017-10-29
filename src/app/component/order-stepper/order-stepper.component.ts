@@ -40,8 +40,21 @@ export class OrderStepperComponent implements OnInit {
 
     orderCreated(order: Order) {
         if (this.order) {
-            this.order.survey = order.survey;
-            this.order.text = order.text;
+            order.id = this.order.id;
+            order.mainContact = this.order.mainContact;
+
+            delete order.survey;
+            delete order.mainContact.id;
+
+            this._orderService.updateOrder(order).subscribe(
+                result => {
+                    this.order = result;
+                    this._notificationService.success('bola uspesne upravena', 'objednavka');
+                },
+                error => {
+                    this._notificationService.error('nebola uspesne upravena', 'objednavka');
+                }
+            )
         } else {
             this.order = order;
         }

@@ -18,7 +18,9 @@ export class StepperComponent implements OnInit {
   }
 
   itemClick(step) {
-    this.onClick.emit(step);
+    if (this.activeSteps[this.getMethodName(step)]) {
+      this.onClick.emit(step);
+    }
   }
 
   isStepActive(step) {

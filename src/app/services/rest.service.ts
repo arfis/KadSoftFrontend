@@ -84,7 +84,7 @@ export class RestService {
         return this.http.delete<any>(this.config.server + this.config.userApi + `/${userId}`);
     }
 
-    public getAllUsers(): Observable<LoginUser[]>  {
+    public getAllUsers(): Observable<LoginUser[]> {
         return this.http.get<LoginUser[]>(this.config.server + this.config.userApi + '/list');
     }
 
@@ -118,16 +118,31 @@ export class RestService {
         return this.http.post<Invoice>(this.config.server + this.config.invoicesApi + "/" + invoice.id + "/actions/sendEmail",
             null);
     }
+
     public resetPassword(email) {
         return this.http.post<any>(this.config.server + `api/users/${email}/reset`, {});
     }
+
     // END OF ACTIONS
     public getCompanyPermissions(companyId): Observable<CompanyPermissions> {
         return this.http.get<CompanyPermissions>(this.config.server + "api/invoices/" + companyId + "/action");
     }
 
-    public getEmails(): Observable<string[]> {
-        return this.http.get<string[]>(this.config.server + "api/email/text");
+    public getEmails(): Observable<any[]> {
+        console.log('getting emails');
+        return this.http.get<any[]>(this.config.server + "api/email/text");
+    }
+
+    public createEmail(email): Observable<any>{
+        return this.http.post<string[]>(this.config.server + "api/emails/texts", email);
+    }
+
+    public updateEmail(id, email): Observable<any> {
+        return this.http.put<string[]>(this.config.server + `api/emails/${id}/text`, email);
+    }
+
+    public deleteEmail(id) {
+        return this.http.delete<string[]>(this.config.server + `api/emails/${id}/text`);
     }
 
     /*Companies API*/
@@ -139,7 +154,7 @@ export class RestService {
     public updateCompany(company: Company, id): Observable<Company> {
 
         let companyWithoutId = new Company();
-            Object.assign(companyWithoutId, company);
+        Object.assign(companyWithoutId, company);
         console.log(companyWithoutId);
         delete companyWithoutId.id;
 
@@ -161,7 +176,7 @@ export class RestService {
     }
 
     public getInvoices(page, pageSize): Observable<Invoice[]> {
-        return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize + '}');
+        return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize);
     }
 
     public getInvoice(id): Observable<any> {
@@ -173,21 +188,9 @@ export class RestService {
         let query = (!!sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
         query += (!!filter) ? `&filters[]=${filterType}=${filter}` : '';
 
-        if (isDealer) {
-            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + query);
-        }
-        else {
-            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + query);
-        }
-    }
 
-    public getFilteredOrders(page, pageSize, isDealer, filter): Observable<any> {
-        if (isDealer) {
-            return this.http.get<any>(this.config.server + this.config.ordersDealerApi + '?page=' + page + '&pageSize=' + pageSize + '&' + filter );
-        }
-        else {
-            return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + '&' + filter);
-        }
+        return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + query);
+
     }
 
     public getOrder(orderId): Observable<any> {
@@ -195,11 +198,16 @@ export class RestService {
     }
 
     public createOrder(order: Order): Observable<Order> {
-        return this.http.post<Order>(this.config.server + this.config.ordersApi+'-dealer', order);
+        return this.http.post<Order>(this.config.server + this.config.ordersApi + '-dealer', order);
     }
 
     public updateOrder(order): Observable<Order> {
-        return this.http.put<Order>(this.config.server + this.config.ordersApi + `/${order.id}`, order);
+        let orderWithoutId = new Order();
+        Object.assign(orderWithoutId, order);
+
+        delete orderWithoutId.id;
+
+        return this.http.put<Order>(this.config.server + this.config.ordersApi + `/${order.id}`, orderWithoutId);
     }
 
     public patchOrder(order, id) {
@@ -266,13 +274,16 @@ export class RestService {
     public deleteItem(id): Observable<any> {
         return this.http.delete<any>(this.config.server + `api/items/${id}`);
     }
+
     public updateItem(item, id): Observable<Item> {
         return this.http.put<Item>(this.config.server + `api/items/${id}`, item);
     }
+
     public getItems(): Observable<any> {
         return this.http.get<Item[]>(this.config.server + `api/items`);
     }
-    public getCustomersByEmail(searchString: string, users : Customer[]) : Customer[] {
+
+    public getCustomersByEmail(searchString: string, users: Customer[]): Customer[] {
         return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||
         (user.mainContact.surname.indexOf(searchString) > -1) ||
         (user.mainContact.name.indexOf(searchString) > -1));

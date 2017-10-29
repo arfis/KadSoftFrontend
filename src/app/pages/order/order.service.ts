@@ -99,13 +99,6 @@ export class OrderService {
             this.usrService.isDealer());
     }
 
-    getOrdersByStateFilter(page: number, pageSize: number, filter) {
-
-        let filterString = '&filters[]=state=' + this.states[filter];
-        console.log(filterString);
-        return this.restSrv.getFilteredOrders(page, pageSize, this.usrService.isDealer(), filterString)
-    }
-
     getOrder(orderId : number) : Observable<Order> {
         return this.restSrv.getOrder(orderId);
     }
@@ -134,6 +127,7 @@ export class OrderService {
 
 
     public updateOrder(order) {
+
         return this.restSrv.updateOrder(order);
     }
 }

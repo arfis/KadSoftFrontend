@@ -3,7 +3,6 @@
  */
 export class Product{
     newItem : string;
-    item : string;
     price : number;
     unit : string;
     count : number;

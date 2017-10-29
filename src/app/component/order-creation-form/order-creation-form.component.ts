@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Order} from "../../pages/order/order.model";
@@ -8,21 +8,23 @@ import {Order} from "../../pages/order/order.model";
     templateUrl: './order-creation-form.component.html',
     styleUrls: ['./order-creation-form.component.css']
 })
-export class OrderCreationFormComponent {
+export class OrderCreationFormComponent implements OnInit{
 
     @Output() createEmitter = new EventEmitter<Order>();
     @Input() order: Order;
 
     public orderForm: FormGroup;
 
-    buildingTypes = ['Novostavba','Rekonstrukcia'];
-    numberOfFloors = ['1PP','1NP - nadzemne podlazie', '2NP - nedzemne podlazie','Ine'];
+    buildingTypes = ['Novostavba', 'Rekonstrukcia'];
+    numberOfFloors = ['1PP', '1NP - nadzemne podlazie', '2NP - nedzemne podlazie', 'Ine'];
 
     constructor(private fb: FormBuilder,
                 private loggedUserService: UserService,) {
-        this.createForm();
     }
 
+    ngOnInit(): void {
+        this.createForm();
+    }
 
     createForm() {
 
@@ -30,11 +32,8 @@ export class OrderCreationFormComponent {
         this.orderForm = this.fb.group({
 
             'text': ['', Validators.required],
-            'assignedTo': [{
-                value: this.loggedUserService.getLoggedInUser().userName,
-                disabled: true
-            }, Validators.required],
-            'name': [{value: 'nazov', disabled: true}, Validators.required],
+            'companyString': [''],
+            'name': [''],
             'createdBy': [{
                 value: this.loggedUserService.getLoggedInUser().userName,
                 disabled: true
@@ -46,11 +45,13 @@ export class OrderCreationFormComponent {
                 'building': [''],
                 'otherBuilding': [''],
                 'buildingPermit': [''],
-                'numberOfFloors':[''],
+                'numberOfFloors': [''],
             })
         })
 
         if (this.order) {
+            console.log('patching');
+            console.log(this.order);
             this.orderForm.patchValue(this.order);
         }
     }

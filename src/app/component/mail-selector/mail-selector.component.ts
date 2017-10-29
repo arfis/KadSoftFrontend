@@ -1,23 +1,35 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {RestService} from "../../services/rest.service";
 
 @Component({
   selector: 'app-mail-selector',
   templateUrl: './mail-selector.component.html',
   styleUrls: ['./mail-selector.component.css']
 })
-export class MailSelectorComponent {
+export class MailSelectorComponent implements OnInit {
 
   @Output() createEmitter = new EventEmitter();
   selectedMail;
 
-  templates = ['Dakujeme za prejaveny zaujem, v prilohe posielame fakturu', 'Vdaka za nakup. Priloha obsahuje spravu'];
+  templates = [];
+
+  constructor(private _restService: RestService) {
+
+  }
+
+  ngOnInit() {
+    this._restService.getEmails().subscribe(
+        results => {
+          this.templates = results.map(result => result.text);
+        }
+    )
+  }
 
   onChange(event) {
     this.selectedMail = event.value;
   }
 
   onCreate() {
-    console.log(this.selectedMail);
     this.createEmitter.emit(this.selectedMail);
   }
 

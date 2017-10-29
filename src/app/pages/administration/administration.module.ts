@@ -18,6 +18,7 @@ import {CustomerCreation} from "./customer/customer-create.component";
 import { UserComponent } from './user/user.component';
 import {FileUploadModule, MultiSelectModule, SelectButtonModule, ToggleButtonModule} from "primeng/primeng";
 import {routing} from "./administrator.routing";
+import { EmailTemplatesComponent } from './email-templates/email-templates.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {routing} from "./administrator.routing";
         CompanyCreation,
         CustomerComponent,
         CustomerCreation,
-        UserComponent
+        UserComponent,
+        EmailTemplatesComponent
     ],
     providers: [
         CustomerService,

@@ -1,0 +1,16 @@
+<input type="text" id="email" [(ngModel)]="currentEmail" class="form-control"/>
+<button class="btn btn-success" (click)="createEmail()">Vytvor email</button>
+
+<table class="table table-bordered table-hover">
+  <tbody>
+  <tr>
+    <th>Text</th>
+    <th>Odstrániť</th>
+  </tr>
+
+  <tr *ngFor="let email of emailTemplates">
+    <td>{{email.text}}</td>
+    <td><span class="remove glyphicon glyphicon-remove-sign" (click)="deleteEmail(email)"></span></td>
+  </tr>
+  </tbody>
+</table>
