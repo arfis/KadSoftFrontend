@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Order} from "../../pages/order/order.model";
@@ -10,8 +10,8 @@ import {Order} from "../../pages/order/order.model";
 })
 export class OrderCreationFormComponent {
 
-    @Output()
-    createEmitter = new EventEmitter<Order>();
+    @Output() createEmitter = new EventEmitter<Order>();
+    @Input() order: Order;
 
     public orderForm: FormGroup;
 
@@ -29,7 +29,7 @@ export class OrderCreationFormComponent {
         let disabledEmpty = {value: '', disabled: false};
         this.orderForm = this.fb.group({
 
-            'text': ['opis', Validators.required],
+            'text': ['', Validators.required],
             'assignedTo': [{
                 value: this.loggedUserService.getLoggedInUser().userName,
                 disabled: true
@@ -49,10 +49,13 @@ export class OrderCreationFormComponent {
                 'numberOfFloors':[''],
             })
         })
+
+        if (this.order) {
+            this.orderForm.patchValue(this.order);
+        }
     }
 
     onSubmit({value}: { value: Order }) {
-        console.log(value);
         this.createEmitter.emit(value);
     }
 }

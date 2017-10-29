@@ -28,7 +28,7 @@ import {Product} from "../../models/Product";
 
 export class OrderDetailComponent {
 
-    private order: Order;
+    public order: Order;
 
     public isLoaded = false;
     public selectedUser: LoginUser;
@@ -86,9 +86,6 @@ export class OrderDetailComponent {
             this.heatingPrice = this.order.heatingPrice;
             this.selectedUser = this.order.assignedTo;
 
-            if (this.order.state === 'draft') {
-                this.setUpInvoiceData();
-            }
             this.isLoaded = true;
         });
 
@@ -100,37 +97,6 @@ export class OrderDetailComponent {
                 }
             );
         }
-    }
-
-    setUpInvoiceData() {
-        this.invoiceToBeCreated = new Invoice();
-
-        console.log(this.order);
-        if (this.order.mainContact) {
-            this.invoiceToBeCreated.customer.mainContact = this.order.mainContact;
-        }
-        if (this.order.invoiceContact) {
-            this.invoiceToBeCreated.customer.invoiceContact = this.order.invoiceContact;
-        }
-        let item1 = 'ECB pre RD v PDF + tlačenej forme - do 6 dní u Vás - 98 EUR';
-        let item2 = 'tepelnotechnické, resp. energetické posúdenie pre RD (od 1.1.2016 musí byť v ener. triede A) - 109 EUR';
-
-        if (this.order.energyCertificatesCount) {
-            let product1 = new Product();
-            product1.count = this.order.energyCertificatesCount;
-            product1.newItem = item1;
-            product1.price = 98;
-            this.invoiceToBeCreated.invoiceItems.push(product1);
-        }
-        if (this.order.energyAuditsCount) {
-            let product2 = new Product();
-            product2.count = this.order.energyAuditsCount;
-            product2.newItem = item2;
-            product2.price = 109;
-            this.invoiceToBeCreated.invoiceItems.push(product2);
-        }
-
-        this.invoiceToBeCreated.order = this.order.id;
     }
 
     remove(uploadedFile) {
@@ -311,18 +277,18 @@ export class OrderDetailComponent {
         this.selectedUser = user;
     }
 
-    reassing() {
-        let updatedOrder = new Order();
-        updatedOrder.assignedTo = this.selectedUser;
-        this._orderSrv.setAsignedTo(updatedOrder, this.order.id).subscribe(
-            result => {
-                console.log(result);
-            },
-            error => {
-                console.log('error');
-            }
-        );
-    }
+    // reassing() {
+    //     let updatedOrder = new Order();
+    //     updatedOrder.assignedTo = this.selectedUser;
+    //     this._orderSrv.setAsignedTo(updatedOrder, this.order.id).subscribe(
+    //         result => {
+    //             console.log(result);
+    //         },
+    //         error => {
+    //             console.log('error');
+    //         }
+    //     );
+    // }
 
     onInvoiceCreated() {
         this.toPreparing();

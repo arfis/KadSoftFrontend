@@ -1,12 +1,12 @@
 <md-horizontal-stepper [linear]="isLinear">
   <md-step [stepControl]="firstFormGroup">
       <ng-template mdStepLabel>Objednavka</ng-template>
-      <app-order-creation-form (createEmitter)="orderCreated($event)"></app-order-creation-form>
+      <app-order-creation-form [order]="order" (createEmitter)="orderCreated($event)"></app-order-creation-form>
   </md-step>
   <md-step [stepControl]="secondFormGroup">
       <ng-template mdStepLabel>Fakturacne Udaje</ng-template>
       InvoiceCreation
-      <invoice-creation (createEmitter)="invoiceCreated($event)"></invoice-creation>
+      <invoice-creation [invoice]="invoice" (createEmitter)="invoiceCreated($event)"></invoice-creation>
   </md-step>
   <md-step>
     <ng-template mdStepLabel>Vyber Mailu</ng-template>

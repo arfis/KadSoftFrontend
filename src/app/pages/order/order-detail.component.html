@@ -4,18 +4,21 @@
 
     <p><span class="attribute">Klient</span>{{client}}</p>
 
-    <app-stepper (onChange)="changeState($event)" [steps]="states" [activeSteps]="actions" [currentStep]="currentState"></app-stepper>
+    <app-stepper (onChange)="changeState($event)" [steps]="states" [activeSteps]="actions"
+                 [currentStep]="currentState"></app-stepper>
 
-    <ng-container *ngIf="currentState === 'draft'">
-        <invoice-creation (createEmitter)="onInvoiceCreated($event)" [invoice]="invoiceToBeCreated"></invoice-creation>
+    <ng-container *ngIf="currentState === 'draft';else detail">
+        <app-order-stepper (createEmitter)="toPreparing()" [order]="order"></app-order-stepper>
     </ng-container>
 
-    <div class="invoices">
-        <h4>Faktury</h4>
-        <div [routerLink]="[ '/invoice/', invoice.id ]" class="invoice-item" *ngFor="let invoice of invoices">
-            <span>{{invoiceTypes[invoice.type - 1]}}</span>
+    <ng-template #detail>
+
+        <div class="invoices">
+            <h4>Faktury</h4>
+            <div [routerLink]="[ '/invoice/', invoice.id ]" class="invoice-item" *ngFor="let invoice of invoices">
+                <span>{{invoiceTypes[invoice.type - 1]}}</span>
+            </div>
         </div>
-    </div>
 
         <div class="section">
             <md-form-field class="full-width">
@@ -107,23 +110,24 @@
         <button (click)="updateOrder()" class="btn btn-success btn-block">Uloz</button>
         <p>Priradene: <i>{{order?.assignedTo?.email || '-'}}</i></p>
 
-    <ng-container *ngIf="false">
-        <h4>Administrativne nastroje</h4>
-        <div class="section">
-            <h4>Preradenie pouzivatela:</h4>
-            <div class="btn-group" dropdown>
-                <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                    {{selectedUser?.name}} {{selectedUser?.surname}}<span class="caret"></span>
-                </button>
-                <button class="btn btn-success" (click)="reassing()">Prirad</button>
-                <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li *ngFor="let user of users" (click)="selectUser(user)" role="menuitem"><a class="dropdown-item">{{user.name}} {{user.surname}}</a></li>
-                    <li class="divider dropdown-divider"></li>
-                    <li role="menuitem" (click)="selectUser(null)"><a class="dropdown-item">Nepriradene</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </ng-container>
+        <!--<ng-container *ngIf="false">-->
+        <!--<h4>Administrativne nastroje</h4>-->
+        <!--<div class="section">-->
+        <!--<h4>Preradenie pouzivatela:</h4>-->
+        <!--<div class="btn-group" dropdown>-->
+        <!--<button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">-->
+        <!--{{selectedUser?.name}} {{selectedUser?.surname}}<span class="caret"></span>-->
+        <!--</button>-->
+        <!--<button class="btn btn-success" (click)="reassing()">Prirad</button>-->
+        <!--<ul *dropdownMenu class="dropdown-menu" role="menu">-->
+        <!--<li *ngFor="let user of users" (click)="selectUser(user)" role="menuitem"><a class="dropdown-item">{{user.name}} {{user.surname}}</a></li>-->
+        <!--<li class="divider dropdown-divider"></li>-->
+        <!--<li role="menuitem" (click)="selectUser(null)"><a class="dropdown-item">Nepriradene</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</ng-container>-->
 
+    </ng-template>
 </ng-container>

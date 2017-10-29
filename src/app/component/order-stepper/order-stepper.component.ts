@@ -1,10 +1,12 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Invoice} from "../../pages/invoice/invoice.model";
 import {Order} from "../../pages/order/order.model";
 import {InvoiceService} from "../../pages/invoice/invoice.service";
 import {OrderService} from "../../pages/order/order.service";
 import {NotificationService} from "../../services/notification.service";
+import {Product} from "../../models/Product";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-order-stepper',
@@ -17,23 +19,32 @@ export class OrderStepperComponent implements OnInit {
     firstFormGroup: FormGroup;
     secondFormGroup: FormGroup;
 
-    order: Order;
-    invoice: Invoice;
+    invoice: Invoice = new Invoice();
     email: string;
 
+    @Input() order: Order;
     @Output() createEmitter = new EventEmitter();
 
-    constructor(private _formBuilder: FormBuilder,
-                private _invoiceService: InvoiceService,
+    constructor(private _invoiceService: InvoiceService,
                 private _orderService: OrderService,
-                private _notificationService: NotificationService) {
+                private _notificationService: NotificationService,
+                private router: Router) {
     }
 
+
     ngOnInit() {
+        if (this.order) {
+           this.setUpInvoiceData();
+        }
     }
 
     orderCreated(order: Order) {
-        this.order = order;
+        if (this.order) {
+            this.order.survey = order.survey;
+            this.order.text = order.text;
+        } else {
+            this.order = order;
+        }
     }
 
     invoiceCreated(invoice: Invoice) {
@@ -46,28 +57,75 @@ export class OrderStepperComponent implements OnInit {
         this.create();
     }
 
-    create() {
-        this.invoice.emailText = this.email;
-        this.order.mainContact = this.invoice.customer.mainContact;
-        this._orderService.createOrder(this.order).subscribe(
-                resultInvoice => {
-                    this._notificationService.success('faktura vytvorena','faktura')
-                    this.invoice.order = resultInvoice.id;
+    setUpInvoiceData() {
+        this.invoice = new Invoice();
 
+        console.log(this.order);
+        if (this.order.mainContact) {
+            this.invoice.customer.mainContact = this.order.mainContact;
+        }
+        if (this.order.invoiceContact) {
+            this.invoice.customer.invoiceContact = this.order.invoiceContact;
+        }
+        let item1 = 'ECB pre RD v PDF + tlačenej forme - do 6 dní u Vás - 98 EUR';
+        let item2 = 'tepelnotechnické, resp. energetické posúdenie pre RD (od 1.1.2016 musí byť v ener. triede A) - 109 EUR';
+
+        if (this.order.energyCertificatesCount) {
+            let product1 = new Product();
+            product1.count = this.order.energyCertificatesCount;
+            product1.newItem = item1;
+            product1.price = 98;
+            this.invoice.invoiceItems.push(product1);
+        }
+        if (this.order.energyAuditsCount) {
+            let product2 = new Product();
+            product2.count = this.order.energyAuditsCount;
+            product2.newItem = item2;
+            product2.price = 109;
+            this.invoice.invoiceItems.push(product2);
+        }
+
+        this.invoice.order = this.order.id;
+    }
+
+
+    create() {
+        if (this.order.state && this.order.state === 'draft') {
+            this.createInvoice(this.order);
+        } else {
+            this.createOrderAndInvoice();
+        }
+    }
+
+    createOrderAndInvoice() {
+
+        delete this.order.survey;
+        this.order.mainContact = this.invoice.customer.mainContact;
+
+        this._orderService.createOrder(this.order).subscribe(
+            resultInvoice => {
+                this._notificationService.success('objednavka vytvorena', 'objednavka')
+                this.createInvoice(resultInvoice);
+            },
+            error => {
+                this._notificationService.error('objednavka nebola vytvorena', 'objednavka')
+            }
+        )
+    }
+
+    createInvoice(order) {
+        this.invoice.order = order.id;
+        this.invoice.emailText = this.email;
         this._invoiceService.createInvoice(this.invoice).subscribe(
 
-                    result => {
-                        this._notificationService.success('objednavka vytvorena','objednavka');
-                        resultInvoice.invoices.push(result);
-                        this.createEmitter.emit(resultInvoice);
-                    },
-                    error => {
-                        this._notificationService.error('objednavka nebola vytvorena','objednavka')
-                    })
+            result => {
+                this._notificationService.success('faktura vytvorena','faktura');
+                order.invoices.push(result);
+                this.createEmitter.emit(order);
+                this.router.navigate([`/order/${order.id}`]);
             },
             error => {
                 this._notificationService.error('faktura nebola vytvorena','faktura')
-            }
-        )
+            })
     }
 }

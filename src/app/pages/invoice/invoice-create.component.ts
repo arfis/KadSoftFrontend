@@ -326,8 +326,10 @@ export class InvoiceCreation implements OnInit, OnChanges {
     setFormValues() {
         this.invoice;
 
-        for (let item of this.invoice.invoiceItems) {
-            this.addProduct()
+        if (this.invoiceItems.length < this.invoice.invoiceItems.length) {
+            for (let item of this.invoice.invoiceItems) {
+                this.addProduct()
+            }
         }
 
         this.invoiceForm.patchValue(this.invoice);
