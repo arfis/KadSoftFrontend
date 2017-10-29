@@ -35,7 +35,7 @@ import { StatisticsComponent } from './pages/statistics/statistics.component';
 
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {
-    MdButtonModule, MdCheckboxModule, MdDatepickerModule, MdIconModule, MdInputModule, MdStepperModule,
+    MdButtonModule, MdCheckboxModule, MdDatepickerModule, MdIconModule, MdInputModule, MdSelectModule, MdStepperModule,
     MdTableModule
 } from "@angular/material";
 
@@ -86,12 +86,14 @@ import { TranslatePipe } from './component/step/translate.pipe';
 import { ProductListComponent } from './component/product-list/product-list.component';
 import { OrderStepperComponent } from './component/order-stepper/order-stepper.component';
 import { MailSelectorComponent } from './component/mail-selector/mail-selector.component';
+import { OrderCreationFormComponent } from './component/order-creation-form/order-creation-form.component';
 
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http);
 }
 
 let material = [
+    MdSelectModule,
     MdButtonModule,
     MdCheckboxModule,
     MdInputModule,
@@ -217,6 +219,7 @@ let pages = [
         ProductListComponent,
         OrderStepperComponent,
         MailSelectorComponent,
+        OrderCreationFormComponent,
     ],
     imports: [
         ...modules,

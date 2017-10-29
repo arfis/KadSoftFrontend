@@ -1,0 +1,15 @@
+.wrapper-mail {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-select {
+    width:100%;
+}

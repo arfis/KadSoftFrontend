@@ -13,6 +13,7 @@ import {UserService} from "../../services/user.service";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {OrderModal} from "../order/order-modal.component";
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
+import {MdButtonModule, MdStepperModule} from "@angular/material";
 
 @NgModule({
     imports: [
@@ -25,6 +26,8 @@ import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
         BsDropdownModule.forRoot(),
         SlimLoadingBarModule.forRoot(),
         ModalModule.forRoot(),
+        MdStepperModule,
+        MdButtonModule,
     ],
     declarations: [
         InvoiceComponent,

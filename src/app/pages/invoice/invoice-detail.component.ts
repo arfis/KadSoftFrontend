@@ -28,6 +28,7 @@ export class InvoiceDetailComponent {
     public permissionLoaded: boolean = false;
     public invoiceActions: MenuItem[] = new Array();
     public base64image;
+    public pdfLink;
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
@@ -53,7 +54,8 @@ export class InvoiceDetailComponent {
                             this.permissionLoaded = true;
                             this.invoiceActions = new Array();
                             this.base64image = base64image;
-                            console.log(base64image);
+                            this.downloadPDF();
+
                                 if (this.invoice.actions.generatePdf) {
                                     this.invoiceActions.push({
                                         label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
@@ -90,9 +92,8 @@ export class InvoiceDetailComponent {
 
                                 if (this.invoice.actions.downloadFile) {
                                     this.invoiceActions.push({
-                                        label: 'Stiahnut pdf', icon: 'fa-download', command: () => {
-                                            this.callMethod(this.invoice.actions.downloadFile.href,
-                                                this.invoice.actions.downloadFile.methods[0])
+                                        label: 'Pdf', icon: 'fa-download', command: () => {
+                                            window.location.href = this.pdfLink;
                                         }
                                     })
                                 }
@@ -122,7 +123,7 @@ export class InvoiceDetailComponent {
 
            this.callMethod$(link, method).subscribe(
                 result => {
-                    console.log(result);
+                    console.log(result instanceof Invoice);
                     this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
                 },
                 error => {
@@ -141,21 +142,7 @@ export class InvoiceDetailComponent {
     }
 
     generatePdf() {
-        this.loadingBar.start(() => {
-
-        });
-
-        this.invoiceSrv.generatePdfOfInvoice(this.invoice).subscribe(
-            result => {
-                this.notificationSrv.success("Pdf súbor bol úspešne vygenerovaný", "PDF");
-                this.loadingBar.complete();
-            },
-            error => {
-                this.notificationSrv.error("Pri generovaní pdf súboru nastala chyba", "PDF");
-                this.loadingBar.complete();
-                console.log(error);
-            }
-        )
+        this.downloadPDF();
     }
 
     sentNotificationEmail() {
@@ -185,7 +172,7 @@ export class InvoiceDetailComponent {
             result => {
                 this.notificationSrv.success("Stav objednávky bola zmenená na zaplatenú", "Faktúra");
                 this.loadingBar.complete();
-                this.invoice.status = "payed";
+                this.invoice = result;
             },
             error => {
                 this.notificationSrv.error("Chyba pri zmene stavu objednávky", "Faktúra");
@@ -201,7 +188,7 @@ export class InvoiceDetailComponent {
                 result => {
                     this.notificationSrv.success("Stav objednávky bola zmenená na stornovanú", "Faktúra");
                     this.loadingBar.complete();
-                    this.invoice.status = "canceled";
+                    this.invoice = result;
                 },
                 error => {
                     this.notificationSrv.error("Chyba pri zmene stavu objednávky", "Faktúra");
@@ -210,6 +197,37 @@ export class InvoiceDetailComponent {
                 }
             );
         }
+
+    }
+    downloadPDF() {
+        let sliceSize =  512;
+
+        let base64 = this.base64image.base64.replace('data:application/pdf;base64,', '');
+        console.log(base64);
+        let byteCharacters = atob(base64);
+        var contentType = 'application/pdf';
+        let byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            let slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            let byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            let byteArray = new Uint8Array(byteNumbers);
+
+            byteArrays.push(byteArray);
+        }
+
+        console.log(byteArrays);
+
+        var blob = new Blob(byteArrays, {type: contentType});
+
+        let blobUrl = URL.createObjectURL(blob);
+
+        this.pdfLink = blobUrl;
 
     }
 

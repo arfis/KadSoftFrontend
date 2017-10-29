@@ -14,3 +14,12 @@
 .dropdown-menu li{
     cursor:pointer;
 }
+
+.action {
+    display:flex;
+    justify-content: center;
+}
+
+.checks {
+    padding-left: 15px;
+}

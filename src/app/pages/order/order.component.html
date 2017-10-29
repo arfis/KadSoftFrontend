@@ -23,7 +23,7 @@
     <button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú objednávku</button>
 
     <div class="well well-lg" [collapse]="isFormCollapsed">
-        <order-creation (createEmitter)="updateOrderList($event)"></order-creation>
+        <order-creation (invoiceCreatedEmitted)="updateOrderList($event)"></order-creation>
     </div>
 </ng-container>
 
@@ -43,7 +43,6 @@
         <th>Priradené</th>
         <th class="sortable" (click)="orderBy('createdAt')">Vytvorene</th>
         <th class="sortable" (click)="orderBy('updatedAt')">Aktualizovane</th>
-        <th>Stiahnuť</th>
     </tr>
 
     <tr *ngFor="let order of orders" [routerLink]="[ '/order/', order.id ]">
@@ -75,9 +74,8 @@
             </ng-container>
         </td>
         <td>{{order?.assignedTo?.email || '-'}}</td>
-        <td>{{order?.createdAt}}</td>
-        <td>{{order?.updatedAt | date:'dd.mm.yyyy HH:mm'}}</td>
-        <td><a [href]="order?.invoices?.invoicePath">Download</a></td>
+        <td>{{order?.createdAt | date:'dd.MM.yyyy HH:mm'}}</td>
+        <td>{{order?.updatedAt | date:'dd.MM.yyyy HH:mm'}}</td>
     </tr>
     </tbody>
 </table>

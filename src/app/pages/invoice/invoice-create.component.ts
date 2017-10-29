@@ -12,6 +12,7 @@ import {Company} from "../../models/company-model";
 import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
 import {Invoice} from "./invoice.model";
+import {Order} from "../order/order.model";
 
 @Component({
     selector: 'invoice-creation',
@@ -282,9 +283,13 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     onSubmit({value}: { value: Invoice }) {
-        value.order = this.invoice.order;
+
+        if (this.invoice) {
+            value.order = this.invoice.order;
+        }
         this.invoice = value;
-        this.showModal = true;
+        delete value.invoiceContact;
+        this.createEmitter.next(value);
     }
 
     continueRequest(value: Invoice) {

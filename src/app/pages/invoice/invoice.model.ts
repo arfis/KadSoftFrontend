@@ -16,6 +16,7 @@ export class Invoice{
     created : Date;
     company : Company = new Company();
     companyContact : Contact = new Contact();
+    invoiceContact: Contact = new Contact();
     status : string;
     customer : Customer = new Customer();
     totalPrice : number = 0;

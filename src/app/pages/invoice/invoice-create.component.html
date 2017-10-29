@@ -90,7 +90,7 @@
 
         </div>
 
-        <div class="row">
+        <div class="row checks">
             <label class="md-check">
                 <input type="radio" [checked]="type == 'person'" (click)="setType('person')" value="person"
                        name="type">
@@ -331,6 +331,9 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success" [disabled]="!invoiceForm.valid">Vytvor Fakturu</button>
+        <div class="action">
+            <button  md-button mdStepperPrevious class="btn btn-warning" type="button">Spat</button>
+            <button [disabled]="!invoiceForm.valid" md-button mdStepperNext class="btn btn-success" type="submit">Dalej</button>
+        </div>
     </div>
 </form>
