@@ -29,4 +29,5 @@ export class Invoice{
     sendByEmail : string;
     type : string;
     actions: InvoiceAction;
+    tax: number;
 }

@@ -2,7 +2,7 @@
  * Created by a619678 on 7. 6. 2017.
  */
 
-import {Component} from "@angular/core";
+import {Component, Sanitizer} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Invoice} from "./invoice.model";
 import {getTranslation, InvoiceStatus} from "./invoiceStatus.model";
@@ -14,6 +14,7 @@ import {UserService} from "../../services/user.service";
 import {MenuItem} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {RestService} from "../../services/rest.service";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'invoice-detail',
@@ -23,12 +24,13 @@ import {RestService} from "../../services/rest.service";
 
 export class InvoiceDetailComponent {
 
-    private invoice: Invoice;
+    public invoice: Invoice;
     public permissions: CompanyPermissions = new CompanyPermissions();
     public permissionLoaded: boolean = false;
     public invoiceActions: MenuItem[] = new Array();
     public base64image;
     public pdfLink;
+    public pdfSafeLink;
 
     constructor(private activatedRoute: ActivatedRoute,
                 public router: Router,
@@ -36,7 +38,8 @@ export class InvoiceDetailComponent {
                 private loadingBar: SlimLoadingBarService,
                 private notificationSrv: NotificationService,
                 private loginServ: UserService,
-                private _restServ: RestService) {
+                private _restServ: RestService,
+                private sanitizer: DomSanitizer) {
 
     }
 
@@ -44,7 +47,6 @@ export class InvoiceDetailComponent {
         this.activatedRoute.data.subscribe(data => {
 
            this.invoice = data['invoice'];
-            
                     Observable.forkJoin(this.invoiceSrv.getPermissions(this.invoice.id),
                                         this.callMethod$(this.invoice.actions.base64File.href,
                                            this.invoice.actions.base64File.methods[0])).subscribe(
@@ -227,6 +229,7 @@ export class InvoiceDetailComponent {
 
         let blobUrl = URL.createObjectURL(blob);
 
+        this.pdfSafeLink = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
         this.pdfLink = blobUrl;
 
     }

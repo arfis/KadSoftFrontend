@@ -16,6 +16,6 @@ export class Company extends RecordObject{
     vatPayer: boolean;
     icDph: string;
     signature: UploadFileInfo;
-    stamp: UploadFileInfo;
+    logo: UploadFileInfo;
     bankApiToken: string;
 }

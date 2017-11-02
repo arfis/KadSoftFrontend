@@ -106,6 +106,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
             .debounceTime(200)
             .subscribe(
                 value => {
+                    console.log('search');
                     this.restServ.getCustomers().subscribe(
                         users => {
 
@@ -182,6 +183,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
                         'swift': [disabledEmpty]
                     }),
                 }),
+                'tax': [disabledEmpty],
                 'invoiceItems': this.fb.array([]),
                 'variableSymbol': [{value: this.invoiceSrv.generateInvoiceId(), disabled: true},
                     Validators.required]
@@ -210,6 +212,15 @@ export class InvoiceCreation implements OnInit, OnChanges {
         for (let input of this.fixedInputs) {
             input.enable();
         }
+    }
+
+    get isCompanyTaxPayer() {
+        if (this.currentCompany) {
+            return this.currentCompany.vatPayer;
+        } else {
+            return false;
+        }
+
     }
 
     getPrice() {
@@ -273,8 +284,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
         this.configurationService.setCurrentCompany(company);
         this.restServ.getNextInvoiceNumber(company.id).subscribe(
             result => {
-                console.log('result: ');
-                console.log(result);
                 this.invoiceForm.get('invoiceNumber').setValue(result.nextInvoiceNumber);
                 this.invoiceForm.get('variableSymbol').setValue(result.nextInvoiceNumber);
             },
@@ -283,12 +292,20 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     onSubmit({value}: { value: Invoice }) {
+        console.log('found user id: ');
+        console.log(this.userFoundByMail.id);
+        if (this.userFoundByMail) {
+            value.customerId = this.userFoundByMail.id;
+        }
 
         if (this.invoice) {
             value.order = this.invoice.order;
         }
         this.invoice = value;
-        delete value.invoiceContact;
+        if (value.invoiceContact) {
+            delete value.invoiceContact.id;
+        }
+        console.log(value);
         this.createEmitter.next(value);
     }
 
@@ -324,7 +341,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     setFormValues() {
-        this.invoice;
 
         if (this.invoiceItems.length < this.invoice.invoiceItems.length) {
             for (let item of this.invoice.invoiceItems) {

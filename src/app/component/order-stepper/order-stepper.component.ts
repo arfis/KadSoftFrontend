@@ -1,4 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+    Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
+    ViewChild
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Invoice} from "../../pages/invoice/invoice.model";
 import {Order} from "../../pages/order/order.model";
@@ -24,6 +27,7 @@ export class OrderStepperComponent implements OnInit {
 
     @Input() order: Order;
     @Output() createEmitter = new EventEmitter();
+    @ViewChild('stepper') stepper;
 
     constructor(private _invoiceService: InvoiceService,
                 private _orderService: OrderService,
@@ -58,10 +62,13 @@ export class OrderStepperComponent implements OnInit {
         } else {
             this.order = order;
         }
+
+        this.scrollUp();
     }
 
     invoiceCreated(invoice: Invoice) {
         this.invoice = invoice;
+        this.scrollUp();
     }
 
     emailCreated(email: string) {
@@ -140,5 +147,9 @@ export class OrderStepperComponent implements OnInit {
             error => {
                 this._notificationService.error('faktura nebola vytvorena','faktura')
             })
+    }
+
+    scrollUp() {
+        window.scrollTo(0,0);
     }
 }

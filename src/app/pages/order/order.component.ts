@@ -45,8 +45,15 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     public sort = "";
     public sortOrientation = "asc";
+
     @Input()
     filteredOrders: Order[];
+
+    @Input()
+    filter = null;
+
+    @Input()
+    filterType = null;
 
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
@@ -59,8 +66,9 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
             this.loadingBar.start(() => {
 
             });
+            console.log('getting type: ' + this.filterType);
             // TODO: check dates
-            Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize))
+            Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize, null, this.filterType, this.filter))
                 .takeUntil(this.stopChanel)
                 .subscribe(
                     result => {
@@ -146,7 +154,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     pageChanged(event) {
         this.currentPage = event.page;
 
-        this.setActiveRecords();
+        // this.setActiveRecords();
     }
     getStatusMessage(status) {
         if (!status) status = "notAssigned";
@@ -161,7 +169,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     setActiveRecords(type = null) {
-        this._orderServ.getOrders(this.currentPage, this.pageSize, type).subscribe(
+        this._orderServ.getOrders(this.currentPage, this.pageSize, null, this.filterType, this.filter).subscribe(
             result => {
                 this.allOrders = result.data;
                 this.orders = result.data;

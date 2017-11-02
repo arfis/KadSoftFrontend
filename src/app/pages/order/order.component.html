@@ -27,7 +27,9 @@
     </div>
 </ng-container>
 
-<app-filter [page]="currentPage" [pageSize]="pageSize" [sort]="sort" [sortOrientation]="sortOrientation" (onUpdate)="update($event)"></app-filter>
+<app-filter [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
+            [sortOrientation]="sortOrientation" [filter]="filter"
+            [filterType]="filterType" (onUpdate)="update($event)"></app-filter>
 
 <table class="table table-bordered table-responsive table-hover">
     <caption>Objednávky</caption>

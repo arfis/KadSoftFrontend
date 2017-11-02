@@ -42,6 +42,7 @@ export class Order {
     energyCertificatesCount: number; //ECB
     energyAuditsCount: number; //TT
 
+    // TODO: something with the company string
     companyString: string;
     survey: Survey;
 

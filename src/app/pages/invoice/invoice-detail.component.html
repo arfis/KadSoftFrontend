@@ -1,13 +1,6 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 <ng-container *ngIf="permissionLoaded">
-    <h2>Faktúra {{invoice.invoiceNumber}} <a href="{{getHtmlLink()}}" target="_blank">
-        <span class="glyphicon glyphicon-eye-open"></span></a></h2>
-
-
-    <!--<a href="{{getHtmlLink()}}" target="_blank"><span class="glyphicon glyphicon-save"></span></a>-->
-    <!--<div>Zhotovil: <i><a [routerLink]="[ '/user/' ]">-->
-        <!--{{invoice?.createdBy || "WEB"}}</a></i>-->
-    <!--</div>-->
+    <h2>Faktúra {{invoice.invoiceNumber}}</h2>
 
     <h4>
         <span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
@@ -21,19 +14,17 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="col-lg-6">
-                <i>Meno: </i><a [routerLink]="[ '/user/', invoice.customer.mainContact.id]">{{invoice?.customer?.mainContact.name}}
-                {{invoice?.customer?.mainContact.surname}}</a>
+                <i>Meno: </i><a *ngIf="invoice.customerId; else noLink" [routerLink]="[ '/user/', invoice?.customerId?.id ]">
+                {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} {{invoice?.customerId?.id}}</a>
+                <ng-template #noLink>{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</ng-template>
             </div>
             <div class="col-lg-6">
                 <i>Mail: </i><a [href]="'mailto:'+ invoice?.customer?.mainContact.email">{{invoice?.customer?.mainContact.email}}</a>
             </div>
-
             <div class="col-lg-6">
                 <i>Telefón: </i>{{invoice?.customer?.mainContact.telephone}}
             </div>
-
         </div>
-
     </div>
 
     <h3>Produkty:</h3>
@@ -56,6 +47,8 @@
     <h4>Cena:</h4>
     <i>{{price | currency:'EUR':false}}</i>
 
-    <div>
-    </div>
+    <ng-container *ngIf="pdfSafeLink">
+        <iframe class="document" [src]="pdfSafeLink" type="application/pdf" height="500px" width="100%"
+                webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    </ng-container>
 </ng-container>

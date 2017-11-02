@@ -26,14 +26,11 @@ export class CompanyCreation implements OnInit, OnChanges {
 
     private prices: any[] = new Array();
 
-    public stampFile;
-    public logoFile;
-
     public uploadedFiles: any[] = [];
 
     @Output() private onAdd = new EventEmitter<Company>();
     @Output() onChange = new EventEmitter();
-    @Input() company;
+    @Input() company: Company;
 
     constructor(private fb: FormBuilder,
                 private configurationService: ConfigurationService,
@@ -101,18 +98,15 @@ export class CompanyCreation implements OnInit, OnChanges {
                 file.filename = 'test';
                 file.base64File = base64hash;
 
-                let updateCompany = {...this.company};
+                let updateCompany = new Company();
 
-                delete updateCompany.mainContact.id;
-                if (type === 'stamp') {
-                    delete updateCompany.signature;
-                   updateCompany.stamp = file;
+                if (type === 'logo') {
+                   updateCompany.logo = file;
                 } else {
-                    delete updateCompany.stamp;
                     updateCompany.signature = file;
                 }
 
-                this.restServ.updateCompany(updateCompany, this.company.id).subscribe(
+                this.restServ.patchCompany(updateCompany, this.company.id).subscribe(
                     result => {
                         this.notificationSrv.success('Zmena suboru', 'bola uspesna');
                         this.company = result;
@@ -187,8 +181,7 @@ export class CompanyCreation implements OnInit, OnChanges {
             )
         }
         else {
-            console.log(value);
-            this.restServ.updateCompany(value, this.company.id).subscribe(
+            this.restServ.patchCompany(value, this.company.id).subscribe(
                 result => {
                     this.notificationSrv.success(value.name + " firma bola aktualizovana", "Firma");
                     this.onChange.next();
@@ -205,6 +198,14 @@ export class CompanyCreation implements OnInit, OnChanges {
 
     removeFile(file) {
         console.log('removing file');
+    }
+
+    get signatureFile() {
+        return this.company.signature;
+    }
+
+    get logo() {
+        return this.company.logo;
     }
 
     get files() {

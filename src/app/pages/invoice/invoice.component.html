@@ -1,8 +1,3 @@
-<!--<button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú faktúru</button>-->
-
-<!--<div class="well well-lg" [collapse]="isFormCollapsed">-->
-<!--<invoice-creation (createEmitter)="updateInvoiceList($event)"></invoice-creation>-->
-<!--</div>-->
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 <table *ngIf="showList" class="table table-bordered table-responsive table-hover">
     <thead>Faktúry</thead>
@@ -25,8 +20,9 @@
         <td>{{invoice.invoiceNumber}}</td>
         <td><a>{{invoice.company.name}}</a></td>
 
-        <td><a [routerLink]="[ '/user/', invoice.customer.id ]">
-            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} {{invoice.customer.id}}</a>
+        <td><a *ngIf="invoice.customerId; else noLink" [routerLink]="[ '/user/', invoice?.customerId?.id ]">
+            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} {{invoice?.customerId?.id}}</a>
+            <ng-template #noLink>{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</ng-template>
         </td>
         <td>{{invoice.totalPrice | currency:'eur':true}}</td>
         <td>{{invoice?.invoiceItems?.length}}</td>

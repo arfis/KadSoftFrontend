@@ -1,4 +1,4 @@
-<md-horizontal-stepper [linear]="isLinear">
+<md-horizontal-stepper #stepper [linear]="isLinear">
   <md-step [stepControl]="firstFormGroup">
       <ng-template mdStepLabel>Objednavka</ng-template>
       <app-order-creation-form [order]="order" (createEmitter)="orderCreated($event)"></app-order-creation-form>

@@ -91,31 +91,31 @@
                               (uploadHandler)="pictureUpload($event, 'signature')">
                 </p-fileUpload>
 
-                <div *ngIf="logoFile" class="already-uploaded">
+                <div *ngIf="signatureFile" class="already-uploaded">
                     <div class="item">
-                        <a [href]="logoFile.downloadUrl">
-                            {{logoFile.fileName}}
+                        <a [href]="signatureFile.downloadUrl">
+                            {{signatureFile.fileName}}
                         </a>
                         <span class="remove glyphicon glyphicon-remove-sign"
-                              (click)="removeFile(logoFile)"></span>
+                              (click)="removeFile(signatureFile)"></span>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-6 form-group">
-                <label for="stamp">Peciatka: </label>
-                <p-fileUpload id="stamp" name="logo"
+                <label for="logo">Logo: </label>
+                <p-fileUpload id="logo" name="logo"
                               (onUpload)="onUpload($event)" customUpload="true"
-                              (uploadHandler)="pictureUpload($event, 'stamp')">
+                              (uploadHandler)="pictureUpload($event, 'logo')">
                 </p-fileUpload>
 
-                <div *ngIf="stampFile" class="already-uploaded">
+                <div *ngIf="logo" class="already-uploaded">
                     <div class="item">
-                        <a [href]="stampFile.downloadUrl">
-                            {{stampFile.fileName}}
+                        <a [href]="logo.downloadUrl">
+                            {{logo.fileName}}
                         </a>
                         <span class="remove glyphicon glyphicon-remove-sign"
-                              (click)="removeFile(stampFile)"></span>
+                              (click)="removeFile(logo)"></span>
                     </div>
                 </div>
             </div>

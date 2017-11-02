@@ -7,6 +7,7 @@ import {RestService} from "../../../services/rest.service";
 import {UserService} from "../../../services/user.service";
 import {CustomerService} from "../user.service";
 import {Observable} from "rxjs/Observable";
+import {NotificationService} from "../../../services/notification.service";
 /**
  * Created by a619678 on 23. 5. 2017.
  */
@@ -21,9 +22,9 @@ export class UserViewComponent implements OnInit {
 
     private buttonText = ['Zobraziť dodatočné informácie', 'Skryť dodatočné informácie'];
 
+    public orders: Order[];
     public isCollapsed: boolean = true;
     private userInformation: Customer;
-    private orders: Order[];
     private wasUserLoaded = false;
     private areOrdersLoaded = false;
 
@@ -31,53 +32,23 @@ export class UserViewComponent implements OnInit {
                 public router: Router,
                 private orderServ: OrderService,
                 private restServ: RestService,
-                private userSrv: CustomerService) {
+                private userSrv: CustomerService,
+                private _notificationService: NotificationService) {
 
     }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
 
-                this.userInformation = data['userInformation'];
-                console.log(this.userInformation);
+            this.userInformation = data['userInformation'];
 
-                if (!this.userInformation.mainContact) {
-                    console.log("no user");
-                }
-
-
-                Observable.forkJoin(this.userSrv.getCustomers(), this.orderServ.getOrders(1,10))
-                    .subscribe(
-                        result => {
-
-                            console.log('got result');
-                            console.log(result);
-
-                            this.userSrv.setCustomers(result[0]);
-                            this.orderServ.setOrders(result[1].data);
-                            this.userInformation = this.userSrv.getUserById(this.userInformation.id);
-                            this.orders = this.orderServ.getOrdersByClientId(this.userInformation.id)
-
-                            console.log('filtered orders are: ');
-                            console.log(this.orders);
-                            console.log(!this.userInformation.mainContact);
-
-                            if (!this.userInformation.mainContact) {
-                                console.log('in if');
-                                console.log(this.orders);
-                                if (this.orders.length > 0) {
-
-                                    this.userInformation.mainContact = this.orders[0].mainContact;
-                                    console.log(this.userInformation);
-                                    this.wasUserLoaded = true;
-                                }
-
-                            } else {
-                                this.wasUserLoaded = true;
-                            }
-                        })
+            if (!this.userInformation) {
+                console.log("no user");
+            } else {
+                this.wasUserLoaded = true;
             }
-        );
+
+        })
     }
 
 
@@ -86,13 +57,20 @@ export class UserViewComponent implements OnInit {
     }
 
     updateInformation() {
+
+        let idless = new Customer();
+         Object.assign(idless, this.userInformation);
+
+        delete idless.id;
+        delete idless.mainContact.id;
+        
         console.log("saving: " + this.userInformation.information);
-        this.restServ.setCustomerInformation(this.userInformation.id, this.userInformation.information).subscribe(
+        this.restServ.setCustomerInformation(this.userInformation.id, idless).subscribe(
             result => {
-                console.log(result);
+                this._notificationService.success('udaje boli aktualizovane','Uzivatel')
             },
             error => {
-                console.log(error);
+                this._notificationService.error('udaje neboli aktualizovane','Uzivatel')
             }
         )
     }

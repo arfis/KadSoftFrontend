@@ -72,7 +72,7 @@ export class CompanyComponent implements OnInit,OnDestroy {
         let id = company.id;
 
         delete company.signature;
-        delete company.stamp;
+        delete company.logo;
         delete company.mainContact.id;
 
         this._restServ.updateCompany(company, id).subscribe(

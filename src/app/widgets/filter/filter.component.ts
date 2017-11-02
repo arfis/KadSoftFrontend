@@ -26,13 +26,12 @@ export class FilterComponent implements OnChanges {
     invoiceStates: SelectItem[];
     selectedInvoiceStates: string[] = new Array();
 
-    activeFilter = "";
-    activeFilterType = "";
-
     @Input() page: number;
     @Input() pageSize: number;
     @Input() sort: string;
     @Input() sortOrientation: string;
+    @Input('filter') activeFilter: string;
+    @Input('filterType') activeFilterType: string;
 
     filteredRecords: any;
 
@@ -48,11 +47,11 @@ export class FilterComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes) {
-            this.filter();
+            this.doFilter();
         }
     }
 
-    filter() {
+    doFilter() {
         if (this.activeFilter && this.activeFilter !== '-1') {
 
             this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.activeFilterType,
@@ -78,7 +77,7 @@ export class FilterComponent implements OnChanges {
                 console.log(this.selectedOrderState);
                 this.activeFilter = this._orderSrv.states[this.selectedOrderState];
                 this.activeFilterType = "state";
-                this.filter();
+                this.doFilter();
             }
 
         }

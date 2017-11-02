@@ -161,6 +161,9 @@ export class RestService {
         return this.http.put<Company>(this.config.server + this.config.companiesApi + `/${id}`, companyWithoutId);
     }
 
+    public patchCompany(company: Company, id: number): Observable<Company> {
+        return this.http.patch<Company>(this.config.server + this.config.companiesApi + `/${id}`, company);
+    }
 
     public addComapny(company: Company): Observable<Company> {
         return this.http.post<Company>(this.config.server + this.config.companiesApi, company);
@@ -230,8 +233,8 @@ export class RestService {
         return this.http.put<Customer>(this.config.server + this.config.customerApi + "/" + customer.id, {headers: this.headers});
     }
 
-    public setCustomerInformation(customerId: number, information: string) {
-        return this.http.put(this.config.server + this.config.customerApi + "/" + customerId, information);
+    public setCustomerInformation(customerId: number, customer: Customer) {
+        return this.http.put(this.config.server + this.config.customerApi + "/" + customerId, customer);
     }
 
     private extractData(res: Response) {
