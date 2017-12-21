@@ -58,47 +58,7 @@ export class InvoiceDetailComponent {
                             this.base64image = base64image;
                             this.downloadPDF();
 
-                                if (this.invoice.actions.generatePdf) {
-                                    this.invoiceActions.push({
-                                        label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
-                                            this.callMethod(this.invoice.actions.generatePdf.href,
-                                                this.invoice.actions.generatePdf.methods[0]);
-                                        }
-                                    });
-                                }
-
-                                if (this.invoice.actions.cancelInvoice) {
-                                    this.invoiceActions.push({
-                                        label: 'Storno', icon: 'fa-close', command: () => {
-                                            this.callMethod(this.invoice.actions.cancelInvoice.href,
-                                                this.invoice.actions.cancelInvoice.methods[0]);
-                                        }
-                                    });
-                                }
-                                if (this.invoice.actions.sendEmail) {
-                                    this.invoiceActions.push({
-                                        label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
-                                            this.callMethod(this.invoice.actions.sendEmail.href,
-                                                this.invoice.actions.sendEmail.methods[0]);
-                                        }
-                                    });
-                                }
-                                if (this.invoice.actions.payInvoice) {
-                                    this.invoiceActions.push({
-                                        label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
-                                            this.callMethod(this.invoice.actions.payInvoice.href,
-                                                this.invoice.actions.sendEmail.methods[0]);
-                                        }
-                                    });
-                                }
-
-                                if (this.invoice.actions.downloadFile) {
-                                    this.invoiceActions.push({
-                                        label: 'Pdf', icon: 'fa-download', command: () => {
-                                            window.location.href = this.pdfLink;
-                                        }
-                                    })
-                                }
+                            this.setUpActions();
 
                         },
                         error => {
@@ -112,6 +72,50 @@ export class InvoiceDetailComponent {
         });
     }
 
+    setUpActions() {
+        this.invoiceActions = [];
+        if (this.invoice.actions.generatePdf) {
+            this.invoiceActions.push({
+                label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
+                    this.callMethod(this.invoice.actions.generatePdf.href,
+                        this.invoice.actions.generatePdf.methods[0]);
+                }
+            });
+        }
+
+        if (this.invoice.actions.cancelInvoice) {
+            this.invoiceActions.push({
+                label: 'Storno', icon: 'fa-close', command: () => {
+                    this.callMethod(this.invoice.actions.cancelInvoice.href,
+                        this.invoice.actions.cancelInvoice.methods[0]);
+                }
+            });
+        }
+        if (this.invoice.actions.sendEmail) {
+            this.invoiceActions.push({
+                label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
+                    this.callMethod(this.invoice.actions.sendEmail.href,
+                        this.invoice.actions.sendEmail.methods[0]);
+                }
+            });
+        }
+        if (this.invoice.actions.payInvoice) {
+            this.invoiceActions.push({
+                label: 'Faktura bola uhradena', icon: 'fa-check', command: () => {
+                    this.callMethod(this.invoice.actions.payInvoice.href,
+                        this.invoice.actions.sendEmail.methods[0]);
+                }
+            });
+        }
+
+        if (this.invoice.actions.downloadFile) {
+            this.invoiceActions.push({
+                label: 'Pdf', icon: 'fa-download', command: () => {
+                    window.location.href = this.pdfLink;
+                }
+            })
+        }
+    }
     callMethod$(link, method) {
         if (method === "GET") {
             return this._restServ.get<any>(link);
@@ -125,7 +129,12 @@ export class InvoiceDetailComponent {
 
            this.callMethod$(link, method).subscribe(
                 result => {
-                    console.log(result instanceof Invoice);
+                    this.invoiceSrv.getInvoice(this.invoice.id).subscribe(
+                        invoiceResult =>  {
+                            this.invoice = invoiceResult;
+                            this.setUpActions();
+                        }
+                    )
                     this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
                 },
                 error => {

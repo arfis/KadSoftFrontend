@@ -27,7 +27,9 @@ export class MenuAsideComponent implements OnInit {
   }
 
   get isAdmin() {
-    if(this.userServ.getLoggedInUser().roles.indexOf('ROLE_ADMIN') > -1){
+    if(this.userServ.getLoggedInUser() &&
+        this.userServ.getLoggedInUser().roles &&
+        this.userServ.getLoggedInUser().roles.indexOf('ROLE_ADMIN') > -1){
       return true;
     } else {
       return false;

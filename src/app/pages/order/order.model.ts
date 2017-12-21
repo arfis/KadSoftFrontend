@@ -45,7 +45,6 @@ export class Order {
     // TODO: something with the company string
     companyString: string;
     survey: Survey;
-
 }
 
 export class Survey {

@@ -1,18 +1,20 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
+<app-filter [type]="'Invoice'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
+            [sortOrientation]="sortOrientation" [filter]="filter"
+            [filterType]="filterType" (onUpdate)="update($event)"></app-filter>
 <table *ngIf="showList" class="table table-bordered table-responsive table-hover">
     <thead>Faktúry</thead>
     <tbody>
     <tr>
         <th style="width: 10px">#</th>
-        <th class="sortable" (click)="orderBy('invoiceNumber')">Číslo</th>
-        <th class="sortable" (click)="orderBy('company','name')">Zadal</th>
-        <th class="sortable" (click)="orderBy('companyContact','surname')">Klient</th>
+        <th>Číslo</th>
+        <th>Zadal</th>
+        <th>Klient</th>
         <th class="sortable" (click)="orderBy('totalPrice')">Suma</th>
         <th>položky</th>
-        <th class="sortable" (click)="orderBy('type')">Typ</th>
-        <th class="sortable" (click)="orderBy('status')">Status</th>
-        <th class="sortable" (click)="orderBy('sendByEmail')">Odoslane</th>
-        <th>Možnosti</th>
+        <th>Typ</th>
+        <th>Status</th>
+        <th>Odoslane</th>
     </tr>
 
     <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">
@@ -21,7 +23,7 @@
         <td><a>{{invoice.company.name}}</a></td>
 
         <td><a *ngIf="invoice.customerId; else noLink" [routerLink]="[ '/user/', invoice?.customerId?.id ]">
-            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} {{invoice?.customerId?.id}}</a>
+            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</a>
             <ng-template #noLink>{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</ng-template>
         </td>
         <td>{{invoice.totalPrice | currency:'eur':true}}</td>
@@ -32,13 +34,6 @@
                 </span>
         </td>
         <td>{{invoice?.sendByEmail === true ? 'áno' : 'nie'}}</td>
-        <td>
-            <a (click)="$event.stopPropagation()" [href]="getHtmlLink(invoice)" target="_blank" alt="zobraz">
-                <span class="glyphicon glyphicon-eye-open"></span>
-            </a>
-            <a (click)="$event.stopPropagation()" [href]="getPdfLink(invoice)" target="_blank" alt="stiahni pdf">
-                <span class="glyphicon glyphicon-save"></span>
-            </a></td>
     </tr>
     </tbody>
 </table>

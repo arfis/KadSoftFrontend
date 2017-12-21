@@ -5,9 +5,10 @@ import {invoiceStatesConst, invoiceStatuses} from "../../pages/invoice/invoiceSt
 import {orderStatesConst} from "../../pages/order/order.model";
 import {OrderService} from "../../pages/order/order.service";
 import {UserService} from "../../services/user.service";
+import {InvoiceService} from "../../pages/invoice/invoice.service";
 
 enum filterComponents {
-    FilterStates,
+    OrderStates,
     InvoiceStates
 }
 
@@ -24,7 +25,7 @@ export class FilterComponent implements OnChanges {
     selectedOrderState: string;
 
     invoiceStates: SelectItem[];
-    selectedInvoiceStates: string[] = new Array();
+    selectedInvoiceState: string;
 
     @Input() page: number;
     @Input() pageSize: number;
@@ -32,6 +33,7 @@ export class FilterComponent implements OnChanges {
     @Input() sortOrientation: string;
     @Input('filter') activeFilter: string;
     @Input('filterType') activeFilterType: string;
+    @Input('type') type: string = "Order";
 
     filteredRecords: any;
 
@@ -39,47 +41,78 @@ export class FilterComponent implements OnChanges {
     onUpdate = new EventEmitter<any>();
 
     constructor(private _orderSrv: OrderService,
-                private _userSrv: UserService) {
+                private _userSrv: UserService,
+                private _invoiceService: InvoiceService) {
         this.orderStates = orderStatesConst;
         this.invoiceStates = invoiceStatesConst;
 
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes) {
+        console.log(changes.activeFilter + ' active: ' + changes.activeFilterType);
+
+        if (changes && !changes.type) {
+            console.log(this.sortOrientation);
             this.doFilter();
         }
     }
 
     doFilter() {
+        console.log(this.sortOrientation);
         if (this.activeFilter && this.activeFilter !== '-1') {
 
-            this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.activeFilterType,
-                this.activeFilter).subscribe(
-                result => {
-                    console.log(result);
-                    this.onUpdate.emit(result);
-                })
+            console.log(this.sortOrientation);
+            if (this.isOrder) {
+                this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.sortOrientation, this.activeFilterType,
+                    this.activeFilter).subscribe(
+                    result => {
+                        console.log(result);
+                        this.onUpdate.emit(result);
+                    })
+            }
+
+            if (this.isInvoice) {
+                this._invoiceService.getInvoices(this.page, this.pageSize, this.sort, this.activeFilterType,
+                    this.activeFilter).subscribe(
+                    result => {
+                        console.log(result);
+                        this.onUpdate.emit(result);
+                    })
+            }
         }
         else {
-            this._orderSrv.getOrders(this.page, this.pageSize, this.sort).subscribe(
-                result => {
-                    this.onUpdate.emit(result);
-                })
+            if (this.isOrder) {
+                this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.sortOrientation).subscribe(
+                    result => {
+                        this.onUpdate.emit(result);
+                    })
+            } else {
+                this._invoiceService.getInvoices(this.page, this.pageSize, this.sort, this.sortOrientation).subscribe(
+                    result => {
+                        this.onUpdate.emit(result);
+                    })
+            }
         }
     }
 
     public stateFilterChange(filterType: filterComponents) {
 
-
+        console.log('filterType: ' + filterType);
         switch (filterType) {
-            case filterComponents.FilterStates: {
+            case this.orderStateComponent: {
                 console.log(this.selectedOrderState);
                 this.activeFilter = this._orderSrv.states[this.selectedOrderState];
                 this.activeFilterType = "state";
                 this.doFilter();
+                break;
             }
-
+            case this.invoiceStateComponent: {
+                console.log(this.selectedInvoiceState);
+                this.activeFilter = this._invoiceService.states[this.selectedInvoiceState];
+                this.activeFilterType = "status";
+                this.doFilter();
+                break;
+            }
         }
 
     }
@@ -89,6 +122,14 @@ export class FilterComponent implements OnChanges {
     }
 
     get orderStateComponent() {
-        return filterComponents.FilterStates
+        return filterComponents.OrderStates
+    }
+
+    get isOrder() {
+        return this.type === "Order";
+    }
+
+    get isInvoice() {
+        return this.type === "Invoice";
     }
 }

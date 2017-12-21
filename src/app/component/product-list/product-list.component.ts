@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Item} from "./item.model";
 import {RestService} from "../../services/rest.service";
+import {NotificationService} from "../../services/notification.service";
 
 @Component({
   selector: 'app-product-list',
@@ -12,7 +13,8 @@ export class ProductListComponent implements OnInit {
   item: string;
   products: Item[];
 
-  constructor(private _restSrv: RestService) {
+  constructor(private _restSrv: RestService,
+              private _notificationService: NotificationService) {
     _restSrv.getItems().subscribe(
         result => {
           this.products = result;
@@ -31,6 +33,8 @@ export class ProductListComponent implements OnInit {
       console.log(this.item);
     let tempItem = new Item();
     tempItem.name = this.item;
+    console.log(this.item);
+    console.log(tempItem.name);
     this._restSrv.addItem(tempItem).subscribe(
         result => {
           this.products.push(result);
@@ -38,21 +42,12 @@ export class ProductListComponent implements OnInit {
     )
   }
 
-  updateItem(item) {
-    this._restSrv.updateItem(item, item.id).subscribe(
-        result => {
-          console.log(result);
-        },
-        error => {
-          console.log('problem');
-        }
-    )
-  }
 
   removeItem(item) {
     this._restSrv.deleteItem(item.id).subscribe(
         result => {
-          this.products.splice(this.item.indexOf(item,1));
+            this._notificationService.success('bola uspesne odstranena','polozka');
+            this.products.splice(this.products.indexOf(item),1);
         },
         error => {
           console.log('problem');

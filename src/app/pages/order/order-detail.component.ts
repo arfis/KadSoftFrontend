@@ -52,6 +52,7 @@ export class OrderDetailComponent {
 
     users;
     invoiceToBeCreated: Invoice;
+    public isUploading = false;
 
     @ViewChild('uploader') uploader;
 
@@ -154,9 +155,10 @@ export class OrderDetailComponent {
         this.parseFiles(filesToUpload,
             parsedFiles => {
                 let orderFiles = new OrderFiles();
-                orderFiles.text = 'test';
+                orderFiles.text = 'subor';
                 orderFiles.files = parsedFiles;
 
+                this.isUploading = true;
                 this._orderSrv.addFilesToOrder(this.order.id, orderFiles).subscribe(
                     result => {
                         this.order = result;
@@ -174,7 +176,8 @@ export class OrderDetailComponent {
                             console.log(`Backend returned code ${err.status}, body was:`);
                             console.log(err.error);
                         }
-                    }
+                    },
+                    () => this.isUploading=false
                 );
             }
         )

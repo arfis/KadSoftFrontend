@@ -60,7 +60,6 @@
                 <th>Meno</th>
                 <th>Surname</th>
                 <th>Role</th>
-                <th>Odstran</th>
                 <th>Uprav</th>
             </tr>
 
@@ -69,9 +68,8 @@
                 <td><a>{{user?.email}}</a></td>
                 <td>{{user?.name}}</td>
                 <td><a>{{user?.surname}}</a></td>
-                <td>{{user?.roles}}</td>
-                <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeUser(user)"></span></td>
-                <td><span class="open glyphicon glyphicon-wrench" (click)="openUser(user)"></span></td>
+                <td>{{user?.roles.toString()}}</td>
+                <td><span class="clickable open glyphicon glyphicon-wrench" (click)="openUser(user)"></span></td>
             </tr>
             </tbody>
         </table>

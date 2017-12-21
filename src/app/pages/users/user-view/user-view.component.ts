@@ -23,7 +23,7 @@ export class UserViewComponent implements OnInit {
     private buttonText = ['Zobraziť dodatočné informácie', 'Skryť dodatočné informácie'];
 
     public orders: Order[];
-    public isCollapsed: boolean = true;
+    public isCollapsed: boolean = false;
     private userInformation: Customer;
     private wasUserLoaded = false;
     private areOrdersLoaded = false;

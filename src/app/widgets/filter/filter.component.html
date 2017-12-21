@@ -1,10 +1,15 @@
 <p-accordion>
     <p-accordionTab header="Filters">
-        <div class="col-lg-12">
+        <div *ngIf="isOrder" class="col-lg-12">
             <label for="orderStates">Stav objednavky: </label>
             <p-selectButton id="orderStates" (onChange)="stateFilterChange(orderStateComponent)" [options]="orderStates"
                             [(ngModel)]="selectedOrderState"></p-selectButton>
         </div>
 
+        <div *ngIf="isInvoice" class="col-lg-12">
+            <label for="orderStates">Stav faktury: </label>
+            <p-selectButton id="invoiceState" (onChange)="stateFilterChange(invoiceStateComponent)" [options]="invoiceStates"
+                            [(ngModel)]="selectedInvoiceState"></p-selectButton>
+        </div>
     </p-accordionTab>
 </p-accordion>

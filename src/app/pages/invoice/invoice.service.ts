@@ -17,6 +17,14 @@ export class InvoiceService {
 
     public invoices: Invoice[] = new Array<Invoice>();
 
+    directions = ['asc', 'desc'];
+
+    activeSort = '';
+    activeDirection = this.directions[0];
+    activePage;
+    pageSize;
+    states = ['created', 'paid', 'expired', 'canceled', 'late_paid', 'wrong_paid'];
+
     constructor(private userSrv: CustomerService,
                 private loggedUserService: UserService,
                 private restServ: RestService,
@@ -50,9 +58,15 @@ export class InvoiceService {
         return this.restServ.getInvoice(id);
     }
 
-    public getInvoices(page, pageSize): Observable<any> {
+    public getInvoices(page: number, pageSize: number, sort=null, filterType=null, filter=null): Observable<any> {
+        if (sort === this.activeSort) {
+            this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
+        }
 
-        return this.restServ.getInvoices(page, pageSize);
+        this.activeSort = sort;
+
+        return this.restServ.getInvoices(page, pageSize, sort, this.activeDirection, filterType, filter,
+            false);
     }
 
     public generatePdfLink(invoice : Invoice){

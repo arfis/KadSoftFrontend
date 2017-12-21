@@ -1,10 +1,10 @@
 <form (ngSubmit)="onSubmit(companyForm)" [formGroup]="companyForm">
-
+    <app-spinner *ngIf="isLoading"></app-spinner>
     <div class="form-group">
         <div>
 
             <div class="col-lg-6 form-group">
-                <label for="mainName">Meno:</label>
+                <label for="mainName">Meno Firmy:</label>
                 <input type="text" id="mainName" class="form-control" formControlName="name"/>
             </div>
 
@@ -83,50 +83,57 @@
         </div>
 
         <ng-container *ngIf="company">
-        <div class="row">
-            <div class="col-lg-6 form-group">
-                <label for="logo">Podpis: </label>
-                <p-fileUpload id="logo" name="logo"
-                              (onUpload)="onUpload($event)" customUpload="true"
-                              (uploadHandler)="pictureUpload($event, 'signature')">
-                </p-fileUpload>
+            <div class="row">
+                <div class="col-lg-6 form-group">
+                    <label for="logo">Podpis: </label>
+                    <p-fileUpload id="logo" name="logo"
+                                  (onUpload)="onUpload($event)" customUpload="true"
+                                  (uploadHandler)="pictureUpload($event, 'signature')">
+                    </p-fileUpload>
 
-                <div *ngIf="signatureFile" class="already-uploaded">
-                    <div class="item">
-                        <a [href]="signatureFile.downloadUrl">
-                            {{signatureFile.fileName}}
-                        </a>
-                        <span class="remove glyphicon glyphicon-remove-sign"
-                              (click)="removeFile(signatureFile)"></span>
+                    <div *ngIf="signatureFile" class="already-uploaded">
+                        <div class="item">
+                            <a [href]="signatureFile.downloadUrl">
+                                {{signatureFile.fileName}}
+                            </a>
+                            <span class="remove glyphicon glyphicon-remove-sign"
+                                  (click)="removeFile(signatureFile)"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 form-group">
+                    <label for="logo">Logo: </label>
+                    <p-fileUpload id="logo" name="logo"
+                                  (onUpload)="onUpload($event)" customUpload="true"
+                                  (uploadHandler)="pictureUpload($event, 'logo')">
+                    </p-fileUpload>
+
+                    <div *ngIf="logo" class="already-uploaded">
+                        <div class="item">
+                            <a [href]="logo.downloadUrl">
+                                {{logo.fileName}}
+                            </a>
+                            <span class="remove glyphicon glyphicon-remove-sign"
+                                  (click)="removeFile(logo)"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-6 form-group">
-                <label for="logo">Logo: </label>
-                <p-fileUpload id="logo" name="logo"
-                              (onUpload)="onUpload($event)" customUpload="true"
-                              (uploadHandler)="pictureUpload($event, 'logo')">
-                </p-fileUpload>
-
-                <div *ngIf="logo" class="already-uploaded">
-                    <div class="item">
-                        <a [href]="logo.downloadUrl">
-                            {{logo.fileName}}
-                        </a>
-                        <span class="remove glyphicon glyphicon-remove-sign"
-                              (click)="removeFile(logo)"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
         </ng-container>
 
         <div class="col-lg-12 form-group">
-            <button type="submit" class="full-width btn btn-success" *ngIf="!company" [disabled]="!companyForm.valid">Pridaj firmu
+            <button type="submit" class="full-width btn btn-success" *ngIf="!company" [disabled]="!companyForm.valid">
+                Pridaj firmu
             </button>
-            <button type="submit" class="full-width btn btn-warning" *ngIf="company" [disabled]="!companyForm.valid">Uprav firmu
-            </button>
+            <div class="btn-group full-width">
+                <button type="submit" class=" col-lg-6 btn btn-warning" *ngIf="company" [disabled]="!companyForm.valid">Uprav
+                    firmu
+                </button>
+                <button class="col-lg-6 btn btn-danger" *ngIf="company" (click)="reset()">
+                    Reset
+                </button>
+            </div>
         </div>
 
     </div>

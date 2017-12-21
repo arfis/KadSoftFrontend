@@ -27,6 +27,7 @@ export class CompanyCreation implements OnInit, OnChanges {
     private prices: any[] = new Array();
 
     public uploadedFiles: any[] = [];
+    public isLoading = false;
 
     @Output() private onAdd = new EventEmitter<Company>();
     @Output() onChange = new EventEmitter();
@@ -82,7 +83,7 @@ export class CompanyCreation implements OnInit, OnChanges {
     }
 
     onUpload(event) {
-        console.log('onUpload');
+
         for (let file of event.files) {
             this.uploadedFiles.push(file);
         }
@@ -91,8 +92,6 @@ export class CompanyCreation implements OnInit, OnChanges {
     pictureUpload(fileToUpload, type) {
         this.parseFiles(fileToUpload.files[0],
             base64hash => {
-
-            console.log(base64hash);
 
                 let file = new UploadFileInfo();
                 file.filename = 'test';
@@ -105,6 +104,8 @@ export class CompanyCreation implements OnInit, OnChanges {
                 } else {
                     updateCompany.signature = file;
                 }
+
+                this.isLoading = true;
 
                 this.restServ.patchCompany(updateCompany, this.company.id).subscribe(
                     result => {
@@ -123,7 +124,8 @@ export class CompanyCreation implements OnInit, OnChanges {
                             console.log(`Backend returned code ${err.status}, body was:`);
                             console.log(err.error);
                         }
-                    }
+                    },
+                    () => this.isLoading = false
                 );
             }
         )
@@ -162,9 +164,13 @@ export class CompanyCreation implements OnInit, OnChanges {
         this.configurationService.setCurrentCompany(company);
     }
 
+    reset() {
+        this.company = null;
+        this.companyForm.reset();
+    }
+
     onSubmit({value}: { value: Company }) {
 
-        console.log(value);
 
         if (!this.company) {
             this.restServ.addComapny(value).subscribe(

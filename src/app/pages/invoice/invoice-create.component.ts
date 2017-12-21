@@ -32,7 +32,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
     public clientFormControlls: any[] = new Array();
     public fixedInputs: any[] = new Array();
 
-    public prices: any[] = new Array();
+    public priceProducts: any[] = new Array();
     public companies: Company[];
 
     public lockChange: boolean = false;
@@ -45,6 +45,9 @@ export class InvoiceCreation implements OnInit, OnChanges {
     public units: string[] = ["ks", "liter"];
 
     public showModal = false;
+    public wasPatched = false;
+    public products;
+    public results=[];
 
     constructor(private fb: FormBuilder,
                 private invoiceSrv: InvoiceService,
@@ -81,6 +84,10 @@ export class InvoiceCreation implements OnInit, OnChanges {
                 }
             }
         );
+
+        restServ.getItems().subscribe(
+            products => this.products = products
+        )
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -91,38 +98,8 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     ngOnInit() {
 
-        this.invoiceForm.get('customer').get('mainContact').get('email')
-            .valueChanges
-            .filter((value: string) => {
-                if (value && value.length > 1 && this.type == 'person' && !this.lockChange) {
-                    this.disableCustomerInputs();
-                    return true;
-                }
-                else {
-                    this.foundByMail = false;
-                    return false;
-                }
-            })
-            .debounceTime(200)
-            .subscribe(
-                value => {
-                    console.log('search');
-                    this.restServ.getCustomers().subscribe(
-                        users => {
-
-                            this.foundCustomers = this.restServ.getCustomersByEmail(value, users);
-                            if (this.foundCustomers.length > 0) {
-                                this.foundByMail = true;
-                                this.userFoundByMail = null;
-
-                            }
-                            else {
-                                this.foundByMail = false;
-
-                            }
-                        })
-                }
-            );
+        this.invoiceForm.reset();
+        this.createForm();
     }
 
     selectCustomer(customer: Customer) {
@@ -130,6 +107,20 @@ export class InvoiceCreation implements OnInit, OnChanges {
         this.lockChange = true;
         this.setClientInfo();
         this.lockChange = false;
+    }
+
+    resetFoundCustomer() {
+        this.userFoundByMail = null;
+    }
+
+    search($event) {
+        this.results = this.products.filter(product =>
+            product.name.indexOf($event.query) > -1
+        )
+            .map(result => result.name);
+
+        console.log($event.query);
+        console.log(this.results);
     }
 
     createForm() {
@@ -156,6 +147,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
                 'customer': this.fb.group({
                     'ico': [disabledEmpty],
                     'dic': [disabledEmpty],
+                    'icDph': [disabledEmpty],
                     'mainContact': this.fb.group({
                         'name': ['', Validators.required],
                         'surname': ['', Validators.required],
@@ -183,10 +175,8 @@ export class InvoiceCreation implements OnInit, OnChanges {
                         'swift': [disabledEmpty]
                     }),
                 }),
-                'tax': [disabledEmpty],
-                'invoiceItems': this.fb.array([]),
-                'variableSymbol': [{value: this.invoiceSrv.generateInvoiceId(), disabled: true},
-                    Validators.required]
+                'tax': ['20', Validators.required],
+                'invoiceItems': this.fb.array([])
         })
 
         this.clientFormControlls.push(this.invoiceForm.get('customer')
@@ -195,6 +185,39 @@ export class InvoiceCreation implements OnInit, OnChanges {
             .get('mainContact').get('surname'));
         this.clientFormControlls.push(this.invoiceForm.get('customer')
             .get('mainContact').get('telephone'));
+
+        this.invoiceForm.get('customer').get('mainContact').get('email')
+            .valueChanges
+            .filter((value: string) => {
+                if (value && value.length > 1 && !this.lockChange) {
+                    this.disableCustomerInputs();
+                    return true;
+                }
+                else {
+                    this.foundByMail = false;
+                    return false;
+                }
+            })
+            .debounceTime(200)
+            .subscribe(
+                value => {
+                    console.log('search');
+                    this.restServ.getCustomers().subscribe(
+                        users => {
+
+                            this.foundCustomers = this.restServ.getCustomersByEmail(value, users);
+                            if (this.foundCustomers.length > 0 && !this.wasPatched) {
+                                this.foundByMail = true;
+                                this.userFoundByMail = null;
+
+                            }
+                            else {
+                                this.foundByMail = false;
+                                this.wasPatched = false;
+                            }
+                        })
+                }
+            );
     }
 
     get invoiceItems() {
@@ -226,8 +249,8 @@ export class InvoiceCreation implements OnInit, OnChanges {
     getPrice() {
         let sum: number = 0;
 
-        for (let price of this.prices) {
-            sum += price.value;
+        for (let price of this.priceProducts) {
+            sum += Number(price.price.value) * Number(price.count.value);
         }
 
         return sum;
@@ -246,7 +269,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
             product
         )
 
-        this.prices.push(product.get('price'));
+        this.priceProducts.push({price:product.get('price'), count:product.get('count')});
     }
 
     disableCustomerInputs() {
@@ -262,8 +285,9 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     setClientInfo() {
-        this.invoiceForm.get('customer').get('mainContact')
-            .patchValue(this.userFoundByMail.mainContact);
+
+        this.invoiceForm.get('customer')
+            .patchValue(this.userFoundByMail);
     }
 
     resetClientInfo() {
@@ -273,7 +297,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     removeProduct(index: number) {
         this.invoiceItems.removeAt(index);
-        this.prices.splice(index, 1);
+        this.priceProducts.splice(index, 1);
     }
 
     setType(type: string) {
@@ -285,15 +309,13 @@ export class InvoiceCreation implements OnInit, OnChanges {
         this.restServ.getNextInvoiceNumber(company.id).subscribe(
             result => {
                 this.invoiceForm.get('invoiceNumber').setValue(result.nextInvoiceNumber);
-                this.invoiceForm.get('variableSymbol').setValue(result.nextInvoiceNumber);
             },
             error => console.log(error)
         )
     }
 
     onSubmit({value}: { value: Invoice }) {
-        console.log('found user id: ');
-        console.log(this.userFoundByMail.id);
+
         if (this.userFoundByMail) {
             value.customerId = this.userFoundByMail.id;
         }
@@ -301,43 +323,17 @@ export class InvoiceCreation implements OnInit, OnChanges {
         if (this.invoice) {
             value.order = this.invoice.order;
         }
+
         this.invoice = value;
         if (value.invoiceContact) {
             delete value.invoiceContact.id;
         }
-        console.log(value);
+
+        if (!this.isCompanyTaxPayer) {
+            console.log('deleting tax');
+            delete value.tax;
+        }
         this.createEmitter.next(value);
-    }
-
-    continueRequest(value: Invoice) {
-
-        this.showModal = false;
-
-        this.invoiceSrv.createInvoice(value).subscribe(
-            result => {
-                // order.invoices = new Array();
-                // order.invoices.push(result);
-
-                this.invoiceForm.reset();
-                this.notificationSrv.success("Nova faktura bola vytvorena", "Faktura");
-                this.createForm();
-
-                this.createEmitter.next(result);
-            },
-            error => {
-                if (error.status === 401) {
-                    this.loginServ.logout();
-                }
-                else {
-                    this.notificationSrv.error("Nova faktura nebola vytvorena", "Faktura");
-                    console.log(error);
-                }
-            }
-        )
-
-
-        this.showModal = true;
-
     }
 
     setFormValues() {
@@ -349,6 +345,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
         }
 
         this.invoiceForm.patchValue(this.invoice);
+        this.wasPatched = true;
     }
     switchInvoiceContact() {
         this.invoiceContact = !this.invoiceContact;

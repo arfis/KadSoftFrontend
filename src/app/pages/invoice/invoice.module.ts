@@ -11,12 +11,15 @@ import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
 import {UserService} from "../../services/user.service";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
-import {OrderModal} from "../order/order-modal.component";
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
 import {MdButtonModule, MdStepperModule} from "@angular/material";
+import {FilterModule} from "../../widgets/filter/filter.module";
+import {AutoCompleteModule} from "primeng/primeng";
 
 @NgModule({
     imports: [
+        AutoCompleteModule,
+        FilterModule,
         RouterModule,
         CommonModule,
         FormsModule,
@@ -32,7 +35,7 @@ import {MdButtonModule, MdStepperModule} from "@angular/material";
     declarations: [
         InvoiceComponent,
         InvoiceCreation,
-        InvoiceModalComponent,
+        InvoiceModalComponent
     ],
     providers: [
         InvoiceService,

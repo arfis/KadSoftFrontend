@@ -13,21 +13,21 @@ export enum InvoiceStatus {
 export class InvoiceStats {
 
     public static paid = "zaplatena";
-    public static created = "vytvorena";
+    public static created = "vystavena";
     public static expired = "po splatnosti";
-    public static canceled = "zrusena";
+    public static canceled = "storno";
     public static latePay = "zaplatena po splatnosti";
     public static wrongPay = "zla suma uhradena";
 }
 
-export const invoiceTypes = ["Proforma","Evidenčná","Zálohová faktúra"];
-export const invoiceStatuses = ["created","paid","expired","canceled","latePay","wrong_paid"];
+export const invoiceTypes = ["Zálohová faktúra","Doklad o prijati platby","Faktura"];
+export const invoiceStatuses = ["created","paid","expired","canceled","latePay","wrong_paid","off"];
 export const invoiceStatesConst = [{label:InvoiceStats.created, value:InvoiceStatus.created},
                                     {label:InvoiceStats.paid, value:InvoiceStatus.payed},
                                     {label:InvoiceStats.expired, value:InvoiceStatus.expired},
                                     {label:InvoiceStats.canceled, value:InvoiceStatus.canceled},
                                     {label:InvoiceStats.latePay, value:InvoiceStatus.latePay},
-                                    {label:InvoiceStats.wrongPay, value:InvoiceStatus.wrongPay}];
+                                    {label:InvoiceStats.wrongPay, value:InvoiceStatus.wrongPay},{label: "Vypnut", value: -1}];
 
 export function getTranslation(status : string){
 

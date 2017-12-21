@@ -1,16 +1,30 @@
-.sortable{
-    cursor:pointer;
+.sortable {
+    cursor: pointer;
 }
 
-.sortable:hover{
-    color:lightgray;
+.sortable:hover {
+    color: lightgray;
 }
 
-.modal-body{
-    margin-top:20px;
+.modal-body {
+    margin-top: 20px;
 }
 
 td {
     padding: 2px !important;
     text-align: center;
+}
+
+.client-link {
+    z-index: 99;
+}
+
+.table-wrapper {
+    /*overflow: auto;*/
+}
+
+@media (max-width: 991px) {
+    .table-wrapper {
+        font-size: 9px;
+    }
 }

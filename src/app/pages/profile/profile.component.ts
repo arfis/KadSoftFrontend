@@ -49,14 +49,15 @@ export class ProfileComponent implements OnInit {
 
     this._userSrv.updateCurrentUser(value).subscribe(
         result => {
-          console.log('success');
           let currentUser = this._userSrv.getLoggedInUser();
           currentUser.name = value.name;
           currentUser.surname = value.surname;
           this._userSrv.setCurrentUser(currentUser);
+          this._notificationSrv.success('Boli uspesne zmenene', 'Udaje');
         },
         error => {
           console.log('error');
+            this._notificationSrv.error('Neboli uspesne zmenene', 'Udaje');
         }
     );
   }

@@ -23,3 +23,17 @@
 .checks {
     padding-left: 15px;
 }
+
+.message {
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+}
+
+.message .highlight {
+    font-weight: bold;
+}
+
+.product-input {
+    display:block;
+}

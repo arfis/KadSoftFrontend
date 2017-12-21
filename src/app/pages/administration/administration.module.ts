@@ -19,6 +19,7 @@ import { UserComponent } from './user/user.component';
 import {FileUploadModule, MultiSelectModule, SelectButtonModule, ToggleButtonModule} from "primeng/primeng";
 import {routing} from "./administrator.routing";
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
+import {SpinnerModule} from "../../component/spinner/spinner.module";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { EmailTemplatesComponent } from './email-templates/email-templates.compo
         AccordionModule.forRoot(),
         BsDropdownModule.forRoot(),
         TabsModule.forRoot(),
+        SpinnerModule,
     ],
     declarations: [
         CompanyComponent,
@@ -44,7 +46,7 @@ import { EmailTemplatesComponent } from './email-templates/email-templates.compo
         CustomerComponent,
         CustomerCreation,
         UserComponent,
-        EmailTemplatesComponent
+        EmailTemplatesComponent,
     ],
     providers: [
         CustomerService,

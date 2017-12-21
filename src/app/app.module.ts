@@ -6,8 +6,9 @@ import {Http, HttpModule} from '@angular/http';
 import { RouterModule } from '@angular/router';
 import {
     AlertModule, BsDropdownModule, CollapseModule, DatepickerModule, ModalModule, PaginationModule,
-    TabsModule, TooltipModule
+    TabsModule
 } from 'ngx-bootstrap';
+import {TooltipModule} from 'primeng/primeng';
 import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -28,7 +29,6 @@ import {InvoiceResolve} from "./pages/invoice/invoice-resolve.component";
 import {InvoiceDetailComponent} from "./pages/invoice/invoice-detail.component";
 import {RestService} from "./services/rest.service";
 import {Configuration} from "./app.constants";
-import {AdministrationModule} from "./pages/administration/administration.module";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {InvoiceService} from "./pages/invoice/invoice.service";
 import { StatisticsComponent } from './pages/statistics/statistics.component';
@@ -63,7 +63,6 @@ import {InterceptorService} from "./services/interceptor-service.service";
 import { StepComponent } from './component/step/step.component';
 import { StepperComponent } from './container/stepper/stepper.component';
 import {CommonModule} from "@angular/common";
-import {FilterComponent} from "./widgets/filter/filter.component";
 import {RequiredDirective} from "./widgets/required.directive";
 import {OrderDetailComponent} from "./pages/order/order-detail.component";
 import {OrderModal} from "./pages/order/order-modal.component";
@@ -87,6 +86,9 @@ import { ProductListComponent } from './component/product-list/product-list.comp
 import { OrderStepperComponent } from './component/order-stepper/order-stepper.component';
 import { MailSelectorComponent } from './component/mail-selector/mail-selector.component';
 import { OrderCreationFormComponent } from './component/order-creation-form/order-creation-form.component';
+import {FilterModule} from "./widgets/filter/filter.module";
+import {AdministrationModule} from "./pages/administration/administration.module";
+import {SpinnerModule} from "./component/spinner/spinner.module";
 
 export function HttpLoaderFactory(http: Http) {
     return new TranslateHttpLoader(http);
@@ -104,7 +106,9 @@ let material = [
 ];
 
 let modules = [
+    SpinnerModule,
     material,
+    FilterModule,
     MultiSelectModule,
     AccordionModule,
     SelectButtonModule,
@@ -117,7 +121,7 @@ let modules = [
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
-    TooltipModule.forRoot(),
+    TooltipModule,
     MdInputModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -165,7 +169,6 @@ let widgets = [
     OrderModal,
     OrderDetailComponent,
     RequiredDirective,
-    FilterComponent,
     StepperComponent,
     StepComponent
 ];
@@ -227,6 +230,9 @@ let pages = [
     ],
     providers: [
         ...services
+    ],
+    exports: [
+
     ]
 })
 export class AppModule { }

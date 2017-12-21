@@ -3,15 +3,13 @@
 <table class="table table-bordered table-hover">
   <tbody>
   <tr>
-    <th>Product</th>
-    <th>Remove</th>
-    <th>Update</th>
+    <th>Produkt</th>
+    <th>Odstranit</th>
   </tr>
 
   <tr *ngFor="let product of products">
     <td>{{product.name}}</td>
     <td><span class="remove glyphicon glyphicon-remove-sign" (click)="removeItem(product)"></span></td>
-    <td><span class="remove glyphicon glyphicon-wrench" (click)="updateItem(product)"></span></td>
   </tr>
   </tbody>
 </table>

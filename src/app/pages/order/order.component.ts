@@ -39,7 +39,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public showModal = false;
     public activeInvoices: Invoice[];
 
-    public invoiceTypes = ["Proforma", "Evidenčná", "Zálohová faktúra"];
+    public invoiceTypes = ["Zálohová faktúra","Doklad o prijati platby","Faktura"];
 
     public stopChanel = new Subject<number>();
 
@@ -62,38 +62,6 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
                 public router: Router,
                 private loadingBar: SlimLoadingBarService) {
 
-        if (!this.filteredOrders) {
-            this.loadingBar.start(() => {
-
-            });
-            console.log('getting type: ' + this.filterType);
-            // TODO: check dates
-            Observable.forkJoin(_orderServ.getOrders(this.currentPage, this.pageSize, null, this.filterType, this.filter))
-                .takeUntil(this.stopChanel)
-                .subscribe(
-                    result => {
-                        this.paginationMeta = result[0].meta;
-                        this.orders = result[0].data;
-                        this._orderServ.setOrders(result[0].data);
-                        this.bigTotalItems = this.paginationMeta.totalItems;
-
-                        this.loadingBar.complete();
-                    },
-                    error => {
-
-                    },
-                    () => {
-                        this.loadingBar.complete();
-                    }
-                );
-        }
-        else {
-
-            this.orders = this.filteredOrders;
-            this.bigTotalItems = this.paginationMeta.totalItems;
-
-        }
-
     }
 
     public setActiveOrderForModal(order: Order) {
@@ -104,9 +72,8 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public ngOnChanges(changes: any) {
         console.log('changes');
         if (changes.filteredOrders) {
-            this.stopChanel.next(1);
-            this.orders = this.filteredOrders;
-            this.bigTotalItems = this.paginationMeta.totalItems;
+            this.getOrders();
+
         }
     }
 
@@ -122,18 +89,53 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public ngOnInit() {
         // setttings the header for the home
         this.breadServ.set({
-            description: 'Orders',
+            description: 'Objednavky',
             display: true,
-            header: 'Orders',
+            header: 'Objednavky',
             levels: [
                 {
                     icon: 'order',
                     link: ['/orders'],
-                    title: 'Orders'
+                    title: 'Objednavky'
                 }
             ]
         });
 
+        if (!this.filteredOrders) {
+            this.loadingBar.start(() => {
+
+            });
+            // TODO: check dates
+            this.getOrders();
+        }
+        else {
+
+            this.orders = this.filteredOrders;
+            this.bigTotalItems = this.paginationMeta.totalItems;
+
+        }
+
+    }
+
+    private getOrders() {
+   Observable.forkJoin(this._orderServ.getOrders(this.currentPage, this.pageSize, null, null, this.filterType, this.filter))
+            .takeUntil(this.stopChanel)
+            .subscribe(
+                result => {
+                    this.paginationMeta = result[0].meta;
+                    this.orders = result[0].data;
+                    this._orderServ.setOrders(result[0].data);
+                    this.bigTotalItems = this.paginationMeta.totalItems;
+
+                    this.loadingBar.complete();
+                },
+                error => {
+
+                },
+                () => {
+                    this.loadingBar.complete();
+                }
+            );
     }
 
     public ngOnDestroy() {
@@ -169,7 +171,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     setActiveRecords(type = null) {
-        this._orderServ.getOrders(this.currentPage, this.pageSize, null, this.filterType, this.filter).subscribe(
+        this._orderServ.getOrders(this.currentPage, this.pageSize, this.filterType, this.sortOrientation, this.filter).subscribe(
             result => {
                 this.allOrders = result.data;
                 this.orders = result.data;
@@ -179,6 +181,9 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     orderBy(type) {
+        console.log(this.sort);
+        console.log(type);
+        console.log(this.sortOrientation);
         if (this.sort === type) {
             this.sortOrientation = (this.sortOrientation === 'asc') ? 'desc' : 'asc';
         } else {

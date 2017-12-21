@@ -1,61 +1,56 @@
 <form (ngSubmit)="onSubmit(orderForm)" [formGroup]="orderForm">
 
+    <!--<div class="form-group">-->
+        <!--<label for="name">Meno</label>-->
+        <!--<input type="text" id="name" class="form-control" formControlName="name"/>-->
+    <!--</div>-->
+
+    <!--<div class="form-group">-->
+        <!--<label for="companyString">Firma:</label>-->
+        <!--<input type="text" id="companyString" class="form-control" formControlName="companyString"/>-->
+    <!--</div>-->
+
     <div class="form-group">
         <label for="description">Popis:</label>
         <input type="text" id="description" class="form-control" formControlName="text"/>
     </div>
 
-    <div class="form-group">
-        <label for="createdByLab">Vytvoril:</label>
-        <input type="text" id="createdByLab" class="form-control" formControlName="createdBy"/>
-    </div>
-
-    <div class="form-group">
-        <label for="name">Meno</label>
-        <input type="text" id="name" class="form-control" formControlName="name"/>
-    </div>
-
-    <div class="form-group">
-        <label for="companyString">Firma:</label>
-        <input type="text" id="companyString" class="form-control" formControlName="companyString"/>
-    </div>
-
-    <div formGroupName="survey">
-        <div class="form-group">
-            <label for="constructionOwner">Meno majitela stavby:</label>
-            <input type="text" id="constructionOwner" class="form-control" formControlName="constructionOwner"/>
-        </div>
-        <div class="form-group">
-            <label for="constructionPlace">Miesto stavby a katastralne uzemie:</label>
-            <input type="text" id="constructionPlace" class="form-control" formControlName="constructionPlace"/>
-        </div>
-        <div class="form-group">
-            <label for="parcel">Parcela:</label>
-            <input type="text" id="parcel" class="form-control" formControlName="parcel"/>
-        </div>
-        <div class="form-group">
-            <md-select placeholder="Stavba" formControlName="building">
-                <md-option *ngFor="let buildingType of buildingTypes" [value]="buildingType">
-                    {{buildingType}}
-                </md-option>
-            </md-select>
-        </div>
-        <div class="form-group">
-            <label for="otherBuilding">Iny typ stavby:</label>
-            <input type="text" id="otherBuilding" class="form-control" formControlName="otherBuilding"/>
-        </div>
-        <div class="form-group">
-            <label for="buildingPermit">Stavebne povolenie - rok:</label>
-            <input type="text" id="buildingPermit" class="form-control" formControlName="buildingPermit"/>
-        </div>
-        <div class="form-group">
-            <md-select placeholder="Pocet podlazi:" formControlName="numberOfFloors">
-                <md-option *ngFor="let floor of numberOfFloors" [value]="floor">
-                    {{floor}}
-                </md-option>
-            </md-select>
-        </div>
-    </div>
+    <!--<div formGroupName="survey">-->
+        <!--<div class="form-group">-->
+            <!--<label for="constructionOwner">Meno majitela stavby:</label>-->
+            <!--<input type="text" id="constructionOwner" class="form-control" formControlName="constructionOwner"/>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label for="constructionPlace">Miesto stavby a katastralne uzemie:</label>-->
+            <!--<input type="text" id="constructionPlace" class="form-control" formControlName="constructionPlace"/>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label for="parcel">Parcela:</label>-->
+            <!--<input type="text" id="parcel" class="form-control" formControlName="parcel"/>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<md-select placeholder="Stavba" formControlName="building">-->
+                <!--<md-option *ngFor="let buildingType of buildingTypes" [value]="buildingType">-->
+                    <!--{{buildingType}}-->
+                <!--</md-option>-->
+            <!--</md-select>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label for="otherBuilding">Iny typ stavby:</label>-->
+            <!--<input type="text" id="otherBuilding" class="form-control" formControlName="otherBuilding"/>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label for="buildingPermit">Stavebne povolenie - rok:</label>-->
+            <!--<input type="text" id="buildingPermit" class="form-control" formControlName="buildingPermit"/>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<md-select placeholder="Pocet podlazi:" formControlName="numberOfFloors">-->
+                <!--<md-option *ngFor="let floor of numberOfFloors" [value]="floor">-->
+                    <!--{{floor}}-->
+                <!--</md-option>-->
+            <!--</md-select>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="action">
         <button [disabled]="!orderForm.valid" md-button mdStepperNext class="btn btn-success" type="submit">Dalej</button>
     </div>

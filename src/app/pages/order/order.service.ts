@@ -21,6 +21,9 @@ export class OrderService {
 
     directions = ['asc', 'desc'];
 
+    activePage;
+    pageSize;
+
     activeSort = '';
     activeDirection = this.directions[0];
 
@@ -39,6 +42,9 @@ export class OrderService {
                     this.productTypes = results[1].map(this.mapToLabelValue);
                     this.professionTypes = results[2].map(this.mapToLabelValue);
                     this.states = results[3];
+
+                    console.log('states: '+ this.states);
+
                 },
                 error => {
                     console.log(error);
@@ -86,16 +92,9 @@ export class OrderService {
         return orders;
     }
 
-    getOrders(page: number, pageSize: number, sort=null, filterType=null, filter=null) : Observable<any>{
+    getOrders(page: number, pageSize: number, sort=null, sortOrientation=null, filterType=null, filter=null) : Observable<any>{
 
-        if (sort === this.activeSort) {
-            this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
-        }
-
-        this.activeSort = sort;
-
-
-        return this.restSrv.getOrders(page, pageSize, sort, this.activeDirection, filterType, filter,
+        return this.restSrv.getOrders(page, pageSize, sort, sortOrientation, filterType, filter,
             this.usrService.isDealer());
     }
 

@@ -67,7 +67,7 @@ export class UserComponent {
     }
 
     onErrorWhileRegistration(error) {
-        this.notificationSrv.error('Registracia neuspesna', 'Nastal problem pri registracii: ' + error);
+        this.notificationSrv.error('Registracia neuspesna', 'Uzivatel uz existuje ');
     }
 
     removeUser(user) {

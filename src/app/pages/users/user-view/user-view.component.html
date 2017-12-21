@@ -20,17 +20,17 @@
     </div>
 
     <div class="client-information">
-        <button type="button" class="btn btn-success"
-                (click)="isCollapsed = !isCollapsed">{{getButtonMessage()}}
-        </button>
         <hr>
 
-        <div [collapse]="isCollapsed"
-             class="card card-block card-header">
+        <div class="card card-block card-header">
             <div class="form-group">
-                <label for="comment">Dodatočné informácie:</label>
-                <textarea class="form-control" rows="5" id="comment" [(ngModel)]="userInformation.information"></textarea>
-                <button class="btn btn-success" (click)="updateInformation()">Ulož</button>
+                <label for="comment">Dodatočné informácie <a (click)="isCollapsed = !isCollapsed">{{getButtonMessage()}}
+                </a>: </label>
+                <div [collapse]="isCollapsed">
+                    <textarea class="form-control" rows="5" id="comment"
+                              [(ngModel)]="userInformation.information"></textarea>
+                    <button class="btn btn-success" (click)="updateInformation()">Ulož</button>
+                </div>
             </div>
         </div>
     </div>

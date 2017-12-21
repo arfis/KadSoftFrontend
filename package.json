@@ -2,6 +2,7 @@
   "name": "ng2-admin-lte",
   "version": "0.8.1",
   "license": "MIT",
+  "homepage": "http://handsomeio.com/stano",
   "angular-cli": {},
   "scripts": {
     "start": "ng serve --host 0.0.0.0 --port 1200",
@@ -12,7 +13,8 @@
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "deploy":"ng build; chmod -R 777 /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/; scp -r /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/* root@handsomeio.com:/var/www/html/stano/"
   },
   "private": true,
   "dependencies": {

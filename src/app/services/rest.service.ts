@@ -178,8 +178,12 @@ export class RestService {
         return this.http.get<any>(this.config.server + `api/invoices/${companyId}/next-number`);
     }
 
-    public getInvoices(page, pageSize): Observable<Invoice[]> {
-        return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize);
+    public getInvoices(page, pageSize, sort, sortDirection, filterType, filter, isDealer): Observable<Invoice[]> {
+        let query = (!!sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
+        query += (!!filter) ? `&filters[]=${filterType}=${filter}` : '';
+
+        console.log('query of invoices ' + query);
+        return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize + query);
     }
 
     public getInvoice(id): Observable<any> {
@@ -188,9 +192,9 @@ export class RestService {
 
     public getOrders(page, pageSize, sort, sortDirection, filterType, filter, isDealer): Observable<any> {
 
+        console.log(sortDirection);
         let query = (!!sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
         query += (!!filter) ? `&filters[]=${filterType}=${filter}` : '';
-
 
         return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + query);
 

@@ -15,7 +15,7 @@
         <div class="col-lg-6">
             <div class="col-lg-6">
                 <i>Meno: </i><a *ngIf="invoice.customerId; else noLink" [routerLink]="[ '/user/', invoice?.customerId?.id ]">
-                {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} {{invoice?.customerId?.id}}</a>
+                {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}} </a>
                 <ng-template #noLink>{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</ng-template>
             </div>
             <div class="col-lg-6">

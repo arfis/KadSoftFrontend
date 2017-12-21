@@ -1,8 +1,14 @@
 <ng-container *ngIf="isLoaded">
 
+    <app-spinner *ngIf="isUploading"></app-spinner>
+
     <h2>Objednavka [{{orderId}}]</h2>
 
-    <p><span class="attribute">Klient</span>{{client}}</p>
+    <p><span class="attribute">Klient</span><a *ngIf="order?.customerId; else noLink"
+                                               [routerLink]="[ '/user/', order?.customerId ]">
+        {{order?.mainContact?.name}} {{order?.mainContact?.surname}}</a>
+        <ng-template #noLink>{{order?.mainContact?.name}} {{order?.mainContact?.surname}}</ng-template>
+    </p>
 
     <app-stepper (onChange)="changeState($event)" [steps]="states" [activeSteps]="actions"
                  [currentStep]="currentState"></app-stepper>
@@ -27,7 +33,7 @@
         </div>
 
         <div class="files section">
-            <h4>Subory:</h4>
+            <h4>Podklady:</h4>
             <div class="file-upload row">
 
                 <div class="col-lg-12 col-md-12 widget">
@@ -63,7 +69,7 @@
 
                     <ng-container *ngIf="isHeatingSelected">
                         <h4>Jednotkova cena kurenie:</h4>
-                        <input type="number" min="1" class="form-control" [(ngModel)]="heatingPrice">
+                        <input pTooltip="4€" type="number" min="1" class="form-control" [(ngModel)]="heatingPrice">
                     </ng-container>
 
 
@@ -75,7 +81,7 @@
 
                     <ng-container *ngIf="isLightingSelected">
                         <h4>Jednotkova cena osvetlenie:</h4>
-                        <input type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
+                        <input pTooltip="do 250m 40€\ndo 1500m 60€\ndo 2500m 80€\ndo 5000m 120€\n nad 5000m dohodou" type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
                     </ng-container>
 
                     <p>Celkove naklady: {{totalCost}}</p>

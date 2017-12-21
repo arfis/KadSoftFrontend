@@ -68,15 +68,16 @@ export class CustomerCreation implements OnInit, OnChanges {
         this.customerForm = this.fb.group({
             'ico': [],
             'dic': [],
+            'icDph': [],
             'mainContact': this.fb.group({
-                'name': ['a', Validators.required],
-                'surname': ['a', Validators.required],
-                'postcode': ['a', Validators.required],
-                'telephone': ['0911220883', Validators.required],
-                'country': ['e', Validators.required],
+                'name': ['', Validators.required],
+                'surname': ['', Validators.required],
+                'postcode': ['', Validators.required],
+                'telephone': ['', Validators.required],
+                'country': ['', Validators.required],
                 'accountNumber': [],
-                'email': ['mail@mail.com', Validators.required],
-                'street': ['dsads', Validators.required],
+                'email': ['', Validators.required],
+                'street': ['', Validators.required],
                 'city': ['', Validators.required],
                 'iban': [],
                 'swift': []

@@ -24,6 +24,11 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     public currentPage = 1;
     public pageSize = 10;
+    public sort: string;
+    public sortOrientation: string;
+    public filter: string;
+    public filterType: string;
+
     /*
      Pagination parameters
      */
@@ -31,7 +36,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     private paginationInfo = new PaginationMetadata();
     @Input() showList: boolean = true;
 
-    public invoiceTypes = ["Proforma", "Evidenčná", "Zálohová faktúra"];
+    public invoiceTypes = ["Zálohová faktúra","Doklad o prijati platby","Faktura"];
 
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
@@ -67,18 +72,26 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         )
 
         this.breadServ.set({
-            description: 'Invoices',
+            description: 'Faktury',
             display: true,
-            header: 'Invoices',
+            header: 'Faktury',
             levels: [
                 {
                     icon: 'invoices',
                     link: ['/invoices'],
-                    title: 'Invoices'
+                    title: 'Faktury'
                 }
             ]
         });
 
+    }
+
+    update(filteredInvoices) {
+        if (filteredInvoices) {
+            console.log(filteredInvoices);
+            this.invoices = filteredInvoices.data;
+            this.paginationInfo.totalItems = filteredInvoices.meta.totalItems;
+        }
     }
 
     getHtmlLink(invoice: Invoice) {

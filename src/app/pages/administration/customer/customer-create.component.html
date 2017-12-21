@@ -16,7 +16,7 @@
             </label>
 
 
-                <div *ngIf="type == 'company'">
+                <div class="row" *ngIf="type == 'company'">
                     <div class="col-lg-6 form-group">
                         <label for="ico">ICO:</label>
                         <input type="text" id="ico" class="form-control" formControlName="ico"/>
@@ -26,6 +26,12 @@
                         <label for="dic">DIC:</label>
                         <input type="text" id="dic" class="form-control" formControlName="dic"/>
                     </div>
+
+                    <div class="col-lg-6 form-group">
+                        <label for="dic">icDph:</label>
+                        <input type="text" id="icDph" class="form-control" formControlName="icDph"/>
+                    </div>
+
                 </div>
 
                 <div formGroupName="mainContact">
