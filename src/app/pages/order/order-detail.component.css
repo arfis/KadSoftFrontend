@@ -77,3 +77,20 @@
 .full-width {
     width: 100%;
 }
+
+.fa-clone:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.btn-section {
+    display:flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn {
+    min-width: 50px;
+    margin: 5px;
+}

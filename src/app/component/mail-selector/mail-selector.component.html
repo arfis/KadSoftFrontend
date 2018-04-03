@@ -1,13 +1,13 @@
 <div class="wrapper-mail">
-    <md-select (change)="onChange($event)" placeholder="Sablona">
-        <md-option *ngFor="let template of templates" [value]="template">
+    <mat-select (change)="onChange($event)" placeholder="Sablona">
+        <mat-option *ngFor="let template of templates" [value]="template">
             {{ template }}
-        </md-option>
-    </md-select>
+        </mat-option>
+    </mat-select>
 
-    <md-form-field>
-        <textarea mdInput [(ngModel)]="selectedMail" placeholder="Text spravy"></textarea>
-    </md-form-field>
+    <mat-form-field>
+        <textarea matInput [(ngModel)]="selectedMail" placeholder="Text spravy"></textarea>
+    </mat-form-field>
 
-    <button md-Button (click)="onCreate()">Vytvor objednavku</button>
+    <button (click)="onCreate()">Vytvor objednavku</button>
 </div>

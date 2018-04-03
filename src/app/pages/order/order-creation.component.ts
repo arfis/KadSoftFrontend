@@ -1,7 +1,7 @@
 /**
  * Created by a619678 on 23. 5. 2017.
  */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {InvoiceService} from "../invoice/invoice.service";
 import {InvoiceStatus} from "../invoice/invoiceStatus.model";
@@ -27,6 +27,8 @@ import {Product} from "../../models/Product";
 export class OrderCreationComponent {
 
     @Output() invoiceCreatedEmitted = new EventEmitter();
+    @Input() order;
+    @Input() duplicate;
 
     invoiceCreated(order) {
         this.invoiceCreatedEmitted.emit(order);

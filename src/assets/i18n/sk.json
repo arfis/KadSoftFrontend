@@ -1,0 +1,18 @@
+{
+  "survey" : {
+    "title": "Dotaznik",
+    "ownerName" : "Meno majitela stavby",
+    "constructionPlace": "Miesto stavby a katastralne uzemie",
+    "parcel": "Parcela",
+    "building": "Stavba",
+    "otherBuilding": "Iny typ stavby"
+  },
+  "test": "Testovackaaa",
+
+  "draft" : "Nepripravena",
+  "preparing" : "Pripravovana",
+  "unassigned" : "Nepriradena",
+  "assigned" : "Priradena",
+  "finished" : "Dokoncena",
+  "dispatched" : "Odoslana"
+}

@@ -98,7 +98,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     ngOnInit() {
 
-        this.invoiceForm.reset();
+        // this.invoiceForm.reset();
         this.createForm();
     }
 
@@ -330,7 +330,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
         }
 
         if (!this.isCompanyTaxPayer) {
-            console.log('deleting tax');
             delete value.tax;
         }
         this.createEmitter.next(value);
@@ -338,11 +337,15 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     setFormValues() {
 
+        console.log('setting invoice', this.invoice);
         if (this.invoiceItems.length < this.invoice.invoiceItems.length) {
             for (let item of this.invoice.invoiceItems) {
+                console.log('adding item', item);
                 this.addProduct()
             }
         }
+
+        console.log('patching value', this.invoice);
 
         this.invoiceForm.patchValue(this.invoice);
         this.wasPatched = true;

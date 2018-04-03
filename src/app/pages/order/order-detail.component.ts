@@ -15,7 +15,7 @@ import {OrderFiles} from "../../models/orderFiles";
 import {HttpErrorResponse} from "@angular/common/http";
 import {OrderConstants} from "./order.constants";
 import {RestService} from "../../services/rest.service";
-import {MdStep} from "@angular/material";
+import {MatStep} from "@angular/material";
 import {LoginUser} from "../login/login-user.model";
 import {Invoice} from "../invoice/invoice.model";
 import {Product} from "../../models/Product";
@@ -52,8 +52,9 @@ export class OrderDetailComponent {
 
     users;
     invoiceToBeCreated: Invoice;
-    public isUploading = false;
 
+    public isUploading = false;
+    public duplicateCreation = false;
     @ViewChild('uploader') uploader;
 
     constructor(private activatedRoute: ActivatedRoute,
@@ -301,6 +302,16 @@ export class OrderDetailComponent {
 
     onInvoiceCreated() {
         this.toPreparing();
+    }
+
+    duplicate() {
+        console.log('duplicate');
+        this.duplicateCreation = !this.duplicateCreation;
+        console.log(this.duplicateCreation);
+    }
+
+    get isDuplicateCreation() {
+        return this.duplicateCreation;
     }
 
     get orderId() {

@@ -3,30 +3,29 @@
         <a href="../../index2.html"><b>Kad</b>SOFT</a>
     </div>
     <!-- /.login-logo -->
-
         <toaster-container [toasterconfig]="toastrConfig"></toaster-container>
         <form (submit)="login()">
 
             <div class="form-group has-feedback">
                 <span class="glyphicon glyphicon-enveloppe form-control-feedback"></span>
-                <md-form-field class="example-full-width">
-                    <input mdInput placeholder="Email" required minlength="8" name="eml" [(ngModel)]="email"
+                <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Email" required minlength="8" name="eml" [(ngModel)]="email"
                            #eml="ngModel">
-                    <md-icon mdSuffix>email</md-icon>
-                </md-form-field>
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
             </div>
 
             <div class="form-group has-feedback">
-                <md-form-field class="example-full-width">
-                    <input mdInput type="password" class="form-control" placeholder="Heslo" required name="passwd"
+                <mat-form-field class="example-full-width">
+                    <input matInput type="password" class="form-control" placeholder="Heslo" required name="passwd"
                            [(ngModel)]="password" #passwd="ngModel"
                            #eml="ngModel">
-                    <md-icon mdSuffix>lock</md-icon>
-                </md-form-field>
+                    <mat-icon matSuffix>lock</mat-icon>
+                </mat-form-field>
             </div>
 
 
-                    <button md-button type="submit" class="login-btn">Sign In</button>
+                    <button matButton type="submit" class="login-btn">Sign In</button>
                 <!-- /.col -->
 
         </form>

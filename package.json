@@ -1,7 +1,6 @@
 {
-  "name": "ng2-admin-lte",
+  "name": "envea-admin",
   "version": "0.8.1",
-  "license": "MIT",
   "homepage": "http://handsomeio.com/stano",
   "angular-cli": {},
   "scripts": {
@@ -14,23 +13,23 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "deploy":"ng build; chmod -R 777 /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/; scp -r /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/* root@handsomeio.com:/var/www/html/stano/"
+    "deploy": "ng build; chmod -R 777 /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/; scp -r /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/* root@handsomeio.com:/var/www/html/stano/"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^4.4.3",
-    "@angular/cdk": "^2.0.0-beta.11",
-    "@angular/common": "^4.4.3",
-    "@angular/compiler": "^4.4.3",
-    "@angular/core": "^4.4.3",
-    "@angular/forms": "^4.4.3",
-    "@angular/http": "^4.4.3",
-    "@angular/material": "^2.0.0-beta.11",
-    "@angular/platform-browser": "^4.4.3",
-    "@angular/platform-browser-dynamic": "^4.4.3",
-    "@angular/router": "^4.4.3",
-    "@ngx-translate/core": "^7.0.0",
-    "@ngx-translate/http-loader": "0.1.0",
+    "@angular/animations": "^5.2.9",
+    "@angular/cdk": "^5.2.4",
+    "@angular/common": "^5.2.9",
+    "@angular/compiler": "^5.2.9",
+    "@angular/core": "^5.2.9",
+    "@angular/forms": "^5.2.9",
+    "@angular/http": "^5.2.9",
+    "@angular/material": "^5.2.4",
+    "@angular/platform-browser": "^5.2.9",
+    "@angular/platform-browser-dynamic": "^5.2.9",
+    "@angular/router": "^5.2.9",
+    "@ngx-translate/core": "^9.1.1",
+    "@ngx-translate/http-loader": "^3.0.1",
     "admin-lte": "^2.4.0",
     "angular2-toaster": "^4.0.1",
     "angular2-uuid": "^1.1.0",
@@ -42,15 +41,15 @@
     "jquery": "^3.1.1",
     "ng2-slim-loading-bar": "^4.0.0",
     "ng2-smooth-scroll": "^1.0.1",
-    "ngx-bootstrap": "^1.1.16",
+    "ngx-bootstrap": "^2.0.3",
     "primeng": "^4.1.0",
-    "rxjs": "^5.1.1",
+    "rxjs": "^5.5.8",
     "ts-helpers": "^1.1.1",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.22"
   },
   "devDependencies": {
-    "@angular/cli": "^1.4.3",
-    "@angular/compiler-cli": "^4.0.0",
+    "@angular/cli": "^1.7.3",
+    "@angular/compiler-cli": "^5.2.9",
     "@angular/language-service": "^4.0.0",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
@@ -67,6 +66,6 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "^2.8.1"
   }
 }

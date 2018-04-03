@@ -12,7 +12,7 @@ import {RestService} from "../../services/rest.service";
 import {UserService} from "../../services/user.service";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
-import {MdButtonModule, MdStepperModule} from "@angular/material";
+import {MatButtonModule, MatStepperModule} from "@angular/material";
 import {FilterModule} from "../../widgets/filter/filter.module";
 import {AutoCompleteModule} from "primeng/primeng";
 
@@ -29,8 +29,8 @@ import {AutoCompleteModule} from "primeng/primeng";
         BsDropdownModule.forRoot(),
         SlimLoadingBarModule.forRoot(),
         ModalModule.forRoot(),
-        MdStepperModule,
-        MdButtonModule,
+        MatStepperModule,
+        MatButtonModule,
     ],
     declarations: [
         InvoiceComponent,

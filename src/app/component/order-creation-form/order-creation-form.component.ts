@@ -15,9 +15,9 @@ export class OrderCreationFormComponent implements OnInit{
 
     public orderForm: FormGroup;
 
-    buildingTypes = ['Novostavba', 'Rekonstrukcia'];
+    buildingTypes = ['Novostavba', 'Rekonstrukcia', 'Ine'];
     numberOfFloors = ['1PP', '1NP - nadzemne podlazie', '2NP - nedzemne podlazie', 'Ine'];
-
+    orientations = ['S','SZ','Z','JZ','J','JV','V','SV'];
     constructor(private fb: FormBuilder,
                 private loggedUserService: UserService,) {
     }
@@ -46,14 +46,31 @@ export class OrderCreationFormComponent implements OnInit{
                 'otherBuilding': [''],
                 'buildingPermit': [''],
                 'numberOfFloors': [''],
+                'heatGenerator': [''],
+                'heatTechnology':[''],
+                'hotWaterCirculation': [''],
+                'solarSystem':[''],
+                'fireplace':[''],
+                'fireplaceEnergy':[''],
+                'fireplaceHotWater':[''],
+                'outerSize': [''],
+                'wall':[''],
+                'roof':[''],
+                'floor':[''],
+                'recapitulation':[''],
+                'windows':[''],
+                'entranceOrientation':[''],
+                'note':['']
             })
         })
 
         if (this.order) {
-            console.log('patching');
-            console.log(this.order);
             this.orderForm.patchValue(this.order);
         }
+    }
+
+    get isOtherNumberOfFloors() {
+        return true;
     }
 
     onSubmit({value}: { value: Order }) {

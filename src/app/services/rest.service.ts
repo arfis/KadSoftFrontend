@@ -50,7 +50,7 @@ export class RestService {
             password: password
         };
 
-        return this.http.post(this.config.server + this.config.authUrl, data);
+        return this.http.post<LoginResponse>(this.config.server + this.config.authUrl, data);
 
     }
 
@@ -147,7 +147,7 @@ export class RestService {
 
     /*Companies API*/
     public getCompanies(): Observable<Company[]> {
-        return this.http.get(this.config.server + this.config.companiesApi);
+        return this.http.get<Company[]>(this.config.server + this.config.companiesApi);
     }
 
 
@@ -261,8 +261,8 @@ export class RestService {
         return this.http.get<Type[]>(this.config.server + 'api/profession-type/');
     }
 
-    public addFilesToOrder(orderId, files) {
-        return this.http.patch(this.config.server + 'api/orders/' + orderId, files, {});
+    public addFilesToOrder(orderId, files): Observable<Order> {
+        return this.http.patch<Order>(this.config.server + 'api/orders/' + orderId, files, {});
     }
 
     public removeFile(fileId) {

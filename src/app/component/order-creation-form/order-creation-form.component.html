@@ -1,57 +1,151 @@
 <form (ngSubmit)="onSubmit(orderForm)" [formGroup]="orderForm">
 
     <!--<div class="form-group">-->
-        <!--<label for="name">Meno</label>-->
-        <!--<input type="text" id="name" class="form-control" formControlName="name"/>-->
+    <!--<label for="name">Meno</label>-->
+    <!--<input type="text" id="name" class="form-control" formControlName="name"/>-->
     <!--</div>-->
 
     <!--<div class="form-group">-->
-        <!--<label for="companyString">Firma:</label>-->
-        <!--<input type="text" id="companyString" class="form-control" formControlName="companyString"/>-->
+    <!--<label for="companyString">Firma:</label>-->
+    <!--<input type="text" id="companyString" class="form-control" formControlName="companyString"/>-->
     <!--</div>-->
 
-    <div class="form-group">
-        <label for="description">Popis:</label>
-        <input type="text" id="description" class="form-control" formControlName="text"/>
-    </div>
+    <mat-form-field class="full-width">
+        <input matInput placeholder="Opis" type="text" id="description" class="form-control" formControlName="text"/>
+    </mat-form-field>
 
-    <!--<div formGroupName="survey">-->
-        <!--<div class="form-group">-->
-            <!--<label for="constructionOwner">Meno majitela stavby:</label>-->
-            <!--<input type="text" id="constructionOwner" class="form-control" formControlName="constructionOwner"/>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<label for="constructionPlace">Miesto stavby a katastralne uzemie:</label>-->
-            <!--<input type="text" id="constructionPlace" class="form-control" formControlName="constructionPlace"/>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<label for="parcel">Parcela:</label>-->
-            <!--<input type="text" id="parcel" class="form-control" formControlName="parcel"/>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<md-select placeholder="Stavba" formControlName="building">-->
-                <!--<md-option *ngFor="let buildingType of buildingTypes" [value]="buildingType">-->
-                    <!--{{buildingType}}-->
-                <!--</md-option>-->
-            <!--</md-select>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<label for="otherBuilding">Iny typ stavby:</label>-->
-            <!--<input type="text" id="otherBuilding" class="form-control" formControlName="otherBuilding"/>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<label for="buildingPermit">Stavebne povolenie - rok:</label>-->
-            <!--<input type="text" id="buildingPermit" class="form-control" formControlName="buildingPermit"/>-->
-        <!--</div>-->
-        <!--<div class="form-group">-->
-            <!--<md-select placeholder="Pocet podlazi:" formControlName="numberOfFloors">-->
-                <!--<md-option *ngFor="let floor of numberOfFloors" [value]="floor">-->
-                    <!--{{floor}}-->
-                <!--</md-option>-->
-            <!--</md-select>-->
-        <!--</div>-->
-    <!--</div>-->
+    <section>
+        <h3>{{'survey.title' | translate}}</h3>
+        <div formGroupName="survey">
+
+            <mat-form-field class="full-width">
+                <input matInput type="text" id="constructionOwner" class="form-control"
+                       [placeholder]="'survey.ownerName' | translate" formControlName="constructionOwner"/>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput type="text" id="constructionPlace" class="form-control"
+                       [placeholder]="'survey.constructionPlace' | translate" formControlName="constructionPlace"/>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput type="text" id="parcel" class="form-control"
+                       [placeholder]="'survey.parcel' | translate" formControlName="parcel"/>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-select [placeholder]="'survey.building' | translate" formControlName="building">
+                    <mat-option *ngFor="let buildingType of buildingTypes" [value]="buildingType">
+                        {{buildingType}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput type="text" id="otherBuilding" class="form-control"
+                       [placeholder]="'survey.otherBuilding' | translate" formControlName="otherBuilding"/>
+            </mat-form-field>
+            <div class="form-group">
+                <label for="buildingPermit">Stavebne povolenie - rok:</label>
+                <input type="text" id="buildingPermit" class="form-control" formControlName="buildingPermit"/>
+            </div>
+            <div class="form-group">
+                <label for="outerSize">Vonkajsi vymer:</label>
+                <input type="number" id="outerSize" class="form-control" formControlName="outerSize"/>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 form-group">
+                    <mat-select placeholder="Pocet podlazi:" formControlName="numberOfFloors">
+                        <mat-option *ngFor="let floor of numberOfFloors" [value]="floor">
+                            {{floor}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <div *ngIf="isOtherNumberOfFloors" class="col-lg-6 form-group">
+                    <label for="numberOfFloors">Iny pocet:</label>
+                    <input type="number" id="numberOfFloors" class="form-control" formControlName="numberOfFloors"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <mat-select placeholder="Orientacia vstupu:" formControlName="entranceOrientation">
+                    <mat-option *ngFor="let orientation of orientations" [value]="orientation">
+                        {{orientation}}
+                    </mat-option>
+                </mat-select>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 form-group">
+                    <label for="heatGenerator">Tvorba tepla:</label>
+                    <input type="text" id="heatGenerator" class="form-control" formControlName="heatGenerator"/>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label for="heatTechnology">Tepelna technologia:</label>
+                    <input type="text" id="heatTechnology" class="form-control" formControlName="heatTechnology"/>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <label for="hotWaterCirculation">Cirkulacia teplej vody:</label>
+                    <input type="text" id="hotWaterCirculation" class="form-control"
+                           formControlName="hotWaterCirculation"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="solarSystem">Solarny system:</label>
+                <input type="text" id="solarSystem" class="form-control" formControlName="solarSystem"/>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 form-group">
+                    <label for="fireplace">Krb:</label>
+                    <input type="text" id="fireplace" class="form-control" formControlName="fireplace"/>
+                </div>
+
+                <div class="col-lg-4 form-group">
+                    <label for="fireplaceEnergy">Krb - vykon:</label>
+                    <input type="text" id="fireplaceEnergy" class="form-control" formControlName="fireplaceEnergy"/>
+                </div>
+
+
+                <div class="col-lg-4 form-group">
+                    <label for="fireplaceHotWater">Krb - tepla voda:</label>
+                    <input type="text" id="fireplaceHotWater" class="form-control" formControlName="fireplaceHotWater"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 form-group">
+                    <label for="wall">Typ steny:</label>
+                    <input type="text" id="wall" class="form-control" formControlName="wall"/>
+                </div>
+
+                <div class="col-lg-3 form-group">
+                    <label for="roof">Strecha:</label>
+                    <input type="text" id="roof" class="form-control" formControlName="roof"/>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="floor">Podlaha:</label>
+                    <input type="text" id="floor" class="form-control" formControlName="floor"/>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label for="windows">Okna:</label>
+                    <input type="text" id="windows" class="form-control" formControlName="windows"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="recapitulation">Rekapitulacia:</label>
+                <input type="text" id="recapitulation" class="form-control" formControlName="recapitulation"/>
+            </div>
+
+            <div class="form-group">
+                <label for="note">Poznamka:</label>
+                <input type="text" id="note" class="form-control" formControlName="note"/>
+            </div>
+        </div>
+    </section>
     <div class="action">
-        <button [disabled]="!orderForm.valid" md-button mdStepperNext class="btn btn-success" type="submit">Dalej</button>
+        <button [disabled]="!orderForm.valid" md-button matStepperNext class="btn btn-success" type="submit">Dalej
+        </button>
     </div>
 </form>

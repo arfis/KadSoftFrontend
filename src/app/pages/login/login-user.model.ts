@@ -6,7 +6,7 @@ export class LoginUser {
     name : string;
     surname: string;
     roles : string[];
-    avatarUrl: string = 'public/assets/img/stano.jpg';
+    avatarUrl: string = 'assets/img/stano.jpg';
     
     
     get userName() {

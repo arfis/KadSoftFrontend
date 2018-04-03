@@ -214,7 +214,6 @@ export class InvoiceDetailComponent {
         let sliceSize =  512;
 
         let base64 = this.base64image.base64.replace('data:application/pdf;base64,', '');
-        console.log(base64);
         let byteCharacters = atob(base64);
         var contentType = 'application/pdf';
         let byteArrays = [];

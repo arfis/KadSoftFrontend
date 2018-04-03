@@ -1,8 +1,17 @@
-<ng-container *ngIf="isLoaded">
+<ng-container *ngIf="isDuplicateCreation">
+    <i class="fa fa-clone" (click)="duplicate()" alt="zduplikovat" aria-hidden="true"></i>
+<order-creation [duplicate]="true" [order]="order">
+
+</order-creation>
+</ng-container>
+
+<ng-container *ngIf="!isDuplicateCreation && isLoaded">
 
     <app-spinner *ngIf="isUploading"></app-spinner>
 
-    <h2>Objednavka [{{orderId}}]</h2>
+    <h2>Objednavka [{{orderId}}] <i class="fa fa-clone" (click)="duplicate()" alt="zduplikovat" aria-hidden="true"></i>
+    </h2>
+
 
     <p><span class="attribute">Klient</span><a *ngIf="order?.customerId; else noLink"
                                                [routerLink]="[ '/user/', order?.customerId ]">
@@ -27,9 +36,9 @@
         </div>
 
         <div class="section">
-            <md-form-field class="full-width">
-                <textarea mdInput [(ngModel)]='note' placeholder="Poznamka"></textarea>
-            </md-form-field>
+            <mat-form-field class="full-width">
+                <textarea matInput [(ngModel)]='note' placeholder="Poznamka"></textarea>
+            </mat-form-field>
         </div>
 
         <div class="files section">
@@ -81,7 +90,8 @@
 
                     <ng-container *ngIf="isLightingSelected">
                         <h4>Jednotkova cena osvetlenie:</h4>
-                        <input pTooltip="do 250m 40€\ndo 1500m 60€\ndo 2500m 80€\ndo 5000m 120€\n nad 5000m dohodou" type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
+                        <input pTooltip="do 250m 40€\ndo 1500m 60€\ndo 2500m 80€\ndo 5000m 120€\n nad 5000m dohodou"
+                               type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
                     </ng-container>
 
                     <p>Celkove naklady: {{totalCost}}</p>
@@ -113,7 +123,10 @@
             </div>
         </div>
 
-        <button (click)="updateOrder()" class="btn btn-success btn-block">Uloz</button>
+        <div class="btn-section">
+            <button (click)="updateOrder()" class="btn btn-success"><i class="fa fa-save" ria-hidden="true"></i> Uloz</button>
+            <button (click)="duplicate()" class="btn btn-success">Zduplikuj</button>
+        </div>
         <p>Priradene: <i>{{order?.assignedTo?.email || '-'}}</i></p>
 
         <!--<ng-container *ngIf="false">-->

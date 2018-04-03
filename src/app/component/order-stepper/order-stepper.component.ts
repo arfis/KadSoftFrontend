@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
     templateUrl: './order-stepper.component.html',
     styleUrls: ['./order-stepper.component.css']
 })
-export class OrderStepperComponent implements OnInit {
+export class OrderStepperComponent implements OnInit, OnChanges {
 
     isLinear = false;
     firstFormGroup: FormGroup;
@@ -25,6 +25,7 @@ export class OrderStepperComponent implements OnInit {
     invoice: Invoice = new Invoice();
     email: string;
 
+    @Input() duplicate: boolean = false;
     @Input() order: Order;
     @Output() createEmitter = new EventEmitter();
     @ViewChild('stepper') stepper;
@@ -35,6 +36,12 @@ export class OrderStepperComponent implements OnInit {
                 private router: Router) {
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+
+        if (this.order) {
+            this.invoice = this.order.invoices[0];
+        }
+    }
 
     ngOnInit() {
         if (this.order) {
@@ -43,7 +50,7 @@ export class OrderStepperComponent implements OnInit {
     }
 
     orderCreated(order: Order) {
-        if (this.order) {
+        if (this.order && !this.duplicate) {
             order.id = this.order.id;
             delete order.survey;
             

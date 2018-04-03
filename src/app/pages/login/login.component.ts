@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
                     response => {
 
                         let user1 = response;
-                        user1.avatarUrl = 'public/assets/img/stano.jpg';
+                        user1.avatarUrl = 'assets/img/stano.jpg';
 
                         user1.connected = true;
 
