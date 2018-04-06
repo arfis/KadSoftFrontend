@@ -45,7 +45,6 @@ export class CompanyCreation implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.company && changes.company) {
-            console.log('setting up company');
             this.companyForm.patchValue(this.company);
 
         }
@@ -117,12 +116,9 @@ export class CompanyCreation implements OnInit, OnChanges {
                         this.notificationSrv.error('Zmena suboru', 'nebola uspesna');
                         if (err.error instanceof Error) {
                             // A client-side or network error occurred. Handle it accordingly.
-                            console.log('An error occurred:', err.error.message);
                         } else {
                             // The backend returned an unsuccessful response code.
                             // The response body may contain clues as to what went wrong,
-                            console.log(`Backend returned code ${err.status}, body was:`);
-                            console.log(err.error);
                         }
                     },
                     () => this.isLoading = false
@@ -151,7 +147,6 @@ export class CompanyCreation implements OnInit, OnChanges {
         reader.readAsDataURL(file);
 
         reader.onload = function () {
-            console.log(reader.result);
             callback(reader.result);
         };
 

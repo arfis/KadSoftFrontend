@@ -2,5 +2,8 @@
  "survey" : {
 	 "ownerName" : "Meno majitela stavby"
  },
-  "test": "Testovackaaa"
+  "test": "Testovackaaa",
+  "order": {
+    "create": "Create new order"
+  }
 }

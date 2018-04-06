@@ -1,8 +1,7 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 
 <ng-container *ngIf="!filteredOrders">
-    <button type="button" (click)="toggleForm()" class="btn btn-success">Vytvoriť novú objednávku</button>
-
+    <app-table-panel (onCreate)="toggleForm()" (onSearchChange)="search($event)"></app-table-panel>
     <div class="well well-lg" [collapse]="isFormCollapsed">
         <order-creation (invoiceCreatedEmitted)="updateOrderList($event)"></order-creation>
     </div>

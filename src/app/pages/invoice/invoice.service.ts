@@ -23,49 +23,36 @@ export class InvoiceService {
     activeDirection = this.directions[0];
     activePage;
     pageSize;
+    filter;
+    filterType;
     states = ['created', 'paid', 'expired', 'canceled', 'late_paid', 'wrong_paid'];
 
-    constructor(private userSrv: CustomerService,
-                private loggedUserService: UserService,
-                private restServ: RestService,
+    constructor(private restServ: RestService,
                 private configuration : Configuration) {
 
     }
 
-    public getCachedInvoices(){
-        return this.invoices;
+    public generateInvoiceId(){
+        return 10001;
     }
 
     public getPermissions(companyId : number) : Observable<CompanyPermissions>{
         return this.restServ.getCompanyPermissions(companyId);
     }
 
-    public setInvoices(invoices : Invoice[]){
-        this.invoices = invoices;
-    }
-
-    public generateInvoiceId(): number {
-        return 10001;
-    }
-
-    // TODO : If just going directly on an specific invoice, no data is cached
-    public getInvoiceById(id : number){
-
-    }
-
-
     public getInvoice(id: number): Observable<Invoice> {
         return this.restServ.getInvoice(id);
     }
 
-    public getInvoices(page: number, pageSize: number, sort=null, filterType=null, filter=null): Observable<any> {
+    public getInvoices(params): Observable<any> {
+        const {pageSize, currentPage, sort, filter, filterType} = params.payload;
         if (sort === this.activeSort) {
             this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
         }
 
         this.activeSort = sort;
 
-        return this.restServ.getInvoices(page, pageSize, sort, this.activeDirection, filterType, filter,
+        return this.restServ.getInvoices(currentPage, pageSize, sort, this.activeDirection, filterType, filter,
             false);
     }
 
@@ -81,9 +68,6 @@ export class InvoiceService {
         return this.restServ.payInvoice(invoice);
     }
 
-    public generatePdfOfInvoice(invoice : Invoice){
-        return this.restServ.generatePdfOfInvoice(invoice);
-    }
 
     public sendEmailForInvoice(invoice : Invoice){
         return this.restServ.sendEmailForInvoice(invoice);
@@ -99,9 +83,4 @@ export class InvoiceService {
 
     }
 
-    public deleteInvoice(invoice: Invoice): Observable<Invoice[]> {
-        this.invoices.splice(this.invoices.indexOf(invoice), 1);
-
-        return Observable.of(this.invoices);
-    }
 }

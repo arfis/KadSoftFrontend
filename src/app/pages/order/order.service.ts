@@ -37,17 +37,12 @@ export class OrderService {
                             this.restSrv.getOrderStates())
             .subscribe(
                 results => {
-                    console.log(results);
                     this.constructionTypes = results[0].map(this.mapToLabelValue);
                     this.productTypes = results[1].map(this.mapToLabelValue);
                     this.professionTypes = results[2].map(this.mapToLabelValue);
                     this.states = results[3];
 
-                    console.log('states: '+ this.states);
 
-                },
-                error => {
-                    console.log(error);
                 }
             )
 
@@ -63,7 +58,6 @@ export class OrderService {
     assignOrderToCurrentUser(orderId: number) {
         //TODO
 
-        console.log('todo, patch or smthing');
     }
 
     setOrders(orders : Order[]){
@@ -82,7 +76,6 @@ export class OrderService {
 
         let orders = this.orders.filter(order=> {
 
-            console.log(order.mainContact.id);
             if (order.mainContact ) {
                 return (order.mainContact.id == clientId);
             }
@@ -92,9 +85,11 @@ export class OrderService {
         return orders;
     }
 
-    getOrders(page: number, pageSize: number, sort=null, sortOrientation=null, filterType=null, filter=null) : Observable<any>{
+    getOrders(params) : Observable<any>{
 
-        return this.restSrv.getOrders(page, pageSize, sort, sortOrientation, filterType, filter,
+        console.log('get orders: ', params);
+        const {page, pageSize, sort, sortOrientation, filterType, filter, keyword} = params.payload;
+        return this.restSrv.getOrders(page, pageSize, sort, sortOrientation, filterType, filter, keyword,
             this.usrService.isDealer());
     }
 

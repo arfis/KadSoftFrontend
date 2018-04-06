@@ -13,6 +13,10 @@ import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {Subject} from "rxjs/Subject";
 import {PaginationMetadata} from "../../models/paginationMetadata";
 import { DatePipe } from '@angular/common';
+import {any} from 'codelyzer/util/function';
+import {Store} from '@ngrx/store';
+import {getOrders, State} from '../../app.reducer';
+import {GetOrdersAction} from '../../shared/order/order.actions';
 
 @Component({
     selector: 'order',
@@ -32,6 +36,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public bigTotalItems: number = 0;
     public bigCurrentPage: number = 1;
     public numPages: number = 0;
+    public keyword;
 
     public currentPage = 1;
     public pageSize = 10;
@@ -60,6 +65,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
                 private _invoiceServ: InvoiceService,
                 private _orderServ: OrderService,
                 public router: Router,
+                public store: Store<State>,
                 private loadingBar: SlimLoadingBarService) {
 
     }
@@ -101,41 +107,34 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
             ]
         });
 
-        if (!this.filteredOrders) {
-            this.loadingBar.start(() => {
+        this.store.select(getOrders).subscribe(
+            orders => {
+                const {data, meta} = orders;
+                if (data && meta) {
+                    console.log('orders ', orders);
+                    this.orders = orders.data;
+                    this.paginationMeta = orders.meta;
+                    this.bigTotalItems = this.paginationMeta.totalItems;
+                }
+            }
+        )
 
-            });
             // TODO: check dates
             this.getOrders();
-        }
-        else {
-
-            this.orders = this.filteredOrders;
-            this.bigTotalItems = this.paginationMeta.totalItems;
-
-        }
-
     }
-
+    search(keyword) {
+        this.keyword = keyword;
+        this.getOrders();
+    }
     private getOrders() {
-   Observable.forkJoin(this._orderServ.getOrders(this.currentPage, this.pageSize, null, null, this.filterType, this.filter))
-            .takeUntil(this.stopChanel)
-            .subscribe(
-                result => {
-                    this.paginationMeta = result[0].meta;
-                    this.orders = result[0].data;
-                    this._orderServ.setOrders(result[0].data);
-                    this.bigTotalItems = this.paginationMeta.totalItems;
-
-                    this.loadingBar.complete();
-                },
-                error => {
-
-                },
-                () => {
-                    this.loadingBar.complete();
-                }
-            );
+        this.store.dispatch(new GetOrdersAction(
+            {
+                page: this.currentPage,
+                pageSize: this.pageSize,
+                filter: this.filter,
+                filterType: this.filter,
+                keyword: this.keyword
+            }))
     }
 
     public ngOnDestroy() {
@@ -150,7 +149,6 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public updateOrderList(order: Order) {
         this.isFormCollapsed = true;
         this.orders.push(order);
-        this.setActiveRecords();
     }
 
     pageChanged(event) {
@@ -168,16 +166,6 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
         if (!status) status = "created";
         return getTranslation(status);
 
-    }
-
-    setActiveRecords(type = null) {
-        this._orderServ.getOrders(this.currentPage, this.pageSize, this.filterType, this.sortOrientation, this.filter).subscribe(
-            result => {
-                this.allOrders = result.data;
-                this.orders = result.data;
-                this.bigTotalItems = this.paginationMeta.totalItems;
-            }
-        )
     }
 
     orderBy(type) {

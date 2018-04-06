@@ -6,7 +6,11 @@ import {orderStatesConst} from "../../pages/order/order.model";
 import {OrderService} from "../../pages/order/order.service";
 import {UserService} from "../../services/user.service";
 import {InvoiceService} from "../../pages/invoice/invoice.service";
+import {GetInvoicesAction} from '../../shared/invoice/invoice.actions';
+import {Store} from '@ngrx/store';
 
+import * as fromRoot from '../../app.reducer';
+import {GetOrdersAction} from '../../shared/order/order.actions';
 enum filterComponents {
     OrderStates,
     InvoiceStates
@@ -41,7 +45,7 @@ export class FilterComponent implements OnChanges {
     onUpdate = new EventEmitter<any>();
 
     constructor(private _orderSrv: OrderService,
-                private _userSrv: UserService,
+                private store: Store<fromRoot.State>,
                 private _invoiceService: InvoiceService) {
         this.orderStates = orderStatesConst;
         this.invoiceStates = invoiceStatesConst;
@@ -63,34 +67,51 @@ export class FilterComponent implements OnChanges {
 
             console.log(this.sortOrientation);
             if (this.isOrder) {
-                this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.sortOrientation, this.activeFilterType,
-                    this.activeFilter).subscribe(
-                    result => {
-                        console.log(result);
-                        this.onUpdate.emit(result);
-                    })
+                this.store.dispatch(
+                    new GetOrdersAction(
+                        {
+                            page: this.page,
+                            pageSize: this.pageSize,
+                            sort: this.sort,
+                            sortOrientation: this.sortOrientation,
+                            filterType: this.activeFilterType,
+                            filter: this.activeFilter
+                    }
+                    )
+                )
             }
 
             if (this.isInvoice) {
-                this._invoiceService.getInvoices(this.page, this.pageSize, this.sort, this.activeFilterType,
-                    this.activeFilter).subscribe(
-                    result => {
-                        console.log(result);
-                        this.onUpdate.emit(result);
-                    })
+                this.store.dispatch(new GetInvoicesAction(
+                    {
+                        currentPage: this.page,
+                        pageSize: this.pageSize,
+                        sort: this.sort,
+                        filterType: this.activeFilterType,
+                        filter: this.activeFilter
+                    }
+                ));
             }
         }
         else {
             if (this.isOrder) {
-                this._orderSrv.getOrders(this.page, this.pageSize, this.sort, this.sortOrientation).subscribe(
-                    result => {
-                        this.onUpdate.emit(result);
-                    })
+                this.store.dispatch(
+                    new GetOrdersAction(
+                        {
+                            page: this.page,
+                            pageSize: this.pageSize,
+                            sort: this.sort,
+                            sortOrientation: this.sortOrientation,
+                            filterType: this.activeFilterType,
+                            filter: this.activeFilter
+                        }
+                    )
+                )
             } else {
-                this._invoiceService.getInvoices(this.page, this.pageSize, this.sort, this.sortOrientation).subscribe(
-                    result => {
-                        this.onUpdate.emit(result);
-                    })
+                // this._invoiceService.getInvoices(this.page, this.pageSize, this.sort, this.sortOrientation).subscribe(
+                //     result => {
+                //         this.onUpdate.emit(result);
+                //     })
             }
         }
     }

@@ -91,9 +91,15 @@ import {OrderStepperComponent} from './component/order-stepper/order-stepper.com
 import {MailSelectorComponent} from './component/mail-selector/mail-selector.component';
 import {OrderCreationFormComponent} from './component/order-creation-form/order-creation-form.component';
 import {FilterModule} from "./widgets/filter/filter.module";
-import {AdministrationModule} from "./pages/administration/administration.module";
 import {SpinnerModule} from "./component/spinner/spinner.module";
 import {MissingTranslation} from './shared/missing-translation/missing-translation';
+import {EffectsModule} from '@ngrx/effects';
+import {InvoiceEffects} from './shared/invoice/invoice.effect';
+import {StoreModule} from '@ngrx/store';
+import {metaReducers, reducers} from './app.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {OrderEffects} from './shared/order/order.effect';
+import { TablePanelComponent } from './component/table-panel/table-panel.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     // return new TranslateHttpLoader(http);
@@ -144,6 +150,15 @@ let modules = [
     TabsModule.forRoot(),
     ReactiveFormsModule,
     RouterModule,
+    EffectsModule.forRoot(
+        [
+            InvoiceEffects,
+            OrderEffects
+        ]),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreDevtoolsModule.instrument({
+        maxAge: 100
+    }),
     TranslateModule.forRoot({
         missingTranslationHandler: {
             provide: MissingTranslationHandler,

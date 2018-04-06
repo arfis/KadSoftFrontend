@@ -91,7 +91,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes.invoice);
 
         this.setFormValues();
     }
@@ -119,8 +118,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
         )
             .map(result => result.name);
 
-        console.log($event.query);
-        console.log(this.results);
     }
 
     createForm() {
@@ -201,7 +198,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
             .debounceTime(200)
             .subscribe(
                 value => {
-                    console.log('search');
                     this.restServ.getCustomers().subscribe(
                         users => {
 
@@ -225,7 +221,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     disableFixedInputs() {
-        console.log(this.fixedInputs);
         for (let input of this.fixedInputs) {
             input.disable();
         }
@@ -309,8 +304,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
         this.restServ.getNextInvoiceNumber(company.id).subscribe(
             result => {
                 this.invoiceForm.get('invoiceNumber').setValue(result.nextInvoiceNumber);
-            },
-            error => console.log(error)
+            }
         )
     }
 
@@ -337,21 +331,17 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     setFormValues() {
 
-        console.log('setting invoice', this.invoice);
         if (this.invoiceItems.length < this.invoice.invoiceItems.length) {
             for (let item of this.invoice.invoiceItems) {
-                console.log('adding item', item);
                 this.addProduct()
             }
         }
 
-        console.log('patching value', this.invoice);
 
         this.invoiceForm.patchValue(this.invoice);
         this.wasPatched = true;
     }
     switchInvoiceContact() {
         this.invoiceContact = !this.invoiceContact;
-        console.log(this.invoiceContact);
     }
 }

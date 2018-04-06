@@ -7,8 +7,12 @@
     "building": "Stavba",
     "otherBuilding": "Iny typ stavby"
   },
-  "test": "Testovackaaa",
-
+  "order" : {
+    "create": "Vytvoriť novú objednávku"
+  },
+  "action" : {
+    "search" : "Vyhladat"
+  },
   "draft" : "Nepripravena",
   "preparing" : "Pripravovana",
   "unassigned" : "Nepriradena",

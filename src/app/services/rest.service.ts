@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Response, Headers} from '@angular/http';
+import {Http, Response, Headers, QueryEncoder} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 import {Configuration} from '../app.constants';
@@ -16,6 +16,7 @@ import {HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpRe
 import {Type} from "../models/type";
 import {UserService} from "./user.service";
 import {Item} from "../component/product-list/item.model";
+import {buildQuery} from './service.helper';
 
 @Injectable()
 export class RestService {
@@ -179,10 +180,11 @@ export class RestService {
     }
 
     public getInvoices(page, pageSize, sort, sortDirection, filterType, filter, isDealer): Observable<Invoice[]> {
-        let query = (!!sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
-        query += (!!filter) ? `&filters[]=${filterType}=${filter}` : '';
+        console.log(sort, filter);
+        let query = (sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
+        query += (filter) ? `&filters[]=${filterType}=${filter}` : '';
 
-        console.log('query of invoices ' + query);
+        console.log('query: ', query);
         return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize + query);
     }
 
@@ -190,13 +192,13 @@ export class RestService {
         return this.http.get<any>(this.config.server + this.config.invoicesApi + `/${id}`);
     }
 
-    public getOrders(page, pageSize, sort, sortDirection, filterType, filter, isDealer): Observable<any> {
+    public getOrders(page, pageSize, sort, sortDirection, filterType, filter, keyword, isDealer): Observable<any> {
 
-        console.log(sortDirection);
-        let query = (!!sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
-        query += (!!filter) ? `&filters[]=${filterType}=${filter}` : '';
-
-        return this.http.get<any>(this.config.server + this.config.ordersApi + '?page=' + page + '&pageSize=' + pageSize + query);
+        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword};
+        console.log(params);
+        let query = buildQuery(params);
+        return this.http.get<any>(
+            this.config.server + this.config.ordersApi, {params:query});
 
     }
 

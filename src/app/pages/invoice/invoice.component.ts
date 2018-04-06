@@ -7,9 +7,13 @@ import {Router} from "@angular/router";
 import {getTranslation} from "./invoiceStatus.model";
 import {SlimLoadingBarService} from "ng2-slim-loading-bar";
 import {CustomerService} from "../users/user.service";
-import {Observable} from "rxjs/Observable";
 import {UserService} from "../../services/user.service";
 import {PaginationMetadata} from "../../models/paginationMetadata";
+import {Store} from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
+import {GET_INVOICES, GetInvoicesAction} from '../../shared/invoice/invoice.actions';
+import {Observable} from 'rxjs/Observable';
+import {select} from '@ngrx/core';
 
 @Component({
     selector: 'invoice',
@@ -36,37 +40,35 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     private paginationInfo = new PaginationMetadata();
     @Input() showList: boolean = true;
 
-    public invoiceTypes = ["Zálohová faktúra","Doklad o prijati platby","Faktura"];
+    public invoiceTypes = ["Zálohová faktúra", "Doklad o prijati platby", "Faktura"];
 
-    constructor(private msgServ: MessagesService,
-                private breadServ: BreadcrumbService,
+    constructor(private breadServ: BreadcrumbService,
                 private invoiceServ: InvoiceService,
-                private customerServ: CustomerService,
                 public router: Router,
                 private loadingBar: SlimLoadingBarService,
-                private loginServ: UserService) {
+                private store: Store<fromRoot.State>) {
     }
 
 
     public ngOnInit() {
         // setttings the header for the home
         this.loadingBar.start(() => {
-            console.log("complete");
         });
 
-        //loading all invoices and all customers, so the customers are cached
-        Observable.forkJoin(this.invoiceServ.getInvoices(this.currentPage, this.pageSize),
-            this.customerServ.getCustomers()).subscribe(
+        this.store.dispatch(new GetInvoicesAction(
+            {
+                currentPage: this.currentPage,
+                pageSize: this.pageSize
+            }
+        ));
+
+        this.store.select(fromRoot.getInvoices).subscribe(
             result => {
-                console.log(result[0]);
-                this.invoices = result[0].data;
-                this.paginationInfo = result[0].meta;
-                this.customerServ.setCustomers(result[1]);
-                this.loadingBar.complete();
-            },
-            error => {
-                if (error.status === 401) {
-                    this.loginServ.logout();
+                const {data, meta} = result;
+                if (data && meta) {
+                    this.invoices = data;
+                    this.paginationInfo = meta;
+                    this.loadingBar.complete();
                 }
             }
         )
@@ -88,7 +90,6 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     update(filteredInvoices) {
         if (filteredInvoices) {
-            console.log(filteredInvoices);
             this.invoices = filteredInvoices.data;
             this.paginationInfo.totalItems = filteredInvoices.meta.totalItems;
         }
@@ -103,7 +104,6 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     redirect(invoice: Invoice) {
-        console.log("redirecting");
         this.router.navigate(['/invoice/' + invoice.id]);
     }
 
@@ -126,15 +126,12 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     pageChanged(event) {
-        this.invoiceServ.getInvoices(event.page, this.pageSize).subscribe(
-            invoiceEnvelope => {
-                this.invoices = invoiceEnvelope.data;
-            },
-            error => {
-                console.log('error');
-                console.log(error);
+        this.store.dispatch(new GetInvoicesAction(
+            {
+                currentPage: event.page,
+                pageSize: this.pageSize
             }
-        )
+        ));
     }
 
     getStatusMessage(status) {
