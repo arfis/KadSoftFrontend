@@ -3,6 +3,5 @@
   <span matPrefix><mat-icon>search</mat-icon></span>
   <input #input matInput [placeholder]="'action.search' | translate">
 </mat-form-field>
-  <button (click)="toggleCreation()">{{'action.create' | translate}}</button>
-  <button>{{'action.duplicate' | translate}}</button>
+  <button *ngIf="canCreate" mat-raised-button (click)="toggleCreation()">{{'action.create' | translate}}</button>
 </div>

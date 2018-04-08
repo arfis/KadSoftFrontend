@@ -51,14 +51,10 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public sort = "";
     public sortOrientation = "asc";
 
-    @Input()
-    filteredOrders: Order[];
-
-    @Input()
-    filter = null;
-
-    @Input()
-    filterType = null;
+    @Input() filteredOrders: Order[];
+    @Input() filter = null;
+    @Input() filterType = null;
+    @Input() customer;
 
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
@@ -132,7 +128,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
                 page: this.currentPage,
                 pageSize: this.pageSize,
                 filter: this.filter,
-                filterType: this.filter,
+                filterType: this.filterType,
                 keyword: this.keyword
             }))
     }

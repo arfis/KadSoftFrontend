@@ -8,11 +8,22 @@ export function buildQuery(queryParams){
         params = params.set('filters\[\]', `${queryParams.filterType}=${queryParams.filter}`);
     }
     if (queryParams.sort) {
-        params = params.set('orderBy\[\]', `${queryParams.sort}=${queryParams.sortDirection.toUpperCase()}`);
+        params = params.set('orderBy\[\]', `${queryParams.sort}=${queryParams.sortDirection.toLowerCase()}`);
     }
     if (queryParams.keyword) {
         params = params.set('query', queryParams.keyword);
     }
 
     return params;
+}
+
+export function mapToLabelValue(item) {
+    item.value = item.id;
+    item.label = item.name;
+
+    return item;
+}
+
+export function normalizeToTypes(array) {
+    return array.map(mapToLabelValue);
 }

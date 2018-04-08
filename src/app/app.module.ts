@@ -2,7 +2,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Http, HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {
     AlertModule, BsDropdownModule, CollapseModule, DatepickerModule, ModalModule, PaginationModule,
@@ -42,7 +41,8 @@ import {
     MatInputModule,
     MatSelectModule,
     MatStepperModule,
-    MatTableModule
+    MatTableModule,
+    MatListModule
 } from "@angular/material";
 
 import {AppComponent} from './app.component';
@@ -97,9 +97,16 @@ import {EffectsModule} from '@ngrx/effects';
 import {InvoiceEffects} from './shared/invoice/invoice.effect';
 import {StoreModule} from '@ngrx/store';
 import {metaReducers, reducers} from './app.reducer';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {OrderEffects} from './shared/order/order.effect';
-import { TablePanelComponent } from './component/table-panel/table-panel.component';
+import {DocumentsComponent} from './pages/documents/documents.component';
+import {DocumentSelectionComponent} from './component/document-selection/document-selection.component';
+import {DocumentPreviewComponent} from './component/document-preview/document-preview.component';
+import {ProfessionsEffects} from './shared/profession-type/profession-type.effect';
+import {CreditNoteDialogComponent} from './component/credit-note-dialog/credit-note-dialog.component';
+import {ConstructionTypeEffects} from './shared/construction-type/construction-type.effect';
+import {ProductTypeEffects} from './shared/product-type/product-type.effect';
+import {RoleEffects} from './shared/roles/roles.effect';
 
 export function HttpLoaderFactory(http: HttpClient) {
     // return new TranslateHttpLoader(http);
@@ -115,6 +122,7 @@ let material = [
     MatTableModule,
     MatDatepickerModule,
     MatStepperModule,
+    MatListModule
 ];
 
 let modules = [
@@ -145,7 +153,6 @@ let modules = [
     BrowserModule,
     CollapseModule.forRoot(),
     FormsModule,
-    HttpModule,
     HttpClientModule,
     TabsModule.forRoot(),
     ReactiveFormsModule,
@@ -153,9 +160,14 @@ let modules = [
     EffectsModule.forRoot(
         [
             InvoiceEffects,
-            OrderEffects
+            OrderEffects,
+            ProfessionsEffects,
+            ConstructionTypeEffects,
+            ProductTypeEffects,
+            RoleEffects,
+
         ]),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers}),
     StoreDevtoolsModule.instrument({
         maxAge: 100
     }),
@@ -245,6 +257,9 @@ let pages = [
         OrderStepperComponent,
         MailSelectorComponent,
         OrderCreationFormComponent,
+        DocumentsComponent,
+        DocumentSelectionComponent,
+        DocumentPreviewComponent,
     ],
     imports: [
         ...modules,
@@ -253,6 +268,9 @@ let pages = [
     providers: [
         TranslateService,
         ...services
+    ],
+    entryComponents: [
+        CreditNoteDialogComponent
     ],
     exports: []
 })

@@ -1,0 +1,14 @@
+<div>
+    <h1>{{'dobropis' | translate}}</h1>
+    <mat-form-field class="full-width">
+        <input matInput [placeholder]="'credit-note.dovod'" required minlength="8">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <input matInput type="number" [placeholder]="'credit-note.suma' | translate" required minlength="8">
+    </mat-form-field>
+
+    <div class="button-wrapper">
+        <button mat-raised-button>{{'Vytvor'}}</button>
+    </div>
+</div>

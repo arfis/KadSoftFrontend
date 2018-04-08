@@ -10,6 +10,7 @@ import {OrderService} from "../../pages/order/order.service";
 import {NotificationService} from "../../services/notification.service";
 import {Product} from "../../models/Product";
 import {Router} from "@angular/router";
+import {Customer} from '../../pages/users/user.model';
 
 @Component({
     selector: 'app-order-stepper',
@@ -27,7 +28,9 @@ export class OrderStepperComponent implements OnInit, OnChanges {
 
     @Input() duplicate: boolean = false;
     @Input() order: Order;
+    @Input() customer: Customer;
     @Output() createEmitter = new EventEmitter();
+
     @ViewChild('stepper') stepper;
 
     constructor(private _invoiceService: InvoiceService,
@@ -39,7 +42,14 @@ export class OrderStepperComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
 
         if (this.order) {
-            this.invoice = this.order.invoices[0];
+            console.log('order: ', this.order);
+            const {id} = this.order.invoices[0];
+            this._invoiceService.getInvoice(id).subscribe(
+              result => {
+                  console.log('got invoice', result);
+                  this.invoice = result;
+              }
+            )
         }
     }
 

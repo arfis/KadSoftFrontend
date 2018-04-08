@@ -15,6 +15,8 @@ import {MenuItem} from "primeng/primeng";
 import {Observable} from "rxjs/Observable";
 import {RestService} from "../../services/rest.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import {MatDialog} from '@angular/material';
+import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/credit-note-dialog.component';
 
 @Component({
     selector: 'invoice-detail',
@@ -39,7 +41,8 @@ export class InvoiceDetailComponent {
                 private notificationSrv: NotificationService,
                 private loginServ: UserService,
                 private _restServ: RestService,
-                private sanitizer: DomSanitizer) {
+                private sanitizer: DomSanitizer,
+                public dialog: MatDialog,) {
 
     }
 
@@ -210,6 +213,11 @@ export class InvoiceDetailComponent {
         }
 
     }
+
+    openCreditNote() {
+        this.dialog.open(CreditNoteDialogComponent);
+    }
+
     downloadPDF() {
         let sliceSize =  512;
 
@@ -230,8 +238,6 @@ export class InvoiceDetailComponent {
 
             byteArrays.push(byteArray);
         }
-
-        console.log(byteArrays);
 
         var blob = new Blob(byteArrays, {type: contentType});
 

@@ -46,6 +46,7 @@ export function reducer(
                 ...state,
                 parameters
             };
+
         case orderActions.GET_ORDERS_FAILURE:
             const errorMsg = action.payload;
 

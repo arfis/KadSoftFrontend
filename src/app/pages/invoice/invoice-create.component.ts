@@ -23,7 +23,9 @@ import {Order} from "../order/order.model";
 export class InvoiceCreation implements OnInit, OnChanges {
 
     @Output() createEmitter = new EventEmitter<Invoice>();
+
     @Input() invoice: Invoice;
+    @Input() customer;
 
     currentCompany: Company;
 
@@ -99,6 +101,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
         // this.invoiceForm.reset();
         this.createForm();
+        this.setFormValues();
     }
 
     selectCustomer(customer: Customer) {
@@ -281,13 +284,9 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
     setClientInfo() {
 
+        console.log('patching: ', this.userFoundByMail);
         this.invoiceForm.get('customer')
             .patchValue(this.userFoundByMail);
-    }
-
-    resetClientInfo() {
-        this.invoiceForm.get('customer').get('mainContact')
-            .reset();
     }
 
     removeProduct(index: number) {
@@ -300,12 +299,14 @@ export class InvoiceCreation implements OnInit, OnChanges {
     }
 
     selectCompany(company) {
-        this.configurationService.setCurrentCompany(company);
-        this.restServ.getNextInvoiceNumber(company.id).subscribe(
-            result => {
-                this.invoiceForm.get('invoiceNumber').setValue(result.nextInvoiceNumber);
-            }
-        )
+        if (company && company.id) {
+            this.configurationService.setCurrentCompany(company);
+            this.restServ.getNextInvoiceNumber(company.id).subscribe(
+                result => {
+                    this.invoiceForm.get('invoiceNumber').setValue(result.nextInvoiceNumber);
+                }
+            )
+        }
     }
 
     onSubmit({value}: { value: Invoice }) {
@@ -339,6 +340,13 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
 
         this.invoiceForm.patchValue(this.invoice);
+
+        if (this.customer) {
+            this.userFoundByMail = this.customer;
+            this.selectCustomer(this.customer);
+        }
+
+        this.selectCompany(this.invoice.company);
         this.wasPatched = true;
     }
     switchInvoiceContact() {

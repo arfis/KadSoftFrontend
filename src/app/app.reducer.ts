@@ -23,6 +23,10 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import * as fromInvoice from './shared/invoice/invoice.reducer';
 import * as fromOrder from './shared/order/order.reducer';
+import * as fromProfession from './shared/profession-type/profession-type.reducer';
+import * as fromConstructionType from './shared/construction-type/construction-type.reducer';
+import * as fromProductType from './shared/product-type/product-type.reducer';
+import * as fromRoles from './shared/roles/roles.reducer';
 
 import {localStorageSync} from 'ngrx-store-localstorage';
 
@@ -33,6 +37,10 @@ import {localStorageSync} from 'ngrx-store-localstorage';
 export interface State {
     invoice: fromInvoice.State;
     order: fromOrder.State;
+    profession: fromProfession.State;
+    constructionType: fromConstructionType.State,
+    productType: fromProductType.State,
+    roles: fromRoles.State
     // router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -44,7 +52,7 @@ export interface State {
 
 const settingLocalStorageConfig = (reducer: ActionReducer<State>) => {
     return localStorageSync({
-        keys: ['invoice','order'],
+        keys: ['invoice','order', 'professions', 'constructionType', 'productType','roles'],
         rehydrate: true,
         storage: localStorage
     })(reducer);
@@ -53,7 +61,10 @@ const settingLocalStorageConfig = (reducer: ActionReducer<State>) => {
 export const reducers: ActionReducerMap<State> = {
     invoice: fromInvoice.reducer,
     order: fromOrder.reducer,
-    // router: fromRouter.routerReducer,
+    profession: fromProfession.reducer,
+    constructionType: fromConstructionType.reducer,
+    productType: fromProductType.reducer,
+    roles: fromRoles.reducer
 };
 
 // console.log all actions
@@ -77,6 +88,10 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
  */
 export const getInvoiceState = createFeatureSelector<fromInvoice.State>('invoice');
 export const getOrdersState = createFeatureSelector<fromOrder.State>('order');
+export const getProfessionsState = createFeatureSelector<fromProfession.State>('profession');
+export const getConstructionTypeState = createFeatureSelector<fromConstructionType.State>('constructionType');
+export const getProductTypeState = createFeatureSelector<fromProductType.State>('productType');
+export const getRolesState = createFeatureSelector<fromRoles.State>('roles');
 
 export const getInvoices = createSelector(
     getInvoiceState,
@@ -87,3 +102,23 @@ export const getOrders = createSelector(
     getOrdersState,
     fromOrder.getOrders
 );
+
+export const getProfessions = createSelector(
+    getProfessionsState,
+    fromProfession.getProfessions
+)
+
+export const getConstructionTypes = createSelector(
+    getConstructionTypeState,
+    fromConstructionType.getConstructionTypes
+)
+
+export const getProductTypes = createSelector(
+    getProductTypeState,
+    fromProductType.getProductTypes
+)
+
+export const getRoles = createSelector(
+    getRolesState,
+    fromRoles.getRoles
+)

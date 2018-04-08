@@ -20,6 +20,8 @@ import {OrderDetailComponent} from "./pages/order/order-detail.component";
 import {StatisticsComponent} from "./pages/statistics/statistics.component";
 import {ProfileComponent} from "./pages/profile/profile.component";
 import {ProductListComponent} from "./component/product-list/product-list.component";
+import {AdministrationModule} from './pages/administration/administration.module';
+import {DocumentsComponent} from './pages/documents/documents.component';
 
 const routes: Routes = [
     // logged routes
@@ -28,7 +30,7 @@ const routes: Routes = [
         children: [
             {
                 canActivate: [CanActivateGuard],
-                loadChildren: './pages/administration/administration.module#AdministrationModule',
+                loadChildren: () => AdministrationModule,
                 path: 'administration'
             },
             {
@@ -48,6 +50,11 @@ const routes: Routes = [
                 resolve: {
                     invoice: InvoiceResolve
                 }
+            },
+            {
+                canActivate: [CanActivateGuard],
+                path: 'documents',
+                component: DocumentsComponent,
             },
             {
                 canActivate: [CanActivateGuard],

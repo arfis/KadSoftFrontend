@@ -29,6 +29,7 @@ export class OrderCreationComponent {
     @Output() invoiceCreatedEmitted = new EventEmitter();
     @Input() order;
     @Input() duplicate;
+    @Input() customer;
 
     invoiceCreated(order) {
         this.invoiceCreatedEmitted.emit(order);

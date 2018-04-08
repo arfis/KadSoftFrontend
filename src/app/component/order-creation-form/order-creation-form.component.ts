@@ -65,6 +65,7 @@ export class OrderCreationFormComponent implements OnInit{
         })
 
         if (this.order) {
+            console.log('patching');
             this.orderForm.patchValue(this.order);
         }
     }

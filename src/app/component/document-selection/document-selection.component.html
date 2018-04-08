@@ -1,0 +1,8 @@
+<mat-list>
+    <h3 matSubheader>{{'documents' | translate}}</h3>
+    <mat-list-item class="item" *ngFor="let document of documents" (click)="selectDocument(document)">
+        <mat-icon matListIcon>book</mat-icon>
+        <h4 matLine>{{document.name}}</h4>
+        <p matLine class="demo-2"> {{document.description}} </p>
+    </mat-list-item>
+</mat-list>

@@ -36,7 +36,9 @@
     </div>
 
     <div class="order-section">
-        <order [filterType]="'customerId'" [filter]="userInformation.id"></order>
+        <order [filterType]="'customerId'"
+               [filter]="userInformation.id"
+               [customer]="userInformation"></order>
     </div>
 </ng-container>
 

@@ -268,7 +268,6 @@ export class RestService {
     }
 
     public removeFile(fileId) {
-        console.log('TODO: removing: ' + fileId);
         return this.http.delete(this.config.server + 'api/items/' + `${fileId}`);
     }
 

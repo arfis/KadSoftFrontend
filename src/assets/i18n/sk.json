@@ -5,14 +5,17 @@
     "constructionPlace": "Miesto stavby a katastralne uzemie",
     "parcel": "Parcela",
     "building": "Stavba",
-    "otherBuilding": "Iny typ stavby"
+    "otherBuilding": "Iny typ stavby",
+    "buildingPermit": "Stavebne povolenie"
   },
   "order" : {
     "create": "Vytvoriť novú objednávku"
   },
   "action" : {
-    "search" : "Vyhladat"
+    "search" : "Vyhladat",
+    "create" : "Vytvor novu"
   },
+  "documents" : "Dokumenty",
   "draft" : "Nepripravena",
   "preparing" : "Pripravovana",
   "unassigned" : "Nepriradena",

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
@@ -10,6 +10,8 @@ export class TablePanelComponent implements AfterViewInit {
 
   @Output() onCreate = new EventEmitter();
   @Output() onSearchChange = new EventEmitter<string>();
+
+  @Input() canCreate = false;
 
   @ViewChild('input') input
 

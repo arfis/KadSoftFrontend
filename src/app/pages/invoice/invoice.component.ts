@@ -14,6 +14,8 @@ import * as fromRoot from '../../app.reducer';
 import {GET_INVOICES, GetInvoicesAction} from '../../shared/invoice/invoice.actions';
 import {Observable} from 'rxjs/Observable';
 import {select} from '@ngrx/core';
+import {MatDialog} from '@angular/material';
+import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/credit-note-dialog.component';
 
 @Component({
     selector: 'invoice',

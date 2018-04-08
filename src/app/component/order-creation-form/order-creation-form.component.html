@@ -43,17 +43,20 @@
                 <input matInput type="text" id="otherBuilding" class="form-control"
                        [placeholder]="'survey.otherBuilding' | translate" formControlName="otherBuilding"/>
             </mat-form-field>
-            <div class="form-group">
-                <label for="buildingPermit">Stavebne povolenie - rok:</label>
-                <input type="text" id="buildingPermit" class="form-control" formControlName="buildingPermit"/>
-            </div>
-            <div class="form-group">
-                <label for="outerSize">Vonkajsi vymer:</label>
-                <input type="number" id="outerSize" class="form-control" formControlName="outerSize"/>
-            </div>
+            <mat-form-field class="full-width">
+                <input matInput type="text" id="buildingPermit" class="form-control"
+                       [placeholder]="'survey.buildingPermit' | translate"formControlName="buildingPermit"/>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input matInput type="number" id="outerSize" class="form-control"
+                       [placeholder]="'survey.outerSize' | translate" formControlName="outerSize"/>
+            </mat-form-field>
+
+
             <div class="row">
                 <div class="col-lg-6 form-group">
-                    <mat-select placeholder="Pocet podlazi:" formControlName="numberOfFloors">
+                    <mat-select [placeholder]="'numberOfFloors' | translate" formControlName="numberOfFloors">
                         <mat-option *ngFor="let floor of numberOfFloors" [value]="floor">
                             {{floor}}
                         </mat-option>
@@ -61,13 +64,15 @@
                 </div>
 
                 <div *ngIf="isOtherNumberOfFloors" class="col-lg-6 form-group">
-                    <label for="numberOfFloors">Iny pocet:</label>
-                    <input type="number" id="numberOfFloors" class="form-control" formControlName="numberOfFloors"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="number" id="numberOfFloors" class="form-control"
+                           [placeholder]="'survey.numberOfFloors'| translate" formControlName="numberOfFloors"/>
+                    </mat-form-field>
                 </div>
             </div>
 
             <div class="form-group">
-                <mat-select placeholder="Orientacia vstupu:" formControlName="entranceOrientation">
+                <mat-select [placeholder]="'survey.entranceOrientation' | translate" formControlName="entranceOrientation">
                     <mat-option *ngFor="let orientation of orientations" [value]="orientation">
                         {{orientation}}
                     </mat-option>
@@ -76,76 +81,101 @@
 
             <div class="row">
                 <div class="col-lg-4 form-group">
-                    <label for="heatGenerator">Tvorba tepla:</label>
-                    <input type="text" id="heatGenerator" class="form-control" formControlName="heatGenerator"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="heatGenerator" class="form-control"
+                           [placeholder]="'survey.heatGenerator' | translate"formControlName="heatGenerator"/>
+                    </mat-form-field>
                 </div>
                 <div class="col-lg-4 form-group">
-                    <label for="heatTechnology">Tepelna technologia:</label>
-                    <input type="text" id="heatTechnology" class="form-control" formControlName="heatTechnology"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="heatTechnology" class="form-control"
+                           [placeholder]="'survey.heatTechnology' | translate" formControlName="heatTechnology"/>
+                    </mat-form-field>
                 </div>
                 <div class="col-lg-4 form-group">
-                    <label for="hotWaterCirculation">Cirkulacia teplej vody:</label>
-                    <input type="text" id="hotWaterCirculation" class="form-control"
-                           formControlName="hotWaterCirculation"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="hotWaterCirculation" class="form-control"
+                           [placeholder]="'survey.hotWaterCirculation' | translate" formControlName="hotWaterCirculation"/>
+                    </mat-form-field>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="solarSystem">Solarny system:</label>
-                <input type="text" id="solarSystem" class="form-control" formControlName="solarSystem"/>
+                <mat-form-field class="full-width">
+                <input matInput type="text" id="solarSystem" class="form-control"
+                       [placeholder]="'survey.solarSystem' | translate" formControlName="solarSystem"/>
+                </mat-form-field>
             </div>
 
             <div class="row">
                 <div class="col-lg-4 form-group">
-                    <label for="fireplace">Krb:</label>
-                    <input type="text" id="fireplace" class="form-control" formControlName="fireplace"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="fireplace" class="form-control"
+                           [placeholder]="'survey.fireplace' | translate" formControlName="fireplace"/>
+                    </mat-form-field>
                 </div>
 
                 <div class="col-lg-4 form-group">
-                    <label for="fireplaceEnergy">Krb - vykon:</label>
-                    <input type="text" id="fireplaceEnergy" class="form-control" formControlName="fireplaceEnergy"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="fireplaceEnergy" class="form-control"
+                           [placeholder]="'survey.fireplaceEnergy' | translate" formControlName="fireplaceEnergy"/>
+                    </mat-form-field>
                 </div>
 
 
                 <div class="col-lg-4 form-group">
-                    <label for="fireplaceHotWater">Krb - tepla voda:</label>
-                    <input type="text" id="fireplaceHotWater" class="form-control" formControlName="fireplaceHotWater"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="fireplaceHotWater" class="form-control"
+                           [placeholder]="'survey.fireplaceHotWater' | translate" formControlName="fireplaceHotWater"/>
+                    </mat-form-field>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-lg-3 form-group">
-                    <label for="wall">Typ steny:</label>
-                    <input type="text" id="wall" class="form-control" formControlName="wall"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="wall" class="form-control"
+                           [placeholder]="'survey.wall' | translate" formControlName="wall"/>
+                    </mat-form-field>
                 </div>
 
                 <div class="col-lg-3 form-group">
-                    <label for="roof">Strecha:</label>
-                    <input type="text" id="roof" class="form-control" formControlName="roof"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="roof" class="form-control"
+                           [placeholder]="'survey.roof' | translate"formControlName="roof"/>
+                    </mat-form-field>
                 </div>
                 <div class="col-lg-3 form-group">
-                    <label for="floor">Podlaha:</label>
-                    <input type="text" id="floor" class="form-control" formControlName="floor"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="floor" class="form-control"
+                           [placeholder]="'survey.floor' | translate" formControlName="floor"/>
+                    </mat-form-field>
                 </div>
                 <div class="col-lg-3 form-group">
-                    <label for="windows">Okna:</label>
-                    <input type="text" id="windows" class="form-control" formControlName="windows"/>
+                    <mat-form-field class="full-width">
+                    <input matInput type="text" id="windows" class="form-control"
+                           [placeholder]="'survey.windows' | translate" formControlName="windows"/>
+                    </mat-form-field>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="recapitulation">Rekapitulacia:</label>
-                <input type="text" id="recapitulation" class="form-control" formControlName="recapitulation"/>
+                <mat-form-field class="full-width">
+                <input matInput type="text" id="recapitulation" class="form-control"
+                       [placeholder]="'survey.recapitulation' | translate" formControlName="recapitulation"/>
+                </mat-form-field>
             </div>
 
             <div class="form-group">
-                <label for="note">Poznamka:</label>
-                <input type="text" id="note" class="form-control" formControlName="note"/>
+                <mat-form-field class="full-width">
+                <input matInput type="text" id="note" class="form-control"
+                       [placeholder]="'survey.note' | translate" formControlName="note"/>
+                </mat-form-field>
             </div>
         </div>
     </section>
     <div class="action">
-        <button [disabled]="!orderForm.valid" md-button matStepperNext class="btn btn-success" type="submit">Dalej
+        <button [disabled]="!orderForm.valid" mat-button matStepperNext class="btn btn-success" type="submit">Dalej
         </button>
     </div>
 </form>

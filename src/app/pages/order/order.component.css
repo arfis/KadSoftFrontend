@@ -1,3 +1,7 @@
+.description {
+    white-space: nowrap;
+}
+
 .sortable {
     cursor: pointer;
 }

@@ -6,7 +6,7 @@
   <mat-step [stepControl]="secondFormGroup">
       <ng-template matStepLabel>Fakturacne Udaje</ng-template>
       InvoiceCreation
-      <invoice-creation [invoice]="invoice" (createEmitter)="invoiceCreated($event)"></invoice-creation>
+      <invoice-creation [customer]="customer" [invoice]="invoice" (createEmitter)="invoiceCreated($event)"></invoice-creation>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Vyber Mailu</ng-template>

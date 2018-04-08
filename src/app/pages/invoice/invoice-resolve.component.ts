@@ -21,8 +21,6 @@ export class InvoiceResolve implements Resolve<Invoice> {
         if (!invoiceId)
             return null;
 
-        let invoice = this.invoiceSrv.getInvoice(invoiceId);
-
-        return invoice;
+        return this.invoiceSrv.getInvoice(invoiceId);
     }
 }

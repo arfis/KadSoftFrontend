@@ -1,8 +1,8 @@
 <ng-container *ngIf="isDuplicateCreation">
     <i class="fa fa-clone" (click)="duplicate()" alt="zduplikovat" aria-hidden="true"></i>
-<order-creation [duplicate]="true" [order]="order">
-
-</order-creation>
+    <h3>{{'order.create' | translate}}</h3>
+    <order-creation [duplicate]="true" [order]="order">
+    </order-creation>
 </ng-container>
 
 <ng-container *ngIf="!isDuplicateCreation && isLoaded">
@@ -99,12 +99,10 @@
 
 
                 <div class="product-type">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h4>Typ produktu:</h4>
-                            <p-selectButton (onChange)="onValueChange(event)" [options]="productTypes"
-                                            [(ngModel)]="selectedProductType"></p-selectButton>
-                        </div>
+                    <div class="col-lg-6">
+                        <h4>Typ produktu:</h4>
+                        <p-selectButton (onChange)="onValueChange(event)" [options]="productTypes"
+                                        [(ngModel)]="selectedProductType"></p-selectButton>
                     </div>
                 </div>
             </div>
@@ -124,7 +122,8 @@
         </div>
 
         <div class="btn-section">
-            <button (click)="updateOrder()" class="btn btn-success"><i class="fa fa-save" ria-hidden="true"></i> Uloz</button>
+            <button (click)="updateOrder()" class="btn btn-success"><i class="fa fa-save" ria-hidden="true"></i> Uloz
+            </button>
             <button (click)="duplicate()" class="btn btn-success">Zduplikuj</button>
         </div>
         <p>Priradene: <i>{{order?.assignedTo?.email || '-'}}</i></p>

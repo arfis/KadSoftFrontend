@@ -19,6 +19,8 @@ import {MatStep} from "@angular/material";
 import {LoginUser} from "../login/login-user.model";
 import {Invoice} from "../invoice/invoice.model";
 import {Product} from "../../models/Product";
+import * as fromRoot from "../../app.reducer";
+import {Store} from '@ngrx/store';
 
 @Component({
     selector: 'order-detail',
@@ -61,16 +63,24 @@ export class OrderDetailComponent {
                 public router: Router,
                 private _orderSrv: OrderService,
                 private _usrService: UserService,
-                private loadingBar: SlimLoadingBarService,
+                private store:Store<fromRoot.State>,
                 private notificationSrv: NotificationService,
                 private _loginServ: UserService,
                 private _restSrv: RestService,
                 private _notificationSrv: NotificationService) {
 
-        this.professions = _orderSrv.professionTypes;
-        this.buildingTypes = _orderSrv.constructionTypes;
-        this.productTypes = _orderSrv.productTypes;
 
+        this.store.select(fromRoot.getProfessions).subscribe(
+            professions => this.professions = professions
+        )
+
+        this.store.select(fromRoot.getConstructionTypes).subscribe(
+            buildingTypes => this.buildingTypes = buildingTypes
+        )
+
+        this.store.select(fromRoot.getProductTypes).subscribe(
+            productTypes => this.productTypes = productTypes
+        )
     }
 
     ngOnInit() {

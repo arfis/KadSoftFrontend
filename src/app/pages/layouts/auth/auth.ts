@@ -41,37 +41,63 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Objednávky',
                 'icon': 'dashboard',
-                'admin' : false,
+                'admin': false,
                 'link': ['']
             },
             {
                 'title': 'Faktúry',
                 'icon': 'dashboard',
-                'admin' : false,
+                'admin': false,
                 'link': ['/invoices']
             },
             {
                 'title': 'Administrácia',
                 'icon': 'wrench',
-                'admin' : true,
-                'link': ['/administration']
+                'admin': true,
+                'link': ['/administration'],
+                // 'sublinks': [
+                //     {
+                //         'title': 'Vytvorenie klienta',
+                //         'link': ['/administration'],
+                //         'icon': 'yahoo',
+                //         'target': '_blank'
+                //     },
+                //     {
+                //         'title': 'Vytvorenie pouzivatela',
+                //         'link': ['/administration'],
+                //         'icon': 'yahoo',
+                //         'target': '_blank'
+                //     },
+                //     {
+                //         'title': 'Yahoo',
+                //         'link': ['/administration'],
+                //         'icon': 'yahoo',
+                //         'target': '_blank'
+                //     },
+                // ],
             },
             {
                 'title': 'Zoznam Klientov',
                 'icon': 'link',
-                'admin' : true,
+                'admin': true,
                 'link': ['/page/2'],
             },
             {
                 'title': 'Statistiky',
                 'icon': 'stats',
-                'admin' : true,
+                'admin': true,
                 'link': ['/stats']
+            },
+            {
+                'title': 'Dokumenty',
+                'icon': 'documents',
+                'admin': true,
+                'link': ['/documents']
             },
             {
                 'title': 'Produkty',
                 'icon': 'product',
-                'admin' : true,
+                'admin': true,
                 'link': ['/products']
             }
             // {
