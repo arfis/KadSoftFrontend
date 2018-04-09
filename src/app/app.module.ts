@@ -107,6 +107,7 @@ import {CreditNoteDialogComponent} from './component/credit-note-dialog/credit-n
 import {ConstructionTypeEffects} from './shared/construction-type/construction-type.effect';
 import {ProductTypeEffects} from './shared/product-type/product-type.effect';
 import {RoleEffects} from './shared/roles/roles.effect';
+import { DocumentUploadComponent } from './component/document-upload/document-upload.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     // return new TranslateHttpLoader(http);
@@ -260,6 +261,7 @@ let pages = [
         DocumentsComponent,
         DocumentSelectionComponent,
         DocumentPreviewComponent,
+        DocumentUploadComponent,
     ],
     imports: [
         ...modules,
@@ -270,7 +272,8 @@ let pages = [
         ...services
     ],
     entryComponents: [
-        CreditNoteDialogComponent
+        CreditNoteDialogComponent,
+        DocumentUploadComponent
     ],
     exports: []
 })

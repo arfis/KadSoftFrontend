@@ -179,13 +179,12 @@ export class RestService {
         return this.http.get<any>(this.config.server + `api/invoices/${companyId}/next-number`);
     }
 
-    public getInvoices(page, pageSize, sort, sortDirection, filterType, filter, isDealer): Observable<Invoice[]> {
-        console.log(sort, filter);
-        let query = (sort) ? `&orderBy[]=${sort}=${sortDirection}` : '';
-        query += (filter) ? `&filters[]=${filterType}=${filter}` : '';
-
-        console.log('query: ', query);
-        return this.http.get<any>(this.config.server + this.config.invoicesApi + '?page=' + page + '&pageSize=' + pageSize + query);
+    public getInvoices(page, pageSize, sort, sortDirection, filterType, filter, keyword, isDealer): Observable<Invoice[]> {
+        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword};
+        console.log(params);
+        let query = buildQuery(params);
+        return this.http.get<any>(
+            this.config.server + this.config.invoicesApi, {params:query});
     }
 
     public getInvoice(id): Observable<any> {

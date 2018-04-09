@@ -34,6 +34,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     public sortOrientation: string;
     public filter: string;
     public filterType: string;
+    public keyword;
 
     /*
      Pagination parameters
@@ -123,6 +124,19 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         this.invoices.push(invoice);
     }
 
+    search(keyword) {
+        this.keyword = keyword;
+
+        this.store.dispatch(new GetInvoicesAction(
+            {
+                currentPage: this.currentPage,
+                pageSize: this.pageSize,
+                keyword: this.keyword
+            }
+        ));
+
+    }
+
     get totalSize() {
         return this.paginationInfo.totalItems;
     }
@@ -131,7 +145,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         this.store.dispatch(new GetInvoicesAction(
             {
                 currentPage: event.page,
-                pageSize: this.pageSize
+                pageSize: this.pageSize,
+                keyword: this.keyword
             }
         ));
     }

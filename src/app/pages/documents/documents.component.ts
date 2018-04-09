@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material';
+import {DocumentUploadComponent} from '../../component/document-upload/document-upload.component';
 
 @Component({
   selector: 'app-documents',
@@ -9,13 +11,21 @@ export class DocumentsComponent implements OnInit {
 
   selectedDocument;
 
-  showPreview(document) {
-    this.selectedDocument = document;
-  }
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
+  showPreview(document) {
+    this.selectedDocument = document;
+  }
+
+  showUploadDialog() {
+    this.dialog.open(DocumentUploadComponent);
+  }
+
+  get isAdmin() {
+    return true;
+  }
 }

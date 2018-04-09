@@ -1,4 +1,7 @@
-<div class="document-wrapper">
-  <app-document-selection (onSelection)="showPreview($event)"></app-document-selection>
-  <app-document-preview [document]="selectedDocument"></app-document-preview>
+<div>
+   <button class="btn-success" mat-button (click)="showUploadDialog()">Upload</button>
+    <div class="document-wrapper">
+        <app-document-selection (onSelection)="showPreview($event)"></app-document-selection>
+        <app-document-preview [document]="selectedDocument"></app-document-preview>
+    </div>
 </div>

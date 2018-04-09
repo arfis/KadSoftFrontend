@@ -1,0 +1,11 @@
+<p-fileUpload #uploader name="files[]" multiple="multiple"
+              (onUpload)="onUpload($event)" customUpload="true"
+              (uploadHandler)="fileUpload($event)">
+</p-fileUpload>
+<mat-form-field class="full-width">
+  <input matInput [placeholder]="'document.title' | translate" type="text">
+</mat-form-field>
+
+<mat-form-field class="full-width">
+  <input matInput [placeholder]="'document.description' | translate" type="text">
+</mat-form-field>

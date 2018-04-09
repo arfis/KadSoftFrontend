@@ -1,5 +1,5 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
-<app-table-panel></app-table-panel>
+<app-table-panel (onSearchChange)="search($event)"></app-table-panel>
 <app-filter [type]="'Invoice'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
             [sortOrientation]="sortOrientation" [filter]="filter"
             [filterType]="filterType" (onUpdate)="update($event)"></app-filter>

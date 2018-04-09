@@ -21,6 +21,7 @@ import {Invoice} from "../invoice/invoice.model";
 import {Product} from "../../models/Product";
 import * as fromRoot from "../../app.reducer";
 import {Store} from '@ngrx/store';
+import {mapToLabelValue} from '../../services/service.helper';
 
 @Component({
     selector: 'order-detail',
@@ -70,16 +71,14 @@ export class OrderDetailComponent {
                 private _notificationSrv: NotificationService) {
 
 
-        this.store.select(fromRoot.getProfessions).subscribe(
-            professions => this.professions = professions
-        )
-
         this.store.select(fromRoot.getConstructionTypes).subscribe(
             buildingTypes => this.buildingTypes = buildingTypes
         )
 
         this.store.select(fromRoot.getProductTypes).subscribe(
-            productTypes => this.productTypes = productTypes
+            productTypes => {
+                this.productTypes = productTypes;
+            }
         )
     }
 
@@ -98,6 +97,7 @@ export class OrderDetailComponent {
             this.heatingPrice = this.order.heatingPrice;
             this.selectedUser = this.order.assignedTo;
 
+            this.loadProfessionsForProductType(this.productTypes.find(prodType => prodType.id === this.selectedProductType).professions);
             this.isLoaded = true;
         });
 
@@ -242,8 +242,9 @@ export class OrderDetailComponent {
     }
 
     onValueChange(event) {
-        console.log(event);
-        console.log(this.selectedProductType);
+        let selectedProfessions = this.productTypes.find(type => type.id === this.selectedProductType).professions;
+
+        this.loadProfessionsForProductType(selectedProfessions);
     }
 
     updateOrder() {
@@ -318,6 +319,11 @@ export class OrderDetailComponent {
         console.log('duplicate');
         this.duplicateCreation = !this.duplicateCreation;
         console.log(this.duplicateCreation);
+    }
+
+    private loadProfessionsForProductType(professions) {
+        console.log(professions);
+        this.professions = professions.map(mapToLabelValue);
     }
 
     get isDuplicateCreation() {

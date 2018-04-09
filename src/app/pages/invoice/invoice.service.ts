@@ -45,14 +45,14 @@ export class InvoiceService {
     }
 
     public getInvoices(params): Observable<any> {
-        const {pageSize, currentPage, sort, filter, filterType} = params.payload;
+        const {pageSize, currentPage, sort, filter, filterType, keyword} = params.payload;
         if (sort === this.activeSort) {
             this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
         }
 
         this.activeSort = sort;
 
-        return this.restServ.getInvoices(currentPage, pageSize, sort, this.activeDirection, filterType, filter,
+        return this.restServ.getInvoices(currentPage, pageSize, sort, this.activeDirection, filterType, filter, keyword,
             false);
     }
 

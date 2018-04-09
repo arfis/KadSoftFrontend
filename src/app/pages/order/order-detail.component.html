@@ -64,46 +64,47 @@
             </div>
         </div>
 
-
-        <div class="profession section">
-            <div class="row">
-                <div class="col-lg-6 vertical-divider">
-                    <h4>Profesie:</h4>
-                    <p-selectButton [options]="professions" [(ngModel)]="selectedProfessions"
-                                    multiple="multiple"></p-selectButton>
-                    <div *ngIf="isAreaShown">
-                        <h4>Rozloha:</h4>
-                        <input type="number" min="1" class="form-control" [(ngModel)]="area">
-                    </div>
-
-                    <ng-container *ngIf="isHeatingSelected">
-                        <h4>Jednotkova cena kurenie:</h4>
-                        <input pTooltip="4€" type="number" min="1" class="form-control" [(ngModel)]="heatingPrice">
-                    </ng-container>
-
-
-                    <ng-container *ngIf="isVztSelected">
-                        <h4>Jednotkova cena vzduchotechnika:</h4>
-                        <input type="number" min="1" class="form-control" [(ngModel)]="vztPrice">
-                    </ng-container>
-
-
-                    <ng-container *ngIf="isLightingSelected">
-                        <h4>Jednotkova cena osvetlenie:</h4>
-                        <input pTooltip="do 250m 40€\ndo 1500m 60€\ndo 2500m 80€\ndo 5000m 120€\n nad 5000m dohodou"
-                               type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
-                    </ng-container>
-
-                    <p>Celkove naklady: {{totalCost}}</p>
+        <div class="section">
+            <div class="product-type">
+                <div class="col-lg-6">
+                    <h4>Typ produktu:</h4>
+                    <p-selectButton (onChange)="onValueChange(event)" [options]="productTypes"
+                                    [(ngModel)]="selectedProductType"></p-selectButton>
                 </div>
+            </div>
+
+            <div *ngIf="professions.length > 0" class="profession">
+                <div class="row">
+                    <div class="col-lg-6 vertical-divider">
+                        <h4>Profesie:</h4>
+                        <p-selectButton [options]="professions" [(ngModel)]="selectedProfessions"
+                                        multiple="multiple"></p-selectButton>
+                        <div *ngIf="isAreaShown">
+                            <h4>Rozloha:</h4>
+                            <input type="number" min="1" class="form-control" [(ngModel)]="area">
+                        </div>
+
+                        <ng-container *ngIf="isHeatingSelected">
+                            <h4>Jednotkova cena kurenie:</h4>
+                            <input pTooltip="4€" type="number" min="1" class="form-control" [(ngModel)]="heatingPrice">
+                        </ng-container>
 
 
-                <div class="product-type">
-                    <div class="col-lg-6">
-                        <h4>Typ produktu:</h4>
-                        <p-selectButton (onChange)="onValueChange(event)" [options]="productTypes"
-                                        [(ngModel)]="selectedProductType"></p-selectButton>
+                        <ng-container *ngIf="isVztSelected">
+                            <h4>Jednotkova cena vzduchotechnika:</h4>
+                            <input type="number" min="1" class="form-control" [(ngModel)]="vztPrice">
+                        </ng-container>
+
+
+                        <ng-container *ngIf="isLightingSelected">
+                            <h4>Jednotkova cena osvetlenie:</h4>
+                            <input pTooltip="do 250m 40€\ndo 1500m 60€\ndo 2500m 80€\ndo 5000m 120€\n nad 5000m dohodou"
+                                   type="number" min="1" class="form-control" [(ngModel)]="lightingPrice">
+                        </ng-container>
+
+                        <p>Celkove naklady: {{totalCost}}</p>
                     </div>
+
                 </div>
             </div>
         </div>
