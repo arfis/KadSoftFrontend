@@ -1,7 +1,6 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 <ng-container *ngIf="permissionLoaded">
     <h2>Faktúra {{invoice.invoiceNumber}}</h2>
-    <button (click)="openCreditNote()">Credit note</button>
     <h4>
         <span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
 		{{getStatusMessage(invoice?.status).text}}

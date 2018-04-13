@@ -1,14 +1,16 @@
 <div>
-    <h1>{{'dobropis' | translate}}</h1>
+    <h1>{{'credit-note.label' | translate}}</h1>
     <mat-form-field class="full-width">
-        <input matInput [placeholder]="'credit-note.dovod'" required minlength="8">
+        <input matInput [placeholder]="'credit-note.reason' | translate" [(ngModel)]="reason" required minlength="8">
     </mat-form-field>
-
     <mat-form-field class="full-width">
-        <input matInput type="number" [placeholder]="'credit-note.suma' | translate" required minlength="8">
+        <input matInput [placeholder]="'credit-note.product' | translate" [(ngModel)]="product" required minlength="8">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <input matInput type="number" [placeholder]="'credit-note.sum' | translate" [(ngModel)]="sum" required minlength="8">
     </mat-form-field>
 
     <div class="button-wrapper">
-        <button mat-raised-button>{{'Vytvor'}}</button>
+        <button mat-raised-button (click)="sendCreditNote()">{{'Vytvor'}}</button>
     </div>
 </div>

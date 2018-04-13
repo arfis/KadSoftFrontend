@@ -37,14 +37,14 @@ export class OrderDetailComponent {
     public selectedUser: LoginUser;
     public orderFiles = [];
     uploadedFiles: any[] = [];
-    professions: SelectItem[] = [];
-    buildingTypes: SelectItem[] = [];
-    productTypes: SelectItem[] = [];
+    professions: any[] = [];
+    buildingTypes: any[] = [];
+    productTypes: any[] = [];
 
 
-    selectedBuildingType: string;
-    selectedProfessions: string[] = [];
-    selectedProductType: string;
+    selectedBuildingType: any;
+    selectedProfessions: any[] = [];
+    selectedProductType: any;
     msgs: Message[];
 
     heatingPrice: number = OrderConstants.heatingPrice;
@@ -97,7 +97,9 @@ export class OrderDetailComponent {
             this.heatingPrice = this.order.heatingPrice;
             this.selectedUser = this.order.assignedTo;
 
-            this.loadProfessionsForProductType(this.productTypes.find(prodType => prodType.id === this.selectedProductType).professions);
+            if (this.productTypes) {
+                this.loadProfessionsForProductType(this.productTypes.find(prodType => prodType.id === this.selectedProductType).professions);
+            }
             this.isLoaded = true;
         });
 

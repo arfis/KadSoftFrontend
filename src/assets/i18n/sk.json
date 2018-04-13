@@ -1,25 +1,31 @@
 {
-  "survey" : {
+  "survey": {
     "title": "Dotaznik",
-    "ownerName" : "Meno majitela stavby",
+    "ownerName": "Meno majitela stavby",
     "constructionPlace": "Miesto stavby a katastralne uzemie",
     "parcel": "Parcela",
     "building": "Stavba",
     "otherBuilding": "Iny typ stavby",
     "buildingPermit": "Stavebne povolenie"
   },
-  "order" : {
+  "order": {
     "create": "Vytvoriť novú objednávku"
   },
-  "action" : {
-    "search" : "Vyhladat",
-    "create" : "Vytvor novu"
+  "action": {
+    "search": "Vyhladat",
+    "create": "Vytvor novu"
   },
-  "documents" : "Dokumenty",
-  "draft" : "Nepripravena",
-  "preparing" : "Pripravovana",
-  "unassigned" : "Nepriradena",
-  "assigned" : "Priradena",
-  "finished" : "Dokoncena",
-  "dispatched" : "Odoslana"
+  "credit-note": {
+    "reason": "Dovod",
+    "label": "Dobropis",
+    "product": "Produkt",
+    "sum": "Suma"
+  },
+  "documents": "Dokumenty",
+  "draft": "Nepripravena",
+  "preparing": "Pripravovana",
+  "unassigned": "Nepriradena",
+  "assigned": "Priradena",
+  "finished": "Dokoncena",
+  "dispatched": "Odoslana"
 }

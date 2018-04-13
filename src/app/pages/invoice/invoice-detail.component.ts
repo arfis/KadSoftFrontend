@@ -94,6 +94,13 @@ export class InvoiceDetailComponent {
                 }
             });
         }
+        if (true || this.invoice.actions.creditPay) {
+            this.invoiceActions.push({
+                label: 'Dobropis', icon: 'fa-credit', command: () => {
+                    this.openCreditNote()
+                }
+            });
+        }
         if (this.invoice.actions.sendEmail) {
             this.invoiceActions.push({
                 label: 'Preposli notifikacny mail', icon: 'fa-mail-forward', command: () => {
@@ -215,7 +222,7 @@ export class InvoiceDetailComponent {
     }
 
     openCreditNote() {
-        this.dialog.open(CreditNoteDialogComponent);
+        this.dialog.open(CreditNoteDialogComponent, {data: { invoice: this.invoice}});
     }
 
     downloadPDF() {
