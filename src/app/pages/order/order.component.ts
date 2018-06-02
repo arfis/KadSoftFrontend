@@ -92,6 +92,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
         // setttings the header for the home
         this.breadServ.set({
             description: 'Objednavky',
+            createLink: '/create',
             display: true,
             header: 'Objednavky',
             levels: [

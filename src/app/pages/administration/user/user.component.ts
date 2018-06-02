@@ -5,7 +5,8 @@ import {GlobalValidator} from "../../../helpers/GlobalValidator";
 import {SelectItem} from "primeng/primeng";
 import {NotificationService} from "../../../services/notification.service";
 import {LoginUser} from "../../login/login-user.model";
-import {Observable} from "rxjs/Observable";
+import * as fromRoot from '../../../app.reducer';
+import {Store} from '@ngrx/store';
 
 @Component({
     selector: 'app-user',
@@ -19,6 +20,7 @@ export class UserComponent {
     public userCreationForm: FormGroup;
     public userDetailForm: FormGroup;
 
+    public roles;
     public users;
 
     public activeUserId;
@@ -26,6 +28,7 @@ export class UserComponent {
 
     constructor(private userServ: UserService,
                 private notificationSrv: NotificationService,
+                private _store: Store<fromRoot.State>,
                 private fb: FormBuilder) {
 
         this.userServ.getAllUsers().subscribe(
@@ -37,6 +40,9 @@ export class UserComponent {
             }
         )
 
+        _store.select(fromRoot.getRoles).subscribe(
+            roles => this.roles = roles
+        )
         this.userCreationForm = this.fb.group({
             'email': ["",Validators.compose([Validators.required, GlobalValidator.mailFormat])],
             'roles':[[]]
@@ -89,13 +95,15 @@ export class UserComponent {
     get optionRoles() {
         let itemRoles: SelectItem[] = [];
 
-        for (let role of this.userServ.roles) {
+        for (let role of this.roles) {
             itemRoles.push({label:this.getRoleLabel(role), value:role});
         }
         return itemRoles;
     }
 
     getRoleLabel(name) {
+        console.log(this.roles);
+        console.log('name: ', name);
         switch(name){
             case "ROLE_ADMIN" : return 'Administrator'
             case "ROLE_TECHNICIAN" : return 'Technik'

@@ -38,6 +38,7 @@ export class RestService {
         this.headers = new Headers();
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
+        this.headers.append('Access-Control-Allow-Origin', 'localhost:4300');
         this.headers.append("Authorization", "Bearer " + this.accessToken);
 
     }
@@ -61,6 +62,14 @@ export class RestService {
 
     public get<T>(link): Observable<T> {
         return this.http.get<T>(link);
+    }
+
+    public put<T>(link): Observable<T> {
+        return this.http.put<T>(link, {});
+    }
+
+    public delete<T>(link): Observable<T> {
+        return this.http.delete<T>(link);
     }
 
     public setAccessToken(accessToken: string) {
@@ -294,6 +303,18 @@ export class RestService {
         return users.filter(user => (user.mainContact.email.indexOf(searchString) > -1) ||
         (user.mainContact.surname.indexOf(searchString) > -1) ||
         (user.mainContact.name.indexOf(searchString) > -1));
+    }
+
+    // Documents
+    public uploadDocument(documentData) {
+        return this.http.post<any>(this.config.server + `api/documents`, documentData);
+    }
+
+    public getDocumentById(id) {
+        return this.http.get<any>(this.config.server + `api/documents/${id}`);
+    }
+    public getDocuments() {
+        return this.http.get<any>(this.config.server + `api/documents`);
     }
 
     private handleError(error: Response) {

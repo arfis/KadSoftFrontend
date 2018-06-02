@@ -10,18 +10,15 @@ import {
 import {OrderService} from "./order.service";
 import {Message, SelectItem} from "primeng/primeng";
 import {invoiceTypes} from "../invoice/invoiceStatus.model";
-import {UploadFileInfo} from "../../models/file";
-import {OrderFiles} from "../../models/orderFiles";
-import {HttpErrorResponse} from "@angular/common/http";
 import {OrderConstants} from "./order.constants";
 import {RestService} from "../../services/rest.service";
-import {MatStep} from "@angular/material";
 import {LoginUser} from "../login/login-user.model";
 import {Invoice} from "../invoice/invoice.model";
-import {Product} from "../../models/Product";
 import * as fromRoot from "../../app.reducer";
 import {Store} from '@ngrx/store';
 import {mapToLabelValue} from '../../services/service.helper';
+import {FileUploader} from '../../shared/files/FileUploader';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
     selector: 'order-detail',
@@ -29,7 +26,7 @@ import {mapToLabelValue} from '../../services/service.helper';
     templateUrl: './order-detail.component.html'
 })
 
-export class OrderDetailComponent {
+export class OrderDetailComponent extends FileUploader{
 
     public order: Order;
 
@@ -64,22 +61,56 @@ export class OrderDetailComponent {
                 public router: Router,
                 private _orderSrv: OrderService,
                 private _usrService: UserService,
-                private store:Store<fromRoot.State>,
+                private store: Store<fromRoot.State>,
                 private notificationSrv: NotificationService,
                 private _loginServ: UserService,
                 private _restSrv: RestService,
                 private _notificationSrv: NotificationService) {
 
+        super();
 
         this.store.select(fromRoot.getConstructionTypes).subscribe(
-            buildingTypes => this.buildingTypes = buildingTypes
+            buildingTypes => {
+                if (buildingTypes) {
+                    this.buildingTypes = buildingTypes
+                }
+            }
         )
 
         this.store.select(fromRoot.getProductTypes).subscribe(
             productTypes => {
-                this.productTypes = productTypes;
+                if (productTypes) {
+                    this.productTypes = productTypes;
+                }
             }
         )
+    }
+
+    fileUpload(filesToUpload) {
+        this.convertToUploadFile(filesToUpload,
+            result => {
+            console.log('callback returned ', result);
+            this._orderSrv.addFilesToOrder(this.order.id, result).subscribe(
+                result => {
+                    this.order = result;
+                    this.notificationSrv.success('Subory', 'boli uspesne nahrate');
+                    this.uploader.clear();
+                },
+                (err: HttpErrorResponse) => {
+                    this.notificationSrv.error('Subory', 'neboli uspesne nahrate');
+                    if (err.error instanceof Error) {
+                        // A client-side or network error occurred. Handle it accordingly.
+                        console.log('An error occurred:', err.error.message);
+                    } else {
+                        // The backend returned an unsuccessful response code.
+                        // The response body may contain clues as to what went wrong,
+                        console.log(`Backend returned code ${err.status}, body was:`);
+                        console.log(err.error);
+                    }
+                },
+                () => this.isUploading = false
+            );
+        })
     }
 
     ngOnInit() {
@@ -98,7 +129,15 @@ export class OrderDetailComponent {
             this.selectedUser = this.order.assignedTo;
 
             if (this.productTypes) {
-                this.loadProfessionsForProductType(this.productTypes.find(prodType => prodType.id === this.selectedProductType).professions);
+                console.log(this.productTypes);
+                const foundTypes = this.productTypes.find(prodType => prodType.id === this.selectedProductType);
+
+                if (foundTypes) {
+                    const {professions} = foundTypes;
+                    if (professions) {
+                        this.loadProfessionsForProductType(professions);
+                    }
+                }
             }
             this.isLoaded = true;
         });
@@ -162,85 +201,6 @@ export class OrderDetailComponent {
 
         this.msgs = [];
         this.msgs.push({severity: 'info', summary: 'File Uploaded', detail: ''});
-    }
-
-    fileUpload(filesToUpload) {
-        this.parseFiles(filesToUpload,
-            parsedFiles => {
-                let orderFiles = new OrderFiles();
-                orderFiles.text = 'subor';
-                orderFiles.files = parsedFiles;
-
-                this.isUploading = true;
-                this._orderSrv.addFilesToOrder(this.order.id, orderFiles).subscribe(
-                    result => {
-                        this.order = result;
-                        this.notificationSrv.success('Subory', 'boli uspesne nahrate');
-                        this.uploader.clear();
-                    },
-                    (err: HttpErrorResponse) => {
-                        this.notificationSrv.error('Subory', 'neboli uspesne nahrate');
-                        if (err.error instanceof Error) {
-                            // A client-side or network error occurred. Handle it accordingly.
-                            console.log('An error occurred:', err.error.message);
-                        } else {
-                            // The backend returned an unsuccessful response code.
-                            // The response body may contain clues as to what went wrong,
-                            console.log(`Backend returned code ${err.status}, body was:`);
-                            console.log(err.error);
-                        }
-                    },
-                    () => this.isUploading=false
-                );
-            }
-        )
-    }
-
-    parseFiles(filesToUpload, onFinish) {
-
-        let parsedFiles = 0;
-        let totalFiles = filesToUpload.files.length;
-
-        let arrayOfFiles = new Array<UploadFileInfo>();
-
-        for (let file of filesToUpload.files) {
-            let customFile = new UploadFileInfo();
-            customFile.filename = 'test';
-
-            this.getBase64fromFile(file,
-                data => {
-                    parsedFiles++;
-                    let bannedStrings = ["vnd.openxmlformats-officedocument.wordprocessingml.document","msword"];
-                    for (let bannedString of bannedStrings) {
-                        if (data.indexOf(bannedString) > -1) {
-                            console.log('bannedString is there');
-                            data = data.replace(bannedString, 'docx');
-                        }
-                    }
-
-                    customFile.base64File = data;
-                    arrayOfFiles.push(customFile);
-                    if (parsedFiles == totalFiles) {
-                        onFinish(arrayOfFiles);
-                    }
-                }
-            )
-
-        }
-    }
-
-    getBase64fromFile(file, callback) {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = function () {
-            console.log(reader.result);
-            callback(reader.result);
-        };
-
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };
     }
 
     onValueChange(event) {

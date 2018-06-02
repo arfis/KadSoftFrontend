@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from '../../../services/user.service';
+import {Roles, UserService} from '../../../services/user.service';
 import {LoggerService} from '../../../services/logger.service';
 
 import {ToasterService, ToasterConfig} from 'angular2-toaster/angular2-toaster';
@@ -40,65 +40,45 @@ export class LayoutsAuthComponent implements OnInit {
         this.mylinks = [
             {
                 'title': 'Objednávky',
-                'icon': 'dashboard',
-                'admin': false,
+                'icon': 'cubes',
+                'roles': [
+                    Roles.dealerRole,
+                    Roles.technician
+                ],
                 'link': ['']
             },
             {
                 'title': 'Faktúry',
-                'icon': 'dashboard',
-                'admin': false,
+                'icon': 'credit-card',
+                'roles': [Roles.dealerRole],
                 'link': ['/invoices']
             },
             {
-                'title': 'Administrácia',
-                'icon': 'wrench',
-                'admin': true,
-                'link': ['/administration'],
-                // 'sublinks': [
-                //     {
-                //         'title': 'Vytvorenie klienta',
-                //         'link': ['/administration'],
-                //         'icon': 'yahoo',
-                //         'target': '_blank'
-                //     },
-                //     {
-                //         'title': 'Vytvorenie pouzivatela',
-                //         'link': ['/administration'],
-                //         'icon': 'yahoo',
-                //         'target': '_blank'
-                //     },
-                //     {
-                //         'title': 'Yahoo',
-                //         'link': ['/administration'],
-                //         'icon': 'yahoo',
-                //         'target': '_blank'
-                //     },
-                // ],
+                'title': 'Produkty',
+                'icon': 'cube',
+                'link': ['/products']
             },
             {
                 'title': 'Zoznam Klientov',
-                'icon': 'link',
-                'admin': true,
+                'icon': 'users',
+                'roles': [Roles.dealerRole],
                 'link': ['/page/2'],
             },
             {
                 'title': 'Statistiky',
-                'icon': 'stats',
-                'admin': true,
+                'icon': 'percent',
                 'link': ['/stats']
             },
             {
                 'title': 'Dokumenty',
-                'icon': 'documents',
-                'admin': true,
+                'icon': 'book',
+                'roles': [Roles.dealerRole, Roles.technician],
                 'link': ['/documents']
             },
             {
-                'title': 'Produkty',
-                'icon': 'product',
-                'admin': true,
-                'link': ['/products']
+                'title': 'Administrácia',
+                'icon': 'wrench',
+                'link': ['/administration']
             }
             // {
             //     'title': 'External Link',

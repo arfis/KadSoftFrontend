@@ -1,16 +1,15 @@
-import * as orderActions from './order.actions';
+import * as documentActions from './documents.actions';
+import {mapToLabelValue} from '../../services/service.helper';
 
 export interface State {
-    orders: any;
-    parameters: any;
+    documents: any;
     loading: boolean;
     loaded: boolean;
     error: any;
 }
 
 export const initialState: State = {
-    orders: {},
-    parameters: {},
+    documents: {},
     loading: false,
     loaded: false,
     error: null
@@ -18,36 +17,28 @@ export const initialState: State = {
 
 export function reducer(
     state = initialState,
-    action: orderActions.Actions
+    action: documentActions.Actions
 ): State {
     switch (action.type) {
-        case orderActions.GET_ORDERS:
+        case documentActions.GET_DOCUMENTS:
             return {
                 ...state,
                 loading: true,
                 error: null
             };
 
-        case orderActions.GET_ORDERS_SUCCESS:
-            const orders = action.payload;
+        case documentActions.GET_DOCUMENTS_SUCCESS:
+            const documents = action.payload;
 
             return {
                 ...state,
-                orders: orders,
+                documents,
                 loading: false,
                 loaded: true,
                 error: null
             };
 
-        case orderActions.UPDATE_PARAMETERS:
-            const parameters = action.payload;
-
-            return {
-                ...state,
-                parameters
-            };
-
-        case orderActions.GET_ORDERS_FAILURE:
+        case documentActions.GET_DOCUMENTS_FAILURE:
             const errorMsg = action.payload;
 
             return {
@@ -72,7 +63,7 @@ export function reducer(
  * use-case.
  */
 
-export const getOrders = (state: State) => state.orders;
-export const getOrdersLoading = (state: State) => state.loading;
-export const getOrdersLoaded = (state: State) => state.loaded;
-export const getOrdersError = (state: State) => state.error;
+export const getDocuments = (state: State) => state.documents;
+export const getDocumentsLoading = (state: State) => state.loading;
+export const getDocumentsLoaded = (state: State) => state.loaded;
+export const getDocumentsError = (state: State) => state.error;

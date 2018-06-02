@@ -84,7 +84,6 @@ export class InvoiceService {
     }
 
     public sendCreditNote(params): Observable<any>{
-        console.log(params);
 
         return Observable.of(true).delay(2000);
     }

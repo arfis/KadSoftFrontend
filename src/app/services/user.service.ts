@@ -5,14 +5,16 @@ import { Router } from '@angular/router';
 import {RestService} from "./rest.service";
 import {LoginUser} from "../pages/login/login-user.model";
 
+export const Roles = {
+    adminRole : "ROLE_ADMIN",
+    technician : "ROLE_TECHNICIAN",
+     dealerRole : "ROLE_DEALER"
+}
+
 @Injectable()
 export class UserService {
 
-    public currentUser: ReplaySubject<LoginUser> = new ReplaySubject<LoginUser>( 1 );
-    public adminRole = "ROLE_ADMIN";
-    public technician = "ROLE_TECHNICIAN";
-    public dealerRole = "ROLE_DEALER";
-
+public currentUser: ReplaySubject<LoginUser> = new ReplaySubject<LoginUser>( 1 );
     public roles = [];
 
     constructor(
@@ -36,17 +38,17 @@ export class UserService {
     public resetPassword(email) {
         return this.restService.resetPassword(email);
     }
-    
+
     public deleteUser(user) {
         return this.restService.deleteUser(user);
     }
     public isDealer() {
-        let dealer = (!!this.getLoggedInUser().roles.find(role => role === this.dealerRole) && this.getLoggedInUser().roles.length === 1);
+        let dealer = (!!this.getLoggedInUser().roles.find(role => role === Roles.dealerRole) && this.getLoggedInUser().roles.length === 1);
         return dealer;
     }
 
     public isAdmin() {
-        let admin = (!!this.getLoggedInUser().roles.find(role => role === this.adminRole));
+        let admin = (!!this.getLoggedInUser().roles.find(role => role === Roles.adminRole));
         return admin;
     }
 

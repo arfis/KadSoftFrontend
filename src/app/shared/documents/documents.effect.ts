@@ -7,34 +7,31 @@ import {Effect, Actions} from '@ngrx/effects';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {of} from 'rxjs/observable/of';
-
-import {
-    GET_CONSTRUCTION_TYPE, GET_CONSTRUCTION_TYPE_FAILURE,
-    GET_CONSTRUCTION_TYPE_SUCCESS
-} from './construction-type.actions';
 import {RestService} from '../../services/rest.service';
-import {mapToLabelValue} from '../../services/service.helper';
+import {GET_DOCUMENTS, GET_DOCUMENTS_FAILURE, GET_DOCUMENTS_SUCCESS} from './documents.actions';
 
 @Injectable()
-export class ConstructionTypeEffects {
+export class DocumentsEffects {
     constructor(private actions$: Actions,
                 private _restService: RestService) {
     }
 
     @Effect()
-    getOrders$: Observable<Action> = this.actions$
-        .ofType(GET_CONSTRUCTION_TYPE).pipe(
+    getDocuments$: Observable<Action> = this.actions$
+        .ofType(GET_DOCUMENTS).pipe(
             mergeMap(action =>
-                this._restService.getConstructionTypes().pipe(
+                this._restService.getDocuments().pipe(
                     map(res => ({
-                        type: GET_CONSTRUCTION_TYPE_SUCCESS,
-                        payload: res.map(item => mapToLabelValue(item))
+                        type: GET_DOCUMENTS_SUCCESS,
+                        payload: res.data
                     })),
                     catchError(err =>
                         of({
-                            type: GET_CONSTRUCTION_TYPE_FAILURE,
+                            type: GET_DOCUMENTS_FAILURE,
                             payload: err
                         })))
             )
         )
+
+
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user';
 import {RouteConfigLoadStart, Router} from '@angular/router';
-import { UserService } from '../../services/user.service';
+import {Roles, UserService} from '../../services/user.service';
 import {UserRole} from "../../models/user-roles.model";
 import {LoginUser} from "../../pages/login/login-user.model";
 
@@ -26,6 +26,21 @@ export class MenuAsideComponent implements OnInit {
     // TODO
   }
 
+  checkPermission(itemRoles) {
+    const {roles} = this.userServ.getLoggedInUser();
+
+    if (roles.indexOf(Roles.adminRole) > -1) {
+      return true;
+    }
+    else if (itemRoles) {
+      for (let role of roles) {
+        if (itemRoles.indexOf(role) > -1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
   get isAdmin() {
     if(this.userServ.getLoggedInUser() &&
         this.userServ.getLoggedInUser().roles &&

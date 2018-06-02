@@ -68,7 +68,7 @@
                 <td><a>{{user?.email}}</a></td>
                 <td>{{user?.name}}</td>
                 <td><a>{{user?.surname}}</a></td>
-                <td>{{user?.roles.toString()}}</td>
+                <td>{{user?.roles.toString() | translate}}</td>
                 <td><span class="clickable open glyphicon glyphicon-wrench" (click)="openUser(user)"></span></td>
             </tr>
             </tbody>

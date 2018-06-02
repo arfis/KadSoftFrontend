@@ -1,15 +1,12 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
 
+<router-outlet></router-outlet>
+
 <ng-container *ngIf="!filteredOrders">
     <app-table-panel
             [canCreate]=true
             (onCreate)="toggleForm()"
             (onSearchChange)="search($event)"></app-table-panel>
-    <div class="well well-lg" [collapse]="isFormCollapsed">
-        <order-creation
-                [customer]="customer"
-                (invoiceCreatedEmitted)="updateOrderList($event)"></order-creation>
-    </div>
 </ng-container>
 
 <app-filter [type]="'Order'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"

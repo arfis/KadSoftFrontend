@@ -24,7 +24,7 @@ export class RoleEffects {
                 this._restService.getUserRoles().pipe(
                     map(res => ({
                         type: GET_ROLES_SUCCESS,
-                        payload: res.map(item => mapToLabelValue(item))
+                        payload: res
                     })),
                     catchError(err =>
                         of({

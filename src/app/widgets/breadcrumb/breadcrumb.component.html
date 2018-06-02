@@ -2,6 +2,9 @@
   <h1>
     {{ header }}
     <small>{{ description }}</small>
+    <ng-container *ngIf="createLink">
+      <a [routerLink]="createLink"><span class="fa fa-plus"></span></a>
+    </ng-container>
   </h1>
   <ol class="breadcrumb">
     <ng-template let-item ngFor [ngForOf]="levels">

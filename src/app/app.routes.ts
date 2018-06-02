@@ -22,6 +22,7 @@ import {ProfileComponent} from "./pages/profile/profile.component";
 import {ProductListComponent} from "./component/product-list/product-list.component";
 import {AdministrationModule} from './pages/administration/administration.module';
 import {DocumentsComponent} from './pages/documents/documents.component';
+import {OrderCreationComponent} from './pages/order/order-creation.component';
 
 const routes: Routes = [
     // logged routes
@@ -67,7 +68,14 @@ const routes: Routes = [
             {
                 canActivate: [CanActivateGuard],
                 component: OrderComponent,
-                path: ''
+                path: '',
+                children: [
+                    {
+                        canActivate: [CanActivateGuard],
+                        component: OrderCreationComponent,
+                        path: 'create'
+                    },
+                ]
             },
             {
                 canActivate: [CanActivateGuard],

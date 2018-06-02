@@ -27,5 +27,9 @@
   "unassigned": "Nepriradena",
   "assigned": "Priradena",
   "finished": "Dokoncena",
-  "dispatched": "Odoslana"
+  "dispatched": "Odoslana",
+
+  "ROLE_ADMIN" : "Administrator",
+  "ROLE_TECHNICIAN" : "Technik",
+  "ROLE_DEALER" : "Obchodnik"
 }

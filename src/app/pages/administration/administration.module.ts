@@ -20,6 +20,7 @@ import {FileUploadModule, MultiSelectModule, SelectButtonModule, ToggleButtonMod
 import {routing} from "./administrator.routing";
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
 import {SpinnerModule} from "../../component/spinner/spinner.module";
+import {SharedModule} from '../../shared/shared.module';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {SpinnerModule} from "../../component/spinner/spinner.module";
         BsDropdownModule.forRoot(),
         TabsModule.forRoot(),
         SpinnerModule,
+        SharedModule,
     ],
     declarations: [
         CompanyComponent,

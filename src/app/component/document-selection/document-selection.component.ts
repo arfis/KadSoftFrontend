@@ -1,4 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Store} from '@ngrx/store';
+
+import * as fromRoot from '../../app.reducer';
 
 @Component({
     selector: 'app-document-selection',
@@ -8,27 +11,20 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 export class DocumentSelectionComponent {
 
     @Output() onSelection = new EventEmitter<any>();
+    documents;
 
-    documents = [
-        {
-            name: 'Vseobecne pravo',
-            description: 'Vseobecne pravo slovenskej republiky'
-        },
-        {
-            name: 'Architektura',
-            description: 'Nove vydobitky architektury'
-        },
-        {
-            name: 'GDPR',
-            description: 'Chrante svoje data'
-        },
-        {
-            name: 'Korenove rastliny',
-            description: 'Vsetko o korenovych rastlinach a ich posobeni na zdravie'
-        },
-    ]
+    constructor(private _store: Store<fromRoot.State>) { }
+
+    ngOnInit() {
+        this._store.select(fromRoot.getDocuments).subscribe(
+            documents => {
+                this.documents = documents;
+            }
+        )
+    }
 
     selectDocument(document) {
         this.onSelection.next(document);
     }
+
 }

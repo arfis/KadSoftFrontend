@@ -108,6 +108,8 @@ import {ConstructionTypeEffects} from './shared/construction-type/construction-t
 import {ProductTypeEffects} from './shared/product-type/product-type.effect';
 import {RoleEffects} from './shared/roles/roles.effect';
 import { DocumentUploadComponent } from './component/document-upload/document-upload.component';
+import {DocumentService} from './services/document.service';
+import {DocumentsEffects} from './shared/documents/documents.effect';
 
 export function HttpLoaderFactory(http: HttpClient) {
     // return new TranslateHttpLoader(http);
@@ -166,6 +168,7 @@ let modules = [
             ConstructionTypeEffects,
             ProductTypeEffects,
             RoleEffects,
+            DocumentsEffects,
 
         ]),
     StoreModule.forRoot(reducers, {metaReducers}),
@@ -227,6 +230,7 @@ let services = [
     InvoiceResolve,
     Configuration,
     InterceptorService,
+    DocumentService,
     SlimLoadingBarService,
     {
         provide: HTTP_INTERCEPTORS,

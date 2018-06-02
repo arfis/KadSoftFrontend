@@ -50,6 +50,9 @@ export class InvoiceDetailComponent {
         this.activatedRoute.data.subscribe(data => {
 
            this.invoice = data['invoice'];
+        console.log(this.invoice);
+
+           console.log(this.invoice);
                     Observable.forkJoin(this.invoiceSrv.getPermissions(this.invoice.id),
                                         this.callMethod$(this.invoice.actions.base64File.href,
                                            this.invoice.actions.base64File.methods[0])).subscribe(

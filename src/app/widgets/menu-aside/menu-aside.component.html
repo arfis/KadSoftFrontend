@@ -12,7 +12,7 @@
 				<b>{{currentUser.name}} {{currentUser.surname}}</b>
 				<br>
 				<i>({{currentUser?.email}})</i>
-				<p>Role:{{currentUser?.roles}}</p>
+				<p>Role:{{currentUser?.roles.toString()}}</p>
 
 
 				<div *ngIf="isAdmin">
@@ -40,7 +40,7 @@
 			<li class="header">NAVIGATION</li>
 
 			<ng-template ngFor let-item [ngForOf]="links"> <ng-template
-				[ngIf]="!item.sublinks && !item.admin || (isAdmin && item.admin)">
+				[ngIf]="!item.sublinks && checkPermission(item.roles)">
 			<li [class.active]="item.link[0] === current_url"><a
 				*ngIf="!item.external" [routerLink]="item.link"> <i
 					class="fa fa-{{item.icon}}"></i> <span>{{item.title}}</span>

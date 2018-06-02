@@ -3,6 +3,9 @@
     <mat-list-item class="item" *ngFor="let document of documents" (click)="selectDocument(document)">
         <mat-icon matListIcon>book</mat-icon>
         <h4 matLine>{{document.name}}</h4>
-        <p matLine class="demo-2"> {{document.description}} </p>
+        <p matLine class="demo-2"> {{document.text}}</p>
+        <div matLine>
+            <a [href]="document?.file?.downloadUrl">Download</a>
+        </div>
     </mat-list-item>
 </mat-list>

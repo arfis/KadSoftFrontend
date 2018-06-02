@@ -11,6 +11,7 @@ export class BreadcrumbComponent {
   public header: string = '';
   public description: string = '';
   public levels: Array<any> = [];
+  public createLink: string;
 
   constructor(private breadServ: BreadcrumbService) {
     // getting the data from the services
@@ -19,6 +20,7 @@ export class BreadcrumbComponent {
       this.header = data.header;
       this.description = data.description;
       this.levels = data.levels;
+      this.createLink = data.createLink;
     });
   }
 
