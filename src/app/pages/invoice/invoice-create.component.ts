@@ -13,6 +13,7 @@ import {ConfigurationService} from "../../services/configuration.service";
 import {RestService} from "../../services/rest.service";
 import {Invoice} from "./invoice.model";
 import {Order} from "../order/order.model";
+import {Configuration, defaultExpirationInDays} from "../../app.constants";
 
 @Component({
     selector: 'invoice-creation',
@@ -129,7 +130,6 @@ export class InvoiceCreation implements OnInit, OnChanges {
         this.invoiceForm = this.fb.group({
                 'company': [''],
                 'companyContact': this.fb.group({
-
                     'name': [disabledEmpty, Validators.required],
                     'surname': [disabledEmpty, Validators.required],
                     'postcode': [disabledEmpty, Validators.required],
@@ -142,6 +142,7 @@ export class InvoiceCreation implements OnInit, OnChanges {
                     'iban': [disabledEmpty],
                     'swift': [disabledEmpty]
                 }),
+                "expiration": [defaultExpirationInDays, Validators.required],
                 "invoiceNumber": [{value: this.invoiceSrv.generateInvoiceId()}, Validators.required],
                 'customerId': [disabledEmpty],
                 'customer': this.fb.group({

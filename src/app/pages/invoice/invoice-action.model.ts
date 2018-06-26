@@ -6,7 +6,7 @@ export class InvoiceAction {
     cancelInvoice: HttpMethod;
     payInvoice: HttpMethod;
     base64File: HttpMethod;
-    creditPay: any;
+    createCreditType: any;
 }
 
 export class HttpMethod {

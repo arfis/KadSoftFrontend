@@ -95,20 +95,22 @@ export class UserComponent {
     get optionRoles() {
         let itemRoles: SelectItem[] = [];
 
+        console.log('role: ', this.roles);
         for (let role of this.roles) {
-            itemRoles.push({label:this.getRoleLabel(role), value:role});
+            itemRoles.push({label:role.label, value:role.role});
         }
         return itemRoles;
     }
 
-    getRoleLabel(name) {
-        console.log(this.roles);
-        console.log('name: ', name);
-        switch(name){
-            case "ROLE_ADMIN" : return 'Administrator'
-            case "ROLE_TECHNICIAN" : return 'Technik'
-            case "ROLE_DEALER" : return 'Obchodnik'
+    getRoles(roles) {
+        let roleLabels = '';
+        console.log('gettin roles ', roles);
+        for (let role of roles) {
+            roleLabels += role.label;
         }
+
+        console.log(roleLabels);
+        return roleLabels;
     }
 
     onSubmit({value}: { value: LoginUser }) {

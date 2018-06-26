@@ -50,6 +50,9 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     public sort = "";
     public sortOrientation = "asc";
+    activeFilter;
+    filterUser;
+    webOnly;
 
     @Input() filteredOrders: Order[];
     @Input() filter = null;
@@ -58,11 +61,8 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
-                private _invoiceServ: InvoiceService,
-                private _orderServ: OrderService,
                 public router: Router,
-                public store: Store<State>,
-                private loadingBar: SlimLoadingBarService) {
+                public store: Store<State>) {
 
     }
 
@@ -72,7 +72,6 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
 
     public ngOnChanges(changes: any) {
-        console.log('changes');
         if (changes.filteredOrders) {
             this.getOrders();
 
@@ -80,11 +79,16 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     update(filteredOrders) {
+        console.log(filteredOrders);
         if (filteredOrders) {
-            this.orders = filteredOrders.data;
-            this.allOrders = filteredOrders.data;
-            this.bigTotalItems = filteredOrders.meta.totalItems;
+            this.filter = filteredOrders.filter;
+            this.filterType = filteredOrders.filterType;
+            this.activeFilter = filteredOrders.activeFilter;
+            this.filterUser = filteredOrders.user;
+            this.webOnly = filteredOrders.webOnly;
         }
+
+        this.getOrders();
     }
 
 
@@ -123,14 +127,22 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
         this.keyword = keyword;
         this.getOrders();
     }
+
     private getOrders() {
+        console.log('getting orders ', this.filter, this.filterType, this.webOnly);
+
         this.store.dispatch(new GetOrdersAction(
             {
                 page: this.currentPage,
                 pageSize: this.pageSize,
                 filter: this.filter,
                 filterType: this.filterType,
-                keyword: this.keyword
+                activeFilter: this.activeFilter,
+                keyword: this.keyword,
+                sort: this.sort,
+                sortOrientation: this.sortOrientation,
+                user: this.filterUser,
+                webOnly: this.webOnly
             }))
     }
 
@@ -151,7 +163,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     pageChanged(event) {
         this.currentPage = event.page;
 
-        // this.setActiveRecords();
+        this.getOrders();
     }
     getStatusMessage(status) {
         if (!status) status = "notAssigned";
@@ -166,14 +178,14 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     orderBy(type) {
-        console.log(this.sort);
-        console.log(type);
-        console.log(this.sortOrientation);
+        console.log('type: ', type);
         if (this.sort === type) {
             this.sortOrientation = (this.sortOrientation === 'asc') ? 'desc' : 'asc';
         } else {
             this.sort = type;
             this.sortOrientation = 'asc';
         }
+
+        this.getOrders();
     }
 }

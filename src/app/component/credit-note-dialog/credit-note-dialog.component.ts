@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {RestService} from '../../services/rest.service';
 import {InvoiceService} from '../../pages/invoice/invoice.service';
+import {FormBuilder, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-credit-note-dialog',
@@ -14,22 +16,66 @@ export class CreditNoteDialogComponent implements OnInit {
     sum;
     product;
     invoice;
+    creditItem;
+    items;
+
+    creditForm;
+    item;
 
     constructor(public dialogRef: MatDialogRef<CreditNoteDialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: any,
-                private _invoiceService: InvoiceService) {
+                private _invoiceService: InvoiceService,
+                private _restService: RestService,
+                private fb: FormBuilder,
+                private router: Router) {
         this.invoice = data.invoice;
+        this.items = this.invoice.invoiceItems;
+
+        this.creditForm = this.fb.group({
+            'note' : ['',Validators.required],
+            'invoiceItems': this.fb.group({
+                'newItem': ['',Validators.required],
+                'count': ['', Validators.required],
+                'unit': ['', Validators.required],
+                'price': ['', Validators.required],
+                'contractor': ['', Validators.required],
+                'parcel': ['', Validators.required],
+            }),
+        })
     }
 
-    sendCreditNote() {
-        this._invoiceService.sendCreditNote({
-            invoice: this.invoice,
-            reason: this.reason,
-            sum: this.sum,
-            product: this.product
-        }).subscribe(
-            result => this.dialogRef.close(),
-            error => console.log('error')
+    // "newItem": "zebrota",
+    // "unit": "ks",
+    // "price": "49",
+    // "contractor": "Stefko",
+    // "parcel": "Raz dva tri",
+    // "count": 2
+
+    submitCredit({value}) {
+        console.log(value);
+        this.sendCreditNote(value);
+    }
+
+    sendCreditNote(value) {
+        this._restService.getNextCreditInvoiceNumber(this.invoice.company.id).subscribe(
+            invoiceNumber => {
+
+                value.invoiceNumber = invoiceNumber.nextInvoiceNumber;
+                value.expiration = new Date(new Date().setDate(new Date().getDate() + 15)).toISOString().split('T')[0];
+                value.invoiceItems = [value.invoiceItems];
+                console.log(value);
+
+                this._invoiceService.sendCreditNote(this.invoice.id,
+                    value
+                ).subscribe(
+                    result => {
+                        console.log(result);
+                        this.router.navigate(['/invoice/' + result.id]);
+                        this.dialogRef.close();
+                    },
+                    error => console.log('error ', error)
+                )
+            }
         )
     }
 

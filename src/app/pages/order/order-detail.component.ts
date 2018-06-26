@@ -142,11 +142,10 @@ export class OrderDetailComponent extends FileUploader{
             this.isLoaded = true;
         });
 
-        if (this._usrService.isAdmin()) {
+        if (this._usrService.isAdmin) {
             this._usrService.getAllUsers().subscribe(
                 result => {
                     this.users = result;
-                    console.log(this.users);
                 }
             );
         }

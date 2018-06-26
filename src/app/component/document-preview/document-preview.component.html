@@ -1,13 +1,19 @@
-<div class="documents">
+<div *ngIf="documentDetail" class="documents">
     <div class="header">
         <h4>{{document?.name}}</h4>
-        <a *ngIf="deleteAction" (click)="deleteDocument()">
+        <a *ngIf="deleteAction" (click)="toggleDelete()">
             <mat-icon>delete</mat-icon>
         </a>
         <a *ngIf="pinAction || unpinAction" (click)="togglePin()">
             <mat-icon>{{pinIcon}}</mat-icon>
         </a>
     </div>
+    <ng-container *ngIf="deleteMode">
+        <p>Dokument bude odstraneny, chcete pokracovat?</p>
+        <button mat-raised-button (click)="deleteDocument()">Ano</button>
+        <button mat-raised-button (click)="toggleDelete()">Nie</button>
+    </ng-container>
+
     <ng-container *ngIf="pdfSafeLink">
         <iframe class="document" [src]="pdfSafeLink" type="application/pdf" height="500px" width="100%"
                 webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

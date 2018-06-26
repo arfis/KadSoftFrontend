@@ -43,14 +43,19 @@ export class LayoutsAuthComponent implements OnInit {
                 'icon': 'cubes',
                 'roles': [
                     Roles.dealerRole,
-                    Roles.technician
+                    Roles.technician,
+                    Roles.dealerLeaderRole,
+                    Roles.technicianLeader
                 ],
                 'link': ['']
             },
             {
                 'title': 'Faktúry',
                 'icon': 'credit-card',
-                'roles': [Roles.dealerRole],
+                'roles': [
+                    Roles.dealerRole,
+                    Roles.dealerLeaderRole
+                ],
                 'link': ['/invoices']
             },
             {
@@ -61,7 +66,10 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Zoznam Klientov',
                 'icon': 'users',
-                'roles': [Roles.dealerRole],
+                'roles': [
+                    Roles.dealerRole,
+                    Roles.dealerLeaderRole
+                    ],
                 'link': ['/page/2'],
             },
             {
@@ -72,7 +80,11 @@ export class LayoutsAuthComponent implements OnInit {
             {
                 'title': 'Dokumenty',
                 'icon': 'book',
-                'roles': [Roles.dealerRole, Roles.technician],
+                'roles': [
+                    Roles.dealerRole,
+                    Roles.technician,
+                    Roles.dealerLeaderRole,
+                    Roles.technicianLeader],
                 'link': ['/documents']
             },
             {

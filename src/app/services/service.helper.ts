@@ -13,7 +13,12 @@ export function buildQuery(queryParams){
     if (queryParams.keyword) {
         params = params.set('find', queryParams.keyword);
     }
-
+    if (queryParams.user) {
+        params = params.set('user', queryParams.user);
+    }
+    if (queryParams.webOnly) {
+        params = params.set('webOnly', queryParams.webOnly);
+    }
     return params;
 }
 

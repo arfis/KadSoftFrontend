@@ -8,7 +8,9 @@ import {LoginUser} from "../pages/login/login-user.model";
 export const Roles = {
     adminRole : "ROLE_ADMIN",
     technician : "ROLE_TECHNICIAN",
-     dealerRole : "ROLE_DEALER"
+    dealerRole : "ROLE_DEALER",
+    technicianLeader: "ROLE_TECHNICIAN_LEADER",
+    dealerLeaderRole: "ROLE_DEALER_LEADER"
 }
 
 @Injectable()
@@ -47,11 +49,6 @@ public currentUser: ReplaySubject<LoginUser> = new ReplaySubject<LoginUser>( 1 )
         return dealer;
     }
 
-    public isAdmin() {
-        let admin = (!!this.getLoggedInUser().roles.find(role => role === Roles.adminRole));
-        return admin;
-    }
-
     public registerUser(user) {
         return this.restService.registerUser(user);
     }
@@ -86,5 +83,12 @@ public currentUser: ReplaySubject<LoginUser> = new ReplaySubject<LoginUser>( 1 )
 
     public updateUser(user, id): Observable<any> {
         return this.restService.updateUser(user, id);
+    }
+
+    get isAdmin() {
+        if(this.getLoggedInUser() &&
+            this.getLoggedInUser().roles) {
+            return this.getLoggedInUser().roles.find(role => role.role === 'ROLE_ADMIN');
+        }
     }
 }

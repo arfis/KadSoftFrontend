@@ -164,7 +164,7 @@
                     <input type="text" id="customerName" class="form-control" formControlName="name" required/>
                 </div>
 
-                <div class="col-lg-6 form-group">
+                <div class="col-lg-6 form-group" *ngIf="type !== 'company'">
                     <label for="customerSurname">Priezvisko:</label>
                     <input type="text" id="customerSurname" class="form-control" formControlName="surname"
                     />
@@ -311,6 +311,11 @@
             </div>
         </fieldset>
 
+        <div class="col-lg-6 form-group">
+            <label for="expiration">Expiracia faktury:</label>
+            <input type="number" id="expiration" class="form-control" formControlName="expiration"/>
+        </div>
+
         <div class="row">
             <div class="col-lg-2">
                 <p>Celková suma:</p>
@@ -321,8 +326,8 @@
         </div>
 
         <div class="action">
-            <button md-button matStepperPrevious class="btn btn-warning" type="button">Spat</button>
-            <button [disabled]="!invoiceForm.valid" md-button matStepperNext class="btn btn-success" type="submit">
+            <button mat-button matStepperPrevious class="btn btn-warning" type="button">Spat</button>
+            <button [disabled]="!invoiceForm.valid" mat-button matStepperNext class="btn btn-success" type="submit">
                 Dalej
             </button>
         </div>

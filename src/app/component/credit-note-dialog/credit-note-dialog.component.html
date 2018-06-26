@@ -1,16 +1,36 @@
-<div>
+<form (ngSubmit)="submitCredit(creditForm)" [formGroup]="creditForm">
     <h1>{{'credit-note.label' | translate}}</h1>
+
     <mat-form-field class="full-width">
-        <input matInput [placeholder]="'credit-note.reason' | translate" [(ngModel)]="reason" required minlength="8">
+        <input matInput [placeholder]="'credit-note.reason' | translate" formControlName="note" required minlength="8">
     </mat-form-field>
+    <!--<mat-form-field class="full-width">-->
+        <!--<mat-select placeholder="Polozka" [(ngModel)]="creditItem">-->
+            <!--<mat-option *ngFor="let item of items" [value]="item">-->
+                <!--{{ item.item.name }} [{{ item.count}}]-->
+            <!--</mat-option>-->
+        <!--</mat-select>-->
+    <!--</mat-form-field>-->
+
+    <div formGroupName="invoiceItems">
     <mat-form-field class="full-width">
-        <input matInput [placeholder]="'credit-note.product' | translate" [(ngModel)]="product" required minlength="8">
-    </mat-form-field>
-    <mat-form-field class="full-width">
-        <input matInput type="number" [placeholder]="'credit-note.sum' | translate" [(ngModel)]="sum" required minlength="8">
+        <input matInput [placeholder]="'credit-note.item.name' | translate" formControlName="newItem" required minlength="8">
     </mat-form-field>
 
-    <div class="button-wrapper">
-        <button mat-raised-button (click)="sendCreditNote()">{{'Vytvor'}}</button>
+    <mat-form-field class="full-width">
+        <input matInput [placeholder]="'credit-note.unit' | translate" formControlName="unit" required minlength="8">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <input matInput [placeholder]="'credit-note.price' | translate" formControlName="price" required minlength="8">
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <input matInput [placeholder]="'credit-note.count' | translate" formControlName="count" required minlength="8">
+    </mat-form-field>
     </div>
-</div>
+
+    <div class="button-wrapper">
+        <button mat-raised-button type="submit">{{'Vytvor'}}</button>
+    </div>
+</form>

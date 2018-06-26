@@ -88,8 +88,8 @@ export class OrderService {
     getOrders(params) : Observable<any>{
 
         console.log('get orders: ', params);
-        const {page, pageSize, sort, sortOrientation, filterType, filter, keyword} = params.payload;
-        return this.restSrv.getOrders(page, pageSize, sort, sortOrientation, filterType, filter, keyword,
+        const {page, pageSize, sort, sortOrientation, filterType, filter, keyword, user, webOnly} = params.payload;
+        return this.restSrv.getOrders(page, pageSize, sort, sortOrientation, filterType, filter, keyword, user, webOnly,
             this.usrService.isDealer());
     }
 

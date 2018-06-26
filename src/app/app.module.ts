@@ -125,7 +125,8 @@ let material = [
     MatTableModule,
     MatDatepickerModule,
     MatStepperModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule
 ];
 
 let modules = [

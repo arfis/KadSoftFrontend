@@ -1,7 +1,7 @@
 {
   "name": "envea-admin",
   "version": "0.8.1",
-  "homepage": "http://handsomeio.com/stano",
+  "homepage": "http://www.handsomeio.com/stano",
   "angular-cli": {},
   "scripts": {
     "start": "ng serve --host 0.0.0.0 --port 1200",
@@ -13,7 +13,7 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor",
-    "deploy": "ng build; chmod -R 777 /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/; scp -r /Users/sevcik/IdeaProjects/KadSoftFrontend/dist/* root@handsomeio.com:/var/www/html/stano/"
+    "deploy": "ng build; chmod -R 777 dist/; scp -r dist/* root@handsomeio.com:/var/www/html/stano/"
   },
   "private": true,
   "dependencies": {

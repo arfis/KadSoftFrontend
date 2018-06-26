@@ -9,7 +9,8 @@
     "buildingPermit": "Stavebne povolenie"
   },
   "order": {
-    "create": "Vytvoriť novú objednávku"
+    "create": "Vytvoriť novú objednávku",
+    "isArchitectOrder": "Je objednávka určená pre architekta?"
   },
   "action": {
     "search": "Vyhladat",
@@ -31,5 +32,9 @@
 
   "ROLE_ADMIN" : "Administrator",
   "ROLE_TECHNICIAN" : "Technik",
-  "ROLE_DEALER" : "Obchodnik"
+  "ROLE_DEALER" : "Obchodnik",
+
+  "filter": {
+    "webOnly": "Iba z webu"
+  }
 }

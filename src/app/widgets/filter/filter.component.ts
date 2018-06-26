@@ -11,6 +11,8 @@ import {Store} from '@ngrx/store';
 
 import * as fromRoot from '../../app.reducer';
 import {GetOrdersAction} from '../../shared/order/order.actions';
+import {RestService} from "../../services/rest.service";
+
 enum filterComponents {
     OrderStates,
     InvoiceStates
@@ -39,17 +41,28 @@ export class FilterComponent implements OnChanges {
     @Input('filterType') activeFilterType: string;
     @Input('type') type: string = "Order";
 
-    filteredRecords: any;
+    @Output() onUpdate = new EventEmitter<any>();
 
-    @Output()
-    onUpdate = new EventEmitter<any>();
+    filteredRecords: any;
+    filteredUser;
+    persons;
+    webOnly;
 
     constructor(private _orderSrv: OrderService,
                 private store: Store<fromRoot.State>,
-                private _invoiceService: InvoiceService) {
+                private _invoiceService: InvoiceService,
+                private _restService: RestService) {
         this.orderStates = orderStatesConst;
         this.invoiceStates = invoiceStatesConst;
 
+        this._restService.getFilterByUsers().subscribe(
+            result => {
+                this.persons = result;
+                const nullUser = {name: '-', id: null};
+                this.persons.push(nullUser);
+                this.filteredUser = nullUser;
+            }
+        )
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -61,59 +74,44 @@ export class FilterComponent implements OnChanges {
         }
     }
 
+    filterByWebOnly(event) {
+        this.webOnly = event.checked;
+        this.doFilter();
+    }
+
     doFilter() {
-        console.log(this.sortOrientation);
-        if (this.activeFilter && this.activeFilter !== '-1') {
 
-            console.log(this.sortOrientation);
-            if (this.isOrder) {
-                this.store.dispatch(
-                    new GetOrdersAction(
-                        {
-                            page: this.page,
-                            pageSize: this.pageSize,
-                            sort: this.sort,
-                            sortOrientation: this.sortOrientation,
-                            filterType: this.activeFilterType,
-                            filter: this.activeFilter
-                    }
-                    )
-                )
+        console.log(this.webOnly)
+        this.onUpdate.emit(
+            {
+                page: this.page,
+                pageSize: this.pageSize,
+                sort: this.sort,
+                sortOrientation: this.sortOrientation,
+                activeFilter: this.activeFilter,
+                filterType: this.activeFilterType,
+                filter: this.activeFilter,
+                user: this.filteredUser.id,
+                webOnly: this.webOnly
             }
+        )
 
-            if (this.isInvoice) {
-                this.store.dispatch(new GetInvoicesAction(
-                    {
-                        currentPage: this.page,
-                        pageSize: this.pageSize,
-                        sort: this.sort,
-                        filterType: this.activeFilterType,
-                        filter: this.activeFilter
-                    }
-                ));
-            }
+        if (this.isInvoice) {
+            this.store.dispatch(new GetInvoicesAction(
+                {
+                    currentPage: this.page,
+                    pageSize: this.pageSize,
+                    sort: this.sort,
+                    filterType: this.activeFilterType,
+                    filter: this.activeFilter,
+                    user: this.filteredUser.id
+                }
+            ));
         }
-        else {
-            if (this.isOrder) {
-                this.store.dispatch(
-                    new GetOrdersAction(
-                        {
-                            page: this.page,
-                            pageSize: this.pageSize,
-                            sort: this.sort,
-                            sortOrientation: this.sortOrientation,
-                            filterType: this.activeFilterType,
-                            filter: this.activeFilter
-                        }
-                    )
-                )
-            } else {
-                // this._invoiceService.getInvoices(this.page, this.pageSize, this.sort, this.sortOrientation).subscribe(
-                //     result => {
-                //         this.onUpdate.emit(result);
-                //     })
-            }
-        }
+    }
+
+    filterByUser() {
+        this.doFilter();
     }
 
     public stateFilterChange(filterType: filterComponents) {

@@ -82,6 +82,15 @@ export class RestService {
         return this.http.get<LoginUser>(this.config.server + this.config.userApi);
     }
 
+    public getFilterByUsers() {
+        return Observable.of([
+            {name:"Leco Preco", id: 1},
+            {name:"Stanislav Kadlecik", id: 2},
+            {name:"Milan Dinga", id: 3},
+            {name:"Ferdinand Mucha", id: 4},
+        ])
+    }
+
     public updateActualUser(user): Observable<any> {
         return this.http.put<any>(this.config.server + this.config.userApi, user);
     }
@@ -188,8 +197,12 @@ export class RestService {
         return this.http.get<any>(this.config.server + `api/invoices/${companyId}/next-number`);
     }
 
-    public getInvoices(page, pageSize, sort, sortDirection, filterType, filter, keyword, isDealer): Observable<Invoice[]> {
-        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword};
+    public getNextCreditInvoiceNumber(companyId: number): Observable<any> {
+        return this.http.get<any>(this.config.server + `api/invoices/${companyId}/next-number?type=credit`);
+    }
+
+    public getInvoices(page, pageSize, sort, sortDirection, filterType, filter, keyword, user, isDealer): Observable<Invoice[]> {
+        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword, user};
         console.log(params);
         let query = buildQuery(params);
         return this.http.get<any>(
@@ -200,10 +213,11 @@ export class RestService {
         return this.http.get<any>(this.config.server + this.config.invoicesApi + `/${id}`);
     }
 
-    public getOrders(page, pageSize, sort, sortDirection, filterType, filter, keyword, isDealer): Observable<any> {
+    public getOrders(page, pageSize, sort, sortDirection,
+                     filterType, filter, keyword, user, webOnly, isDealer): Observable<any> {
 
-        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword};
-        console.log(params);
+        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword, user, webOnly};
+
         let query = buildQuery(params);
         return this.http.get<any>(
             this.config.server + this.config.ordersApi, {params:query});
@@ -305,8 +319,14 @@ export class RestService {
         (user.mainContact.name.indexOf(searchString) > -1));
     }
 
+    public createCreditInvoice(id, params) {
+        console.log(params, id);
+        return this.http.post<any>(this.config.server + `api/invoices/${id}/credit`, params);
+    }
+
     // Documents
     public uploadDocument(documentData) {
+        console.log(documentData);
         return this.http.post<any>(this.config.server + `api/documents`, documentData);
     }
 

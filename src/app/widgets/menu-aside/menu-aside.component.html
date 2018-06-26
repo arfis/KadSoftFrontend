@@ -12,7 +12,11 @@
 				<b>{{currentUser.name}} {{currentUser.surname}}</b>
 				<br>
 				<i>({{currentUser?.email}})</i>
-				<p>Role:{{currentUser?.roles.toString()}}</p>
+				<p>Role:
+				<span *ngFor="let role of currentUser?.roles">
+					{{role.label}}
+				</span>
+				</p>
 
 
 				<div *ngIf="isAdmin">

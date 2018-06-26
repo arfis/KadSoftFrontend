@@ -26,6 +26,8 @@ export class DocumentPreviewComponent implements OnChanges {
     unpinAction;
     deleteAction;
 
+    deleteMode = false;
+
     constructor(private _documentService: DocumentService,
                 private sanitizer: DomSanitizer,
                 private _restService: RestService,
@@ -35,38 +37,41 @@ export class DocumentPreviewComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.document) {
-
-            this._documentService.getDocument(this.document.id).subscribe(
-                result => {
-                    console.log('result', result);
-                    this.documentDetail = result;
-
-                    if (this.documentDetail.actions) {
-                        this.actions = this.documentDetail.actions;
-                        const {detail} = this.actions;
-
-                        this._restService.get(this.documentDetail.actions.base64File.href).subscribe(
-                            result => {
-                                console.log('base64file: ', result);
-                                this.base64image = result;
-                                this.downloadPDF();
-                            }
-                        )
-                        this.deleteAction = this.actions.delete;
-                        this.unpinAction = this.actions.unpinDocument;
-                        this.pinAction = this.actions.pinDocument;
-
-                        console.log(this.actions);
-                    }
-                }
-            )
+            this.getDocumentData();
         }
+    }
+
+    getDocumentData() {
+        this._documentService.getDocument(this.document.id).subscribe(
+            result => {
+                console.log('result', result);
+                this.documentDetail = result;
+
+                if (this.documentDetail.actions) {
+                    this.actions = this.documentDetail.actions;
+                    const {detail} = this.actions;
+
+                    this._restService.get(this.documentDetail.actions.base64File.href).subscribe(
+                        result => {
+                            console.log('base64file: ', result);
+                            this.base64image = result;
+                            this.downloadPDF();
+                        }
+                    )
+                    this.deleteAction = this.actions.delete;
+                    this.unpinAction = this.actions.unpinDocument;
+                    this.pinAction = this.actions.pinDocument;
+
+                }
+            }
+        )
     }
 
     deleteDocument() {
         console.log('deleting document');
         this._restService.delete(this.deleteAction.href).subscribe(
             result => {
+                this.documentDetail = null;
                 this._notificationService.success('Dokument bol odstraneny', this.document.name);
                 this._store.dispatch(new GetDocumentsAction());
             }
@@ -78,6 +83,7 @@ export class DocumentPreviewComponent implements OnChanges {
             this._restService.put(this.unpinAction.href).subscribe(
                 result =>  {
                     this.document = result;
+                    this.getDocumentData();
                     this._notificationService.success('Dokument bol od pinnuty', this.document.name)
                 }
             )
@@ -85,6 +91,7 @@ export class DocumentPreviewComponent implements OnChanges {
             this._restService.put(this.pinAction.href).subscribe(
                 result =>  {
                     this.document = result;
+                    this.getDocumentData();
                     this._notificationService.success('Dokument bol pinnuty', this.document.name)
                 }
             )
@@ -119,6 +126,10 @@ export class DocumentPreviewComponent implements OnChanges {
         this.pdfSafeLink = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
         this.pdfLink = blobUrl;
 
+    }
+
+    toggleDelete() {
+        this.deleteMode = !this.deleteMode;
     }
 
     get pinIcon() {

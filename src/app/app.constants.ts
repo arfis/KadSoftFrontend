@@ -16,3 +16,5 @@ export class Configuration {
 
     public serverWithApiUrl = this.server + this.apiUrl;
 }
+
+export const defaultExpirationInDays = 15;

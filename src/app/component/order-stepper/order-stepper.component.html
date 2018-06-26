@@ -9,7 +9,12 @@
       <invoice-creation [customer]="customer" [invoice]="invoice" (createEmitter)="invoiceCreated($event)"></invoice-creation>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Vyber Mailu</ng-template>
+    <ng-template matStepLabel>Vyber Mailu + Typ objednavky</ng-template>
+      <mat-checkbox
+              class="example-margin"
+              [(ngModel)]="architectOrder" (change)="wasTypeSelected = true">
+          {{'order.isArchitectOrder' | translate}}
+      </mat-checkbox>
     <app-mail-selector (createEmitter)="emailCreated($event)" (finish)="create()"></app-mail-selector>
   </mat-step>
 </mat-horizontal-stepper>

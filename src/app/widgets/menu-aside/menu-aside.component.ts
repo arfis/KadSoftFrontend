@@ -4,6 +4,7 @@ import {RouteConfigLoadStart, Router} from '@angular/router';
 import {Roles, UserService} from '../../services/user.service';
 import {UserRole} from "../../models/user-roles.model";
 import {LoginUser} from "../../pages/login/login-user.model";
+import {HelperService} from "../../helpers/helper.service";
 
 @Component({
   selector: 'app-menu-aside',
@@ -16,38 +17,35 @@ export class MenuAsideComponent implements OnInit {
 
   @Input() private links: Array<any> = [];
 
-  constructor(private userServ: UserService, public router: Router) {
+  constructor(private _userService: UserService,
+              public router: Router) {
     // getting the current url
     // this.router.events.subscribe((evt: RouteConfigLoadStart) => this.currentUrl = evt.route.path);
-    this.userServ.currentUser.subscribe((user) => this.currentUser = user);
+    this._userService.currentUser.subscribe((user) => this.currentUser = user);
   }
 
   public ngOnInit() {
     // TODO
+      console.log(this.currentUser);
   }
 
   checkPermission(itemRoles) {
-    const {roles} = this.userServ.getLoggedInUser();
+    const {roles} = this._userService.getLoggedInUser();
 
-    if (roles.indexOf(Roles.adminRole) > -1) {
+    if (roles.find(role => role.role === Roles.adminRole)) {
       return true;
     }
     else if (itemRoles) {
       for (let role of roles) {
-        if (itemRoles.indexOf(role) > -1) {
+        if (itemRoles.indexOf(role.role) > -1) {
           return true;
         }
       }
     }
     return false;
   }
+
   get isAdmin() {
-    if(this.userServ.getLoggedInUser() &&
-        this.userServ.getLoggedInUser().roles &&
-        this.userServ.getLoggedInUser().roles.indexOf('ROLE_ADMIN') > -1){
-      return true;
-    } else {
-      return false;
-    }
+    return this._userService.isAdmin;
   }
 }

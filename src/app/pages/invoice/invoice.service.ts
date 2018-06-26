@@ -45,14 +45,14 @@ export class InvoiceService {
     }
 
     public getInvoices(params): Observable<any> {
-        const {pageSize, currentPage, sort, filter, filterType, keyword} = params.payload;
+        const {pageSize, currentPage, sort, filter, filterType, keyword, user} = params.payload;
         if (sort === this.activeSort) {
             this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
         }
 
         this.activeSort = sort;
 
-        return this.restServ.getInvoices(currentPage, pageSize, sort, this.activeDirection, filterType, filter, keyword,
+        return this.restServ.getInvoices(currentPage, pageSize, sort, this.activeDirection, filterType, filter, keyword, user,
             false);
     }
 
@@ -83,8 +83,8 @@ export class InvoiceService {
 
     }
 
-    public sendCreditNote(params): Observable<any>{
+    public sendCreditNote(id, params): Observable<any>{
 
-        return Observable.of(true).delay(2000);
+        return this.restServ.createCreditInvoice(id, params);
     }
 }

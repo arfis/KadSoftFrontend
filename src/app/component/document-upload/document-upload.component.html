@@ -1,5 +1,6 @@
 <p-fileUpload #uploader name="files[]"
               (onUpload)="onUpload($event)" customUpload="true"
+              [accept]="'.pdf'"
               (uploadHandler)="fileUpload($event)">
 </p-fileUpload>
 <mat-form-field class="full-width">
@@ -14,7 +15,7 @@
 
 <mat-form-field>
   <mat-select placeholder="Roles" [(ngModel)]="selectedRoles" multiple>
-    <mat-option *ngFor="let role of roles" [value]="role">{{role | translate}}</mat-option>
+    <mat-option *ngFor="let role of roles" [value]="role.role">{{role.label}}</mat-option>
   </mat-select>
 </mat-form-field>
 

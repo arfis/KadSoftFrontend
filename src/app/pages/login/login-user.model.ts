@@ -5,7 +5,7 @@ export class LoginUser {
     email : string;
     name : string;
     surname: string;
-    roles : string[];
+    roles : any[];
     avatarUrl: string = 'assets/img/stano.jpg';
     
     

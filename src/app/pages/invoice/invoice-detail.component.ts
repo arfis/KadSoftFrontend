@@ -49,37 +49,58 @@ export class InvoiceDetailComponent {
     ngOnInit() {
         this.activatedRoute.data.subscribe(data => {
 
-           this.invoice = data['invoice'];
-        console.log(this.invoice);
+            this.invoice = data['invoice'];
+            console.log(this.invoice);
 
-           console.log(this.invoice);
-                    Observable.forkJoin(this.invoiceSrv.getPermissions(this.invoice.id),
-                                        this.callMethod$(this.invoice.actions.base64File.href,
-                                           this.invoice.actions.base64File.methods[0])).subscribe(
-                        results => {
-                            const [result, base64image] = results;
-                            this.permissions = result;
-                            this.permissionLoaded = true;
-                            this.invoiceActions = new Array();
-                            this.base64image = base64image;
-                            this.downloadPDF();
+            console.log(this.invoice);
+            const {base64File} = this.invoice.actions;
 
-                            this.setUpActions();
+            if (base64File) {
+                Observable.forkJoin(this.invoiceSrv.getPermissions(this.invoice.id),
+                    this.callMethod$(base64File.href,
+                        base64File.methods[0])).subscribe(
+                    results => {
+                        const [result, base64image] = results;
+                        this.permissions = result;
+                        this.permissionLoaded = true;
+                        this.invoiceActions = new Array();
+                        this.base64image = base64image;
+                        this.downloadPDF();
 
-                        },
-                        error => {
-                            if (error.status === 401) {
-                                this.loginServ.logout();
-                            }
+                        this.setUpActions();
+
+                    },
+                    error => {
+                        if (error.status === 401) {
+                            this.loginServ.logout();
                         }
-                    );
-            
+                    }
+                );
+            } else {
+                this.invoiceSrv.getPermissions(this.invoice.id).subscribe(
+                    result => {
+                        this.permissions = result;
+                        this.permissionLoaded = true;
+                        this.invoiceActions = new Array();
+                        // this.base64image = base64image;
+                        // this.downloadPDF();
 
+                        this.setUpActions();
+
+                    },
+                    error => {
+                        if (error.status === 401) {
+                            this.loginServ.logout();
+                        }
+                    }
+                );
+            }
         });
     }
 
     setUpActions() {
         this.invoiceActions = [];
+        console.log(this.invoice.actions);
         if (this.invoice.actions.generatePdf) {
             this.invoiceActions.push({
                 label: 'Vygeneruj PDF', icon: 'fa-rotate-left', command: () => {
@@ -97,7 +118,7 @@ export class InvoiceDetailComponent {
                 }
             });
         }
-        if (true || this.invoice.actions.creditPay) {
+        if (this.invoice.actions.createCreditType) {
             this.invoiceActions.push({
                 label: 'Dobropis', icon: 'fa-credit', command: () => {
                     this.openCreditNote()
@@ -129,6 +150,7 @@ export class InvoiceDetailComponent {
             })
         }
     }
+
     callMethod$(link, method) {
         if (method === "GET") {
             return this._restServ.get<any>(link);
@@ -140,22 +162,23 @@ export class InvoiceDetailComponent {
 
     callMethod(link, method) {
 
-           this.callMethod$(link, method).subscribe(
-                result => {
-                    this.invoiceSrv.getInvoice(this.invoice.id).subscribe(
-                        invoiceResult =>  {
-                            this.invoice = invoiceResult;
-                            this.setUpActions();
-                        }
-                    )
-                    this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
-                },
-                error => {
-                    this.notificationSrv.error('akcia nebola uspesne ukoncena', 'akcia');
-                }
-            )
+        this.callMethod$(link, method).subscribe(
+            result => {
+                this.invoiceSrv.getInvoice(this.invoice.id).subscribe(
+                    invoiceResult => {
+                        this.invoice = invoiceResult;
+                        this.setUpActions();
+                    }
+                )
+                this.notificationSrv.success('akcia bola uspesne ukoncena', 'akcia');
+            },
+            error => {
+                this.notificationSrv.error('akcia nebola uspesne ukoncena', 'akcia');
+            }
+        )
 
     }
+
     getStatusMessage(status) {
         if (!status) status = "created";
         return getTranslation(status);
@@ -225,11 +248,11 @@ export class InvoiceDetailComponent {
     }
 
     openCreditNote() {
-        this.dialog.open(CreditNoteDialogComponent, {data: { invoice: this.invoice}});
+        this.dialog.open(CreditNoteDialogComponent, {data: {invoice: this.invoice}});
     }
 
     downloadPDF() {
-        let sliceSize =  512;
+        let sliceSize = 512;
 
         let base64 = this.base64image.base64.replace('data:application/pdf;base64,', '');
         let byteCharacters = atob(base64);

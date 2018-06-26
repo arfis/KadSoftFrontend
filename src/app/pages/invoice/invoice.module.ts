@@ -12,7 +12,14 @@ import {RestService} from "../../services/rest.service";
 import {UserService} from "../../services/user.service";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
-import {MatButtonModule, MatDialogModule, MatIconModule, MatInputModule, MatStepperModule} from "@angular/material";
+import {
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatStepperModule
+} from "@angular/material";
 import {FilterModule} from "../../widgets/filter/filter.module";
 import {AutoCompleteModule} from "primeng/primeng";
 import {TablePanelComponent} from '../../component/table-panel/table-panel.component';
@@ -36,6 +43,7 @@ import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/cred
         MatButtonModule,
         MatInputModule,
         MatIconModule,
+        MatSelectModule,
         MatDialogModule,
         SharedModule
     ],

@@ -15,6 +15,7 @@ export class Order {
     mainContact: Contact;
     invoiceContact: Contact;
 
+    architectOrder?: boolean;
     invoice: Invoice;
     invoices: Invoice[];
     createdBy: User;

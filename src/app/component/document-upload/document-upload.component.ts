@@ -22,7 +22,7 @@ export class DocumentUploadComponent extends FileUploader implements OnInit {
 
   pinned = false;
   roles;
-  selectedRoles;
+  selectedRoles = [];
   uploadedFiles = [];
 
   constructor(public dialogRef: MatDialogRef<DocumentUploadComponent>,
@@ -36,7 +36,7 @@ export class DocumentUploadComponent extends FileUploader implements OnInit {
   ngOnInit() {
     this._store.select(fromRoot.getRoles).subscribe(
         roles => {
-          this.roles = roles.filter(role => role !== Roles.adminRole);
+          this.roles = roles.filter(role => role.role !== Roles.adminRole);
           this.selectedRoles = this.roles;
         }
     )
@@ -50,11 +50,11 @@ export class DocumentUploadComponent extends FileUploader implements OnInit {
   fileUpload(filesToUpload) {
     this.convertToUploadFile(filesToUpload,
         result => {
-          console.log('callback returned ', result);
+          console.log('callback returned ', this.selectedRoles);
           const document = {
             name:this.name,
             text:this.text,
-            allowedRoles : this.selectedRoles,
+            allowedRoles : Array.from(this.selectedRoles),
             file: result.files[0],
             pinned: this.pinned
           };
