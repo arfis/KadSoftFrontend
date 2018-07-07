@@ -328,6 +328,8 @@ export class InvoiceCreation implements OnInit, OnChanges {
         if (!this.isCompanyTaxPayer) {
             delete value.tax;
         }
+
+        value.expiration = new Date(new Date().setDate(new Date().getDate() + value.expiration)).toISOString().split('T')[0];
         this.createEmitter.next(value);
     }
 

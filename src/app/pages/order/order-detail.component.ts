@@ -44,10 +44,10 @@ export class OrderDetailComponent extends FileUploader{
     selectedProductType: any;
     msgs: Message[];
 
-    heatingPrice: number = OrderConstants.heatingPrice;
-    lightingPrice: number = OrderConstants.lightingPrice;
-    vztPrice: number = OrderConstants.vztPrice;
-    area: number = 0;
+    heatingPrice = OrderConstants.heatingPrice;
+    lightingPrice = OrderConstants.lightingPrice;
+    vztPrice = OrderConstants.vztPrice;
+    area = 0;
     note = '';
 
     users;
@@ -123,9 +123,9 @@ export class OrderDetailComponent extends FileUploader{
             this.selectedProfessions = (this.order.professions) ? this.order.professions.map(profession => profession.id) : null;
             this.note = this.order.note;
             this.area = this.order.area;
-            this.vztPrice = this.order.vztPrice;
-            this.lightingPrice = this.order.lightingPrice;
-            this.heatingPrice = this.order.heatingPrice;
+            this.vztPrice = this.order.vztPrice || this.vztPrice;
+            this.lightingPrice = this.order.lightingPrice || this.lightingPrice;
+            this.heatingPrice = this.order.heatingPrice || this.heatingPrice;
             this.selectedUser = this.order.assignedTo;
 
             if (this.productTypes) {
@@ -350,7 +350,10 @@ export class OrderDetailComponent extends FileUploader{
     }
 
     get totalCost() {
-        return this.area * (this.lightingPrice + this.heatingPrice) + this.vztPrice;
+        let price = (this.isHeatingSelected) ? this.heatingPrice * this.area : 0;
+        price += (this.isLightingSelected) ? this.lightingPrice * this.area : 0;
+        price += (this.isVztSelected) ? this.vztPrice : 0;
+        return price;
     }
 
     get isAdministrator() {

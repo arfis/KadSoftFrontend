@@ -132,17 +132,19 @@ export class OrderStepperComponent implements OnInit, OnChanges {
 
 
     create() {
+        if (this.order) {
             if (this.order.state && this.order.state === 'draft') {
                 this.createInvoice(this.order);
             } else {
                 this.createOrderAndInvoice();
             }
+        }
     }
 
     createOrderAndInvoice() {
 
         delete this.order.survey;
-        this.order.architectOrder = this.architectOrder;
+        this.order.architect = this.architectOrder;
         this.order.mainContact = this.invoice.customer.mainContact;
 
         this._orderService.createOrder(this.order).subscribe(

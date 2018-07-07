@@ -4,6 +4,7 @@ import {RestService} from '../../services/rest.service';
 import {InvoiceService} from '../../pages/invoice/invoice.service';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {defaultExpirationInDays} from "../../app.constants";
 
 @Component({
     selector: 'app-credit-note-dialog',
@@ -61,7 +62,7 @@ export class CreditNoteDialogComponent implements OnInit {
             invoiceNumber => {
 
                 value.invoiceNumber = invoiceNumber.nextInvoiceNumber;
-                value.expiration = new Date(new Date().setDate(new Date().getDate() + 15)).toISOString().split('T')[0];
+                value.expiration = new Date(new Date().setDate(new Date().getDate() + defaultExpirationInDays)).toISOString().split('T')[0];
                 value.invoiceItems = [value.invoiceItems];
                 console.log(value);
 

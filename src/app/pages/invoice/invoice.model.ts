@@ -24,6 +24,7 @@ export class Invoice{
     value : number;
     variableSymbol : number;
     emailText?: string;
+    expiration?: any;
 
     customerId : number;
     sendByEmail : string;
