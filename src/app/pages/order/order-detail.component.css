@@ -1,12 +1,16 @@
 
 .section {
     padding: 10px;
-    margin-top : 20px;
-    margin-bottom : 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     border-radius: 5px;
     border: 1px solid darkgray;
     /*background-color: #222d32;
     color: whitesmoke;*/
+}
+
+.done {
+    background-color: rgba(16, 167, 11, 0.71);
 }
 
 .attribute {
@@ -15,12 +19,12 @@
 }
 
 .attribute:after {
-    content:": ";
+    content: ": ";
     text-decoration: none !important;
 }
 
 .invoices {
-    display:inline-block;
+    display: inline-block;
 }
 
 .invoice-item {
@@ -35,31 +39,32 @@
     background-color: lightgray;
 }
 
-.invoice-item:hover{
-    background-color:#00a65a;
+.invoice-item:hover {
+    background-color: #00a65a;
 }
 
 .invoice-item span {
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .file-upload {
-    margin-top : 10px;
+    margin-top: 10px;
 }
+
 .already-uploaded {
     border: 0.2px solid darkgrey;
-    border-radius : 3px;
+    border-radius: 3px;
     background-color: lightgray;
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
 }
+
 .item {
     padding: 1px;
 }
 
-
 .already-uploaded span:hover {
-    color:#00a65a;
+    color: #00a65a;
 }
 
 .already-uploaded .remove {
@@ -84,7 +89,7 @@
 }
 
 .btn-section {
-    display:flex;
+    display: flex;
     padding: 10px;
     align-items: center;
     justify-content: center;

@@ -88,9 +88,9 @@ export class OrderService {
     getOrders(params) : Observable<any>{
 
         console.log('get orders: ', params);
-        const {page, pageSize, sort, sortOrientation, filterType, filter, keyword, user, webOnly} = params.payload;
+        const {page, pageSize, sort, sortOrientation, filterType, filter, keyword, user, webOnly, architect} = params.payload;
         return this.restSrv.getOrders(page, pageSize, sort, sortOrientation, filterType, filter, keyword, user, webOnly,
-            this.usrService.isDealer());
+            architect, this.usrService.isDealer());
     }
 
     getOrder(orderId : number) : Observable<Order> {
@@ -123,5 +123,9 @@ export class OrderService {
     public updateOrder(order) {
 
         return this.restSrv.updateOrder(order);
+    }
+
+    public getUserList() {
+        return this.restSrv.getUserList();
     }
 }

@@ -44,9 +44,11 @@ export class FilterComponent implements OnChanges {
     @Output() onUpdate = new EventEmitter<any>();
 
     filteredRecords: any;
-    filteredUser;
+    filteredUser = null;
     persons;
     webOnly;
+    architect;
+    users$;
 
     constructor(private _orderSrv: OrderService,
                 private store: Store<fromRoot.State>,
@@ -61,8 +63,9 @@ export class FilterComponent implements OnChanges {
                 const nullUser = {name: '-', id: null};
                 this.persons.push(nullUser);
                 this.filteredUser = nullUser;
-            }
-        )
+            })
+
+        this.users$ = this._orderSrv.getUserList();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -79,9 +82,14 @@ export class FilterComponent implements OnChanges {
         this.doFilter();
     }
 
+    filterByArchitect(event) {
+        this.architect = event.checked;
+        console.log('ARCHITECT ', this.architect);
+        this.doFilter();
+    }
+
     doFilter() {
 
-        console.log(this.webOnly)
         this.onUpdate.emit(
             {
                 page: this.page,
@@ -91,8 +99,9 @@ export class FilterComponent implements OnChanges {
                 activeFilter: this.activeFilter,
                 filterType: this.activeFilterType,
                 filter: this.activeFilter,
-                user: this.filteredUser.id,
-                webOnly: this.webOnly
+                user: this.filteredUser,
+                webOnly: this.webOnly,
+                architect: this.architect
             }
         )
 
@@ -104,7 +113,8 @@ export class FilterComponent implements OnChanges {
                     sort: this.sort,
                     filterType: this.activeFilterType,
                     filter: this.activeFilter,
-                    user: this.filteredUser.id
+                    user: this.filteredUser,
+                    architect: this.architect
                 }
             ));
         }

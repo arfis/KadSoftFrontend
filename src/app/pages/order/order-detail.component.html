@@ -35,6 +35,12 @@
             </div>
         </div>
 
+        <ng-container *ngIf="finished">
+            <div class="section done">
+                <span>{{'order.hasTake' | translate : duration}}</span>
+            </div>
+        </ng-container>
+
         <div class="section">
             <mat-form-field class="full-width">
                 <textarea matInput [(ngModel)]='note' placeholder="Poznamka"></textarea>

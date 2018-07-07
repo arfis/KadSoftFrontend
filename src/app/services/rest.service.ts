@@ -214,9 +214,10 @@ export class RestService {
     }
 
     public getOrders(page, pageSize, sort, sortDirection,
-                     filterType, filter, keyword, user, webOnly, isDealer): Observable<any> {
+                     filterType, filter, keyword, user, webOnly, architect, isDealer): Observable<any> {
 
-        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword, user, webOnly};
+        console.log('USER ', user);
+        const params = {page, pageSize, sort, sortDirection, filterType, filter, keyword, user, webOnly, architect};
 
         let query = buildQuery(params);
         return this.http.get<any>(
@@ -335,6 +336,10 @@ export class RestService {
     }
     public getDocuments() {
         return this.http.get<any>(this.config.server + `api/documents`);
+    }
+
+    public getUserList() {
+        return this.http.get<any>(this.config.server + `api/users/list`);
     }
 
     private handleError(error: Response) {

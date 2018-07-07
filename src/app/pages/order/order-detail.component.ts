@@ -122,7 +122,7 @@ export class OrderDetailComponent extends FileUploader{
             this.selectedProductType = (this.order.productType) ? this.order.productType.id : null;
             this.selectedProfessions = (this.order.professions) ? this.order.professions.map(profession => profession.id) : null;
             this.note = this.order.note;
-            this.area = this.order.area;
+            this.area = this.order.area ? this.order.area : 0;
             this.vztPrice = this.order.vztPrice || this.vztPrice;
             this.lightingPrice = this.order.lightingPrice || this.lightingPrice;
             this.heatingPrice = this.order.heatingPrice || this.heatingPrice;
@@ -254,7 +254,6 @@ export class OrderDetailComponent extends FileUploader{
             }
         }
     }
-
     selectUser(user) {
         this.selectedUser = user;
     }
@@ -287,6 +286,10 @@ export class OrderDetailComponent extends FileUploader{
         this.professions = professions.map(mapToLabelValue);
     }
 
+    get hasTaken() {
+        return {number: 20};
+    }
+
     get isDuplicateCreation() {
         return this.duplicateCreation;
     }
@@ -312,7 +315,7 @@ export class OrderDetailComponent extends FileUploader{
     }
 
     get invoices() {
-        return this.order.invoices
+        return this.order.invoices;
     }
 
     get isDealer() {
@@ -398,5 +401,21 @@ export class OrderDetailComponent extends FileUploader{
 
     get states() {
         return this._orderSrv.states;
+    }
+
+    get finished () {
+        return this.order.duration ? this.order.duration.finished : false;
+    }
+
+    get duration() {
+        const result = this.order.duration ? this.order.duration.duration : false;
+        const hours = Math.floor(result/3600);
+        const minutes = Math.floor(result/60 - hours*60);
+        const seconds = result - (minutes*60 + hours*3600);
+
+        return {
+            hours,
+            minutes,
+            seconds};
     }
 }

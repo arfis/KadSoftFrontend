@@ -13,11 +13,14 @@ export function buildQuery(queryParams){
     if (queryParams.keyword) {
         params = params.set('find', queryParams.keyword);
     }
-    if (queryParams.user) {
-        params = params.set('user', queryParams.user);
+    if (queryParams.user && typeof queryParams.user === 'number') {
+        params = params.set('filters\[\]=assignedTo', queryParams.user);
     }
     if (queryParams.webOnly) {
-        params = params.set('webOnly', queryParams.webOnly);
+        params = params.set('filters\[\]=web', queryParams.webOnly);
+    }
+    if (queryParams.architect) {
+        params = params.set('filters\[\]=architect', queryParams.architect);
     }
     return params;
 }

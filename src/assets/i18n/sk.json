@@ -10,7 +10,8 @@
   },
   "order": {
     "create": "Vytvoriť novú objednávku",
-    "isArchitectOrder": "Je objednávka určená pre architekta?"
+    "isArchitectOrder": "Je objednávka určená pre architekta?",
+    "hasTake": "Vybavenie objednavky trvalo {{hours}} hodín {{minutes}} minút a {{seconds}} sekúnd"
   },
   "action": {
     "search": "Vyhladat",
@@ -35,6 +36,8 @@
   "ROLE_DEALER" : "Obchodnik",
 
   "filter": {
-    "webOnly": "Iba z webu"
+    "webOnly": "Iba z webu",
+    "architect": "Architekt",
+    "person": "Priradene"
   }
 }

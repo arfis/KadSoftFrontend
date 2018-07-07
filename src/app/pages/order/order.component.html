@@ -31,7 +31,7 @@
 
         <tr *ngFor="let order of orders">
             <td [routerLink]="[ '/order/', order.id ]">{{order?.id}}</td>
-            <td [routerLink]="[ '/order/', order.id ]"><a *ngIf="order?.orderedBy?.email; else web"
+            <td [routerLink]="[ '/order/', order.id ]"><a *ngIf="!order?.createdFromWeb; else web"
                                                           [routerLink]="[ '/user/'+order?.orderedBy?.id ]">{{order?.orderedBy?.email}}</a>
             </td>
             <ng-template #web>

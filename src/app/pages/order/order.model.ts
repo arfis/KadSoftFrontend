@@ -16,6 +16,8 @@ export class Order {
     invoiceContact: Contact;
 
     architect?: boolean;
+    duration?: any;
+
     invoice: Invoice;
     invoices: Invoice[];
     createdBy: User;
@@ -23,6 +25,8 @@ export class Order {
     created: Date;
     state: string;
     modified: Date;
+    createdFromWeb?: boolean;
+
     files: string[];
     customerId: number;
     constructionType: any;

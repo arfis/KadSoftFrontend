@@ -53,6 +53,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     activeFilter;
     filterUser;
     webOnly;
+    architect;
 
     @Input() filteredOrders: Order[];
     @Input() filter = null;
@@ -73,19 +74,20 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     public ngOnChanges(changes: any) {
         if (changes.filteredOrders) {
+            console.log('CANGEEES AND GETTING ORDERS');
             this.getOrders();
-
         }
     }
 
     update(filteredOrders) {
-        console.log(filteredOrders);
+        console.log('UPDATEEEEE');
         if (filteredOrders) {
             this.filter = filteredOrders.filter;
             this.filterType = filteredOrders.filterType;
             this.activeFilter = filteredOrders.activeFilter;
             this.filterUser = filteredOrders.user;
             this.webOnly = filteredOrders.webOnly;
+            this.architect = filteredOrders.architect;
         }
 
         this.getOrders();
@@ -129,7 +131,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     private getOrders() {
-        console.log('getting orders ', this.filter, this.filterType, this.webOnly);
+        console.log('HEREEE: getting orders ', this.filter, this.filterType, this.webOnly);
 
         this.store.dispatch(new GetOrdersAction(
             {
@@ -142,7 +144,8 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
                 sort: this.sort,
                 sortOrientation: this.sortOrientation,
                 user: this.filterUser,
-                webOnly: this.webOnly
+                webOnly: this.webOnly,
+                architect: this.architect
             }))
     }
 
@@ -162,7 +165,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     pageChanged(event) {
         this.currentPage = event.page;
-
+        console.log('page changed');
         this.getOrders();
     }
     getStatusMessage(status) {
@@ -178,7 +181,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     orderBy(type) {
-        console.log('type: ', type);
+        console.log('TYPEEEEE: ', type);
         if (this.sort === type) {
             this.sortOrientation = (this.sortOrientation === 'asc') ? 'desc' : 'asc';
         } else {

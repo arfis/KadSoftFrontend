@@ -19,7 +19,7 @@ import {Customer} from '../../pages/users/user.model';
 })
 export class OrderStepperComponent implements OnInit, OnChanges {
 
-    isLinear = false;
+    isLinear = true;
     firstFormGroup: FormGroup;
     secondFormGroup: FormGroup;
 
