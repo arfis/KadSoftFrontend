@@ -9,7 +9,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    constructionTypes: {},
+    constructionTypes: [],
     parameters: {},
     loading: false,
     loaded: false,

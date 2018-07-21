@@ -20,8 +20,8 @@ import {Customer} from '../../pages/users/user.model';
 export class OrderStepperComponent implements OnInit, OnChanges {
 
     isLinear = true;
-    firstFormGroup: FormGroup;
-    secondFormGroup: FormGroup;
+    orderFormGroup: FormGroup;
+    invoiceFormGroup: FormGroup;
 
     architectOrder = false;
     invoice: Invoice = new Invoice();
@@ -60,6 +60,14 @@ export class OrderStepperComponent implements OnInit, OnChanges {
         if (this.order) {
            this.setUpInvoiceData();
         }
+    }
+
+    orderFormChanged(form) {
+        this.orderFormGroup = form;
+    }
+
+    invoiceFormChanged(form) {
+        this.invoiceFormGroup = form;
     }
 
     orderCreated(order: Order) {

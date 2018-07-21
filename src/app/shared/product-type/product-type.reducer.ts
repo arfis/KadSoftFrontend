@@ -8,7 +8,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    productTypes: {},
+    productTypes: [],
     loading: false,
     loaded: false,
     error: null

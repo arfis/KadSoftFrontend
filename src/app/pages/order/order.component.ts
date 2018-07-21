@@ -1,4 +1,13 @@
-import {Component, OnInit, OnDestroy, Input, OnChanges} from '@angular/core';
+import {
+    Component,
+    OnInit,
+    OnDestroy,
+    Input,
+    OnChanges,
+    ViewChild,
+    ChangeDetectorRef,
+    AfterViewInit
+} from '@angular/core';
 import {BreadcrumbService} from '../../services/breadcrumb.service';
 import {MessagesService} from '../../services/messages.service';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -17,6 +26,10 @@ import {any} from 'codelyzer/util/function';
 import {Store} from '@ngrx/store';
 import {getOrders, State} from '../../app.reducer';
 import {GetOrdersAction} from '../../shared/order/order.actions';
+import * as fromRoot from "../../app.reducer";
+import { MatPaginator, MatSort } from "@angular/material";
+import { TableDataSource } from "../../component/table/table-data-source";
+import { fromEvent } from "rxjs/observable/fromEvent";
 
 @Component({
     selector: 'order',
@@ -24,7 +37,7 @@ import {GetOrdersAction} from '../../shared/order/order.actions';
     templateUrl: './order.component.html'
 })
 
-export class OrderComponent implements OnChanges, OnInit, OnDestroy {
+export class OrderComponent implements OnChanges, OnInit, OnDestroy, AfterViewInit {
 
     public date: Date = new Date();
     public orders: Order[] = new Array();
@@ -32,39 +45,61 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
     public isFormCollapsed = true;
     private paginationMeta: PaginationMetadata;
 
-    public maxSize: number = 10;
+    public maxSize: number = 20;
     public bigTotalItems: number = 0;
     public bigCurrentPage: number = 1;
     public numPages: number = 0;
     public keyword;
 
     public currentPage = 1;
-    public pageSize = 10;
+    public pageSize = 20;
 
-    public showModal = false;
     public activeInvoices: Invoice[];
 
-    public invoiceTypes = ["Zálohová faktúra","Doklad o prijati platby","Faktura"];
-
-    public stopChanel = new Subject<number>();
-
-    public sort = "";
     public sortOrientation = "asc";
     activeFilter;
     filterUser;
     webOnly;
     architect;
+    length;
 
     @Input() filteredOrders: Order[];
     @Input() filter = null;
     @Input() filterType = null;
     @Input() customer;
 
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('filter') filterInput;
+
+    dataSource;
+    displayedColumns = ['createdBy', 'status', 'invoice', 'name', 'description', 'price',  'assignedTo', 'createdAt', 'updatedAt']
+
     constructor(private msgServ: MessagesService,
                 private breadServ: BreadcrumbService,
                 public router: Router,
-                public store: Store<State>) {
+                public store: Store<State>,
+                private ref: ChangeDetectorRef) {
 
+    }
+
+    onFilterChange(value) {
+        console.log('dsadassa', value);
+    }
+    ngAfterViewInit() {
+        console.log('init');
+
+        fromEvent(this.filterInput.nativeElement, 'keyup')
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .subscribe(() => {
+                console.log('hhereeeeee');
+                if (!this.dataSource) {
+                    return;
+                }
+                this.dataSource.filter = this.filterInput.nativeElement.value;
+                this.paginator.firstPage();
+            })
     }
 
     public setActiveOrderForModal(order: Order) {
@@ -79,22 +114,22 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
         }
     }
 
-    update(filteredOrders) {
-        console.log('UPDATEEEEE');
-        if (filteredOrders) {
-            this.filter = filteredOrders.filter;
-            this.filterType = filteredOrders.filterType;
-            this.activeFilter = filteredOrders.activeFilter;
-            this.filterUser = filteredOrders.user;
-            this.webOnly = filteredOrders.webOnly;
-            this.architect = filteredOrders.architect;
-        }
-
-        this.getOrders();
+    updateTableParams(params) {
+        this.dataSource.params = params;
     }
 
-
+    onRowClick(id) {
+        console.log('asa');
+        this.router.navigate([`/order/${id}`])
+    }
     public ngOnInit() {
+        this.dataSource = new TableDataSource(this.sort, this.paginator, this.store);
+        this.dataSource._length.subscribe(
+            length => {
+                this.length = length;
+            }
+        )
+
         // setttings the header for the home
         this.breadServ.set({
             description: 'Objednavky',
@@ -109,25 +144,11 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
                 }
             ]
         });
-
-        this.store.select(getOrders).subscribe(
-            orders => {
-                const {data, meta} = orders;
-                if (data && meta) {
-                    console.log('orders ', orders);
-                    this.orders = orders.data;
-                    this.paginationMeta = orders.meta;
-                    this.bigTotalItems = this.paginationMeta.totalItems;
-                }
-            }
-        )
-
-            // TODO: check dates
-            this.getOrders();
     }
+
     search(keyword) {
         this.keyword = keyword;
-        this.getOrders();
+        //this.getOrders();
     }
 
     private getOrders() {
@@ -165,23 +186,17 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy {
 
     pageChanged(event) {
         this.currentPage = event.page;
-        console.log('page changed');
         this.getOrders();
     }
-    getStatusMessage(status) {
-        if (!status) status = "notAssigned";
-        return getOrderTranslation(status);
-    }
 
-    getInvoiceStatusMessage(status) {
 
-        if (!status) status = "created";
-        return getTranslation(status);
 
+    setNumberOfPages(pages) {
+        console.log(pages, this.bigTotalItems, this.maxSize);
+        this.numPages = pages;
     }
 
     orderBy(type) {
-        console.log('TYPEEEEE: ', type);
         if (this.sort === type) {
             this.sortOrientation = (this.sortOrientation === 'asc') ? 'desc' : 'asc';
         } else {

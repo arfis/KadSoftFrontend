@@ -9,7 +9,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    invoices: {},
+    invoices: [],
     parameters: {},
     loading: false,
     loaded: false,

@@ -11,6 +11,7 @@ import {Order} from "../../pages/order/order.model";
 export class OrderCreationFormComponent implements OnInit{
 
     @Output() createEmitter = new EventEmitter<Order>();
+    @Output() onFormChange = new EventEmitter<any>();
     @Input() order: Order;
 
     public orderForm: FormGroup;
@@ -24,6 +25,10 @@ export class OrderCreationFormComponent implements OnInit{
 
     ngOnInit(): void {
         this.createForm();
+        this.orderForm.valueChanges.subscribe(
+            result => this.onFormChange.next(this.orderForm)
+        )
+        this.onFormChange.next(this.orderForm);
     }
 
     createForm() {

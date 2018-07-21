@@ -32,3 +32,21 @@ td {
         font-size: 9px;
     }
 }
+
+.mat-row:hover {
+    background-color: rgba(220, 220, 220, 0.68);
+}
+
+.search mat-form-field {
+    width: 96%;
+}
+
+mat-cell {
+    padding: 0px 2px;
+    font-size: 12px;
+}
+
+.status {
+    width: 100%;
+    display: block;
+}

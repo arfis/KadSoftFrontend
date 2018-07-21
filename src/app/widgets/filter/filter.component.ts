@@ -92,10 +92,6 @@ export class FilterComponent implements OnChanges {
 
         this.onUpdate.emit(
             {
-                page: this.page,
-                pageSize: this.pageSize,
-                sort: this.sort,
-                sortOrientation: this.sortOrientation,
                 activeFilter: this.activeFilter,
                 filterType: this.activeFilterType,
                 filter: this.activeFilter,
@@ -104,20 +100,6 @@ export class FilterComponent implements OnChanges {
                 architect: this.architect
             }
         )
-
-        if (this.isInvoice) {
-            this.store.dispatch(new GetInvoicesAction(
-                {
-                    currentPage: this.page,
-                    pageSize: this.pageSize,
-                    sort: this.sort,
-                    filterType: this.activeFilterType,
-                    filter: this.activeFilter,
-                    user: this.filteredUser,
-                    architect: this.architect
-                }
-            ));
-        }
     }
 
     filterByUser() {

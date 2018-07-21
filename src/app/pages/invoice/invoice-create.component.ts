@@ -24,6 +24,7 @@ import {Configuration, defaultExpirationInDays} from "../../app.constants";
 export class InvoiceCreation implements OnInit, OnChanges {
 
     @Output() createEmitter = new EventEmitter<Invoice>();
+    @Output() onFormChange = new EventEmitter<any>();
 
     @Input() invoice: Invoice;
     @Input() customer;
@@ -102,6 +103,9 @@ export class InvoiceCreation implements OnInit, OnChanges {
 
         // this.invoiceForm.reset();
         this.createForm();
+        this.invoiceForm.valueChanges.subscribe(
+            form => this.onFormChange.next(this.invoiceForm)
+        )
         this.setFormValues();
     }
 

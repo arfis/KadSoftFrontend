@@ -2,81 +2,191 @@
 
 <router-outlet></router-outlet>
 
-<ng-container *ngIf="!filteredOrders">
-    <app-table-panel
-            [canCreate]=true
-            (onCreate)="toggleForm()"
-            (onSearchChange)="search($event)"></app-table-panel>
-</ng-container>
+<!--<ng-container *ngIf="!filteredOrders">-->
+    <!--<app-table-panel-->
+            <!--[canCreate]=true-->
+            <!--(onCreate)="toggleForm()"-->
+            <!--(onSearchChange)="search($event)"></app-table-panel>-->
+<!--</ng-container>-->
 
-<app-filter [type]="'Order'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
-            [sortOrientation]="sortOrientation" [filter]="filter"
-            [filterType]="filterType" (onUpdate)="update($event)"></app-filter>
 <div class="table-wrapper">
-    <table class="table table-bordered table-responsive table-hover">
-        <caption>Objednávky</caption>
-        <tbody>
-        <tr>
-            <th style="width: 10px">#</th>
-            <th class="sortable" (click)="orderBy('orderedBy')">Vytvoril</th>
-            <th>Nazov</th>
-            <th>Stav</th>
-            <th>Faktura</th>
-            <th>Klient</th>
-            <th class="sortable" (click)="orderBy('price')">Cena</th>
-            <th>Priradené</th>
-            <th class="sortable" (click)="orderBy('createdAt')">Vytvorene</th>
-            <th class="sortable" (click)="orderBy('updatedAt')">Aktualizovane</th>
-        </tr>
+    <div class="loading-wrapper">
+        <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="search">
+        <mat-icon class="icon">search</mat-icon>
+        <mat-form-field>
+            <input (change)="onFilterChange($event)" matInput #filter floatPlaceholder="never" [placeholder]="'action.search' | translate">
+        </mat-form-field>
+    </div>
 
-        <tr *ngFor="let order of orders">
-            <td [routerLink]="[ '/order/', order.id ]">{{order?.id}}</td>
-            <td [routerLink]="[ '/order/', order.id ]"><a *ngIf="!order?.createdFromWeb; else web"
-                                                          [routerLink]="[ '/user/'+order?.orderedBy?.id ]">{{order?.orderedBy?.email}}</a>
-            </td>
-            <ng-template #web>
-                <td>Web</td>
-            </ng-template>
-            <!--// TODO: resolver and make a user type in the invoice -->
-            <td [routerLink]="[ '/order/', order.id ]"><span class="description">{{order?.text}}</span></td>
-            <td [routerLink]="[ '/order/', order.id ]">
-                <span class="label" [ngClass]="getStatusMessage(order?.state).label">
-                {{getStatusMessage(order?.state).text}}
-                </span>
-            </td>
-            <td [routerLink]="[ '/order/', order.id ]"><span class="label"
-                                                             [ngClass]="getInvoiceStatusMessage(order.invoices[0]?.status).label">
-                {{getInvoiceStatusMessage(order.invoices[0]?.status).text}}
-                </span>
-            </td>
-            <td>
+    <app-filter [type]="'Order'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
+                [sortOrientation]="sortOrientation" [filter]="filter"
+                [filterType]="filterType" (onUpdate)="updateTableParams($event)"></app-filter>
 
-                <a class="description client-link" *ngIf="order.customerId; else noLink"
-                   [routerLink]="[ '/user/', order?.customerId ]">
-                    {{order.mainContact.name}} {{order.mainContact.surname}}
-                </a>
-                <ng-template #noLink>
-                    <span class="description">{{order.mainContact.name}} {{order.mainContact.surname}}</span>
-                </ng-template>
-            </td>
-            <td [routerLink]="[ '/order/', order.id ]">
-                <ng-container *ngIf="order.invoices.length > 0">
-                    {{order?.price}}
-                </ng-container>
-            </td>
-            <td [routerLink]="[ '/order/', order.id ]">{{order?.assignedTo?.email || '-'}}</td>
-            <td [routerLink]="[ '/order/', order.id ]">{{order?.createdAt | date:'dd.MM.yyyy HH:mm'}}</td>
-            <td [routerLink]="[ '/order/', order.id ]">{{order?.updatedAt | date:'dd.MM.yyyy HH:mm'}}</td>
-        </tr>
-        </tbody>
-    </table>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-4">
-            <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"
-                        class="pagination-sm"
-                        [boundaryLinks]="true" [rotate]="false"
-                        (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
-        </div>
+    <div class="table-wrapper">
+        <mat-table #table [dataSource]="dataSource"
+                   [ngClass]="{'loading':isLoading}"
+                   matSort>
+
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef>{{'order.id' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef>{{'order.description' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.text}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>{{'order.status' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <span class="status label" [ngClass]="row.orderStatusLabel">
+                      {{row.orderStatusText}}
+                    </span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="invoice">
+                <mat-header-cell *matHeaderCellDef>{{'order.invoiceStatus' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <span class="status label" [ngClass]="row.invoiceStatusLabel">
+                      {{row.invoiceStatusText}}
+                    </span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>{{'order.name' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.mainContact.name}} {{row.mainContact.surname}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{'order.price' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.price}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="createdBy">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{'order.createdBy' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <span [routerLink]="[ '/order/', row.id ]"><a *ngIf="!row?.createdFromWeb; else web"
+                                                                  [routerLink]="[ '/user/'+row?.orderedBy?.id ]">{{row?.orderedBy?.email}}</a>
+                    </span>
+                    <ng-template #web>
+                        <td>Web</td>
+                    </ng-template>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="assignedTo">
+                <mat-header-cell *matHeaderCellDef>{{'order.assigned' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{ row.assignedTo?.email}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="createdAt">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{'order.created' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row?.createdAt | date:'dd.MM.yyyy HH:mm'}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="updatedAt">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{'order.updated' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row?.updatedAt | date:'dd.MM.yyyy HH:mm'}}</mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row (click)="onRowClick(row.id)"
+                     *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+
+    <div class="footer">
+          <mat-paginator #paginator
+                       [length]="length"
+                       [pageIndex]="0"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
     </div>
 </div>
+
+<ng-template #loadingScreen>
+    Loading...
+</ng-template>
+
+<!--<div class="table-wrapper">-->
+    <!--<table class="table table-bordered table-responsive table-hover">-->
+        <!--<caption>Objednávky</caption>-->
+        <!--<tbody>-->
+        <!--<tr>-->
+            <!--<th style="width: 10px">#</th>-->
+            <!--<th class="sortable" (click)="orderBy('orderedBy')">Vytvoril</th>-->
+            <!--<th>Nazov</th>-->
+            <!--<th>Stav</th>-->
+            <!--<th>Faktura</th>-->
+            <!--<th>Klient</th>-->
+            <!--<th class="sortable" (click)="orderBy('price')">Cena</th>-->
+            <!--<th>Priradené</th>-->
+            <!--<th class="sortable" (click)="orderBy('createdAt')">Vytvorene</th>-->
+            <!--<th class="sortable" (click)="orderBy('updatedAt')">Aktualizovane</th>-->
+        <!--</tr>-->
+
+        <!--<tr *ngFor="let order of orders">-->
+            <!--<td [routerLink]="[ '/order/', order.id ]">{{order?.id}}</td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]"><a *ngIf="!order?.createdFromWeb; else web"-->
+                                                          <!--[routerLink]="[ '/user/'+order?.orderedBy?.id ]">{{order?.orderedBy?.email}}</a>-->
+            <!--</td>-->
+            <!--<ng-template #web>-->
+                <!--<td>Web</td>-->
+            <!--</ng-template>-->
+            <!--&lt;!&ndash;// TODO: resolver and make a user type in the invoice &ndash;&gt;-->
+            <!--<td [routerLink]="[ '/order/', order.id ]"><span class="description">{{order?.text}}</span></td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]">-->
+                <!--<span class="label" [ngClass]="getStatusMessage(order?.state).label">-->
+                <!--{{getStatusMessage(order?.state).text}}-->
+                <!--</span>-->
+            <!--</td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]"><span class="label"-->
+                                                             <!--[ngClass]="getInvoiceStatusMessage(order.invoices[0]?.status).label">-->
+                <!--{{getInvoiceStatusMessage(order.invoices[0]?.status).text}}-->
+                <!--</span>-->
+            <!--</td>-->
+            <!--<td>-->
+
+                <!--<a class="description client-link" *ngIf="order.customerId; else noLink"-->
+                   <!--[routerLink]="[ '/user/', order?.customerId ]">-->
+                    <!--{{order.mainContact.name}} {{order.mainContact.surname}}-->
+                <!--</a>-->
+                <!--<ng-template #noLink>-->
+                    <!--<span class="description">{{order.mainContact.name}} {{order.mainContact.surname}}</span>-->
+                <!--</ng-template>-->
+            <!--</td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]">-->
+                <!--<ng-container *ngIf="order.invoices.length > 0">-->
+                    <!--{{order?.price}}-->
+                <!--</ng-container>-->
+            <!--</td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]">{{order?.assignedTo?.email || '-'}}</td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]">{{order?.createdAt | date:'dd.MM.yyyy HH:mm'}}</td>-->
+            <!--<td [routerLink]="[ '/order/', order.id ]">{{order?.updatedAt | date:'dd.MM.yyyy HH:mm'}}</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+
+    <!--<div class="row">-->
+        <!--<div class="col-md-6 col-md-offset-4">-->
+            <!--<pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize"-->
+                        <!--class="pagination-sm"-->
+                        <!--[boundaryLinks]="true" [rotate]="false"-->
+                        <!--(numPages)="setNumberOfPages($event)" (pageChanged)="pageChanged($event)"></pagination>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->

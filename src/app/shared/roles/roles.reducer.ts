@@ -9,7 +9,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    roles: {},
+    roles: [],
     parameters: {},
     loading: false,
     loaded: false,

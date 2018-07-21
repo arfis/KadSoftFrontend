@@ -9,7 +9,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    professions: {},
+    professions: [],
     loading: false,
     loaded: false,
     error: null

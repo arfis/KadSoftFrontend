@@ -9,6 +9,16 @@
     "buildingPermit": "Stavebne povolenie"
   },
   "order": {
+    "id": "#",
+    "createdBy" : "Vytvoril",
+    "description": "Opis",
+    "invoiceStatus": "Faktura",
+    "name": "Klient",
+    "status": "Objednavka",
+    "price": "Cena",
+    "assigned": "Priradene",
+    "created": "Vytvorene",
+    "updated": "Aktualizovane",
     "create": "Vytvoriť novú objednávku",
     "isArchitectOrder": "Je objednávka určená pre architekta?",
     "hasTake": "Vybavenie objednavky trvalo {{hours}} hodín {{minutes}} minút a {{seconds}} sekúnd"

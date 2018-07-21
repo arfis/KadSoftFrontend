@@ -9,7 +9,7 @@ export interface State {
 }
 
 export const initialState: State = {
-    orders: {},
+    orders: [],
     parameters: {},
     loading: false,
     loaded: false,

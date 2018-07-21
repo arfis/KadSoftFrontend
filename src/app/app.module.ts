@@ -42,7 +42,7 @@ import {
     MatSelectModule,
     MatStepperModule,
     MatTableModule,
-    MatListModule
+    MatListModule, MatPaginatorIntl, MatPaginatorModule, MatProgressBarModule, MatSortModule
 } from "@angular/material";
 
 import {AppComponent} from './app.component';
@@ -110,6 +110,8 @@ import {RoleEffects} from './shared/roles/roles.effect';
 import { DocumentUploadComponent } from './component/document-upload/document-upload.component';
 import {DocumentService} from './services/document.service';
 import {DocumentsEffects} from './shared/documents/documents.effect';
+import { TableComponent } from './component/table/table.component';
+import { MatPaginatorIntlCustom } from "./component/table/MatPaginatorIntlCustom";
 
 export function HttpLoaderFactory(http: HttpClient) {
     // return new TranslateHttpLoader(http);
@@ -126,7 +128,11 @@ let material = [
     MatDatepickerModule,
     MatStepperModule,
     MatListModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatProgressBarModule
 ];
 
 let modules = [
@@ -267,6 +273,7 @@ let pages = [
         DocumentSelectionComponent,
         DocumentPreviewComponent,
         DocumentUploadComponent,
+        TableComponent,
     ],
     imports: [
         ...modules,
@@ -274,6 +281,10 @@ let pages = [
     ],
     providers: [
         TranslateService,
+        {
+            provide: MatPaginatorIntl,
+            useClass: MatPaginatorIntlCustom,
+        },
         ...services
     ],
     entryComponents: [

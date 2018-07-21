@@ -1,12 +1,18 @@
 <mat-horizontal-stepper #stepper [linear]="isLinear">
-  <mat-step [stepControl]="firstFormGroup">
+  <mat-step [stepControl]="orderFormGroup">
       <ng-template matStepLabel>Objednavka</ng-template>
-      <app-order-creation-form [order]="order" (createEmitter)="orderCreated($event)"></app-order-creation-form>
+      <app-order-creation-form
+              [order]="order"
+              (onFormChange)="orderFormChanged($event)"
+              (createEmitter)="orderCreated($event)"></app-order-creation-form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup">
+  <mat-step [stepControl]="invoiceFormGroup">
       <ng-template matStepLabel>Fakturacne Udaje</ng-template>
       InvoiceCreation
-      <invoice-creation [customer]="customer" [invoice]="invoice" (createEmitter)="invoiceCreated($event)"></invoice-creation>
+      <invoice-creation [customer]="customer"
+                        [invoice]="invoice"
+                        (onFormChange)="invoiceFormChanged($event)"
+                        (createEmitter)="invoiceCreated($event)"></invoice-creation>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Vyber Mailu + Typ objednavky</ng-template>

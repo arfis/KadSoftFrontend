@@ -16,15 +16,16 @@ import {
     MatButtonModule,
     MatDialogModule,
     MatIconModule,
-    MatInputModule,
-    MatSelectModule,
-    MatStepperModule
+    MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressBarModule,
+    MatSelectModule, MatSortModule,
+    MatStepperModule, MatTableModule
 } from "@angular/material";
 import {FilterModule} from "../../widgets/filter/filter.module";
 import {AutoCompleteModule} from "primeng/primeng";
 import {TablePanelComponent} from '../../component/table-panel/table-panel.component';
 import {SharedModule} from '../../shared/shared.module';
 import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/credit-note-dialog.component';
+import { MatPaginatorIntlCustom } from "../../component/table/MatPaginatorIntlCustom";
 
 @NgModule({
     imports: [
@@ -45,7 +46,11 @@ import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/cred
         MatIconModule,
         MatSelectModule,
         MatDialogModule,
-        SharedModule
+        SharedModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatProgressBarModule
     ],
     declarations: [
         InvoiceComponent,
@@ -55,6 +60,10 @@ import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/cred
         CreditNoteDialogComponent
     ],
     providers: [
+        {
+            provide: MatPaginatorIntl,
+            useClass: MatPaginatorIntlCustom,
+        },
         InvoiceService,
         CustomerService,
         ConfigurationService,
