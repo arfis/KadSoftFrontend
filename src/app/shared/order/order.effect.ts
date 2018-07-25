@@ -20,7 +20,7 @@ export class OrderEffects {
     getOrders$: Observable<Action> = this.actions$
         .ofType(GET_ORDERS).pipe(
             mergeMap(action =>
-                this._orderService.getOrders(action).pipe(
+                this._orderService.getOrders((action as any).payload).pipe(
                     map(res => ({
                         type: GET_ORDERS_SUCCESS,
                         payload: res

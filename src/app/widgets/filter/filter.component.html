@@ -1,57 +1,46 @@
 <p-accordion>
     <p-accordionTab header="Filters">
-        <div *ngIf="isOrder" class="col-lg-12">
-            <label for="orderStates">Stav objednavky: </label>
-            <p-selectButton id="orderStates" (onChange)="stateFilterChange(orderStateComponent)" [options]="orderStates"
-                            [(ngModel)]="selectedOrderState"></p-selectButton>
+        <div class="filter-content">
+            <div *ngIf="isOrder" class="col-lg-12">
+                <label for="orderStates">Stav objednavky: </label>
+                <p-selectButton id="orderStates" (onChange)="stateFilterChange(orderStateComponent)"
+                                [options]="orderStates"
+                                [(ngModel)]="selectedOrderState"></p-selectButton>
+            </div>
+
+            <div *ngIf="isInvoice" class="col-lg-12">
+                <label for="orderStates">Stav faktury: </label>
+                <p-selectButton id="invoiceState" (onChange)="stateFilterChange(invoiceStateComponent)"
+                                [options]="invoiceStates"
+                                [(ngModel)]="selectedInvoiceState"></p-selectButton>
+            </div>
+
+            <ng-container *ngIf="isOrder">
+                <div class="filter-wrapper row">
+                    <mat-form-field class="col-lg-6">
+                        <mat-select [placeholder]="'filter.person' | translate" [(ngModel)]="filteredUser"
+                                    (selectionChange)="filterByUser()">
+                            <mat-option [value]="0">
+                                -
+                            </mat-option>
+                            <mat-option *ngFor="let user of users$ | async" [value]="user.id">
+                                {{user.email}}
+                                <span *ngIf="user.name || user.surname">[{{user?.name}} {{user?.surname}}]</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div class="sliders-wrapper col-lg-4">
+                        <mat-slide-toggle [checked]="webOnly" (change)="filterByWebOnly($event)">
+                            {{'filter.webOnly' | translate}}
+                        </mat-slide-toggle>
+
+                        <mat-slide-toggle [checked]="architect" (change)="filterByArchitect($event)">
+                            {{'filter.architect' | translate}}
+                        </mat-slide-toggle>
+                    </div>
+                </div>
+            </ng-container>
         </div>
-
-        <div *ngIf="isInvoice" class="col-lg-12">
-            <label for="orderStates">Stav faktury: </label>
-            <p-selectButton id="invoiceState" (onChange)="stateFilterChange(invoiceStateComponent)"
-                            [options]="invoiceStates"
-                            [(ngModel)]="selectedInvoiceState"></p-selectButton>
-        </div>
-
-        <!--<mat-form-field *ngIf="isOrder" class="col-lg-6">-->
-        <!--<mat-select [placeholder]="'filter.order-state' | translate" [(ngModel)]="selectedInvoiceState"-->
-        <!--(selectionChange)="stateFilterChange(orderStateComponent)">-->
-        <!--<mat-option *ngFor="let state of orderStates" [value]="state">-->
-        <!--{{state}}-->
-        <!--</mat-option>-->
-        <!--</mat-select>-->
-        <!--</mat-form-field>-->
-
-        <!--<mat-form-field *ngIf="isInvoice" class="col-lg-6">-->
-        <!--<mat-select [placeholder]="'filter.invoice-state' | translate" [(ngModel)]="selectedInvoiceState"-->
-        <!--(selectionChange)="filterByUser()">-->
-        <!--<mat-option *ngFor="let state of invoiceStates" [value]="state">-->
-        <!--{{state}}-->
-        <!--</mat-option>-->
-        <!--</mat-select>-->
-        <!--</mat-form-field>-->
-
-        <ng-container *ngIf="isOrder">
-            <mat-form-field class="col-lg-6">
-                <mat-select [placeholder]="'filter.person' | translate" [(ngModel)]="filteredUser"
-                            (selectionChange)="filterByUser()">
-                    <mat-option [value]="0">
-                        -
-                    </mat-option>
-                    <mat-option *ngFor="let user of users$ | async" [value]="user.id">
-                        {{user.email}}
-                        <span *ngIf="user.name || user.surname">[{{user?.name}} {{user?.surname}}]</span>
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-slide-toggle [checked]="webOnly" class="col-lg-2" (change)="filterByWebOnly($event)">
-                {{'filter.webOnly' | translate}}
-            </mat-slide-toggle>
-
-            <mat-slide-toggle [checked]="architect" class="col-lg-2" (change)="filterByArchitect($event)">
-                {{'filter.architect' | translate}}
-            </mat-slide-toggle>
-        </ng-container>
     </p-accordionTab>
 </p-accordion>

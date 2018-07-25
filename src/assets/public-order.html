@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+<form id="form1" enctype='application/json'>
+    <label>Nazov</label>
+    <input name="name">
+    <label>Poznamka</label>
+    <input name="note">
+    <label>Firma</label>
+    <input name="companyString">
+    <div name="mainContact">
+        <label>Meno</label>
+        <input name="mainContact[name]">
+        <label>Priezvisko</label>
+        <input name="mainContact[surname]">
+    </div>
+</form>
+<button type="submit" form="form1">Odosli</button>
+</form>
+</body>
+
+<script>
+    // $('#form1').submit(function(e){
+    //     var values = {};
+    //     $.each($('#form1').serializeArray(), function(i, field) {
+    //         values[field.name] = field.value;
+    //     });
+    //     console.log(values);
+    //     e.preventDefault();
+    //     $.ajax({
+    //         url:'https://digitalwalk.sk/api/orders',
+    //         type:'post',
+    //         data: JSON.stringify($('#form1').serialize()),
+    //         contentType: "application/json; charset=utf-8",
+    //         success:function(){
+    //             console.log('send');
+    //             //whatever you wanna do after the form is successfully submitted
+    //         }
+    //     });
+    // });
+</script>
+</html>

@@ -102,10 +102,20 @@ export const getInvoices = createSelector(
     fromInvoice.getInvoices
 );
 
+export const areInvoicesLoading = createSelector(
+    getInvoiceState,
+    fromInvoice.getInvoicesLoading
+)
+
 export const getOrders = createSelector(
     getOrdersState,
     fromOrder.getOrders
 );
+
+export const areOrdersLoading = createSelector(
+    getOrdersState,
+    fromOrder.getOrdersLoading
+)
 
 export const getProfessions = createSelector(
     getProfessionsState,

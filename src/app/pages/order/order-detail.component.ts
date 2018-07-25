@@ -153,7 +153,17 @@ export class OrderDetailComponent extends FileUploader{
 
     remove(uploadedFile) {
         if (window.confirm("Naozaj chcete vymazat danu polozku?")) {
-            console.log('todo');
+            console.log(this.order);
+            console.log(uploadedFile);
+            const updatedOrder = {...this.order, files: this.order.files.filter(
+                file => (file as any).id !== uploadedFile.id
+                )}
+            this._orderSrv.updateOrder(updatedOrder).take(1).subscribe(
+                order => {
+                    console.log(order);
+                    this.order = order;
+                }
+            )
         }
     }
 
@@ -276,13 +286,10 @@ export class OrderDetailComponent extends FileUploader{
     }
 
     duplicate() {
-        console.log('duplicate');
         this.duplicateCreation = !this.duplicateCreation;
-        console.log(this.duplicateCreation);
     }
 
     private loadProfessionsForProductType(professions) {
-        console.log(professions);
         this.professions = professions.map(mapToLabelValue);
     }
 

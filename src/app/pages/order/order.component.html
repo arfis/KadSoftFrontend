@@ -10,22 +10,18 @@
 <!--</ng-container>-->
 
 <div class="table-wrapper">
-    <div class="loading-wrapper">
-        <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    </div>
     <div class="search">
         <mat-icon class="icon">search</mat-icon>
         <mat-form-field>
-            <input (change)="onFilterChange($event)" matInput #filter floatPlaceholder="never" [placeholder]="'action.search' | translate">
+            <input matInput #filter floatPlaceholder="never" [placeholder]="'action.search' | translate">
         </mat-form-field>
     </div>
 
-    <app-filter [type]="'Order'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
-                [sortOrientation]="sortOrientation" [filter]="filter"
-                [filterType]="filterType" (onUpdate)="updateTableParams($event)"></app-filter>
+    <app-filter [type]="'Order'"
+                (onUpdate)="updateTableParams($event)"></app-filter>
 
 
-    <div class="table-wrapper">
+    <div class="table-wrapper" >
         <mat-table #table [dataSource]="dataSource"
                    [ngClass]="{'loading':isLoading}"
                    matSort>
@@ -109,6 +105,9 @@
     </div>
 
     <div class="footer">
+        <div class="loading-wrapper">
+            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+        </div>
           <mat-paginator #paginator
                        [length]="length"
                        [pageIndex]="0"

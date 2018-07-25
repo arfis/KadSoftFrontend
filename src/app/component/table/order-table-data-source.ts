@@ -1,6 +1,5 @@
-
 import { map } from 'rxjs/operators';
-import { BehaviorSubject ,  Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 import { MatSort, MatPaginator } from '@angular/material';
 
@@ -14,7 +13,7 @@ import { TableSettings } from "./TableSettings";
 import { getOrderTranslation } from "../../pages/order/order.model";
 
 
-export class TableDataSource extends DataSource<any> {
+export class OrderTableDataSource extends DataSource<any> {
     subscriptions;
     _filterChange = new BehaviorSubject('');
     _paramsChange = new BehaviorSubject('');
@@ -42,7 +41,8 @@ export class TableDataSource extends DataSource<any> {
     constructor(
         private _sort: MatSort,
         private _paginator: MatPaginator,
-        private _store: Store<fromRoot.State>
+        private _store: Store<fromRoot.State>,
+        private customer
     ) {
         super();
 
@@ -63,7 +63,7 @@ export class TableDataSource extends DataSource<any> {
             //     : null;
             // const {page, pageSize, sort, sortOrientation, filterType, filter, keyword, user, webOnly, architect}
             // = params.payload;
-
+            console.log('hereeeee', this.params);
             this.tableSettings = {...this.tableSettings};
             this.tableSettings.sortOrientation = this._sort.direction;
             this.tableSettings.sort = this._sort.active;
@@ -75,6 +75,10 @@ export class TableDataSource extends DataSource<any> {
             this.tableSettings.sortOrientation = this._sort.direction;
             this.tableSettings = {...this.tableSettings, ...this.params};
             //TODO
+            if (this.customer) {
+                this.tableSettings = {...this.tableSettings, user: this.customer.id};
+                console.log(this.tableSettings);
+            }
             console.log(this.tableSettings)
             this._store.dispatch(
                 new GetOrdersAction(this.tableSettings)
@@ -87,21 +91,29 @@ export class TableDataSource extends DataSource<any> {
                 console.log('GOT: ', result.data);
                 let orders = result.data.map(
                     order => {
-                        if (order.invoices[0]) {
-                            const invoiceStatus = this.getInvoiceStatusMessage(order.invoices[0].status);
-                            const orderStatus = this.getStatusMessage(order.state);
 
-                            const updated = {
-                                ...order,
+                        const invoiceStatus = order.invoices[0]
+                            ? this.getInvoiceStatusMessage(order.invoices[0].status)
+                            : null;
+                        const orderStatus = this.getStatusMessage(order.state);
+
+                        let updated = {...order};
+
+                        if (invoiceStatus) {
+                            updated = {
+                                ...updated,
                                 invoiceStatusText: invoiceStatus.text,
                                 invoiceStatusLabel: invoiceStatus.label,
-                                orderStatusText: orderStatus.text,
-                                orderStatusLabel: orderStatus.label
                             }
-                            return updated;
                         }
-                        return order;
-                })
+
+                        updated = {
+                            ...order,
+                            orderStatusText: orderStatus.text,
+                            orderStatusLabel: orderStatus.label
+                        }
+                        return updated;
+                    })
                 this._length.next(result.meta.totalItems);
                 console.log(result);
                 return orders;

@@ -1,52 +1,143 @@
 <ng2-slim-loading-bar [height]="'8px'"></ng2-slim-loading-bar>
-<app-table-panel (onSearchChange)="search($event)"></app-table-panel>
-<app-filter [type]="'Invoice'" [page]="currentPage" [pageSize]="pageSize" [sort]="sort"
-            [sortOrientation]="sortOrientation" [filter]="filter"
-            [filterType]="filterType" (onUpdate)="update($event)"></app-filter>
-<table *ngIf="showList" class="table table-bordered table-responsive table-hover">
-    <thead>Faktúry</thead>
-    <tbody>
-    <tr>
-        <th style="width: 10px">#</th>
-        <th>Číslo</th>
-        <th>Zadal</th>
-        <th>Klient</th>
-        <th class="sortable" (click)="orderBy('totalPrice')">Suma</th>
-        <th>položky</th>
-        <th>Typ</th>
-        <th>Status</th>
-        <th>Odoslane</th>
-    </tr>
 
-    <tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">
-        <td>{{invoice.id}}</td>
-        <td>{{invoice.invoiceNumber}}</td>
-        <td><a>{{invoice.company.name}}</a></td>
+<div class="table-wrapper">
+    <div class="search">
+        <mat-icon class="icon">search</mat-icon>
+        <mat-form-field>
+            <input (change)="onFilterChange($event)" matInput #filter floatPlaceholder="never" [placeholder]="'action.search' | translate">
+        </mat-form-field>
+    </div>
 
-        <td><a *ngIf="invoice.customerId; else noLink" [routerLink]="[ '/user/', invoice?.customerId?.id ]">
-            {{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</a>
-            <ng-template #noLink>{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</ng-template>
-        </td>
-        <td>{{invoice.totalPrice | currency:'eur':true}}</td>
-        <td>{{invoice?.invoiceItems?.length}}</td>
-        <td>{{invoiceTypes[invoice?.type-1]}}</td>
-        <td><span class="label" [ngClass]="getStatusMessage(invoice?.status).label">
-                {{getStatusMessage(invoice?.status).text}}
-                </span>
-        </td>
-        <td>{{invoice?.sendByEmail === true ? 'áno' : 'nie'}}</td>
-    </tr>
-    </tbody>
-</table>
+    <app-filter [type]="'Invoice'"
+                (onUpdate)="updateTableParams($event)"></app-filter>
 
 
-<div class="row">
-    <div class="col-md-6 col-md-offset-4">
-        <pagination [totalItems]="totalSize" [(ngModel)]="currentPage" [maxSize]="pageSize"
-                    class="pagination-sm"
-                    [boundaryLinks]="true" [rotate]="false"
-                    (numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>
+    <div class="table-wrapper" >
+        <mat-table #table [dataSource]="dataSource"
+                   [ngClass]="{'loading':isLoading}"
+                   matSort>
+
+            <ng-container matColumnDef="number">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.number' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.invoiceNumber}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="company">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.company' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.company.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="client">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.client' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <a *ngIf="row.customerId; else noLink" [routerLink]="[ '/user/', row?.customerId?.id ]">
+                        {{row.customer.mainContact.name}} {{row.customer.mainContact.surname}}</a>
+                        <ng-template #noLink>{{row.customer.mainContact.name}} {{row.customer.mainContact.surname}}</ng-template>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="totalPrice">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{'invoice.totalPrice' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                      {{row.totalPrice | currency:'eur':true}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="articles">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.articles' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.invoiceItems.length}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.type' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{invoiceTypes[row?.type-1]}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.status' | translate}}</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                   <span class="status label" [ngClass]="row.invoiceStatusLabel">
+                      {{row.invoiceStatusText}}
+                    </span>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="send">
+                <mat-header-cell *matHeaderCellDef>{{'invoice.send' | translate}}
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <mat-checkbox class="example-margin" [disabled]="true" [(ngModel)]="row.sendByEmail">
+                        <!--{{'actions.send' | translate}}-->
+                    </mat-checkbox>
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row (click)="onRowClick(row.id)"
+                     *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+
+    <div class="footer">
+        <div class="loading-wrapper">
+            <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+        </div>
+        <mat-paginator #paginator
+                       [length]="length"
+                       [pageIndex]="0"
+                       [pageSize]="pageSize"
+                       [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
     </div>
 </div>
+<!--<table *ngIf="showList" class="table table-bordered table-responsive table-hover">-->
+    <!--<thead>Faktúry</thead>-->
+    <!--<tbody>-->
+    <!--<tr>-->
+        <!--<th style="width: 10px">#</th>-->
+        <!--<th>Číslo</th>-->
+        <!--<th>Zadal</th>-->
+        <!--<th>Klient</th>-->
+        <!--<th class="sortable" (click)="orderBy('totalPrice')">Suma</th>-->
+        <!--<th>položky</th>-->
+        <!--<th>Typ</th>-->
+        <!--<th>Status</th>-->
+        <!--<th>Odoslane</th>-->
+    <!--</tr>-->
+
+    <!--<tr *ngFor="let invoice of invoices" [routerLink]="[ '/invoice/', invoice.id ]">-->
+        <!--<td>{{invoice.id}}</td>-->
+        <!--<td>{{invoice.invoiceNumber}}</td>-->
+        <!--<td><a>{{invoice.company.name}}</a></td>-->
+
+        <!--<td><a *ngIf="invoice.customerId; else noLink" [routerLink]="[ '/user/', invoice?.customerId?.id ]">-->
+            <!--{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</a>-->
+            <!--<ng-template #noLink>{{invoice.customer.mainContact.name}} {{invoice.customer.mainContact.surname}}</ng-template>-->
+        <!--</td>-->
+        <!--<td>{{invoice.totalPrice | currency:'eur':true}}</td>-->
+        <!--<td>{{invoice?.invoiceItems?.length}}</td>-->
+        <!--<td>{{invoiceTypes[invoice?.type-1]}}</td>-->
+        <!--<td><span class="label" [ngClass]="getStatusMessage(invoice?.status).label">-->
+                <!--{{getStatusMessage(invoice?.status).text}}-->
+                <!--</span>-->
+        <!--</td>-->
+        <!--<td>{{invoice?.sendByEmail === true ? 'áno' : 'nie'}}</td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+<!--</table>-->
+
+
+<!--<div class="row">-->
+    <!--<div class="col-md-6 col-md-offset-4">-->
+        <!--<pagination [totalItems]="totalSize" [(ngModel)]="currentPage" [maxSize]="pageSize"-->
+                    <!--class="pagination-sm"-->
+                    <!--[boundaryLinks]="true" [rotate]="false"-->
+                    <!--(numPages)="numPages = $event" (pageChanged)="pageChanged($event)"></pagination>-->
+    <!--</div>-->
+<!--</div>-->
 
 

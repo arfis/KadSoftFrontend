@@ -28,7 +28,7 @@ import {getOrders, State} from '../../app.reducer';
 import {GetOrdersAction} from '../../shared/order/order.actions';
 import * as fromRoot from "../../app.reducer";
 import { MatPaginator, MatSort } from "@angular/material";
-import { TableDataSource } from "../../component/table/table-data-source";
+import { OrderTableDataSource } from "../../component/table/order-table-data-source";
 import { fromEvent } from "rxjs/observable/fromEvent";
 
 @Component({
@@ -62,6 +62,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy, AfterViewIn
     webOnly;
     architect;
     length;
+    loading;
 
     @Input() filteredOrders: Order[];
     @Input() filter = null;
@@ -83,9 +84,6 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy, AfterViewIn
 
     }
 
-    onFilterChange(value) {
-        console.log('dsadassa', value);
-    }
     ngAfterViewInit() {
         console.log('init');
 
@@ -115,6 +113,7 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy, AfterViewIn
     }
 
     updateTableParams(params) {
+        console.log('update params', params);
         this.dataSource.params = params;
     }
 
@@ -123,11 +122,16 @@ export class OrderComponent implements OnChanges, OnInit, OnDestroy, AfterViewIn
         this.router.navigate([`/order/${id}`])
     }
     public ngOnInit() {
-        this.dataSource = new TableDataSource(this.sort, this.paginator, this.store);
-        this.dataSource._length.subscribe(
-            length => {
-                this.length = length;
+        console.log('init withh customer', this.customer);
+        this.dataSource = new OrderTableDataSource(this.sort, this.paginator, this.store, this.customer);
+        this.store.select(fromRoot.getOrders).subscribe(
+            result => {
+                this.length = result.meta.totalItems;
             }
+        )
+
+        this.store.select(fromRoot.areOrdersLoading).subscribe(
+            loading => this.loading = loading
         )
 
         // setttings the header for the home

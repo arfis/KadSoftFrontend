@@ -17,7 +17,7 @@ export class InvoiceEffects {
     getInvoices$: Observable<Action> = this.actions$
         .ofType(GET_INVOICES).pipe(
             mergeMap(action =>
-                this._invoiceService.getInvoices(action).pipe(
+                this._invoiceService.getInvoices((action as any).payload).pipe(
                     map(res => ({
                         type: GET_INVOICES_SUCCESS,
                         payload: res

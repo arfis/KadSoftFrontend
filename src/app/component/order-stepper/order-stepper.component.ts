@@ -49,7 +49,6 @@ export class OrderStepperComponent implements OnInit, OnChanges {
             const {id} = this.order.invoices[0];
             this._invoiceService.getInvoice(id).subscribe(
               result => {
-                  console.log('got invoice', result);
                   this.invoice = result;
               }
             )
@@ -140,6 +139,7 @@ export class OrderStepperComponent implements OnInit, OnChanges {
 
 
     create() {
+        console.log('create');
         if (this.order) {
             if (this.order.state && this.order.state === 'draft') {
                 this.createInvoice(this.order);

@@ -13,7 +13,7 @@ import {UserService} from "../../services/user.service";
 import {SlimLoadingBarModule, SlimLoadingBarService} from "ng2-slim-loading-bar";
 import { InvoiceModalComponent } from './invoice-modal/invoice-modal.component';
 import {
-    MatButtonModule,
+    MatButtonModule, MatCheckboxModule,
     MatDialogModule,
     MatIconModule,
     MatInputModule, MatPaginatorIntl, MatPaginatorModule, MatProgressBarModule,
@@ -50,7 +50,8 @@ import { MatPaginatorIntlCustom } from "../../component/table/MatPaginatorIntlCu
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        MatCheckboxModule
     ],
     declarations: [
         InvoiceComponent,

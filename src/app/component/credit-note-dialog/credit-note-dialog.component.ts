@@ -53,7 +53,6 @@ export class CreditNoteDialogComponent implements OnInit {
     // "count": 2
 
     submitCredit({value}) {
-        console.log(value);
         this.sendCreditNote(value);
     }
 
@@ -64,13 +63,11 @@ export class CreditNoteDialogComponent implements OnInit {
                 value.invoiceNumber = invoiceNumber.nextInvoiceNumber;
                 value.expiration = new Date(new Date().setDate(new Date().getDate() + defaultExpirationInDays)).toISOString().split('T')[0];
                 value.invoiceItems = [value.invoiceItems];
-                console.log(value);
 
                 this._invoiceService.sendCreditNote(this.invoice.id,
                     value
                 ).subscribe(
                     result => {
-                        console.log(result);
                         this.router.navigate(['/invoice/' + result.id]);
                         this.dialogRef.close();
                     },

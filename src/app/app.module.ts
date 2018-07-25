@@ -110,7 +110,6 @@ import {RoleEffects} from './shared/roles/roles.effect';
 import { DocumentUploadComponent } from './component/document-upload/document-upload.component';
 import {DocumentService} from './services/document.service';
 import {DocumentsEffects} from './shared/documents/documents.effect';
-import { TableComponent } from './component/table/table.component';
 import { MatPaginatorIntlCustom } from "./component/table/MatPaginatorIntlCustom";
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -273,7 +272,6 @@ let pages = [
         DocumentSelectionComponent,
         DocumentPreviewComponent,
         DocumentUploadComponent,
-        TableComponent,
     ],
     imports: [
         ...modules,

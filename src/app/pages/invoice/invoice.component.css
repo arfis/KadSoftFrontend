@@ -1,24 +1,22 @@
-tr a{
-    cursor:pointer;
+.mat-row {
+    cursor: pointer;
+    transition: background-color .4s;
 }
 
-.sortable {
-    cursor:pointer;
+.mat-row:hover {
+    background-color: rgba(220, 220, 220, 0.68);
 }
 
-.sortable:hover {
-    color:lightgray;
+.search mat-form-field {
+    width: 96%;
 }
 
-.glyphicon {
-    z-index:100;
+mat-cell {
+    padding: 0px 2px;
+    font-size: 12px;
 }
 
-.glyphicon.glyphicon-save {
-    float:right;
-}
-
-td {
-    padding: 2px !important;
-    text-align: center;
+.status {
+    width: 100%;
+    display: block;
 }

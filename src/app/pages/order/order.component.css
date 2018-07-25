@@ -33,6 +33,11 @@ td {
     }
 }
 
+.mat-row {
+    cursor: pointer;
+    transition: background-color .4s;
+}
+
 .mat-row:hover {
     background-color: rgba(220, 220, 220, 0.68);
 }

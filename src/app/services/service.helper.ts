@@ -8,7 +8,7 @@ export function buildQuery(queryParams){
         params = params.set('filters\[\]', `${queryParams.filterType}=${queryParams.filter}`);
     }
     if (queryParams.sort) {
-        params = params.set('orderBy\[\]', `${queryParams.sort}=${queryParams.sortDirection.toLowerCase()}`);
+        params = params.set('orderBy\[\]', `${queryParams.sort}=${queryParams.sortOrientation.toLowerCase()}`);
     }
     if (queryParams.keyword) {
         params = params.set('find', queryParams.keyword);

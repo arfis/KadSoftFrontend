@@ -8,6 +8,16 @@
     "otherBuilding": "Iny typ stavby",
     "buildingPermit": "Stavebne povolenie"
   },
+  "invoice": {
+    "number": "Cislo",
+    "status": "Status",
+    "company": "Firma",
+    "client": "Klient",
+    "totalPrice": "Cena",
+    "articles": "Polozky",
+    "type": "Typ",
+    "send": "Odoslana"
+  },
   "order": {
     "id": "#",
     "createdBy" : "Vytvoril",
@@ -25,7 +35,8 @@
   },
   "action": {
     "search": "Vyhladat",
-    "create": "Vytvor novu"
+    "create": "Vytvor novu",
+    "send": "Odoslane"
   },
   "credit-note": {
     "reason": "Dovod",

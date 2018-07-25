@@ -45,15 +45,8 @@ export class InvoiceService {
     }
 
     public getInvoices(params): Observable<any> {
-        const {pageSize, currentPage, sort, filter, filterType, keyword, user} = params.payload;
-        if (sort === this.activeSort) {
-            this.activeDirection = this.directions[(this.directions.indexOf(this.activeDirection) + 1) % 2];
-        }
 
-        this.activeSort = sort;
-
-        return this.restServ.getInvoices(currentPage, pageSize, sort, this.activeDirection, filterType, filter, keyword, user,
-            false);
+        return this.restServ.getInvoices(params,false);
     }
 
     public generatePdfLink(invoice : Invoice){

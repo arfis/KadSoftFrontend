@@ -1,0 +1,14 @@
+.filter-content {
+    height: 75px;
+}
+
+.sliders-wrapper {
+    height: 40px;
+}
+
+mat-slide-toggle {
+    height: 100%;
+}
+.filter-wrapper {
+    display: flex;
+}

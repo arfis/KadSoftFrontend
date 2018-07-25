@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, AfterViewInit } from '@angular/core';
 import {BreadcrumbService} from '../../services/breadcrumb.service';
 import {MessagesService} from '../../services/messages.service';
 import {InvoiceService} from "./invoice.service";
@@ -14,15 +14,18 @@ import * as fromRoot from '../../app.reducer';
 import {GET_INVOICES, GetInvoicesAction} from '../../shared/invoice/invoice.actions';
 import {Observable} from 'rxjs/Observable';
 import {select} from '@ngrx/core';
-import {MatDialog} from '@angular/material';
+import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import {CreditNoteDialogComponent} from '../../component/credit-note-dialog/credit-note-dialog.component';
+import { OrderTableDataSource } from "../../component/table/order-table-data-source";
+import { InvoiceTableDataSource } from "../../component/table/invoice-table-data-source";
+import { fromEvent } from "rxjs/observable/fromEvent";
 
 @Component({
     selector: 'invoice',
     styleUrls: ['./invoice.component.css'],
     templateUrl: './invoice.component.html'
 })
-export class InvoiceComponent implements OnInit, OnDestroy {
+export class InvoiceComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public date: Date = new Date();
     public invoices: Invoice[] = null;
@@ -30,12 +33,11 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     public currentPage = 1;
     public pageSize = 10;
-    public sort: string;
     public sortOrientation: string;
     public filter: string;
     public filterType: string;
     public keyword;
-
+    length;
     /*
      Pagination parameters
      */
@@ -43,6 +45,13 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     private paginationInfo = new PaginationMetadata();
     @Input() showList: boolean = true;
 
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild('filter') filterInput;
+
+    loading;
+    dataSource;
+    displayedColumns = ['number', 'status', 'company', 'client', 'totalPrice', 'articles', 'type', 'send'];
     public invoiceTypes = ["Zálohová faktúra", "Doklad o prijati platby", "Faktura"];
 
     constructor(private breadServ: BreadcrumbService,
@@ -55,23 +64,17 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     public ngOnInit() {
         // setttings the header for the home
-        this.loadingBar.start(() => {
-        });
 
-        this.store.dispatch(new GetInvoicesAction(
-            {
-                currentPage: this.currentPage,
-                pageSize: this.pageSize
-            }
-        ));
+        this.dataSource = new InvoiceTableDataSource(this.sort, this.paginator, this.store);
 
+        this.store.select(fromRoot.areInvoicesLoading).subscribe(
+            loading => this.loading = loading
+        )
         this.store.select(fromRoot.getInvoices).subscribe(
             result => {
                 const {data, meta} = result;
                 if (data && meta) {
-                    this.invoices = data;
-                    this.paginationInfo = meta;
-                    this.loadingBar.complete();
+                    this.length = meta.totalItems;
                 }
             }
         )
@@ -91,11 +94,26 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     }
 
-    update(filteredInvoices) {
-        if (filteredInvoices) {
-            this.invoices = filteredInvoices.data;
-            this.paginationInfo.totalItems = filteredInvoices.meta.totalItems;
-        }
+    ngAfterViewInit() {
+        fromEvent(this.filterInput.nativeElement, 'keyup')
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .subscribe(() => {
+                console.log('hhereeeeee');
+                if (!this.dataSource) {
+                    return;
+                }
+                this.dataSource.filter = this.filterInput.nativeElement.value;
+                this.paginator.firstPage();
+            })
+    }
+
+    onRowClick(number) {
+
+    }
+
+    updateTableParams(params) {
+        this.dataSource.params = params;
     }
 
     getHtmlLink(invoice: Invoice) {
